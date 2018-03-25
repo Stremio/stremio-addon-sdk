@@ -1,0 +1,29 @@
+{
+  "name": "stremio-addon-sdk",
+  "version": "1.0.0",
+  "description": "An SDK for making and publishing Stremio add-ons",
+  "main": "index.js",
+  "scripts": {
+    "test": "tape test/*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Stremio/stremio-addons-sdk.git"
+  },
+  "keywords": [
+    "stremio",
+    "addons",
+    "video",
+    "streaming"
+  ],
+  "author": "Smart Code OOD",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Stremio/stremio-addons-sdk/issues"
+  },
+  "homepage": "https://github.com/Stremio/stremio-addons-sdk#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "ipfs": "^0.28.2"
+  }
+}
