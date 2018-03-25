@@ -31,5 +31,7 @@ module.exports = function Addon(manifest) {
 	this.defineSubtitles = this.defineResource.bind(this, 'subtitles')
 
 	this.http = addonHTTP
+
+	return this
 }
 
