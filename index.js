@@ -26,7 +26,8 @@ module.exports = function Addon(manifest) {
 	}
 
 	this.defineStreams = this.defineResource.bind(this, 'stream')
-	this.defineCatalog = this.defineResource.bind(this, 'catalog')
+	this.defineMetas = this.defineResource.bind(this, 'meta')
+	this.defineCatalogs = this.defineResource.bind(this, 'catalog')
 	this.defineSubtitles = this.defineResource.bind(this, 'subtitles')
 
 	this.http = addonHTTP
