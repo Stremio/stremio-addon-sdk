@@ -21,18 +21,22 @@ Creates a new ready-to-publish add-on with a given manifest. Manifest is defined
 
 ### `addon.defineStreams(function handler(type, id, cb) { })`
 
-### `addon.http`
+Consider renaming that to defineCatalogHandler (singular)
+
+### `addon.run()`
 
 TODO describe handler
 
 The JSON format of the response to these resources is described [here]().
 
 
+`consider addon.precache()`
+
 ## Example
 
-This arbitrary example creates an add-on that provides a stream for Big Buck Bunny and publishes it on port 19990
+**This arbitrary example creates an add-on that provides a stream for Big Buck Bunny and publishes it on port 19990**
 
-```
+```javascript
 #!/usr/bin/env node
 
 const addonSDK = require('stremio-addon-sdk')
@@ -53,13 +57,13 @@ const addon = new addonSDK({
 addon.defineStreams(function(type, id, cb) {
 	if (type === 'movie' && id === 'tt1254207') {
 		// serve one stream to big buck bunny
-		const bbbStream = { url: 'http://distribution.bbb3d.renderfarming.net/video/mp4/bbb_sunflower_1080p_30fps_normal.mp4' }
-		cb(null, [bbbStream])
-		return
+		// return addonSDK.Stream({ url: '...' })
+		const stream = { url: 'http://distribution.bbb3d.renderfarming.net/video/mp4/bbb_sunflower_1080p_30fps_normal.mp4' }
+		cb(null, [stream])
+	} else {
+		// otherwise return no streams
+		cb(null, [])
 	}
-
-	// otherwise return no streams
-	cb(null, [])
 })
 
 addon.http.listen(19990, function() {
