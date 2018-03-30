@@ -47,14 +47,14 @@ TODO: Link object defintion
 `/catalogs/movie/top.json`:
 
 ```
-[
+{ "catalog": [
 	{
 		"id": "myexampleaddon:1",
 		"type": "movie",
 		"name": "Big Buck Bunny",
 		"poster": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Big_buck_bunny_poster_big.jpg/220px-Big_buck_bunny_poster_big.jpg"
 	}
-]
+] }
 ```
 
 TODO: Link object definition
@@ -62,7 +62,7 @@ TODO: Link object definition
 `/stream/movie/tt1254207.json`:
 
 ```
-[
+{ "streams": [
 	{
 		"name": "",
 		"url": "http://distribution.bbb3d.renderfarming.net/video/mp4/bbb_sunflower_1080p_30fps_normal.mp4"
@@ -72,7 +72,7 @@ TODO: Link object definition
 		"url": ""
 		// TODO: icon
 	}
-]
+] }
 ```
 
 TODO: Link object definition
