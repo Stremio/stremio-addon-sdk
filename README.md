@@ -54,20 +54,18 @@ const addon = new addonSDK({
 })
 
 // takes function(type, id, cb)
-addon.defineStreams(function(type, id, cb) {
+addon.defineStreamHandler(function(type, id, cb) {
 	if (type === 'movie' && id === 'tt1254207') {
 		// serve one stream to big buck bunny
 		// return addonSDK.Stream({ url: '...' })
 		const stream = { url: 'http://distribution.bbb3d.renderfarming.net/video/mp4/bbb_sunflower_1080p_30fps_normal.mp4' }
-		cb(null, [stream])
+		cb(null, { streams: [stream] })
 	} else {
 		// otherwise return no streams
-		cb(null, [])
+		cb(null, { streams: [] })
 	}
 })
 
-addon.http.listen(19990, function() {
-	console.log('Listening on http://127.0.0.1:19990')
-})
+addon.run()
 
 ```
