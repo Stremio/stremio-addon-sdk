@@ -13,7 +13,9 @@ Imports the SDK
 
 ### `var addon = new addonSDK(manifest)`
 
-Creates a new ready-to-publish add-on with a given manifest. Manifest is defined in `docs/manifest.md` @TODO
+Creates a new ready-to-publish add-on with a given manifest. 
+
+[Manifest is defined here.](docs/api/manifest.md)
 
 ### `addon.defineCatalogHandler(function handler(type, id, cb) { })`
 
