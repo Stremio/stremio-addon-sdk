@@ -15,13 +15,11 @@ Imports the SDK
 
 Creates a new ready-to-publish add-on with a given manifest. Manifest is defined in `docs/manifest.md` @TODO
 
-### `addon.defineCatalogs(function handler(type, id, cb) { })`
+### `addon.defineCatalogHandler(function handler(type, id, cb) { })`
 
-### `addon.defineMetas(function handler(type, id, cb) { })`
+### `addon.defineMetaHandler(function handler(type, id, cb) { })`
 
-### `addon.defineStreams(function handler(type, id, cb) { })`
-
-Consider renaming that to defineCatalogHandler (singular)
+### `addon.defineStreamHandler(function handler(type, id, cb) { })`
 
 ### `addon.run()`
 
@@ -30,7 +28,7 @@ TODO describe handler
 The JSON format of the response to these resources is described [here]().
 
 
-`consider addon.precache()`
+consider `addon.precache()`
 
 ## Example
 

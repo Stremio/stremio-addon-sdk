@@ -12,7 +12,7 @@ module.exports = function Addon(manifest) {
 		res.send(manifestBuf)
 	})
 
-	this.defineResource = function(resource, handler) {
+	this.defineResourceHandler = function(resource, handler) {
 		// WARNING: someone can pass a resource of ':something'
 		addonHTTP.get('/'+resource+'/:type/:id.json', function(req, res) {
 			handler(req.params.type, req.params.id, function(err, resp) {
@@ -26,10 +26,10 @@ module.exports = function Addon(manifest) {
 		})
 	}
 
-	this.defineStreams = this.defineResource.bind(this, 'stream')
-	this.defineMetas = this.defineResource.bind(this, 'meta')
-	this.defineCatalogs = this.defineResource.bind(this, 'catalog')
-	this.defineSubtitles = this.defineResource.bind(this, 'subtitles')
+	this.defineStreamHandler = this.defineResourceHandler.bind(this, 'stream')
+	this.defineMetaHandler = this.defineResourceHandler.bind(this, 'meta')
+	this.defineCatalogHandler = this.defineResourceHandler.bind(this, 'catalog')
+	this.defineSubtitleHandler = this.defineResourceHandler.bind(this, 'subtitles')
 
 	// .run - starts the add-on listening on some port
 	this.run = function() {
