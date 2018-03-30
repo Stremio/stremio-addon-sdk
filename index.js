@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const express = require('express')
+var http = require('http')
 
 module.exports = function Addon(manifest) {
 	const addonHTTP = express()
@@ -30,7 +31,13 @@ module.exports = function Addon(manifest) {
 	this.defineCatalogs = this.defineResource.bind(this, 'catalog')
 	this.defineSubtitles = this.defineResource.bind(this, 'subtitles')
 
-	this.http = addonHTTP
+	// .run - starts the add-on listening on some port
+	this.run = function() {
+		var server = http.createServer(addonHTTP)
+		server.listen(process.env.PORT || null, function() {
+			console.log('http://127.0.0.1:'+server.address().port)
+		})
+	}
 
 	return this
 }
