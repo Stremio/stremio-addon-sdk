@@ -7,7 +7,7 @@ This can publish an add-on via HTTP(s) or IPFS
 
 ## Example
 
-**This arbitrary example creates an add-on that provides a stream for Big Buck Bunny and publishes it on port 19990**
+**This arbitrary example creates an add-on that provides a stream for Big Buck Bunny and outputs a HTTP address where you can access it**
 
 ```javascript
 #!/usr/bin/env node
