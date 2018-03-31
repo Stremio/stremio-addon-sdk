@@ -23,7 +23,6 @@
   },
   "homepage": "https://github.com/Stremio/stremio-addons-sdk#readme",
   "dependencies": {
-    "express": "^4.16.3",
-    "ipfs": "^0.28.2"
+    "express": "^4.16.3"
   }
 }
