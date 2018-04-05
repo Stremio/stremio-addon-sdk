@@ -1,10 +1,13 @@
 #!/usr/bin/env node
 
 const express = require('express')
-var http = require('http')
+const cors = require('cors')
+const http = require('http')
 
 module.exports = function Addon(manifest) {
 	const addonHTTP = express()
+
+	addonHTTP.use(cors())
 
 	const manifestBuf = new Buffer(JSON.stringify(manifest))
 	addonHTTP.get('/manifest.json', function (req, res) {
