@@ -21,7 +21,7 @@ Valid properties are:
 
 ``types`` - **required** - array of supported types, from all the [``Content Types``](./meta/content.types.md)
 
-``idPrefixes`` - _optional_ - use this if you want your add-on to be called only for specific content IDs - for example, if you set this to `["yt_id", "imdb_id"]`, your add-on will only be called for ids that start with `yt_id:` or `imdb_id:`
+``idPrefixes`` - _optional_ - use this if you want your add-on to be called only for specific content IDs - for example, if you set this to `["yt_id:", "tt"]`, your add-on will only be called for ids that start with `yt_id:` or `tt`
 
 ## Content catalogs
 
