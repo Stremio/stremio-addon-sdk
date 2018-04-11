@@ -36,7 +36,7 @@ Stremio would invoke `/catalog/{type}/{id}` for every catalog specified in `cata
 
 ## Other metadata
 
-``endpoint`` - _optional_ - HTTP(s) endpoint to the hosted version of this add-on; should point to `manifest.json` example: ``https://cinemeta.strem.io/v3/manifest.json`` 
+``url`` - _optional_ - HTTP(s) endpoint to the hosted version of this add-on; should point to `manifest.json` example: ``https://cinemeta.strem.io/v3/manifest.json`` 
 
 ``background`` - _optional_ - background image for the add-on; URL to png/jpg, at least 1024x786 resolution
 
