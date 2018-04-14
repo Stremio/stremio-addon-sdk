@@ -3,6 +3,7 @@
 const express = require('express')
 const cors = require('cors')
 const http = require('http')
+const qs = require('querystring')
 
 module.exports = function Addon(manifest) {
 	const addonHTTP = express()
@@ -17,8 +18,14 @@ module.exports = function Addon(manifest) {
 
 	this.defineResourceHandler = function(resource, handler) {
 		// WARNING: someone can pass a resource of ':something'
-		addonHTTP.get('/'+resource+'/:type/:id.json', function(req, res) {
-			handler(req.params.type, req.params.id, function(err, resp) {
+		addonHTTP.get('/'+resource+'/:type/:id/:extra?.json', function(req, res) {
+			var args = {
+				type: req.params.type,
+				id: req.params.id,
+				extra: req.params.extra ? qs.parse(req.params.extra) : { }
+			}
+			
+			handler(args, function(err, resp) {
 				if (err) {
 					console.error(err)
 					res.status(500).send({ err: 'handler error' })

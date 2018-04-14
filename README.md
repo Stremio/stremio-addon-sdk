@@ -27,8 +27,8 @@ const addon = new addonSDK({
 })
 
 // takes function(type, id, cb)
-addon.defineStreamHandler(function(type, id, cb) {
-	if (type === 'movie' && id === 'tt1254207') {
+addon.defineStreamHandler(function(args, cb) {
+	if (args.type === 'movie' && args.id === 'tt1254207') {
 		// serve one stream to big buck bunny
 		// return addonSDK.Stream({ url: '...' })
 		const stream = { url: 'http://distribution.bbb3d.renderfarming.net/video/mp4/bbb_sunflower_1080p_30fps_normal.mp4' }
@@ -63,11 +63,13 @@ Creates a new ready-to-publish add-on with a given manifest.
 
 [Manifest is defined here.](docs/api/manifest.md)
 
-### `addon.defineCatalogHandler(function handler(type, id, cb) { })`
+**args** always contains `{ type, id, extra }`
 
-### `addon.defineMetaHandler(function handler(type, id, cb) { })`
+### `addon.defineCatalogHandler(function handler(args, cb) { })`
 
-### `addon.defineStreamHandler(function handler(type, id, cb) { })`
+### `addon.defineMetaHandler(function handler(args, cb) { })`
+
+### `addon.defineStreamHandler(function handler(args, cb) { })`
 
 ### `addon.run()`
 
