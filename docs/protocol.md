@@ -19,7 +19,9 @@ Currently used resources are: `catalog`, `meta`, `stream`.
 
 `/stream/{type}/{id}.json` - list of all streams for a particular items; `type` again denotes the type, and `id` is the ID of the particular item, as found in the catalog or a video ID (a single metadata object may contain mutiple videos, for example a YouTube channel or a TV series)
 
-The JSON format of the response to these resources is described [here]().
+The JSON format of the response to these resources is described [here](/docs/api).
+
+To pass extra args, such as the ones needed for `catalog` resources (e.g. `search`, `skip`), you should define a route of the format `/{resource}/{type}/{id}/{extraArgs}.json` where `extraArgs` is the query string stringified object of extra arguments (for example `"search=game%20of%20thrones&skip=100"`)
 
 **NOTE: Your add-on may selectively provide any number of resources. It must provide at least 1 resource and a manifest.**
 
