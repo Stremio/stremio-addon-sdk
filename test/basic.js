@@ -22,6 +22,13 @@ let addonServer
 
 let addonClient
 
+tape('try to create an add-on with an invalid manifest', function(t) {
+	try { new addonSDK(null) }
+	catch(e) {
+		t.ok(e.message, 'invalid manifest')
+		t.end()
+	}
+})
 
 tape('create an add-on and expose on HTTP', function(t) {
 	addon = new addonSDK(manifest)

@@ -24,7 +24,8 @@
   "homepage": "https://github.com/Stremio/stremio-addons-sdk#readme",
   "dependencies": {
     "cors": "^2.8.4",
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "stremio-addon-linter": "git://github.com/Stremio/stremio-addon-linter.git"
   },
   "devDependencies": {
     "stremio-addon-client": "git://github.com/Stremio/stremio-addon-client.git#v1.1.0",

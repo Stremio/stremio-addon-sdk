@@ -3,6 +3,7 @@
 const express = require('express')
 const cors = require('cors')
 const http = require('http')
+const linter = require('stremio-addon-linter')
 const qs = require('querystring')
 
 module.exports = function Addon(manifest) {
@@ -10,6 +11,12 @@ module.exports = function Addon(manifest) {
 	addonHTTP.use(cors())
 
 	const handlers = { }
+
+	const linterRes = linter.lintManifest(manifest)
+	if (! linterRes.valid) {
+		//console.error('Manifest issues:\n' + linterRes.errors.join('\n'))
+		throw linterRes.errors[0]
+	}
 
 	const manifestBuf = new Buffer(JSON.stringify(manifest))
 	addonHTTP.get('/manifest.json', function (req, res) {
