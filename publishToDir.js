@@ -2,22 +2,40 @@ const mkdirp = require('mkdirp')
 const path = require('path')
 const fs = require('fs')
 
-function publishToDir(manifest, handlers) {
-	const baseDir = './publish-'+manifest.id
+
+// @TODO: paged catalogs
+// @TODO: streams
+// @TODO: metas 
+// @TODO: catalogs with `extra`: e.g. genres
+
+function publishToDir(baseDir, manifest, handlers) {
 	mkdirp.sync(baseDir)
 
 	commitRes(path.join(baseDir, 'manifest.json'), manifest)
 
 	if (manifest.catalogs && handlers['catalog']) manifest.catalogs.forEach(function(cat) {
-		const endPath = path.join(baseDir, 'catalog', cat.type, cat.id+'.json')
+		addToQueue('catalog', cat.type, cat.id, { }, function(err, res) {
+			if (err) {
+				console.error(err)
+			}
 
-		handlers['catalog']({ id: cat.id, type: cat.type, extra: { } }, function(err, res) {
-			if (err) return console.error(err)
-			commitRes(endPath, res)
-			// @TODO: crawl results from catalogs, and request meta/streams if relevant
+			if (res && Array.isArray(res.metas)) {
+				console.log('found res.metas',res.metas.length)
+			}
 		})
 	})
+
+	function addToQueue(res, type, id, extra, cb) {
+		const endPath = path.join(baseDir, res, type, id+'.json')
+
+		handlers[res]({ id: id, type: type, extra: { } }, function(err, res) {
+			if (err) return cb(err)
+			commitRes(endPath, res)
+			cb(null, res)
+		})
+	}
 }
+
 
 function commitRes(endPath, res) {
 	mkdirp(path.dirname(endPath), function(err) {

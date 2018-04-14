@@ -73,8 +73,8 @@ module.exports = function Addon(manifest) {
 			if (cb) cb(null,  { server: server, url: url })
 		})
 	}
-	this.publishToDir = function() {
-		publishToDir(manifest, handlers)
+	this.publishToDir = function(baseDir) {
+		publishToDir(baseDir || './publish-'+manifest.id, manifest, handlers)
 	}
 
 	return this
