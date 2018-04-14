@@ -5,7 +5,6 @@ const fs = require('fs')
 
 // @TODO: paged catalogs
 // @TODO: streams
-// @TODO: metas 
 // @TODO: catalogs with `extra`: e.g. genres
 
 function publishToDir(baseDir, manifest, handlers) {
@@ -15,16 +14,23 @@ function publishToDir(baseDir, manifest, handlers) {
 
 	if (manifest.catalogs && handlers['catalog']) manifest.catalogs.forEach(function(cat) {
 		addToQueue('catalog', cat.type, cat.id, { }, function(err, res) {
-			if (err) {
-				console.error(err)
-			}
+			if (err) console.error(err)
 
 			if (res && Array.isArray(res.metas)) {
-				console.log('found res.metas',res.metas.length)
+				scrapeMetas(res)
 			}
 		})
 	})
 
+	function scrapeMetas(res) {
+		res.metas.forEach(function(meta) {
+			if (meta.id) addToQueue('meta', meta.type, meta.id, { }, function(err, res) {
+				if (err) console.error(err)
+			})
+		})
+	}
+
+	// @TODO: concurrency control
 	function addToQueue(res, type, id, extra, cb) {
 		const endPath = path.join(baseDir, res, type, id+'.json')
 
