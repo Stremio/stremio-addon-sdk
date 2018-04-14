@@ -7,8 +7,9 @@ const qs = require('querystring')
 
 module.exports = function Addon(manifest) {
 	const addonHTTP = express()
-
 	addonHTTP.use(cors())
+
+	const handlers = { }
 
 	const manifestBuf = new Buffer(JSON.stringify(manifest))
 	addonHTTP.get('/manifest.json', function (req, res) {
@@ -16,24 +17,33 @@ module.exports = function Addon(manifest) {
 		res.send(manifestBuf)
 	})
 
-	this.defineResourceHandler = function(resource, handler) {
-		// WARNING: someone can pass a resource of ':something'
-		addonHTTP.get('/'+resource+'/:type/:id/:extra?.json', function(req, res) {
-			var args = {
-				type: req.params.type,
-				id: req.params.id,
-				extra: req.params.extra ? qs.parse(req.params.extra) : { }
-			}
-			
-			handler(args, function(err, resp) {
-				if (err) {
-					console.error(err)
-					res.status(500).send({ err: 'handler error' })
-				}
+	addonHTTP.get('/:resource/:type/:id/:extra?.json', function(req, res, next) {
+		let handler = handlers[req.params.resource]
+		
+		if (! handler) {
+			next()
+			return
+		}
 
-				res.send(resp)
-			})
+		let args = {
+			type: req.params.type,
+			id: req.params.id,
+			extra: req.params.extra ? qs.parse(req.params.extra) : { }
+		}
+		
+		handler(args, function(err, resp) {
+			if (err) {
+				console.error(err)
+				res.status(500).send({ err: 'handler error' })
+			}
+
+			res.send(resp)
 		})
+	})
+
+	this.defineResourceHandler = function(resource, handler) {
+		if (handlers[resource]) throw 'handler for '+resource+' already defined'
+		handlers[resource] = handler
 	}
 
 	this.defineStreamHandler = this.defineResourceHandler.bind(this, 'stream')

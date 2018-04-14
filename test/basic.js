@@ -77,6 +77,18 @@ tape('define a stream handler on the add-on and test it', function(t) {
 	})
 })
 
+tape('defining the same handler throws', function(t) {
+	try {
+		addon.defineStreamHandler(function(args, cb) {
+			cb(null, null)
+		})
+	} catch(e) {
+		t.ok(e, 'has exception')
+		t.end()
+	}
+})
+
+
 // @WARNING: we should throw the second time we call defineStreamHandler (same goes for define*Handler)
 tape('define a handler on the add-on and test it, with extra args', function(t) {
 	addonClient.get('catalog', 'movie', 'top', { search: 'the office' })
@@ -96,5 +108,3 @@ tape('define a handler on the add-on and test it, with extra args', function(t) 
 		process.exit()
 	})
 })
-
-
