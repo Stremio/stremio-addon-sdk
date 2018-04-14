@@ -6,24 +6,29 @@ const http = require('http')
 const linter = require('stremio-addon-linter')
 const qs = require('querystring')
 
+const publishToDir = require('./publishToDir')
+
 module.exports = function Addon(manifest) {
 	const addonHTTP = express()
 	addonHTTP.use(cors())
 
 	const handlers = { }
 
+	// Lint the manifest
 	const linterRes = linter.lintManifest(manifest)
 	if (! linterRes.valid) {
 		//console.error('Manifest issues:\n' + linterRes.errors.join('\n'))
 		throw linterRes.errors[0]
 	}
 
+	// Serve the manifest
 	const manifestBuf = new Buffer(JSON.stringify(manifest))
 	addonHTTP.get('/manifest.json', function (req, res) {
 		res.setHeader('Content-Type', 'application/json; charset=utf-8')
 		res.send(manifestBuf)
 	})
 
+	// Handle all resources
 	addonHTTP.get('/:resource/:type/:id/:extra?.json', function(req, res, next) {
 		let handler = handlers[req.params.resource]
 		
@@ -48,6 +53,7 @@ module.exports = function Addon(manifest) {
 		})
 	})
 
+	// Public interface
 	this.defineResourceHandler = function(resource, handler) {
 		if (handlers[resource]) throw 'handler for '+resource+' already defined'
 		handlers[resource] = handler
@@ -66,6 +72,9 @@ module.exports = function Addon(manifest) {
 			console.log('HTTP addon accessible at:', url)
 			if (cb) cb(null,  { server: server, url: url })
 		})
+	}
+	this.publishToDir = function() {
+		publishToDir(manifest, handlers)
 	}
 
 	return this
