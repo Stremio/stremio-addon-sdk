@@ -63,6 +63,7 @@ module.exports = function Addon(manifest) {
 		var server = http.createServer(addonHTTP)
 		server.listen(process.env.PORT || null, function() {
 			var url = 'http://127.0.0.1:'+server.address().port+'/manifest.json'
+			console.log('HTTP addon accessible at:', url)
 			if (cb) cb(null,  { server: server, url: url })
 		})
 	}
