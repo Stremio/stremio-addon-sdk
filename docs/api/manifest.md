@@ -29,9 +29,20 @@ Valid properties are:
 
 ``catalogs`` - **required** - a list of the content catalogs your add-on provides, in a format `{ type: "contentType", id: "catalogId" }`
 
-Stremio would invoke `/catalog/{type}/{id}` for every catalog specified in `catalogs`
+Stremio will invoke `/catalog/{type}/{id}` for every catalog specified in `catalogs`
 
 **@TODO**
+
+### Catalog format
+
+``type`` 
+
+``id``
+
+``extraSupported``
+
+``extraRequired``
+
 
 
 ## Other metadata
