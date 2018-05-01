@@ -29,20 +29,23 @@ Valid properties are:
 
 ``catalogs`` - **required** - a list of the content catalogs your add-on provides, in a format `{ type: "contentType", id: "catalogId" }`
 
-Stremio will invoke `/catalog/{type}/{id}` for every catalog specified in `catalogs`
-
 **@TODO**
 
 ### Catalog format
 
-``type`` 
+``type`` - this is the content type of the catalog 
 
-``id``
+``id`` - the id of the catalog
 
-``extraSupported``
+**NOTE:** Stremio will invoke `/catalog/{type}/{id}.json` for every catalog specified in `catalogs`, if no `extraSupported` and `extraRequired` are defined
 
-``extraRequired``
+``extraSupported`` - all of the extra properties this catalog support, array of strings
 
+``extraRequired`` - all of the extra properties this catalog requires, array of strings
+
+**NOTE:** Some catalogs may support extra properties such as `search` or `genre`. Those requests are formed as `/catalog/{type}/{id}/{extra}.json`, where `{extra}` are all extra properties, querystring encoded. When the client requests catalogs with certain `extra` properties, only the ones that support those properties will be requested (`extraSupported`). If a catalog has `extraRequired` set, `extra` must contain ALL of the properties in `extraRequired`
+
+Possible usecases for `extraSupported` include catalogs that support search (full text search) or filtering by genre. Possible usecases for `extraRequired` include catalogs that are ONLY requested when performing a search (`extraRequired` set to `['search']`).
 
 
 ## Other metadata
