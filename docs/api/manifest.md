@@ -47,6 +47,8 @@ Valid properties are:
 
 Possible usecases for `extraSupported` include catalogs that support search (full text search) or filtering by genre. Possible usecases for `extraRequired` include catalogs that are ONLY requested when performing a search (`extraRequired` set to `['search']`).
 
+If your catalog supports any extra properties, `extraSupported` is mandatory. If you use `extraRequired`, `extraSupported` is still mandatory and must at least include all properties included in `extraRequired`
+
 
 ## Other metadata
 
