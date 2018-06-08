@@ -25,7 +25,7 @@ module.exports = function Addon(manifest) {
 	const manifestBuf = new Buffer(JSON.stringify(manifest))
 	addonHTTP.get('/manifest.json', function (req, res) {
 		res.setHeader('Content-Type', 'application/json; charset=utf-8')
-		res.send(manifestBuf)
+		res.end(manifestBuf)
 	})
 
 	// Handle all resources
@@ -37,7 +37,9 @@ module.exports = function Addon(manifest) {
 			return
 		}
 
-		let args = {
+		res.setHeader('Content-Type', 'application/json; charset=utf-8')
+
+		const args = {
 			type: req.params.type,
 			id: req.params.id,
 			extra: req.params.extra ? qs.parse(req.params.extra) : { }
@@ -46,10 +48,11 @@ module.exports = function Addon(manifest) {
 		handler(args, function(err, resp) {
 			if (err) {
 				console.error(err)
-				res.status(500).send({ err: 'handler error' })
+				res.writeHead(500)
+				res.end(JSON.stringify({ err: 'handler error' }))
 			}
 
-			res.send(resp)
+			res.end(JSON.stringify(resp))
 		})
 	})
 
