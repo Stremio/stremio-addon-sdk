@@ -75,6 +75,11 @@ module.exports = function Addon(manifest) {
 			if (cb) cb(null,  { server: server, url: url })
 		})
 	}
+
+	this.getRouter = function() {
+		return addonHTTP
+	}
+
 	this.publishToDir = function(baseDir) {
 		publishToDir(baseDir || './publish-'+manifest.id, manifest, handlers)
 	}

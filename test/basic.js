@@ -30,6 +30,13 @@ tape('try to create an add-on with an invalid manifest', function(t) {
 	}
 })
 
+
+tape('create an add-on and get the router', function(t) {
+	var addon = new addonSDK(manifest)
+	t.ok(addon.getRouter(), 'can get router')
+	t.end()
+})
+
 tape('create an add-on and expose on HTTP', function(t) {
 	addon = new addonSDK(manifest)
 
