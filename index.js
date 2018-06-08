@@ -9,7 +9,7 @@ const qs = require('querystring')
 const publishToDir = require('./publishToDir')
 
 module.exports = function Addon(manifest) {
-	const addonHTTP = express()
+	const addonHTTP = express.Router()
 	addonHTTP.use(cors())
 
 	const handlers = { }
@@ -66,7 +66,9 @@ module.exports = function Addon(manifest) {
 
 	// .run - starts the add-on listening on some port
 	this.run = function(cb) {
-		var server = http.createServer(addonHTTP)
+		var addonHTTPApp = express()
+		addonHTTPApp.use('/', addonHTTP)
+		var server = http.createServer(addonHTTPApp)
 		server.listen(process.env.PORT || null, function() {
 			var url = 'http://127.0.0.1:'+server.address().port+'/manifest.json'
 			console.log('HTTP addon accessible at:', url)
