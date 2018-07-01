@@ -56,6 +56,21 @@ tape('create an add-on and expose on HTTP', function(t) {
 	})
 })
 
+
+
+// pubishToCentral publishes to the API
+tape('publishToCentral', function(t) {
+	addon.publishToCentral('https://cinemeta.strem.io/manifest.json')
+	.then(function(resp) {
+		t.equal(resp.success, true, 'can announce')
+		t.end()
+	})
+	.catch(function(err) {
+		t.error(err)
+		t.end()
+	})
+})
+
 tape('initialize an add-on client for the add-on', function(t) {
 	AddonClient.detectFromURL(addonUrl)
 	.then(function(resp) {
@@ -101,6 +116,7 @@ tape('defining the same handler throws', function(t) {
 		t.end()
 	}
 })
+
 
 
 // @WARNING: we should throw the second time we call defineStreamHandler (same goes for define*Handler)

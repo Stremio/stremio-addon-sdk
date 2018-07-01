@@ -26,6 +26,7 @@
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "mkdirp": "^0.5.1",
+    "node-fetch": "^2.1.2",
     "stremio-addon-linter": "git://github.com/Stremio/stremio-addon-linter.git#v1.0.1"
   },
   "devDependencies": {

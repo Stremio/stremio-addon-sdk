@@ -7,6 +7,7 @@ const linter = require('stremio-addon-linter')
 const qs = require('querystring')
 
 const publishToDir = require('./publishToDir')
+const publishToCentral = require('./publishToCentral')
 
 module.exports = function Addon(manifest) {
 	const addonHTTP = express.Router()
@@ -81,6 +82,10 @@ module.exports = function Addon(manifest) {
 
 	this.getRouter = function() {
 		return addonHTTP
+	}
+
+	this.publishToCentral = function(addonURL, apiURL) {
+		return publishToCentral(addonURL, apiURL)
 	}
 
 	this.publishToDir = function(baseDir) {
