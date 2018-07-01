@@ -41,6 +41,9 @@ addon.defineStreamHandler(function(args, cb) {
 
 addon.run()
 
+// If you want this add-on to appear in the addon catalogs, call publishToCentral with the publically available URL to your manifest
+addon.publishToCentral('https://my-addon.com/manifest.json') 
+
 ```
 
 Save this as `addon.js` and run it:
@@ -72,6 +75,10 @@ Creates a new ready-to-publish add-on with a given manifest.
 ### `addon.defineStreamHandler(function handler(args, cb) { })`
 
 ### `addon.run()`
+
+### `addon.publishToCentral()`
+
+### `addon.publishToDir()`
 
 TODO describe handler
 
