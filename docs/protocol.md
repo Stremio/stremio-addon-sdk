@@ -1,7 +1,7 @@
 
 ## Stremio Add-on Protocol
 
-**If you're creating an add-on, we recommend you build it using our [addon-sdk](), which will provide a convenient abstraction to the protocol, as well as an easy way of publishing your add-ons.**
+**If you're creating an add-on, we recommend you build it using our [addon-sdk](https://github.com/Stremio/stremio-addon-sdk/), which will provide a convenient abstraction to the protocol, as well as an easy way of publishing your add-ons.**
 
 The Stremio addon protocol defines a universal interface to describe multimedia content. It can describe catalogs, detailed metadata and streams related to multimedia content.
 
