@@ -74,7 +74,9 @@ Creates a new ready-to-publish add-on with a given manifest.
 
 ### `addon.defineStreamHandler(function handler(args, cb) { })`
 
-### `addon.run()`
+### `addon.run(cb)`
+
+### `addon.runHTTPWithOptions(options, cb)`
 
 ### `addon.publishToCentral()`
 
