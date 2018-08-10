@@ -85,11 +85,11 @@ This add-on is so simple that it can actually be hosted statically on GitHub pag
 
 ## Objects
 
-Metadata
+[Metadata](./responses/meta.md)
 
-Stream
+[Stream](./responses/stream.md)
 
-Subtitles
+[Subtitles](./responses/subtitles.md)
 
 ## Next steps
 
