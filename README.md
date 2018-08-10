@@ -41,7 +41,7 @@ addon.defineStreamHandler(function(args, cb) {
 
 addon.run()
 
-// If you want this add-on to appear in the addon catalogs, call publishToCentral with the publically available URL to your manifest
+// If you want this add-on to appear in the addon catalogs, call .publishToCentral() with the publically available URL to your manifest
 addon.publishToCentral('https://my-addon.com/manifest.json') 
 
 ```
