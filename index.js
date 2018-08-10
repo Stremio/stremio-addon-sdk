@@ -70,10 +70,14 @@ module.exports = function Addon(manifest) {
 
 	// .run - starts the add-on listening on some port
 	this.run = function(cb) {
+		this.runHTTPWithOptions({ port: process.env.PORT || null }, cb)
+	}
+
+	this.runHTTPWithOptions = function(options, cb) {
 		var addonHTTPApp = express()
 		addonHTTPApp.use('/', addonHTTP)
 		var server = http.createServer(addonHTTPApp)
-		server.listen(process.env.PORT || null, function() {
+		server.listen(options.port, function() {
 			var url = 'http://127.0.0.1:'+server.address().port+'/manifest.json'
 			console.log('HTTP addon accessible at:', url)
 			if (cb) cb(null,  { server: server, url: url })
