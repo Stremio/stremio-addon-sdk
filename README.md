@@ -56,33 +56,65 @@ It will output a URL that you can paste inside the Stremio add-on UI to try the 
 
 ## Documentation
 
+
 ### `const addonSDK = require('stremio-addon-sdk')`
 
-Imports the SDK
+Imports the SDK module
+
 
 ### `var addon = new addonSDK(manifest)`
 
 Creates a new ready-to-publish add-on with a given manifest. 
 
-[Manifest is defined here.](docs/api/manifest.md)
+[Manifest Object Definition](./docs/api/responses/manifest.md)
 
-**args** always contains `{ type, id, extra }`
 
 ### `addon.defineCatalogHandler(function handler(args, cb) { })`
 
+Handles catalog feed and search requests.
+
+[Catalog Request Parameters and Example](./docs/api/requests/defineCatalogHandler.md)
+
+
 ### `addon.defineMetaHandler(function handler(args, cb) { })`
+
+Handles metadata requests. (title, year, poster, background, etc.)
+
+[Meta Request Parameters and Example](./docs/api/requests/defineMetaHandler.md)
+
 
 ### `addon.defineStreamHandler(function handler(args, cb) { })`
 
-### `addon.run()`
+Handles stream requests.
+
+[Stream Request Parameters and Example](./docs/api/requests/defineStreamHandler.md)
+
+
+### `addon.defineSubtitlesHandler(function handler(args, cb) { })`
+
+Handles subtitle requests.
+
+[Subtitle Request Parameters and Example](./docs/api/requests/defineSubtitlesHandler.md)
+
 
 ### `addon.publishToCentral()`
 
+This method expects a string with the url to your `manifest.json` file.
+
+Publish your add-on to the central server. After using this method your add-on will be available in the Community Add-ons list in Stremio for users to install and use. Your add-on needs to be publicly available with a URL in order for this to happen, as local add-ons that are not publicly available cannot be used by other Stremio users.
+
+
 ### `addon.publishToDir()`
 
-TODO describe handler
+This method expects a string with a folder name.
 
-The JSON format of the response to these resources is described [here]().
+Publishes your add-on to a directory. This creates a static version of your add-on in a folder that can then be [published with now.sh]() or uploaded to a web server. As this is a static version of your add-on it is not scallable and presumes you are not using a database. Alternatively, you can use a database and re-publish your add-on to a directory periodically to update data.
 
+
+### `addon.run()`
+
+Starts the addon server.
+
+**The JSON format of the response to these resources is described [here](./docs/api/responses).**
 
 consider `addon.precache()`

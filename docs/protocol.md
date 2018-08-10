@@ -15,7 +15,7 @@ Currently used resources are: `catalog`, `meta`, `stream`.
 
 `/catalog/{type}/{id}.json` - catalogs of media items; `type` denotes the type, such as `movie`, `series`, `channel`, `tv`, and `id` denotes the catalog ID, which is custom and specified in your manifest - (TODO explain why catalog needs an ID)
 
-`/meta/{type}/{id}.json` - detailed metadata about a particular item; `type` again denotes the type, and `id` is the ID of the particular item, as found in the catalog. Please note that the returned item MAY have a different `id` than the requested `id` and this case has to be handled (used in stremio-local-addon).
+`/meta/{type}/{id}.json` - detailed metadata about a particular item; `type` again denotes the type, and `id` is the ID of the particular item, as found in the catalog
 
 `/stream/{type}/{id}.json` - list of all streams for a particular items; `type` again denotes the type, and `id` is the ID of the particular item, as found in the catalog or a video ID (a single metadata object may contain mutiple videos, for example a YouTube channel or a TV series)
 
@@ -81,7 +81,7 @@ TODO: Link object definition
 
 This add-on is so simple that it can actually be hosted statically on GitHub pages! 
 
-[See example here: TODO]()
+[See example here](https://github.com/Stremio/stremio-static-addon-example)
 
 ## Objects
 
@@ -97,8 +97,10 @@ Check out the following tutorials for different languages:
 
 **If in doubt, and you know JavaScript, use the Node.js SDK**
 
-* [Creating an add-on with the NodeJS Stremio add-on SDK]()
+* [Creating an add-on with the NodeJS Stremio add-on SDK](https://github.com/Stremio/stremio-static-addon-example)
 * [Creating an add-on with Python]()
+* [Creating an add-on with Go]()
 * [Creating an add-on with PHP]()
+* [Creating an add-on with C#]()
 * [Creating an add-on with NodeJS and express]()
 
