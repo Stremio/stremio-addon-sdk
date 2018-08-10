@@ -108,7 +108,7 @@ Publish your add-on to the central server. After using this method your add-on w
 
 This method expects a string with a folder name.
 
-Publishes your add-on to a directory. This creates a static version of your add-on in a folder that can then be [published with now.sh]() or uploaded to a web server. As this is a static version of your add-on it is not scallable and presumes you are not using a database. Alternatively, you can use a database and re-publish your add-on to a directory periodically to update data.
+Publishes your add-on to a directory. This creates a static version of your add-on in a folder that can then be [published with now.sh](https://github.com/Stremio/stremio-static-addon-example) or uploaded to a web server. As this is a static version of your add-on it is not scallable and presumes you are not using a database. Alternatively, you can use a database and re-publish your add-on to a directory periodically to update data.
 
 
 #### `addon.run()`
