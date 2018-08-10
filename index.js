@@ -70,11 +70,18 @@ module.exports = function Addon(manifest) {
 
 	// .run - starts the add-on listening on some port
 	this.run = function(cb) {
-		this.runHTTPWithOptions({ port: process.env.PORT || null }, cb)
+		this.runHTTPWithOptions({
+			port: process.env.PORT || null,
+			cache: process.env.NODE_ENV == 'production' ? 7200 : 0,
+		}, cb)
 	}
 
 	this.runHTTPWithOptions = function(options, cb) {
 		var addonHTTPApp = express()
+		addonHTTPApp.use(function(req, res, next) {
+			if (options.cache) res.setHeader('Cache-Control', 'max-age='+options.cache)
+			next()
+		})
 		addonHTTPApp.use('/', addonHTTP)
 		var server = http.createServer(addonHTTPApp)
 		server.listen(options.port, function() {

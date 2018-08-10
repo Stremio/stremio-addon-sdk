@@ -78,6 +78,8 @@ Creates a new ready-to-publish add-on with a given manifest.
 
 ### `addon.runHTTPWithOptions(options, cb)`
 
+`options` can contain `port` and `cache` (in seconds); `cache` means the `Cache-Control` header being set to `max-age=$cache` 
+
 ### `addon.publishToCentral()`
 
 ### `addon.publishToDir()`
