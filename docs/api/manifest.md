@@ -59,10 +59,58 @@ If your catalog supports any extra properties, `extraSupported` is mandatory. If
 
 ``logo`` - _optional_ - logo icon, URL to png, monochrome, 256x256
 
-``contactEmail`` - **required** - contact email for add-on issues; used for the Report button in the app; also, the Stremio team may reach you on this email for anything relating your add-on
+``contactEmail`` - _optional_ - contact email for add-on issues; used for the Report button in the app; also, the Stremio team may reach you on this email for anything relating your add-on
 
 
 ***TIP* - to implement sources where streams are geo-restricted, see [``Stream object's``](./stream/stream.response.md) `geos`**
 
 
 
+## Example
+
+This is the manifest for the latest local add-on.
+
+Notice how the `catalog` resource is provided as a string, but the other are provided in the detailed notation `{ name, types, idPrefixes }`
+
+```
+{           
+	"id": "org.stremio.local",
+	"version": "1.6.1",
+	"description": "Local add-on to find playable files: .torrent, .mp4, .mkv and .avi",
+	"name": "Local Files",
+	"resources": [
+		"catalog",
+		{
+			"name": "meta",
+			"types": [
+				"other"
+			],
+			"idPrefixes": [
+				"local:",
+				"bt:"
+			]
+		},
+		{
+			"name": "stream",
+			"types": [
+				"movie",
+				"series"
+			],
+			"idPrefixes": [
+				"tt"
+			]
+		}
+	],
+	"types": [
+		"movie",
+		"series",
+		"other"
+	],
+	"catalogs": [
+		{
+			"type": "other",
+			"id": "local"
+		}
+	]
+}
+```
