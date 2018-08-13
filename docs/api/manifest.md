@@ -19,9 +19,12 @@ Valid properties are:
 
 ``resources`` - **required** - supported resources - for example ``['catalog', 'meta', 'stream']``
 
-``types`` - **required** - array of supported types, from all the [``Content Types``](./meta/content.types.md)
+``types`` - **required** - array of supported types, from all the [``Content Types``](./meta/content.types.md). If you wish to provide different sets of types for different resources, see the **ADVANCED** note.
 
-``idPrefixes`` - _optional_ - use this if you want your add-on to be called only for specific content IDs - for example, if you set this to `["yt_id:", "tt"]`, your add-on will only be called for `id` values that start with `yt_id:` or `tt`
+``idPrefixes`` - _optional_ - use this if you want your add-on to be called only for specific content IDs - for example, if you set this to `["yt_id:", "tt"]`, your add-on will only be called for `id` values that start with `yt_id:` or `tt`. If you wish to provide different sets of `idPrefixes` for different resources, see the **ADVANCED** note.
+
+**ADVANCED:** A resource may either be a string (e.g. `'meta'`) or an object of the format `{ name, types, idPrefixes  }`. The latter can be used to control the `types` and `idPrefixes` for a particular resource. Those properties work in the same way as if you put them in the manifest directly. If you just provide a string, the `types` and `idPrefixes` in the manifest will be applied for the resource.
+
 
 ## Content catalogs
 
@@ -60,4 +63,6 @@ If your catalog supports any extra properties, `extraSupported` is mandatory. If
 
 
 ***TIP* - to implement sources where streams are geo-restricted, see [``Stream object's``](./stream/stream.response.md) `geos`**
+
+
 
