@@ -17,13 +17,14 @@ module.exports = function Addon(manifest) {
 
 	// Lint the manifest
 	const linterRes = linter.lintManifest(manifest)
-	if (! linterRes.valid) {
+	if (!linterRes.valid) {
 		//console.error('Manifest issues:\n' + linterRes.errors.join('\n'))
 		throw linterRes.errors[0]
 	}
 
 	// Serve the manifest
 	const manifestBuf = new Buffer(JSON.stringify(manifest))
+	if (manifestBuf.length > 8192) throw 'manifest size exceeds 8kb, which is incompatible with addonCollection API'
 	addonHTTP.get('/manifest.json', function (req, res) {
 		res.setHeader('Content-Type', 'application/json; charset=utf-8')
 		res.end(manifestBuf)
