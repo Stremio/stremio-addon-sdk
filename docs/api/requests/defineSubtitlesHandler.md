@@ -44,4 +44,4 @@ addon.defineSubtitlesHandler(function(args, cb) {
 })
 ```
 
-[Subtitle Object Definition](./docs/api/responses/subtitles.md)
+[Subtitle Object Definition](../api/responses/subtitles.md)
