@@ -11,7 +11,7 @@ Stremio currently supports Windows, OSX, Linux, Android and iOS.
 ## Documentation
 
 All our documentation is [hosted on GitHub](./docs). Take a look at our [examples list](./docs/examples/Readme.md) for some high-level
-information, or dive straight into our [sdk documentation](./docs) for our code reference docs.
+information, or dive straight into our [sdk documentation](./docs/README.md) for our code reference docs.
 
 We also have an [example add-on](https://github.com/Stremio/addon-helloworld) that you can use as a guide to help you build your own add-on.
 
@@ -25,8 +25,8 @@ SDK Features Include:
 
 - Publishing an add-on through HTTP(s)
 - Publishing an add-on through IPFS
-- Building a static version of your add-on with [.publishToDir](./docs/Readme.md#addonpublishtodir)
-- Publishing your add-on link to the Central Add-on Repository with [.publishToCentral](./docs/Readme.md#addonpublishtocentral)
+- Building a static version of your add-on with [.publishToDir](./docs/README.md#addonpublishtodir)
+- Publishing your add-on link to the Central Add-on Repository with [.publishToCentral](./docs/README.md#addonpublishtocentral)
 
 
 ## Testing
