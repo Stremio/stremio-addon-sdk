@@ -61,4 +61,4 @@ This example uses Node.js and Express to get user specific data.
 
 _built with love and serious coding skills by the Stremio Team_
 
-![Stremio Footer](https://blog.stremio.com/wp-content/uploads/2018/03/new-logo-cat-blog.jpg | width=100)
+![StremioFooter](https://blog.stremio.com/wp-content/uploads/2018/03/new-logo-cat-blog.jpg | width=100)
