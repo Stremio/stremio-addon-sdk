@@ -28,19 +28,19 @@ Returns:
 
 ```javascript
 addon.defineSubtitlesHandler(function(args, cb) {
-	if (args.extra && args.extra.itemHash === 'tt1254207') {
-		// serve one stream to big buck bunny
-		// return addonSDK.Stream({ url: '...' })
-		const subtitle = {
-			id: 'sub1',
-			url: 'https://mkvtoolnix.download/samples/vsshort-en.srt',
-			lang: 'en'
-		}
-		cb(null, { subtitles: [subtitle] })
-	} else {
-		// otherwise return no streams
-		cb(null, { subtitles: [] })
-	}
+  if (args.extra && args.extra.itemHash === 'tt1254207') {
+    // serve one stream to big buck bunny
+    // return addonSDK.Stream({ url: '...' })
+    const subtitle = {
+      id: 'sub1',
+      url: 'https://mkvtoolnix.download/samples/vsshort-en.srt',
+      lang: 'en'
+    }
+    cb(null, { subtitles: [subtitle] })
+  } else {
+    // otherwise return no streams
+    cb(null, { subtitles: [] })
+  }
 })
 ```
 

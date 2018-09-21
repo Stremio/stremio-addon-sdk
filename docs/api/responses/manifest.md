@@ -82,43 +82,43 @@ Notice how the `catalog` resource is provided as a string, but the others are pr
 
 ```
 {           
-	"id": "org.stremio.local",
-	"version": "1.6.1",
-	"description": "Local add-on to find playable files: .torrent, .mp4, .mkv and .avi",
-	"name": "Local Files",
-	"resources": [
-		"catalog",
-		{
-			"name": "meta",
-			"types": [
-				"other"
-			],
-			"idPrefixes": [
-				"local:",
-				"bt:"
-			]
-		},
-		{
-			"name": "stream",
-			"types": [
-				"movie",
-				"series"
-			],
-			"idPrefixes": [
-				"tt"
-			]
-		}
-	],
-	"types": [
-		"movie",
-		"series",
-		"other"
-	],
-	"catalogs": [
-		{
-			"type": "other",
-			"id": "local"
-		}
-	]
+  "id": "org.stremio.local",
+  "version": "1.6.1",
+  "description": "Local add-on to find playable files: .torrent, .mp4, .mkv and .avi",
+  "name": "Local Files",
+  "resources": [
+    "catalog",
+    {
+      "name": "meta",
+      "types": [
+        "other"
+      ],
+      "idPrefixes": [
+        "local:",
+        "bt:"
+      ]
+    },
+    {
+      "name": "stream",
+      "types": [
+        "movie",
+        "series"
+      ],
+      "idPrefixes": [
+        "tt"
+      ]
+    }
+  ],
+  "types": [
+    "movie",
+    "series",
+    "other"
+  ],
+  "catalogs": [
+    {
+      "type": "other",
+      "id": "local"
+    }
+  ]
 }
 ```

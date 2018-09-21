@@ -11,21 +11,21 @@ const express = require('express')
 const addon = express()
 
 addon.get('/:someParameter/manifest.json', function (req, res) {
-	res.send({
-		id: 'org.parametrized.'+req.params.someParameter,
-		name: 'add-on for '+req.params.someParameter,
-		resources: ['stream'],
-		types: ['series'],
-	})
+  res.send({
+    id: 'org.parametrized.'+req.params.someParameter,
+    name: 'add-on for '+req.params.someParameter,
+    resources: ['stream'],
+    types: ['series'],
+  })
 })
 
 addon.get('/:someParameter/stream/:type/:id.json', function(req, res) {
-	// @TODO do something depending on req.params.someParameter
-	res.send({ streams: [] })
+  // @TODO do something depending on req.params.someParameter
+  res.send({ streams: [] })
 })
 
 addon.listen(7000, function() {
-	console.log('http://127.0.0.1:7000/[someParameter]/manifest.json')
+  console.log('http://127.0.0.1:7000/[someParameter]/manifest.json')
 })
 ```
 

@@ -21,23 +21,23 @@ Returns:
 
 ```javascript
 addon.defineMetaHandler(function(args, cb) {
-	if (args.type === 'movie' && args.id === 'tt1254207') {
-		// serve metadata for Big Buck Bunny
-		const metaObj = {
-			id: 'imdb_id:tt1254207',
-			name: 'Big Buck Bunny',
-			year: 2008,
-			poster: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/uVEFQvFMMsg4e6yb03xOfVsDz4o.jpg',
-			posterShape: 'regular',
-			banner: 'https://image.tmdb.org/t/p/original/aHLST0g8sOE1ixCxRDgM35SKwwp.jpg',
-			isFree: true,
-			type: 'movie'
-		}
-		cb(null, { meta: metaObj })
-	} else {
-		// otherwise return no meta
-		cb(null, { meta: {} })
-	}
+  if (args.type === 'movie' && args.id === 'tt1254207') {
+    // serve metadata for Big Buck Bunny
+    const metaObj = {
+      id: 'imdb_id:tt1254207',
+      name: 'Big Buck Bunny',
+      year: 2008,
+      poster: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/uVEFQvFMMsg4e6yb03xOfVsDz4o.jpg',
+      posterShape: 'regular',
+      banner: 'https://image.tmdb.org/t/p/original/aHLST0g8sOE1ixCxRDgM35SKwwp.jpg',
+      isFree: true,
+      type: 'movie'
+    }
+    cb(null, { meta: metaObj })
+  } else {
+    // otherwise return no meta
+    cb(null, { meta: {} })
+  }
 })
 ```
 

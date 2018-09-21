@@ -64,14 +64,14 @@ internally by Stremio's Cinemeta Add-on.
 
 ```
 {
-	"metas": [
-		{
-			"id": "tt1254207",
-			"type": "movie",
-			"name": "Big Buck Bunny",
-			"poster": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/uVEFQvFMMsg4e6yb03xOfVsDz4o.jpg"
-		}
-	]
+  "metas": [
+    {
+      "id": "tt1254207",
+      "type": "movie",
+      "name": "Big Buck Bunny",
+      "poster": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/uVEFQvFMMsg4e6yb03xOfVsDz4o.jpg"
+    }
+  ]
 }
 ```
 
@@ -82,17 +82,17 @@ internally by Stremio's Cinemeta Add-on.
 
 ```
 {
-	"streams": [
-		{
-			"name": "", // name is optional
-			"url": "http://distribution.bbb3d.renderfarming.net/video/mp4/bbb_sunflower_1080p_30fps_normal.mp4"
-		},
-		// add more streams:
-		{
-			"name": "",
-			"url": ""
-		}
-	]
+  "streams": [
+    {
+      "name": "", // name is optional
+      "url": "http://distribution.bbb3d.renderfarming.net/video/mp4/bbb_sunflower_1080p_30fps_normal.mp4"
+    },
+    // add more streams:
+    {
+      "name": "",
+      "url": ""
+    }
+  ]
 }
 ```
 
@@ -110,13 +110,13 @@ to the add-on manifest's `resources` and then handle subtitle requests with:
 
 ```
 {
-	"subtitles": [
-		{
-			url: "https://mkvtoolnix.download/samples/vsshort-en.srt",
-			lang: "en"
-		},
-		...
-	]
+  "subtitles": [
+    {
+      url: "https://mkvtoolnix.download/samples/vsshort-en.srt",
+      lang: "en"
+    },
+    ...
+  ]
 }
 ```
 
@@ -132,14 +132,14 @@ to the add-on manifest's `resources` and then handle meta requests too with:
 
 ```
 {
-	"meta": [
-		{
-			"id": "exampleid1",
-			"type": "movie",
-			"name": "Big Buck Bunny",
-			"poster": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/uVEFQvFMMsg4e6yb03xOfVsDz4o.jpg"
-		}
-	]
+  "meta": [
+    {
+      "id": "exampleid1",
+      "type": "movie",
+      "name": "Big Buck Bunny",
+      "poster": "https://image.tmdb.org/t/p/w600_and_h900_bestv2/uVEFQvFMMsg4e6yb03xOfVsDz4o.jpg"
+    }
+  ]
 }
 ```
 
