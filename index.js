@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 const express = require('express')
 const cors = require('cors')
 const http = require('http')
@@ -17,13 +15,14 @@ module.exports = function Addon(manifest) {
 
 	// Lint the manifest
 	const linterRes = linter.lintManifest(manifest)
-	if (! linterRes.valid) {
+	if (!linterRes.valid) {
 		//console.error('Manifest issues:\n' + linterRes.errors.join('\n'))
 		throw linterRes.errors[0]
 	}
 
 	// Serve the manifest
 	const manifestBuf = new Buffer(JSON.stringify(manifest))
+	if (manifestBuf.length > 8192) throw 'manifest size exceeds 8kb, which is incompatible with addonCollection API'
 	addonHTTP.get('/manifest.json', function (req, res) {
 		res.setHeader('Content-Type', 'application/json; charset=utf-8')
 		res.end(manifestBuf)
@@ -70,10 +69,21 @@ module.exports = function Addon(manifest) {
 
 	// .run - starts the add-on listening on some port
 	this.run = function(cb) {
+		this.runHTTPWithOptions({
+			port: process.env.PORT || null,
+			cache: process.env.NODE_ENV == 'production' ? 7200 : 0,
+		}, cb)
+	}
+
+	this.runHTTPWithOptions = function(options, cb) {
 		var addonHTTPApp = express()
+		addonHTTPApp.use(function(req, res, next) {
+			if (options.cache) res.setHeader('Cache-Control', 'max-age='+options.cache)
+			next()
+		})
 		addonHTTPApp.use('/', addonHTTP)
 		var server = http.createServer(addonHTTPApp)
-		server.listen(process.env.PORT || null, function() {
+		server.listen(options.port, function() {
 			var url = 'http://127.0.0.1:'+server.address().port+'/manifest.json'
 			console.log('HTTP addon accessible at:', url)
 			if (cb) cb(null,  { server: server, url: url })

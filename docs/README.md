@@ -119,8 +119,8 @@ This method expects a string with a folder name.
 Publishes your add-on to a directory. This creates a static version of your add-on in a folder that can then be [published with now.sh](https://github.com/Stremio/stremio-static-addon-example) or uploaded to a web server. As this is a static version of your add-on it is not scallable and presumes you are not using a database. Alternatively, you can use a database and re-publish your add-on to a directory periodically to update data.
 
 
-#### `addon.runHTTPWithOptions({ port: 7000 })`
+#### `addon.runHTTPWithOptions(options, cb)`
 
-Starts the addon server on port 7000.
+Starts the addon server. `options` is an object that can contain `port` and `cache` (in seconds); `cache` means the `Cache-Control` header being set to `max-age=$cache`
 
 **The JSON format of the response to these resources is described [here](./api/responses).**
