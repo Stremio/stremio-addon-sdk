@@ -76,12 +76,12 @@ _In case you've provided ``season`` and ``episode`` combination, both would be c
 
 ```javascript
 { 
-  id: "1:1",
-  title: "Pilot",
-  publishedAt: new Date("1994-09-22 20:00 UTC+02"),
-  season: 1,
-  episode: 1,
-  overview: "Monica and the gang introduce Rachel to the real world after she leaves her fiancé at the altar."
+    id: "1:1",
+    title: "Pilot",
+    publishedAt: new Date("1994-09-22 20:00 UTC+02"),
+    season: 1,
+    episode: 1,
+    overview: "Monica and the gang introduce Rachel to the real world after she leaves her fiancé at the altar."
 }
 ```
 
@@ -90,9 +90,9 @@ _In case you've provided ``season`` and ``episode`` combination, both would be c
 
 ```javascript
 { 
-  id: "9bZkp7q19f0",
-  title: "PSY - GANGNAM STYLE",
-  publishedAt: new Date("2012-07-15 20:00 UTC+02"),
-  thumbnail: "https://i.ytimg.com/vi/9bZkp7q19f0/hqdefault.jpg"
+    id: "9bZkp7q19f0",
+    title: "PSY - GANGNAM STYLE",
+    publishedAt: new Date("2012-07-15 20:00 UTC+02"),
+    thumbnail: "https://i.ytimg.com/vi/9bZkp7q19f0/hqdefault.jpg"
 }
 ```

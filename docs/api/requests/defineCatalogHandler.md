@@ -32,44 +32,44 @@ Returns:
 
 ```javascript
 addon.defineCatalogHandler(function(args, cb) {
-  if (args.type === 'movie' && args.id === 'top') {
+    if (args.type === 'movie' && args.id === 'top') {
 
-    // we will only respond with Big Buck Bunny
-    // to both feed and search requests
+        // we will only respond with Big Buck Bunny
+        // to both feed and search requests
 
-    const meta = {
-      id: 'imdb_id:tt1254207',
-      name: 'Big Buck Bunny',
-      year: 2008,
-      poster: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/uVEFQvFMMsg4e6yb03xOfVsDz4o.jpg',
-      posterShape: 'regular',
-      banner: 'https://image.tmdb.org/t/p/original/aHLST0g8sOE1ixCxRDgM35SKwwp.jpg',
-      isFree: true,
-      type: 'movie'
-    }
+        const meta = {
+            id: 'imdb_id:tt1254207',
+            name: 'Big Buck Bunny',
+            year: 2008,
+            poster: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/uVEFQvFMMsg4e6yb03xOfVsDz4o.jpg',
+            posterShape: 'regular',
+            banner: 'https://image.tmdb.org/t/p/original/aHLST0g8sOE1ixCxRDgM35SKwwp.jpg',
+            isFree: true,
+            type: 'movie'
+        }
 
-    if (args.extra && args.extra.search) {
+        if (args.extra && args.extra.search) {
 
-      // catalog search request
+            // catalog search request
 
-      if (args.extra.search == 'big buck bunny') {
-        cb(null, { metas: [meta] })
-      } else {
-        cb(null, { metas: [] })
-      }
+            if (args.extra.search == 'big buck bunny') {
+                cb(null, { metas: [meta] })
+            } else {
+                cb(null, { metas: [] })
+            }
+
+        } else {
+
+            // catalog feed request
+
+            cb(null, { metas: [meta] })
+
+        }
 
     } else {
-
-      // catalog feed request
-
-      cb(null, { metas: [meta] })
-
+        // otherwise return empty catalog
+        cb(null, { metas: [] })
     }
-
-  } else {
-    // otherwise return empty catalog
-    cb(null, { metas: [] })
-  }
 })
 ```
 
