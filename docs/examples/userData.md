@@ -33,4 +33,4 @@ This is not a working example, it simply shows how data can be inserted by users
 
 For a working example, check the community built [Jackett Add-on for Stremio](https://github.com/BoredLama/stremio-jackett-addon).
 
-Another use case for passing user data through the Add-on Repository URL is also creating proxy add-ons. This case presumes that the id of a different add-on is sent in the Add-on Repository URL, then the proxy add-on connects to the add-on of which the id it got, requests streams, passes the stream url to some API (for example Real Debrid, Premiumize, etc) to get a different streaming url that it then responds with for Stremio.
+Another use case for passing user data through the Add-on Repository URL is creating proxy add-ons. This case presumes that the id of a different add-on is sent in the Add-on Repository URL, then the proxy add-on connects to the add-on of which the id it got, requests streams, passes the stream url to some API (for example Real Debrid, Premiumize, etc) to get a different streaming url that it then responds with for Stremio.
