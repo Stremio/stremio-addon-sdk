@@ -15,18 +15,18 @@ This can publish an add-on via HTTP(s) or IPFS
 const addonSDK = require('stremio-addon-sdk')
 
 const addon = new addonSDK({
-  id: 'org.myexampleaddon',
-  version: '1.0.0',
+    id: 'org.myexampleaddon',
+    version: '1.0.0',
 
-  name: 'simple example',
+    name: 'simple example',
 
-  // Properties that determine when Stremio picks this add-on
-  // this means your add-on will be used for streams of the type movie
-  resources: [{
-    "name": "stream",
-    "types": [
-      "movie"
-    ],
+    // Properties that determine when Stremio picks this add-on
+    // this means your add-on will be used for streams of the type movie
+    resources: [{
+        "name": "stream",
+        "types": [
+            "movie"
+        ],
         "idPrefixes": [
             "tt"
         ]
