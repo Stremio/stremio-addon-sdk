@@ -74,35 +74,35 @@ Imports the SDK module
 
 Creates a new ready-to-publish add-on with a given manifest. 
 
-[Manifest Object Definition](./docs/api/responses/manifest.md)
+[Manifest Object Definition](./api/responses/manifest.md)
 
 
 #### `addon.defineCatalogHandler(function handler(args, cb) { })`
 
 Handles catalog feed and search requests.
 
-[Catalog Request Parameters and Example](./docs/api/requests/defineCatalogHandler.md)
+[Catalog Request Parameters and Example](./api/requests/defineCatalogHandler.md)
 
 
 #### `addon.defineMetaHandler(function handler(args, cb) { })`
 
 Handles metadata requests. (title, year, poster, background, etc.)
 
-[Meta Request Parameters and Example](./docs/api/requests/defineMetaHandler.md)
+[Meta Request Parameters and Example](./api/requests/defineMetaHandler.md)
 
 
 #### `addon.defineStreamHandler(function handler(args, cb) { })`
 
 Handles stream requests.
 
-[Stream Request Parameters and Example](./docs/api/requests/defineStreamHandler.md)
+[Stream Request Parameters and Example](./api/requests/defineStreamHandler.md)
 
 
 #### `addon.defineSubtitlesHandler(function handler(args, cb) { })`
 
 Handles subtitle requests.
 
-[Subtitle Request Parameters and Example](./docs/api/requests/defineSubtitlesHandler.md)
+[Subtitle Request Parameters and Example](./api/requests/defineSubtitlesHandler.md)
 
 
 #### `addon.publishToCentral()`
@@ -123,4 +123,4 @@ Publishes your add-on to a directory. This creates a static version of your add-
 
 Starts the addon server on port 7000.
 
-**The JSON format of the response to these resources is described [here](./docs/api/responses).**
+**The JSON format of the response to these resources is described [here](./api/responses).**
