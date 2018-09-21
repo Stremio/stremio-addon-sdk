@@ -2,7 +2,7 @@
 
 Used as a response for [`defineCatalogHandler`](../requests/defineCatalogHandler.md) and [`defineMetaHandler`](../requests/defineMetaHandler.md)
 
-``id`` - **required** - universal identifier, formed like "DOMAIN_id:ID", for example "yt_id:UCrDkAvwZum-UTjHmzDI2iIw".
+``id`` - **required** - universal identifier, formed like `DOMAIN_id:ID`, for example `yt_id:UCrDkAvwZum-UTjHmzDI2iIw`.
 
 ``type`` - **required** - type of the content; e.g. `movie`, `series`, `channel`, `tv` (see [Content Types](./content.types.md))
 
