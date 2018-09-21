@@ -5,7 +5,7 @@ Used as a response for [`defineStreamHandler`](../requests/defineStreamHandler.m
 **One of the following must be passed** to point to the stream itself
 
 * ``url`` - direct URL to a video stream - http, https, rtmp protocols supported
-* ``yt_id`` - youtube video ID, plays using the built-in YouTube player
+* ``ytId`` - youtube video ID, plays using the built-in YouTube player
 * ``infoHash`` and/or ``fileIdx`` - info hash of a torrent file, and mapIdx is the index of the video file within the torrent; **if fileIdx is not specified, the largest file in the torrent will be selected**
 * ``mapIdx`` - alias to ``fileIdx``, specifies index of file in case of BitTorrent
 * ``externalUrl`` - URL to the video, which should be opened in a browser (webpage), e.g. link to Netflix
@@ -36,22 +36,6 @@ Used as a response for [`defineStreamHandler`](../requests/defineStreamHandler.m
 ``repeat`` - _optional_ - boolean, true if you want stremio to do ``stream.find`` again with the same arguments when the video ends, and play the result
 
 ``geos`` - _optional_ - use if the stream is geo-restricted - array of ISO 3166-1 alpha-2 country codes **in lowercase** in which the stream is accessible
-
-``widgetSidebar`` - _optional_ - URL to a page that will be shown in the Player sidebar instead of usual contents; the page will be rendered in a restricted web view, appending "?item_hash=" at the end with Item Hash
-
-``widgetPlayer`` - _optional_ - URL to a page that will replace the sit on top of the entire Player; the page will be rendered in a restricted web view, appending "?item_hash=" at the end with Item Hash; useful for things like YouTube/Vimeo embeds, as well as showing additional information/functionality when player is paused
-
-``widgetPlayerStates`` - _optional_ - array of the states in which the ``widgetPlayer`` is shown; default is ``["buffering", "loading"]``, which means it will be shown during loading
-  
- Possible states are:
-  
-  * ``buffering`` - while the video is buffering
-  * ``loading`` - white the video is initially loading
-  * ``paused`` - while the video is paused
-  * ``postplay`` - after the video has finished playing
-  * ``error`` - upon player error
-  * ``device`` - when casting to a device
-  * ``replaceplayer`` - entirely replaces the default player with the widget
 
 ``meta`` - _optional_ - object, used to specify ``{ season: X, episode: Y }`` in case you're using a ``Stream Object`` for ``videos`` for a series
 

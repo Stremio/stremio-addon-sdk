@@ -1,120 +1,64 @@
-# stremio-addon-sdk
+# Stremio Add-on SDK
 
-A NodeJS SDK for making and publishing Stremio add-ons
+![Stremio](https://www.stremio.com/website/stremio-purple-small.png)
 
-This can publish an add-on via HTTP(s) or IPFS
+*Stremio Add-on SDK* was developed by the Stremio Team as a way of vastly simplifying Node.js add-on creation for
+our streaming platform.
 
+Stremio currently supports Windows, OSX, Linux, Android and iOS.
 
-## Example
-
-**This arbitrary example creates an add-on that provides a stream for Big Buck Bunny and outputs a HTTP address where you can access it**
-
-```javascript
-#!/usr/bin/env node
-
-const addonSDK = require('stremio-addon-sdk')
-
-const addon = new addonSDK({
-	id: 'org.myexampleaddon',
-	version: '1.0.0',
-
-	name: 'simple example',
-
-	// Properties that determine when Stremio picks this add-on
-	// this means your add-on will be used for streams of the type movie
-	resources: ['stream'],
-	types: ['movie'],
-})
-
-// takes function(type, id, cb)
-addon.defineStreamHandler(function(args, cb) {
-	if (args.type === 'movie' && args.id === 'tt1254207') {
-		// serve one stream to big buck bunny
-		// return addonSDK.Stream({ url: '...' })
-		const stream = { url: 'http://distribution.bbb3d.renderfarming.net/video/mp4/bbb_sunflower_1080p_30fps_normal.mp4' }
-		cb(null, { streams: [stream] })
-	} else {
-		// otherwise return no streams
-		cb(null, { streams: [] })
-	}
-})
-
-addon.run()
-
-// If you want this add-on to appear in the addon catalogs, call .publishToCentral() with the publically available URL to your manifest
-addon.publishToCentral('https://my-addon.com/manifest.json') 
-
-```
-
-Save this as `addon.js` and run it:
-
-```bash
-node ./addon.js
-```
-
-It will output a URL that you can paste inside the Stremio add-on UI to try the add-on
 
 ## Documentation
 
+All our documentation is [hosted on GitHub](./docs). Take a look at our [examples list](./docs/examples/Readme.md) for some high-level
+information, or dive straight into our [sdk documentation](./docs) for our code reference docs.
 
-#### `const addonSDK = require('stremio-addon-sdk')`
+We also have an [example add-on](https://github.com/Stremio/addon-helloworld) that you can use as a guide to help you build your own add-on.
 
-Imports the SDK module
+If you don't wish to use Node.js (and therefore not use this SDK either), you can create add-ons in any programming
+language, see the [add-on protocol specification](./docs/protocol.md) for more information.
 
+It is also possible to create an add-on without any programming language, see our [static add-on example](https://github.com/Stremio/stremio-static-addon-example) based
+on the protocol specification.
 
-#### `var addon = new addonSDK(manifest)`
+SDK Features Include:
 
-Creates a new ready-to-publish add-on with a given manifest. 
-
-[Manifest Object Definition](./docs/api/responses/manifest.md)
-
-
-#### `addon.defineCatalogHandler(function handler(args, cb) { })`
-
-Handles catalog feed and search requests.
-
-[Catalog Request Parameters and Example](./docs/api/requests/defineCatalogHandler.md)
-
-
-#### `addon.defineMetaHandler(function handler(args, cb) { })`
-
-Handles metadata requests. (title, year, poster, background, etc.)
-
-[Meta Request Parameters and Example](./docs/api/requests/defineMetaHandler.md)
+- Publishing an add-on through HTTP(s)
+- Publishing an add-on through IPFS
+- Building a static version of your add-on with [.publishToDir](./docs/Readme.md#addonpublishtodir)
+- Publishing your add-on link to the Central Add-on Repository with [.publishToCentral](./docs/Readme.md#addonpublishtocentral)
 
 
-#### `addon.defineStreamHandler(function handler(args, cb) { })`
+## Testing
 
-Handles stream requests.
+For developers looking for a quick way to test their new add-ons, you can either:
 
-[Stream Request Parameters and Example](./docs/api/requests/defineStreamHandler.md)
-
-
-#### `addon.defineSubtitlesHandler(function handler(args, cb) { })`
-
-Handles subtitle requests.
-
-[Subtitle Request Parameters and Example](./docs/api/requests/defineSubtitlesHandler.md)
+- [Test with Stremio](./docs/testing.md#testing-in-stremio)
+- [Test with our Add-on Client Demo UI](./docs/testing.md#testing-in-our-add-on-client-demo-ui)
 
 
-#### `addon.publishToCentral()`
+## Hosting
 
-This method expects a string with the url to your `manifest.json` file.
+In order for your add-on to be used by others, it needs to be hosted online.
 
-Publish your add-on to the central server. After using this method your add-on will be available in the Community Add-ons list in Stremio for users to install and use. Your add-on needs to be publicly available with a URL in order for this to happen, as local add-ons that are not publicly available cannot be used by other Stremio users.
-
-
-#### `addon.publishToDir()`
-
-This method expects a string with a folder name.
-
-Publishes your add-on to a directory. This creates a static version of your add-on in a folder that can then be [published with now.sh](https://github.com/Stremio/stremio-static-addon-example) or uploaded to a web server. As this is a static version of your add-on it is not scallable and presumes you are not using a database. Alternatively, you can use a database and re-publish your add-on to a directory periodically to update data.
+You can check our [list of recommended hosting providers for Node.js](./docs/hosting.md) or alternatively host it locally with [localtunnel](https://github.com/localtunnel/localtunnel).
 
 
-#### `addon.run()`
+## Examples
 
-Starts the addon server.
+Check out our ever growing list of [examples and demo add-ons](./docs/examples/Readme.md).
 
-**The JSON format of the response to these resources is described [here](./docs/api/responses).**
 
-consider `addon.precache()`
+## Use Cases Outside Add-on SDK
+
+The use of this SDK is not mandatory for creating Stremio Add-ons. You can use any programming language that supports
+creating a HTTP server to make Stremio Add-ons. Refer to our [protocol specification](./docs/protocol.md) for details and examples.
+
+One useful scenario of not using the SDK is when you need user specific data for you add-on (for example, an API
+Autherntication Token), you can see an example of passing user specific data in the Add-on Repository URL [here](./docs/examples/userData.md).
+This example uses Node.js and Express to get user specific data.
+
+
+_built with love and serious coding skills by the Stremio Team_
+
+![Stremio Footer](https://blog.stremio.com/wp-content/uploads/2018/03/new-logo-cat-blog.jpg | width=100)

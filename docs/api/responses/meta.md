@@ -8,7 +8,7 @@ Used as a response for [`defineCatalogHandler`](../requests/defineCatalogHandler
 
 ``name`` - **required** - name of the content
 
-``genre`` - **required**  - genre/categories of the content; array of strings, e.g. ``["Thriller", "Horror"]``
+``genres`` - **required**  - genre/categories of the content; array of strings, e.g. ``["Thriller", "Horror"]``
 
 ``poster`` - **required** - URL to png of poster; accepted aspect ratios: 1:0.675 (IMDb poster type) or 1:1 (square) ; you can use any resolution, as long as the file size is below 100kb; below 50kb is recommended
 
@@ -18,7 +18,7 @@ Used as a response for [`defineCatalogHandler`](../requests/defineCatalogHandler
 
 ``description`` - _optional_ - a few sentances describing your content
 
-``year`` - _optional_ - string - year the content came out ; if it's ``series`` or ``channel``, use a start and end years split by a tide - e.g. ``"2000-2014"``. If it's still running, use a format like ``"2000-"``
+``releaseInfo`` - _optional_ - string - year the content came out ; if it's ``series`` or ``channel``, use a start and end years split by a tide - e.g. ``"2000-2014"``. If it's still running, use a format like ``"2000-"``
 
 ``director``, ``cast`` - _optional_  - directors and cast, both arrays of names
 
@@ -52,11 +52,11 @@ Used as a response for [`defineCatalogHandler`](../requests/defineCatalogHandler
 
 ``title`` - **required** - title of the video
 
-``publishedAt`` - **required** - Date, publish date of the video; for episodes, this should be the initial air date
+``released`` - **required** - Date, publish date of the video; for episodes, this should be the initial air date
 
 ``thumbnail`` - _optional_ - URL to png of the video thumbnail, in the video's aspect ratio, max file size 5kb
 
-``stream`` - _optional_ - In case you can return links to streams while forming meta response, **you can pass the [``Stream Object``](./stream.md)** to point the video to a HTTP URL, BitTorrent, YouTube or any other stremio-supported transport protocol.
+``streams`` - _optional_ - In case you can return links to streams while forming meta response, **you can pass and array of [``Stream Objects``](./stream.md)** to point the video to a HTTP URL, BitTorrent, YouTube or any other stremio-supported transport protocol.
 
 ``available`` - _optional_ - set to ``true`` to explicitly state that this video is available for streaming, from your add-on; no need to use this if you've passed ``stream``
 
