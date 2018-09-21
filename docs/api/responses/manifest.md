@@ -80,7 +80,7 @@ This is the manifest for the latest local add-on.
 
 Notice how the `catalog` resource is provided as a string, but the others are provided in the detailed notation `{ name, types, idPrefixes }`
 
-```
+```javascript
 {           
     "id": "org.stremio.local",
     "version": "1.6.1",
