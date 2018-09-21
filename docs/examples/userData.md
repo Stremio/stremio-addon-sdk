@@ -6,7 +6,7 @@ User data is passed in the Add-on Repository URL, so instead of users installing
 
 Simplistic Example:
 
-```
+```javascript
 const express = require('express')
 const addon = express()
 
