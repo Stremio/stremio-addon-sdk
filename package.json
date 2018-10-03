@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Stremio/stremio-addons-sdk.git"
+    "url": "git+https://github.com/Stremio/stremio-addon-sdk.git"
   },
   "keywords": [
     "stremio",
@@ -19,9 +19,9 @@
   "author": "Smart Code OOD",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Stremio/stremio-addons-sdk/issues"
+    "url": "https://github.com/Stremio/stremio-addon-sdk/issues"
   },
-  "homepage": "https://github.com/Stremio/stremio-addons-sdk#readme",
+  "homepage": "https://github.com/Stremio/stremio-addon-sdk#readme",
   "dependencies": {
     "cors": "^2.8.4",
     "express": "^4.16.3",
