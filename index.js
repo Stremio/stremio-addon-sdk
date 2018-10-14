@@ -19,6 +19,11 @@ module.exports = function Addon(manifest) {
 		//console.error('Manifest issues:\n' + linterRes.errors.join('\n'))
 		throw linterRes.errors[0]
 	}
+	if (linterRes.warnings.length) {
+		linterRes.warnings.forEach(function(warning) {
+			console.log('WARNING', warning)
+		})
+	}
 
 	// Serve the manifest
 	const manifestBuf = new Buffer(JSON.stringify(manifest))
