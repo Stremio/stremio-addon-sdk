@@ -21,7 +21,7 @@ module.exports = function Addon(manifest) {
 	}
 	if (linterRes.warnings.length) {
 		linterRes.warnings.forEach(function(warning) {
-			console.log('WARNING', warning)
+			console.log('WARNING:', warning.message)
 		})
 	}
 
