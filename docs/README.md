@@ -1,4 +1,4 @@
-# Quick Start Guide
+# Getting Started
 
 A NodeJS SDK for making and publishing Stremio add-ons
 
