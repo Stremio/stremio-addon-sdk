@@ -2,24 +2,27 @@
 
 To test your add-on, you will need to add the add-on manifest URL to a client.
 
-There are two such clients that you can test with:
+There are currently two such clients that you can test with:
 
-- Stremio
+- Stremio v4.4.10+
 
-- our Add-on Client Demo UI
+- Stremio Web Version
 
 
-### Testing in Stremio
+### Testing in Stremio App
 
-Testing in Stremio is easy, simply follow the 2 steps showcased in this image:
+Testing in Stremio is easy, simply [download Stremio](https://www.stremio.com/downloads) v4.4.10+ (latest beta from the site)
+
+
+### Testing in Stremio Web Version
+
+Open the web version of Stremio at: https://app.strem.io/shell-v4.4/
+
+**Note: Torrents will not work in Stremio's Web Version.**
+
+
+### How to Install Add-on in Stremio
+
+Follow the 2 steps showcased in this image:
 
 ![add-on-repository-url](https://user-images.githubusercontent.com/1777923/43146711-65a33ccc-8f6a-11e8-978e-4c69640e63e3.png)
-
-
-### Testing in our Add-on Client Demo UI
-
-We've created an [Add-on Client Demo UI](https://github.com/Stremio/stremio-demo-ui) so developers can test their new add-ons
-and as an example client for those that wish to add the Stremio Add-on system to their
-own client applications.
-
-(guide coming soon)

@@ -76,49 +76,32 @@ For a complete list of extra catalog properties check the [Catalog Handler Defin
 
 ## Example
 
-This is the manifest for the latest local add-on.
-
-Notice how the `catalog` resource is provided as a string, but the others are provided in the detailed notation `{ name, types, idPrefixes }`
-
 ```javascript
 {           
-    "id": "org.stremio.local",
-    "version": "1.6.1",
-    "description": "Local add-on to find playable files: .torrent, .mp4, .mkv and .avi",
-    "name": "Local Files",
+    "id": "org.stremio.example",
+    "version": "0.0.1",
+    "description": "Example Stremio Add-on",
+    "name": "Example Add-on",
     "resources": [
         "catalog",
-        {
-            "name": "meta",
-            "types": [
-                "other"
-            ],
-            "idPrefixes": [
-                "local:",
-                "bt:"
-            ]
-        },
-        {
-            "name": "stream",
-            "types": [
-                "movie",
-                "series"
-            ],
-            "idPrefixes": [
-                "tt"
-            ]
-        }
+        "stream"
     ],
     "types": [
         "movie",
-        "series",
-        "other"
+        "series"
     ],
     "catalogs": [
         {
-            "type": "other",
-            "id": "local"
+            "type": "movie",
+            "id": "moviecatalog"
         }
-    ]
+    ],
+    "idPrefixes": ["tt"]
 }
 ```
+
+This manifest example is for an add-on that:
+- provides streams and catalogs
+- has one catalog that includes movies
+- will receive stream requests for meta items that have an id that starts with `tt` (imdb id, example: `tt0068646`), for both movies and series
+

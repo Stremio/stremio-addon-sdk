@@ -12,7 +12,7 @@ const addon = express()
 
 addon.get('/:someParameter/manifest.json', function (req, res) {
     res.send({
-        id: 'org.parametrized.'+req.params.someParameter,
+        id: 'org.parameterized.'+req.params.someParameter,
         name: 'add-on for '+req.params.someParameter,
         resources: ['stream'],
         types: ['series'],

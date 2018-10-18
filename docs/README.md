@@ -1,4 +1,4 @@
-# Quick Start Guide
+# Getting Started
 
 A NodeJS SDK for making and publishing Stremio add-ons
 
@@ -22,16 +22,9 @@ const addon = new addonSDK({
 
     // Properties that determine when Stremio picks this add-on
     // this means your add-on will be used for streams of the type movie
-    resources: [{
-        "name": "stream",
-        "types": [
-            "movie"
-        ],
-        "idPrefixes": [
-            "tt"
-        ]
-    }],
+    resources: ['stream'],
     types: ['movie'],
+    idPrefixes: ['tt']
 })
 
 // takes function(args, cb)
@@ -54,13 +47,14 @@ addon.publishToCentral('https://my-addon.com/manifest.json')
 
 ```
 
-Save this as `addon.js` and run it:
+Save this as `addon.js` and run:
 
 ```bash
-node ./addon.js
+$ npm install stremio-addon-sdk
+$ node ./addon.js
 ```
 
-It will output a URL that you can paste inside the Stremio add-on UI to try the add-on
+It will output a URL that you can use to [install the add-on in Stremio](./docs/testing.md#how-to-install-add-on-in-stremio)
 
 ## Documentation
 
