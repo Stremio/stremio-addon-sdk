@@ -21,7 +21,7 @@ Open the web version of Stremio at: https://app.strem.io/shell-v4.4/
 **Note: Torrents will not work in Stremio's Web Version.**
 
 
-### How to Add Add-on in Stremio
+### How to Install Add-on in Stremio
 
 Follow the 2 steps showcased in this image:
 
