@@ -33,8 +33,8 @@ SDK Features Include:
 
 For developers looking for a quick way to test their new add-ons, you can either:
 
-- [Test with Stremio](./docs/testing.md#testing-in-stremio)
-- [Test with our Add-on Client Demo UI](./docs/testing.md#testing-in-our-add-on-client-demo-ui)
+- [Test with Stremio](./docs/testing.md#testing-in-stremio-app)
+- [Test with our Web Version](./docs/testing.md#testing-in-stremio-web-version)
 
 
 ## Hosting
