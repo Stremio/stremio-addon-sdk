@@ -8,6 +8,52 @@ our streaming platform.
 Stremio currently supports Windows, OSX, Linux, Android and iOS.
 
 
+## Quick Example
+
+This arbitrary example creates an add-on that provides a stream for Big Buck Bunny and outputs a HTTP address where you can access it.
+
+```javascript
+const addonSDK = require('stremio-addon-sdk')
+
+const addon = new addonSDK({
+    id: 'org.myexampleaddon',
+    version: '1.0.0',
+
+    name: 'simple example',
+
+    // Properties that determine when Stremio picks this add-on
+    // this means your add-on will be used for streams of the type movie
+    resources: ['stream'],
+    types: ['movie'],
+    idPrefixes: ['tt']
+})
+
+// takes function(args, cb)
+addon.defineStreamHandler(function(args, cb) {
+    if (args.type === 'movie' && args.id === 'tt1254207') {
+        // serve one stream to big buck bunny
+        // return addonSDK.Stream({ url: '...' })
+        const stream = { url: 'http://distribution.bbb3d.renderfarming.net/video/mp4/bbb_sunflower_1080p_30fps_normal.mp4' }
+        cb(null, { streams: [stream] })
+    } else {
+        // otherwise return no streams
+        cb(null, { streams: [] })
+    }
+})
+
+addon.runHTTPWithOptions({ port: 7000 })
+```
+
+Save this as `addon.js` and run:
+
+```bash
+$ npm install stremio-addon-sdk
+$ node ./addon.js
+```
+
+It will output a URL that you can use to [install the add-on in Stremio](./docs/testing.md#how-to-install-add-on-in-stremio)
+
+
 ## Documentation
 
 All our documentation is [hosted on GitHub](./docs). Take a look at our [examples list](./docs/examples/Readme.md) for some high-level
@@ -47,6 +93,11 @@ You can check our [list of recommended hosting providers for Node.js](./docs/hos
 ## Examples
 
 Check out our ever growing list of [examples and demo add-ons](./docs/examples/Readme.md).
+
+
+## Reporting Issues
+
+If you have any issues regarding the Stremio Add-on SDK, please feel free to [report them here](https://github.com/Stremio/stremio-addon-sdk/issues).
 
 
 ## Use Cases Outside Add-on SDK
