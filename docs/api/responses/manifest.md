@@ -18,7 +18,7 @@ Valid properties are:
 
 **NOTE:** In order to understand the next properties better, please check out the [protocol documentation](../../protocol.md) and keep in mind requests to add-ons are formed in the format of `/{resource}/{type}/{id}`
 
-``resources`` - **required** - supported resources - for example ``['catalog', 'meta', 'stream', 'subtitle']``, resources can also be added as objects instead of strings, for added details on how they should be requested, example: `{ "name": "stream", "type": "movie", "idPrefixes": [ "tt" ] }`
+``resources`` - **required** - supported resources - for example ``['catalog', 'meta', 'stream', 'subtitles']``, resources can also be added as objects instead of strings, for added details on how they should be requested, example: `{ "name": "stream", "type": "movie", "idPrefixes": [ "tt" ] }`
 
 ``types`` - **required** - array of supported types, from all the [``Content Types``](./content.types.md). If you wish to provide different sets of types for different resources, see the **ADVANCED** note.
 
@@ -36,7 +36,7 @@ Valid properties are:
 
 ### Catalog format
 
-``type`` - this is the content type of the catalog 
+``type`` - this is the content type of the catalog
 
 ``id`` - the id of the catalog, can be any unique string describing the catalog (unique per add-on, as an add-on can have many catalogs), for example: if the catalog name is "Favourite Youtube Videos", the id can be "fav_youtube_videos"
 
@@ -104,4 +104,3 @@ This manifest example is for an add-on that:
 - provides streams and catalogs
 - has one catalog that includes movies
 - will receive stream requests for meta items that have an id that starts with `tt` (imdb id, example: `tt0068646`), for both movies and series
-
