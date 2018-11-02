@@ -16,6 +16,8 @@ Used as a response for [`defineCatalogHandler`](../requests/defineCatalogHandler
 
 ``background`` - _optional_ - the background shown on the stremio detail page ; heavily encouraged if you want your content to look good; URL to PNG, max file size 500kb
 
+``logo`` - _optional_ - the logo shown on the stremio detail page ; encouraged if you want your content to look good; URL to PNG
+
 ``description`` - _optional_ - a few sentances describing your content
 
 ``releaseInfo`` - _optional_ - string - year the content came out ; if it's ``series`` or ``channel``, use a start and end years split by a tide - e.g. ``"2000-2014"``. If it's still running, use a format like ``"2000-"``
@@ -75,7 +77,7 @@ _In case you've provided ``season`` and ``episode`` combination, both would be c
 ##### Video object - series example
 
 ```javascript
-{ 
+{
     id: "1:1",
     title: "Pilot",
     publishedAt: new Date("1994-09-22 20:00 UTC+02"),
@@ -89,7 +91,7 @@ _In case you've provided ``season`` and ``episode`` combination, both would be c
 
 
 ```javascript
-{ 
+{
     id: "9bZkp7q19f0",
     title: "PSY - GANGNAM STYLE",
     publishedAt: new Date("2012-07-15 20:00 UTC+02"),

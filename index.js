@@ -36,7 +36,7 @@ module.exports = function Addon(manifest) {
 	// Handle all resources
 	addonHTTP.get('/:resource/:type/:id/:extra?.json', function(req, res, next) {
 		let handler = handlers[req.params.resource]
-		
+
 		if (! handler) {
 			next()
 			return
@@ -70,7 +70,7 @@ module.exports = function Addon(manifest) {
 	this.defineStreamHandler = this.defineResourceHandler.bind(this, 'stream')
 	this.defineMetaHandler = this.defineResourceHandler.bind(this, 'meta')
 	this.defineCatalogHandler = this.defineResourceHandler.bind(this, 'catalog')
-	this.defineSubtitleHandler = this.defineResourceHandler.bind(this, 'subtitles')
+	this.defineSubtitlesHandler = this.defineResourceHandler.bind(this, 'subtitles')
 
 	// .run - starts the add-on listening on some port
 	this.run = function(cb) {
@@ -109,4 +109,3 @@ module.exports = function Addon(manifest) {
 
 	return this
 }
-

@@ -11,7 +11,7 @@ This allows Stremio or other similar applications to aggregate content seamlessl
 
 To define a minimal add-on, you only need an HTTP server/endpoint serving a `manifest.json` file and responding to resource requests at `/{resource}/{type}/{id}.json`.
 
-Currently used resources are: `catalog`, `meta`, `stream`, `subtitle`.
+Currently used resources are: `catalog`, `meta`, `stream`, `subtitles`.
 
 `/catalog/{type}/{id}.json` - catalogs of media items; `type` denotes the type, such as `movie`, `series`, `channel`, `tv`, and `id` denotes the catalog ID, which is custom and specified in your manifest, `id` is required as an add-on can hold multiple catalogs
 
@@ -149,7 +149,7 @@ Meta requests are done when Stremio opens a Details page for a movie (series, ch
 ID prefix, as that is handled internally by Stremio.
 
 
-This add-on is so simple that it can actually be hosted statically on GitHub pages! 
+This add-on is so simple that it can actually be hosted statically on GitHub pages!
 
 [See Example Static Add-on](https://github.com/Stremio/stremio-static-addon-example)
 
@@ -176,4 +176,3 @@ Check out the following tutorials for different languages:
 * [Creating an add-on with Go]() (coming soon)
 * [Creating an add-on with C#]() (coming soon)
 * [Creating an add-on with Java]() (coming soon)
-
