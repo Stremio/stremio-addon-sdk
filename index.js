@@ -1,6 +1,9 @@
+const fs = require('fs');
+const path = require('path');
 const express = require('express')
+const exphbs = require('express-handlebars');
 const cors = require('cors')
-const http = require('http')
+const request = require('request')
 const linter = require('stremio-addon-linter')
 const qs = require('querystring')
 
@@ -25,9 +28,11 @@ module.exports = function Addon(manifest) {
 		})
 	}
 
-	// Serve the manifest
-	const manifestBuf = new Buffer(JSON.stringify(manifest))
+	// Check the manifest
+	const manifestBuf = new Buffer.from(JSON.stringify(manifest))
 	if (manifestBuf.length > 8192) throw 'manifest size exceeds 8kb, which is incompatible with addonCollection API'
+
+	// Serve the manifest
 	addonHTTP.get('/manifest.json', function (req, res) {
 		res.setHeader('Content-Type', 'application/json; charset=utf-8')
 		res.end(manifestBuf)
@@ -61,6 +66,39 @@ module.exports = function Addon(manifest) {
 		})
 	})
 
+	// Serve logo & background images
+	this.serveLogo = function(path) {
+		if(!path) return false;
+		addonHTTP.get('/logo.png', function (req, res) {
+			const options = {
+				url: path,
+				method: 'GET',
+				encoding: null
+			};
+			request(options, (err, result, body) => {
+				res.set('Content-Type', 'image/png');
+				res.send(body);
+			});
+		});
+		return true;
+	}
+
+	this.serveBackground = function(path) {
+		if (!path) return false;
+		addonHTTP.get('/background.jpg', function (req, res) {
+			const options = {
+				url: path,
+				method: 'GET',
+				encoding: null
+			};
+			request(options, (err, result, body) => {
+				res.set('Content-Type', 'image/jpg');
+				res.send(body);
+			});
+		});
+		return true;
+	}
+
 	// Public interface
 	this.defineResourceHandler = function(resource, handler) {
 		if (handlers[resource]) throw 'handler for '+resource+' already defined'
@@ -81,14 +119,43 @@ module.exports = function Addon(manifest) {
 	}
 
 	this.runHTTPWithOptions = function(options, cb) {
-		var addonHTTPApp = express()
+		const address = `http://127.0.0.1:${options.port}`;
+
+		// Use default logo & background images if not set in the manifest
+		manifest.logo = manifest.logo || `${address}/public/imgs/logo.png`;
+		manifest.background = manifest.background || `${address}/public/imgs/background.jpg`;
+
+		// Render the home page
+		addonHTTP.get('/', function (req, res) {
+			res.render('home', {manifest: manifest});
+		});
+
+		// Serve logo & background images
+		this.serveLogo(manifest.logo);
+		this.serveBackground(manifest.background);
+
+		const addonHTTPApp = express()
+		
+		// Handlebars configuration
+		addonHTTPApp.engine('.hbs', exphbs({
+			defaultLayout: 'main',
+			extname: '.hbs',
+			layoutsDir: path.join(__dirname, 'views/layouts'),
+			helpers: require("./public/js/helpers.js")
+		}))
+		addonHTTPApp.set('view engine', '.hbs')
+		addonHTTPApp.set('views', path.join(__dirname, 'views'))
+
+		// Serve the public dir for default styles/images
+		addonHTTPApp.use('/public', express.static(path.join(__dirname, 'public')));
+
 		addonHTTPApp.use(function(req, res, next) {
 			if (options.cache) res.setHeader('Cache-Control', 'max-age='+options.cache)
 			next()
 		})
 		addonHTTPApp.use('/', addonHTTP)
-		var server = http.createServer(addonHTTPApp)
-		server.listen(options.port, function() {
+
+		const server = addonHTTPApp.listen(options.port, function() {
 			var url = 'http://127.0.0.1:'+server.address().port+'/manifest.json'
 			console.log('HTTP addon accessible at:', url)
 			if (cb) cb(null,  { server: server, url: url })

@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const tape = require('tape')
+const request = require('supertest');
 const AddonClient = require('stremio-addon-client')
 const addonSDK = require('../')
 
@@ -9,8 +10,12 @@ const addonSDK = require('../')
 const manifest = {
 	id: 'org.myexampleaddon',
 	version: '1.0.0',
+	description: 'Very simple',
 
 	name: 'simple example',
+
+	logo: 'https://stremio.com/favicon-96x96.png',
+	background: 'https://www.stremio.com/website/home-testimonials.jpg',
 
 	resources: ['stream'],
 	types: ['movie'],
@@ -56,7 +61,62 @@ tape('create an add-on and expose on HTTP', function(t) {
 	})
 })
 
+// Test the homepage of the addon
+tape('should return a valid html document', function (t) {
+	request(addonServer)
+	.get('/')
+	.expect(200)
+	.end((err, res) => {
+		t.ok(err === null, 'has no request error');
+		t.ok(res.error === false, 'has no response error');
+		t.ok(res.ok === true, 'has response status 200');
+		t.ok(res.status === 200, 'has response status ok');
+		t.ok(res.text !== undefined, 'is not undefined');
+		t.ok(res.type === 'text/html', 'is a valid html document');
+		t.end();
+	});
+})
 
+// Test images serving functions
+tape('serve the logo image', function (t) {
+	t.ok(addon.serveLogo(manifest.logo), 'can set the logo path');
+	t.end();
+})
+
+tape('serve the background image', function (t) {
+	t.ok(addon.serveBackground(manifest.background), 'can set the background path');
+	t.end();
+})
+
+tape('should return a valid logo png image', function (t) {
+	request(addonServer)
+	.get('/logo.png')
+	.expect(200)
+	.end((err, res) => {
+		t.ok(err === null, 'has no request error');
+		t.ok(res.error === false, 'has no response error');
+		t.ok(res.ok === true, 'has response status 200');
+		t.ok(res.status === 200, 'has response status ok');
+		t.ok(res.body !== undefined, 'is not undefined');
+		t.ok(res.type === 'image/png', 'is a valid png image');
+		t.end();
+	});
+})
+
+tape('should return a valid background jpg image', function (t) {
+	request(addonServer)
+	.get('/background.jpg')
+	.expect(200)
+	.end((err, res) => {
+		t.ok(err === null, 'has no request error');
+		t.ok(res.error === false, 'has no response error');
+		t.ok(res.ok === true, 'has response status 200');
+		t.ok(res.status === 200, 'has response status ok');
+		t.ok(res.body !== undefined, 'is not undefined');
+		t.ok(res.type === 'image/jpg', 'is a valid jpg image');
+		t.end();
+	});
+})
 
 // pubishToCentral publishes to the API
 tape('publishToCentral', function(t) {
