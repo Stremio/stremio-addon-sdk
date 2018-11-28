@@ -7,15 +7,17 @@ const addonSDK = require('../')
 
 // @TODO: linter, test the linter
 
+const PORT = 5000;
+
 const manifest = {
 	id: 'org.myexampleaddon',
 	version: '1.0.0',
-	description: 'Very simple',
+	description: 'not so simple',
 
 	name: 'simple example',
 
-	logo: 'https://stremio.com/favicon-96x96.png',
-	background: 'https://www.stremio.com/website/home-testimonials.jpg',
+	logo: `http://localhost:${PORT}/public/logo.png`,
+	background: `http://localhost:${PORT}/public/background.jpg`,
 
 	resources: ['stream'],
 	types: ['movie'],
@@ -42,12 +44,30 @@ tape('create an add-on and get the router', function(t) {
 	t.end()
 })
 
-tape('create an add-on and expose on HTTP', function(t) {
-	addon = new addonSDK(manifest)
-
+tape('create an add-on and expose on HTTP with addon.run()', function(t) {
+	var addon = new addonSDK(manifest)
 	addon.run(function(err, h) {
 		// This executes first
 		t.error(err, 'error on addon.run()')
+
+		t.ok(h.url, 'has url')
+		t.ok(h.url.endsWith('manifest.json'), 'url ends with manifest.json')
+
+		t.ok(h.server, 'has h.server')
+
+		addonUrl = h.url
+		addonServer = h.server
+
+		t.end()
+	})
+})
+
+tape('create an add-on and expose on HTTP with addon.runHTTPWithOptions()', function(t) {
+	addon = new addonSDK(manifest)
+
+	addon.runHTTPWithOptions({ port: PORT }, function(err, h) {
+		// This executes first
+		t.error(err, 'error on addon.runHTTPWithOptions()')
 
 		t.ok(h.url, 'has url')
 		t.ok(h.url.endsWith('manifest.json'), 'url ends with manifest.json')
@@ -67,34 +87,29 @@ tape('should return a valid html document', function (t) {
 	.get('/')
 	.expect(200)
 	.end((err, res) => {
-		t.ok(err === null, 'has no request error');
-		t.ok(res.error === false, 'has no response error');
-		t.ok(res.ok === true, 'has response status 200');
-		t.ok(res.status === 200, 'has response status ok');
+		t.error(err, 'request error');
+		t.error(res.error, 'response error');
+		t.ok(res.ok === true, 'has response status ok');
+		t.ok(res.status === 200, 'has response status 200');
 		t.ok(res.text !== undefined, 'is not undefined');
 		t.ok(res.type === 'text/html', 'is a valid html document');
 		t.end();
 	});
 })
 
-// Test images serving functions
-tape('serve the logo image', function (t) {
-	t.ok(addon.serveLogo(manifest.logo), 'can set the logo path');
-	t.end();
-})
-
-tape('serve the background image', function (t) {
-	t.ok(addon.serveBackground(manifest.background), 'can set the background path');
+// Test directory serving function (using the static images folder of the sdk)
+tape('serve the local directory on /public', function (t) {
+	t.ok(addon.serveDir('/public', './static/imgs'), 'can serve the directory');
 	t.end();
 })
 
 tape('should return a valid logo png image', function (t) {
 	request(addonServer)
-	.get('/logo.png')
+	.get('/public/logo.png')
 	.expect(200)
 	.end((err, res) => {
-		t.ok(err === null, 'has no request error');
-		t.ok(res.error === false, 'has no response error');
+		t.error(err, 'request error');
+		t.error(res.error, 'response error');
 		t.ok(res.ok === true, 'has response status 200');
 		t.ok(res.status === 200, 'has response status ok');
 		t.ok(res.body !== undefined, 'is not undefined');
@@ -105,15 +120,15 @@ tape('should return a valid logo png image', function (t) {
 
 tape('should return a valid background jpg image', function (t) {
 	request(addonServer)
-	.get('/background.jpg')
+	.get('/public/background.jpg')
 	.expect(200)
 	.end((err, res) => {
-		t.ok(err === null, 'has no request error');
-		t.ok(res.error === false, 'has no response error');
+		t.error(err, 'request error');
+		t.error(res.error, 'response error');
 		t.ok(res.ok === true, 'has response status 200');
 		t.ok(res.status === 200, 'has response status ok');
 		t.ok(res.body !== undefined, 'is not undefined');
-		t.ok(res.type === 'image/jpg', 'is a valid jpg image');
+		t.ok(res.type === 'image/jpeg', 'is a valid jpg image');
 		t.end();
 	});
 })

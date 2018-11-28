@@ -3,7 +3,6 @@ const path = require('path');
 const express = require('express')
 const exphbs = require('express-handlebars');
 const cors = require('cors')
-const request = require('request')
 const linter = require('stremio-addon-linter')
 const qs = require('querystring')
 
@@ -11,6 +10,7 @@ const publishToDir = require('./publishToDir')
 const publishToCentral = require('./publishToCentral')
 
 module.exports = function Addon(manifest) {
+	const addonHTTPApp = express()
 	const addonHTTP = express.Router()
 	addonHTTP.use(cors())
 
@@ -31,6 +31,15 @@ module.exports = function Addon(manifest) {
 	// Check the manifest
 	const manifestBuf = new Buffer.from(JSON.stringify(manifest))
 	if (manifestBuf.length > 8192) throw 'manifest size exceeds 8kb, which is incompatible with addonCollection API'
+
+	// Set default logo & background if not set in the manifest
+	if (!manifest.logo) manifest.logo = '/static/imgs/logo.png';
+	if (!manifest.background) manifest.background = '/static/imgs/background.jpg';
+
+	// Render the home page
+	addonHTTP.get('/', function (req, res) {
+		res.render('home', { manifest: manifest });
+	});
 
 	// Serve the manifest
 	addonHTTP.get('/manifest.json', function (req, res) {
@@ -66,36 +75,14 @@ module.exports = function Addon(manifest) {
 		})
 	})
 
-	// Serve logo & background images
-	this.serveLogo = function(path) {
-		if(!path) return false;
-		addonHTTP.get('/logo.png', function (req, res) {
-			const options = {
-				url: path,
-				method: 'GET',
-				encoding: null
-			};
-			request(options, (err, result, body) => {
-				res.set('Content-Type', 'image/png');
-				res.send(body);
-			});
-		});
-		return true;
-	}
+	// Allow the user to serve a local dir on a virtual path for logo & background images
+	this.serveDir = function (name, dir) {
+		if (!dir) return false;
 
-	this.serveBackground = function(path) {
-		if (!path) return false;
-		addonHTTP.get('/background.jpg', function (req, res) {
-			const options = {
-				url: path,
-				method: 'GET',
-				encoding: null
-			};
-			request(options, (err, result, body) => {
-				res.set('Content-Type', 'image/jpg');
-				res.send(body);
-			});
-		});
+		const location = path.join(process.cwd(), dir);
+		if (!fs.existsSync(location)) throw `directory ${location} does not exist`;
+	
+		addonHTTPApp.use(name, express.static(location));
 		return true;
 	}
 
@@ -119,35 +106,18 @@ module.exports = function Addon(manifest) {
 	}
 
 	this.runHTTPWithOptions = function(options, cb) {
-		const address = `http://127.0.0.1:${options.port}`;
-
-		// Use default logo & background images if not set in the manifest
-		manifest.logo = manifest.logo || `${address}/public/imgs/logo.png`;
-		manifest.background = manifest.background || `${address}/public/imgs/background.jpg`;
-
-		// Render the home page
-		addonHTTP.get('/', function (req, res) {
-			res.render('home', {manifest: manifest});
-		});
-
-		// Serve logo & background images
-		this.serveLogo(manifest.logo);
-		this.serveBackground(manifest.background);
-
-		const addonHTTPApp = express()
-		
 		// Handlebars configuration
 		addonHTTPApp.engine('.hbs', exphbs({
 			defaultLayout: 'main',
 			extname: '.hbs',
 			layoutsDir: path.join(__dirname, 'views/layouts'),
-			helpers: require("./public/js/helpers.js")
+			helpers: require("./static/js/helpers.js")
 		}))
 		addonHTTPApp.set('view engine', '.hbs')
 		addonHTTPApp.set('views', path.join(__dirname, 'views'))
 
-		// Serve the public dir for default styles/images
-		addonHTTPApp.use('/public', express.static(path.join(__dirname, 'public')));
+		// Serve the addonSdk static dir for default styles/images
+		addonHTTPApp.use('/static', express.static(path.join(__dirname, 'static')));
 
 		addonHTTPApp.use(function(req, res, next) {
 			if (options.cache) res.setHeader('Cache-Control', 'max-age='+options.cache)

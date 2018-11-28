@@ -1,6 +1,6 @@
 {
   "name": "stremio-addon-sdk",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "An SDK for making and publishing Stremio add-ons",
   "main": "index.js",
   "scripts": {
@@ -28,7 +28,6 @@
     "express-handlebars": "^3.0.0",
     "mkdirp": "^0.5.1",
     "node-fetch": "^2.1.2",
-    "request": "^2.88.0",
     "stremio-addon-linter": "^1.4.0"
   },
   "devDependencies": {
