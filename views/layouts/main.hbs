@@ -11,18 +11,6 @@
 
 <body>
     {{{body}}}
-
-    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-
-    <script>
-        $.get("http://localhost:11470/manifest").success(function () {
-            $("#addon").on("click", ".activate-link", function (e) {
-                e.preventDefault();
-                $.get("http://localhost:11470/info/" + encodeURIComponent("{{manifest.id}}/stremioget/stremio/v1"))
-                return false;
-            });
-        }).error(function (e) { /* ignore */ })
-    </script>
 </body>
 
 </html>

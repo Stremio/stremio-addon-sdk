@@ -133,6 +133,12 @@ tape('should return a valid background jpg image', function (t) {
 	});
 })
 
+// Test directory serving function (using the static images folder of the sdk)
+tape('publishToWeb', function (t) {
+	t.ok(addon.publishToWeb(`http://localhost:${PORT}`), 'can publishToWeb');
+	t.end();
+})
+
 // pubishToCentral publishes to the API
 tape('publishToCentral', function(t) {
 	addon.publishToCentral('https://cinemeta.strem.io/manifest.json')

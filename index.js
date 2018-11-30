@@ -33,12 +33,13 @@ module.exports = function Addon(manifest) {
 	if (manifestBuf.length > 8192) throw 'manifest size exceeds 8kb, which is incompatible with addonCollection API'
 
 	// Set default logo & background if not set in the manifest
-	if (!manifest.logo) manifest.logo = '/static/imgs/logo.png';
-	if (!manifest.background) manifest.background = '/static/imgs/background.jpg';
+	const manifestRender = JSON.parse(JSON.stringify(manifest));
+	if (!manifest.logo) manifestRender.logo = `/static/imgs/logo.png`;
+	if (!manifest.background) manifestRender.background = `/static/imgs/background.jpg`;
 
 	// Render the home page
 	addonHTTP.get('/', function (req, res) {
-		res.render('home', { manifest: manifest });
+		res.render('home', { manifest: manifestRender });
 	});
 
 	// Serve the manifest
@@ -124,10 +125,11 @@ module.exports = function Addon(manifest) {
 			next()
 		})
 		addonHTTPApp.use('/', addonHTTP)
-
+		
 		const server = addonHTTPApp.listen(options.port, function() {
-			var url = 'http://127.0.0.1:'+server.address().port+'/manifest.json'
+			var url = `http://127.0.0.1:${server.address().port}/manifest.json`;
 			console.log('HTTP addon accessible at:', url)
+			
 			if (cb) cb(null,  { server: server, url: url })
 		})
 	}
@@ -142,6 +144,14 @@ module.exports = function Addon(manifest) {
 
 	this.publishToDir = function(baseDir) {
 		publishToDir(baseDir || './publish-'+manifest.id, manifest, handlers)
+	}
+
+	this.publishToWeb = function(addonUrl) {
+		if (!addonUrl) throw 'Please set a valid url'
+
+		// Create a protocol url
+		manifestRender.protocol = addonUrl.replace(/^(https?|ftp):\/\//, 'stremio://') + '/manifest.json';
+		return true;
 	}
 
 	return this
