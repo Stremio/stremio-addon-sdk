@@ -33,13 +33,13 @@ module.exports = function Addon(manifest) {
 	if (manifestBuf.length > 8192) throw 'manifest size exceeds 8kb, which is incompatible with addonCollection API'
 
 	// Set default logo & background if not set in the manifest
-	const manifestRender = JSON.parse(JSON.stringify(manifest));
-	if (!manifest.logo) manifestRender.logo = `/static/imgs/logo.png`;
-	if (!manifest.background) manifestRender.background = `/static/imgs/background.jpg`;
+	const logo = manifest.logo || `/static/imgs/logo.png`;
+	const background = manifest.background || `/static/imgs/background.jpg`;
+	var manifestUrl = null;
 
 	// Render the home page
 	addonHTTP.get('/', function (req, res) {
-		res.render('home', { manifest: manifestRender });
+		res.render('home', { manifest, logo, background, manifestUrl });
 	});
 
 	// Serve the manifest
@@ -149,8 +149,8 @@ module.exports = function Addon(manifest) {
 	this.publishToWeb = function(addonUrl) {
 		if (!addonUrl || !addonUrl.includes('https://')) throw 'Please set a valid https url'
 
-		// Create a protocol url
-		manifestRender.protocol = addonUrl.replace('https://', 'stremio://') + '/manifest.json';
+		// Create a manifest url
+		manifestUrl = addonUrl.replace('https://', 'stremio://') + '/manifest.json';
 		return true;
 	}
 
