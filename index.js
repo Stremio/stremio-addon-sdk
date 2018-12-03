@@ -147,10 +147,10 @@ module.exports = function Addon(manifest) {
 	}
 
 	this.publishToWeb = function(addonUrl) {
-		if (!addonUrl) throw 'Please set a valid url'
+		if (!addonUrl || !addonUrl.includes('https://')) throw 'Please set a valid https url'
 
 		// Create a protocol url
-		manifestRender.protocol = addonUrl.replace(/^(https?|ftp):\/\//, 'stremio://') + '/manifest.json';
+		manifestRender.protocol = addonUrl.replace('https://', 'stremio://') + '/manifest.json';
 		return true;
 	}
 
