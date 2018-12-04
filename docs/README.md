@@ -118,3 +118,13 @@ Publishes your add-on to a directory. This creates a static version of your add-
 Starts the addon server. `options` is an object that can contain `port` and `cache` (in seconds); `cache` means the `Cache-Control` header being set to `max-age=$cache`
 
 **The JSON format of the response to these resources is described [here](./api/responses).**
+
+
+#### `addon.publishToWeb(url)`
+
+Creates an add-on homepage on the root of the web server that includes an "Install Add-on" button. This method expects a URL using HTTPS pointing to the manifest (example: `https://example.com/manifest.json`)
+
+
+#### `addon.serveDir(publicDirectory, localDirectory)`
+
+Serve a local (static) directory through the web server. Useful if you need to host the logo and background images for the add-on on the same server (example: `addon.serveDir('/public', './static/imgs')`

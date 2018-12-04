@@ -32,16 +32,6 @@ module.exports = function Addon(manifest) {
 	const manifestBuf = new Buffer.from(JSON.stringify(manifest))
 	if (manifestBuf.length > 8192) throw 'manifest size exceeds 8kb, which is incompatible with addonCollection API'
 
-	// Set default logo & background if not set in the manifest
-	const logo = manifest.logo || `/static/imgs/logo.png`;
-	const background = manifest.background || `/static/imgs/background.jpg`;
-	let manifestUrl = null;
-
-	// Render the home page
-	addonHTTP.get('/', function (req, res) {
-		res.render('home', { manifest, logo, background, manifestUrl });
-	});
-
 	// Serve the manifest
 	addonHTTP.get('/manifest.json', function (req, res) {
 		res.setHeader('Content-Type', 'application/json; charset=utf-8')
@@ -107,25 +97,6 @@ module.exports = function Addon(manifest) {
 	}
 
 	this.runHTTPWithOptions = function(options, cb) {
-		// Handlebars configuration
-		addonHTTPApp.engine('.hbs', exphbs({
-			defaultLayout: 'main',
-			extname: '.hbs',
-			layoutsDir: path.join(__dirname, 'views/layouts'),
-			helpers: require("./static/js/helpers.js")
-		}))
-		addonHTTPApp.set('view engine', '.hbs')
-		addonHTTPApp.set('views', path.join(__dirname, 'views'))
-
-		// Serve the addonSdk static dir for default styles/images
-		addonHTTPApp.use('/static', express.static(path.join(__dirname, 'static')));
-
-		addonHTTPApp.use(function(req, res, next) {
-			if (options.cache) res.setHeader('Cache-Control', 'max-age='+options.cache)
-			next()
-		})
-		addonHTTPApp.use('/', addonHTTP)
-		
 		const server = addonHTTPApp.listen(options.port, function() {
 			var url = `http://127.0.0.1:${server.address().port}/manifest.json`;
 			console.log('HTTP addon accessible at:', url)
@@ -147,8 +118,40 @@ module.exports = function Addon(manifest) {
 	}
 
 	this.publishToWeb = function(addonUrl) {
-		if (!addonUrl || !addonUrl.includes('https://') || !addonUrl.includes('manifest.json')) throw 'Please set a valid https url pointing to the manifest'
-		manifestUrl = addonUrl.replace('https:', 'stremio:');
+		if (typeof addonUrl !== 'string') throw 'publishToWeb: No URL set'
+		if (!addonUrl.startsWith('https://')) throw 'publishToWeb: URL needs to use HTTPS'
+		if (!addonUrl.endsWith('manifest.json')) throw 'publishToWeb: URL needs to point to manifest.json'
+
+		const manifestUrl = addonUrl.replace('https:', 'stremio:')
+
+		// Set default logo & background if not set in the manifest
+		const logo = manifest.logo || `/static/imgs/logo.png`
+		const background = manifest.background || `/static/imgs/background.jpg`
+
+		// Render the home page
+		addonHTTP.get('/', function (req, res) {
+			res.render('home', { manifest, logo, background, manifestUrl })
+		})
+
+		// Handlebars configuration
+		addonHTTPApp.engine('.hbs', exphbs({
+			defaultLayout: 'main',
+			extname: '.hbs',
+			layoutsDir: path.join(__dirname, 'views/layouts'),
+			helpers: require('./static/js/helpers.js')
+		}))
+		addonHTTPApp.set('view engine', '.hbs')
+		addonHTTPApp.set('views', path.join(__dirname, 'views'))
+
+		// Serve the Add-on SDK static dir for default styles/images
+		addonHTTPApp.use('/static', express.static(path.join(__dirname, 'static')));
+
+		addonHTTPApp.use(function(req, res, next) {
+			next()
+		})
+
+		addonHTTPApp.use('/', addonHTTP)
+
 		return true;
 	}
 
