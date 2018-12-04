@@ -147,7 +147,7 @@ module.exports = function Addon(manifest) {
 	}
 
 	this.publishToWeb = function(addonUrl) {
-		if (!addonUrl || !addonUrl.includes('https://')) throw 'Please set a valid https url pointing to the manifest'
+		if (!addonUrl || !addonUrl.includes('https://') || !addonUrl.includes('manifest.json')) throw 'Please set a valid https url pointing to the manifest'
 		manifestUrl = addonUrl.replace('https:', 'stremio:');
 		return true;
 	}
