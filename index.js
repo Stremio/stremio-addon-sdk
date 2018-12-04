@@ -35,7 +35,7 @@ module.exports = function Addon(manifest) {
 	// Set default logo & background if not set in the manifest
 	const logo = manifest.logo || `/static/imgs/logo.png`;
 	const background = manifest.background || `/static/imgs/background.jpg`;
-	var manifestUrl = null;
+	let manifestUrl = null;
 
 	// Render the home page
 	addonHTTP.get('/', function (req, res) {
@@ -147,10 +147,8 @@ module.exports = function Addon(manifest) {
 	}
 
 	this.publishToWeb = function(addonUrl) {
-		if (!addonUrl || !addonUrl.includes('https://')) throw 'Please set a valid https url'
-
-		// Create a manifest url
-		manifestUrl = addonUrl.replace('https://', 'stremio://') + '/manifest.json';
+		if (!addonUrl || !addonUrl.includes('https://')) throw 'Please set a valid https url pointing to the manifest'
+		manifestUrl = addonUrl.replace('https:', 'stremio:');
 		return true;
 	}
 
