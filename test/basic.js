@@ -81,22 +81,6 @@ tape('create an add-on and expose on HTTP with addon.runHTTPWithOptions()', func
 	})
 })
 
-// Test the homepage of the addon
-tape('should return a valid html document', function (t) {
-	request(addonServer)
-	.get('/')
-	.expect(200)
-	.end((err, res) => {
-		t.error(err, 'request error');
-		t.error(res.error, 'response error');
-		t.ok(res.ok === true, 'has response status ok');
-		t.ok(res.status === 200, 'has response status 200');
-		t.ok(res.text !== undefined, 'is not undefined');
-		t.ok(res.type === 'text/html', 'is a valid html document');
-		t.end();
-	});
-})
-
 // Test directory serving function (using the static images folder of the sdk)
 tape('serve the local directory on /public', function (t) {
 	t.ok(addon.serveDir('/public', './static/imgs'), 'can serve the directory');
@@ -137,6 +121,22 @@ tape('should return a valid background jpg image', function (t) {
 tape('publishToWeb', function (t) {
 	t.ok(addon.publishToWeb(`https://cinemeta.strem.io/manifest.json`), 'can publishToWeb');
 	t.end();
+})
+
+// Test the homepage of the addon
+tape('should return a valid html document', function (t) {
+	request(addonServer)
+	.get('/')
+	.expect(200)
+	.end((err, res) => {
+		t.error(err, 'request error');
+		t.error(res.error, 'response error');
+		t.ok(res.ok === true, 'has response status ok');
+		t.ok(res.status === 200, 'has response status 200');
+		t.ok(res.text !== undefined, 'is not undefined');
+		t.ok(res.type === 'text/html', 'is a valid html document');
+		t.end();
+	});
 })
 
 // pubishToCentral publishes to the API
