@@ -1,16 +1,23 @@
 #!/usr/bin/env node
 
 const tape = require('tape')
+const request = require('supertest');
 const AddonClient = require('stremio-addon-client')
 const addonSDK = require('../')
 
 // @TODO: linter, test the linter
 
+const PORT = 5000;
+
 const manifest = {
 	id: 'org.myexampleaddon',
 	version: '1.0.0',
+	description: 'not so simple',
 
 	name: 'simple example',
+
+	logo: `http://localhost:${PORT}/public/logo.png`,
+	background: `http://localhost:${PORT}/public/background.jpg`,
 
 	resources: ['stream'],
 	types: ['movie'],
@@ -37,9 +44,8 @@ tape('create an add-on and get the router', function(t) {
 	t.end()
 })
 
-tape('create an add-on and expose on HTTP', function(t) {
-	addon = new addonSDK(manifest)
-
+tape('create an add-on and expose on HTTP with addon.run()', function(t) {
+	var addon = new addonSDK(manifest)
 	addon.run(function(err, h) {
 		// This executes first
 		t.error(err, 'error on addon.run()')
@@ -56,7 +62,82 @@ tape('create an add-on and expose on HTTP', function(t) {
 	})
 })
 
+tape('create an add-on and expose on HTTP with addon.runHTTPWithOptions()', function(t) {
+	addon = new addonSDK(manifest)
 
+	addon.runHTTPWithOptions({ port: PORT }, function(err, h) {
+		// This executes first
+		t.error(err, 'error on addon.runHTTPWithOptions()')
+
+		t.ok(h.url, 'has url')
+		t.ok(h.url.endsWith('manifest.json'), 'url ends with manifest.json')
+
+		t.ok(h.server, 'has h.server')
+
+		addonUrl = h.url
+		addonServer = h.server
+
+		t.end()
+	})
+})
+
+// Test the homepage of the addon
+tape('should return a valid html document', function (t) {
+	request(addonServer)
+	.get('/')
+	.expect(200)
+	.end((err, res) => {
+		t.error(err, 'request error');
+		t.error(res.error, 'response error');
+		t.ok(res.ok === true, 'has response status ok');
+		t.ok(res.status === 200, 'has response status 200');
+		t.ok(res.text !== undefined, 'is not undefined');
+		t.ok(res.type === 'text/html', 'is a valid html document');
+		t.end();
+	});
+})
+
+// Test directory serving function (using the static images folder of the sdk)
+tape('serve the local directory on /public', function (t) {
+	t.ok(addon.serveDir('/public', './static/imgs'), 'can serve the directory');
+	t.end();
+})
+
+tape('should return a valid logo png image', function (t) {
+	request(addonServer)
+	.get('/public/logo.png')
+	.expect(200)
+	.end((err, res) => {
+		t.error(err, 'request error');
+		t.error(res.error, 'response error');
+		t.ok(res.ok === true, 'has response status 200');
+		t.ok(res.status === 200, 'has response status ok');
+		t.ok(res.body !== undefined, 'is not undefined');
+		t.ok(res.type === 'image/png', 'is a valid png image');
+		t.end();
+	});
+})
+
+tape('should return a valid background jpg image', function (t) {
+	request(addonServer)
+	.get('/public/background.jpg')
+	.expect(200)
+	.end((err, res) => {
+		t.error(err, 'request error');
+		t.error(res.error, 'response error');
+		t.ok(res.ok === true, 'has response status 200');
+		t.ok(res.status === 200, 'has response status ok');
+		t.ok(res.body !== undefined, 'is not undefined');
+		t.ok(res.type === 'image/jpeg', 'is a valid jpg image');
+		t.end();
+	});
+})
+
+// Test directory serving function (using the static images folder of the sdk)
+tape('publishToWeb', function (t) {
+	t.ok(addon.publishToWeb(`https://cinemeta.strem.io/manifest.json`), 'can publishToWeb');
+	t.end();
+})
 
 // pubishToCentral publishes to the API
 tape('publishToCentral', function(t) {

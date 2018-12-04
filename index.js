@@ -1,6 +1,8 @@
+const fs = require('fs');
+const path = require('path');
 const express = require('express')
+const exphbs = require('express-handlebars');
 const cors = require('cors')
-const http = require('http')
 const linter = require('stremio-addon-linter')
 const qs = require('querystring')
 
@@ -8,6 +10,7 @@ const publishToDir = require('./publishToDir')
 const publishToCentral = require('./publishToCentral')
 
 module.exports = function Addon(manifest) {
+	const addonHTTPApp = express()
 	const addonHTTP = express.Router()
 	addonHTTP.use(cors())
 
@@ -25,9 +28,21 @@ module.exports = function Addon(manifest) {
 		})
 	}
 
-	// Serve the manifest
-	const manifestBuf = new Buffer(JSON.stringify(manifest))
+	// Check the manifest
+	const manifestBuf = new Buffer.from(JSON.stringify(manifest))
 	if (manifestBuf.length > 8192) throw 'manifest size exceeds 8kb, which is incompatible with addonCollection API'
+
+	// Set default logo & background if not set in the manifest
+	const logo = manifest.logo || `/static/imgs/logo.png`;
+	const background = manifest.background || `/static/imgs/background.jpg`;
+	let manifestUrl = null;
+
+	// Render the home page
+	addonHTTP.get('/', function (req, res) {
+		res.render('home', { manifest, logo, background, manifestUrl });
+	});
+
+	// Serve the manifest
 	addonHTTP.get('/manifest.json', function (req, res) {
 		res.setHeader('Content-Type', 'application/json; charset=utf-8')
 		res.end(manifestBuf)
@@ -61,6 +76,17 @@ module.exports = function Addon(manifest) {
 		})
 	})
 
+	// Allow the user to serve a local dir on a virtual path for logo & background images
+	this.serveDir = function (name, dir) {
+		if (!dir) return false;
+
+		const location = path.join(process.cwd(), dir);
+		if (!fs.existsSync(location)) throw `directory ${location} does not exist`;
+	
+		addonHTTPApp.use(name, express.static(location));
+		return true;
+	}
+
 	// Public interface
 	this.defineResourceHandler = function(resource, handler) {
 		if (handlers[resource]) throw 'handler for '+resource+' already defined'
@@ -81,16 +107,29 @@ module.exports = function Addon(manifest) {
 	}
 
 	this.runHTTPWithOptions = function(options, cb) {
-		var addonHTTPApp = express()
+		// Handlebars configuration
+		addonHTTPApp.engine('.hbs', exphbs({
+			defaultLayout: 'main',
+			extname: '.hbs',
+			layoutsDir: path.join(__dirname, 'views/layouts'),
+			helpers: require("./static/js/helpers.js")
+		}))
+		addonHTTPApp.set('view engine', '.hbs')
+		addonHTTPApp.set('views', path.join(__dirname, 'views'))
+
+		// Serve the addonSdk static dir for default styles/images
+		addonHTTPApp.use('/static', express.static(path.join(__dirname, 'static')));
+
 		addonHTTPApp.use(function(req, res, next) {
 			if (options.cache) res.setHeader('Cache-Control', 'max-age='+options.cache)
 			next()
 		})
 		addonHTTPApp.use('/', addonHTTP)
-		var server = http.createServer(addonHTTPApp)
-		server.listen(options.port, function() {
-			var url = 'http://127.0.0.1:'+server.address().port+'/manifest.json'
+		
+		const server = addonHTTPApp.listen(options.port, function() {
+			var url = `http://127.0.0.1:${server.address().port}/manifest.json`;
 			console.log('HTTP addon accessible at:', url)
+			
 			if (cb) cb(null,  { server: server, url: url })
 		})
 	}
@@ -105,6 +144,12 @@ module.exports = function Addon(manifest) {
 
 	this.publishToDir = function(baseDir) {
 		publishToDir(baseDir || './publish-'+manifest.id, manifest, handlers)
+	}
+
+	this.publishToWeb = function(addonUrl) {
+		if (!addonUrl || !addonUrl.includes('https://') || !addonUrl.includes('manifest.json')) throw 'Please set a valid https url pointing to the manifest'
+		manifestUrl = addonUrl.replace('https:', 'stremio:');
+		return true;
 	}
 
 	return this
