@@ -73,6 +73,7 @@ SDK Features Include:
 - Publishing an add-on through IPFS
 - Building a static version of your add-on with [.publishToDir](./docs/README.md#addonpublishtodir)
 - Publishing your add-on link to the Central Add-on Repository with [.publishToCentral](./docs/README.md#addonpublishtocentral)
+- Creating a homepage for your add-on that includes an "Install Add-on" button with [.publishToWeb](./docs/README.md#addonpublishtoweburl)
 
 
 ## Testing
