@@ -77,7 +77,17 @@ tape('create an add-on and expose on HTTP with addon.runHTTPWithOptions()', func
 		addonUrl = h.url
 		addonServer = h.server
 
-		t.end()
+		request(addonServer)
+		.get('/manifest.json')
+		.expect(200)
+		.end((err, res) => {
+			t.error(err, 'request error')
+			t.error(res.error, 'response error')
+			t.ok(res.ok === true, 'has response status 200')
+			t.ok(res.status === 200, 'has response status ok')
+			t.end()
+		})
+
 	})
 })
 
