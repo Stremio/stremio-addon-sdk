@@ -13,6 +13,7 @@ module.exports = function Addon(manifest) {
 	const addonHTTPApp = express()
 	const addonHTTP = express.Router()
 	addonHTTP.use(cors())
+	addonHTTPApp.use('/', addonHTTP)
 
 	const handlers = { }
 
@@ -149,8 +150,6 @@ module.exports = function Addon(manifest) {
 		addonHTTPApp.use(function(req, res, next) {
 			next()
 		})
-
-		addonHTTPApp.use('/', addonHTTP)
 
 		return true;
 	}
