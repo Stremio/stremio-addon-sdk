@@ -42,6 +42,7 @@ addon.defineStreamHandler(function(args, cb) {
 })
 
 addon.runHTTPWithOptions({ port: 7000 })
+//addon.publishToCenter("https://your-domain/manifest.json") // <- invoke this if you want to publish your add-on and it's accessible publically on "your-domain"
 ```
 
 Save this as `addon.js` and run:
@@ -72,7 +73,7 @@ SDK Features Include:
 - Publishing an add-on through HTTP(s)
 - Publishing an add-on through IPFS
 - Building a static version of your add-on with [.publishToDir](./docs/README.md#addonpublishtodir)
-- Publishing your add-on link to the Central Add-on Repository with [.publishToCentral](./docs/README.md#addonpublishtocentral)
+- Publishing your add-on link to the [public Add-on collection](https://api.strem.io/addonscollection.json) with [.publishToCentral](./docs/README.md#addonpublishtocentral)
 - Creating a homepage for your add-on that includes an "Install Add-on" button with [.publishToWeb](./docs/README.md#addonpublishtoweburl)
 
 
