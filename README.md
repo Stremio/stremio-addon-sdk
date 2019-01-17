@@ -42,7 +42,7 @@ addon.defineStreamHandler(function(args, cb) {
 })
 
 addon.runHTTPWithOptions({ port: 7000 })
-//addon.publishToCenter("https://your-domain/manifest.json") // <- invoke this if you want to publish your add-on and it's accessible publically on "your-domain"
+//addon.publishToCentral("https://your-domain/manifest.json") // <- invoke this if you want to publish your add-on and it's accessible publically on "your-domain"
 ```
 
 Save this as `addon.js` and run:
