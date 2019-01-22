@@ -28,7 +28,7 @@
     "express-handlebars": "^3.0.0",
     "mkdirp": "^0.5.1",
     "node-fetch": "^2.1.2",
-    "stremio-addon-linter": "^1.4.0"
+    "stremio-addon-linter": "^1.5.0"
   },
   "devDependencies": {
     "stremio-addon-client": "git://github.com/Stremio/stremio-addon-client.git#v1.1.0",
