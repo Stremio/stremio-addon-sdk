@@ -41,7 +41,7 @@ module.exports = function Addon(manifest) {
 			const parts = req.url.slice(1, -'.json'.length).split('/')
 			if (parts.length == 3) {
 				const [ resource, type, id ] = parts
-				return { resource, type, id, extra }
+				return { resource, type, id }
 			} else if (parts.length == 4) {
 				const [ resource, type, id, extra ] = parts
 				return { resource, type, id, extra }
