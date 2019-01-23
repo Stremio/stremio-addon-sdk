@@ -33,27 +33,58 @@ module.exports = function Addon(manifest) {
 	const manifestBuf = new Buffer.from(JSON.stringify(manifest))
 	if (manifestBuf.length > 8192) throw 'manifest size exceeds 8kb, which is incompatible with addonCollection API'
 
-	// Serve the manifest
-	addonHTTP.get('/manifest.json', function (req, res) {
-		res.setHeader('Content-Type', 'application/json; charset=utf-8')
-		res.end(manifestBuf)
-	})
+	function getParams(req) {
+		if (req.params && req.params.resource) {
+			return req.params
+		} else {
+			// Parse parameters for serverless
+			const parts = req.url.slice(1, -'.json'.length).split('/')
+			if (parts.length == 3) {
+				const [ resource, type, id ] = parts
+				return { resource, type, id, extra }
+			} else if (parts.length == 4) {
+				const [ resource, type, id, extra ] = parts
+				return { resource, type, id, extra }
+			} else
+				return false
+		}
+	}
 
-	// Handle all resources
-	addonHTTP.get('/:resource/:type/:id/:extra?.json', function(req, res, next) {
-		let handler = handlers[req.params.resource]
+	function requestHandler(req, res, next) {
+
+		function page404() {
+			res.writeHead(404)
+			res.end('Cannot GET ' + req.url)
+		}
+
+		let params = {}
+
+		if (req.url == '/manifest.json') {
+			res.setHeader('Content-Type', 'application/json; charset=utf-8')
+			res.end(manifestBuf)
+			return
+		} else {
+			params = getParams(req)
+			if (!params) {
+				page404()
+				return
+			}
+		}
+
+		let handler = handlers[params.resource]
 
 		if (! handler) {
-			next()
+			if (next) next()
+			else page404()
 			return
 		}
 
 		res.setHeader('Content-Type', 'application/json; charset=utf-8')
 
 		const args = {
-			type: req.params.type,
-			id: req.params.id,
-			extra: req.params.extra ? qs.parse(req.params.extra) : { }
+			type: params.type,
+			id: params.id,
+			extra: params.extra ? qs.parse(params.extra) : { }
 		}
 		
 		handler(args, function(err, resp) {
@@ -65,7 +96,14 @@ module.exports = function Addon(manifest) {
 
 			res.end(JSON.stringify(resp))
 		})
-	})
+
+	}
+
+	// Serve the manifest
+	addonHTTP.get('/manifest.json', requestHandler)
+
+	// Handle all resources
+	addonHTTP.get('/:resource/:type/:id/:extra?.json', requestHandler)
 
 	// Allow the user to serve a local dir on a virtual path for logo & background images
 	this.serveDir = function (name, dir) {
@@ -104,6 +142,10 @@ module.exports = function Addon(manifest) {
 			
 			if (cb) cb(null,  { server: server, url: url })
 		})
+	}
+
+	this.getServerlessHandler = function () {
+		return requestHandler
 	}
 
 	this.getRouter = function() {
