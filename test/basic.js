@@ -21,6 +21,8 @@ const manifest = {
 
 	resources: ['stream'],
 	types: ['movie'],
+
+	catalogs: [],
 }
 
 let addon
