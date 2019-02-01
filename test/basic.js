@@ -90,8 +90,8 @@ tape('create an add-on and expose on HTTP with addon.runHTTPWithOptions()', func
 		.end((err, res) => {
 			t.error(err, 'request error')
 			t.error(res.error, 'response error')
-			t.ok(res.ok === true, 'has response status 200')
-			t.ok(res.status === 200, 'has response status ok')
+			t.equal(res.ok, true, 'has response status 200')
+			t.equal(res.status, 200, 'has response status ok')
 			t.end()
 		})
 
@@ -111,10 +111,10 @@ tape('should return a valid logo png image', function (t) {
 	.end((err, res) => {
 		t.error(err, 'request error');
 		t.error(res.error, 'response error');
-		t.ok(res.ok === true, 'has response status 200');
-		t.ok(res.status === 200, 'has response status ok');
-		t.ok(res.body !== undefined, 'is not undefined');
-		t.ok(res.type === 'image/png', 'is a valid png image');
+		t.equal(res.ok, true, 'has response status 200');
+		t.equal(res.status, 200, 'has response status ok');
+		t.notEqual(res.body, undefined, 'is not undefined');
+		t.equal(res.type, 'image/png', 'is a valid png image');
 		t.end();
 	});
 })
@@ -126,10 +126,10 @@ tape('should return a valid background jpg image', function (t) {
 	.end((err, res) => {
 		t.error(err, 'request error');
 		t.error(res.error, 'response error');
-		t.ok(res.ok === true, 'has response status 200');
-		t.ok(res.status === 200, 'has response status ok');
-		t.ok(res.body !== undefined, 'is not undefined');
-		t.ok(res.type === 'image/jpeg', 'is a valid jpg image');
+		t.equal(res.ok, true, 'has response status 200');
+		t.equal(res.status, 200, 'has response status ok');
+		t.notEqual(res.body, undefined, 'is not undefined');
+		t.equal(res.type, 'image/jpeg', 'is a valid jpg image');
 		t.end();
 	});
 })
@@ -148,10 +148,10 @@ tape('should return a valid html document', function (t) {
 	.end((err, res) => {
 		t.error(err, 'request error');
 		t.error(res.error, 'response error');
-		t.ok(res.ok === true, 'has response status ok');
-		t.ok(res.status === 200, 'has response status 200');
-		t.ok(res.text !== undefined, 'is not undefined');
-		t.ok(res.type === 'text/html', 'is a valid html document');
+		t.equal(res.ok, true, 'has response status ok');
+		t.equal(res.status, 200, 'has response status 200');
+		t.notEqual(res.text, undefined, 'is not undefined');
+		t.equal(res.type, 'text/html', 'is a valid html document');
 		t.end();
 	});
 })
