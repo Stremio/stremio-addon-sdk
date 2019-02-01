@@ -23,6 +23,7 @@ const addon = new addonSDK({
 
     // Properties that determine when Stremio picks this add-on
     // this means your add-on will be used for streams of the type movie
+    catalogs: [],
     resources: ['stream'],
     types: ['movie'],
     idPrefixes: ['tt']
