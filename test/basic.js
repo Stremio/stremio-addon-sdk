@@ -14,8 +14,8 @@ const manifest = {
 
 	name: 'simple example',
 
-	logo: `http://localhost:${PORT}/public/logo.png`,
-	background: `http://localhost:${PORT}/public/background.jpg`,
+	logo: `http://localhost:${PORT}/static/imgs/logo.png`,
+	background: `http://localhost:${PORT}/static/imgs/background.jpg`,
 
 	resources: ['stream'],
 	types: ['movie'],
@@ -99,42 +99,6 @@ tape('create an add-on and expose on HTTP with addon.runHTTPWithOptions()', func
 })
 
 // Test directory serving function (using the static images folder of the sdk)
-tape('serve the local directory on /public', function (t) {
-	t.ok(addon.serveDir('/public', './static/imgs'), 'can serve the directory');
-	t.end();
-})
-
-tape('should return a valid logo png image', function (t) {
-	request(addonServer)
-	.get('/public/logo.png')
-	.expect(200)
-	.end((err, res) => {
-		t.error(err, 'request error');
-		t.error(res.error, 'response error');
-		t.equal(res.ok, true, 'has response status 200');
-		t.equal(res.status, 200, 'has response status ok');
-		t.notEqual(res.body, undefined, 'is not undefined');
-		t.equal(res.type, 'image/png', 'is a valid png image');
-		t.end();
-	});
-})
-
-tape('should return a valid background jpg image', function (t) {
-	request(addonServer)
-	.get('/public/background.jpg')
-	.expect(200)
-	.end((err, res) => {
-		t.error(err, 'request error');
-		t.error(res.error, 'response error');
-		t.equal(res.ok, true, 'has response status 200');
-		t.equal(res.status, 200, 'has response status ok');
-		t.notEqual(res.body, undefined, 'is not undefined');
-		t.equal(res.type, 'image/jpeg', 'is a valid jpg image');
-		t.end();
-	});
-})
-
-// Test directory serving function (using the static images folder of the sdk)
 tape('publishToWeb', function (t) {
 	t.ok(addon.publishToWeb(`https://cinemeta.strem.io/manifest.json`), 'can publishToWeb');
 	t.end();
@@ -155,6 +119,37 @@ tape('should return a valid html document', function (t) {
 		t.end();
 	});
 })
+
+tape('should return a valid logo png image', function (t) {
+	request(addonServer)
+	.get('/static/imgs/logo.png')
+	.expect(200)
+	.end((err, res) => {
+		t.error(err, 'request error');
+		t.error(res.error, 'response error');
+		t.equal(res.ok, true, 'has response status 200');
+		t.equal(res.status, 200, 'has response status ok');
+		t.notEqual(res.body, undefined, 'is not undefined');
+		t.equal(res.type, 'image/png', 'is a valid png image');
+		t.end();
+	});
+})
+
+tape('should return a valid background jpg image', function (t) {
+	request(addonServer)
+	.get('/static/imgs/background.jpg')
+	.expect(200)
+	.end((err, res) => {
+		t.error(err, 'request error');
+		t.error(res.error, 'response error');
+		t.equal(res.ok, true, 'has response status 200');
+		t.equal(res.status, 200, 'has response status ok');
+		t.notEqual(res.body, undefined, 'is not undefined');
+		t.equal(res.type, 'image/jpeg', 'is a valid jpg image');
+		t.end();
+	});
+})
+
 
 // pubishToCentral publishes to the API
 tape('publishToCentral', function(t) {

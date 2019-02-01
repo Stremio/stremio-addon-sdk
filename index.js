@@ -67,17 +67,6 @@ module.exports = function Addon(manifest) {
 		})
 	})
 
-	// Allow the user to serve a local dir on a virtual path for logo & background images
-	this.serveDir = function (name, dir) {
-		if (!dir) return false;
-
-		const location = path.join(process.cwd(), dir);
-		if (!fs.existsSync(location)) throw `directory ${location} does not exist`;
-	
-		addonHTTPApp.use(name, express.static(location));
-		return true;
-	}
-
 	// Public interface
 	this.defineResourceHandler = function(resource, handler) {
 		if (handlers[resource]) throw 'handler for '+resource+' already defined'
