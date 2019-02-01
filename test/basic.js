@@ -5,8 +5,6 @@ const request = require('supertest');
 const AddonClient = require('stremio-addon-client')
 const addonSDK = require('../')
 
-// @TODO: linter, test the linter
-
 const PORT = 5000;
 
 const manifest = {
@@ -39,6 +37,13 @@ tape('try to create an add-on with an invalid manifest', function(t) {
 	}
 })
 
+tape('try to create an add-on with an invalid manifest: linter', function(t) {
+        try { new addonSDK({ name: 'something' }) }
+        catch(e) {
+                t.equal(e.message, 'manifest.id must be a string')
+                t.end()
+        }
+})
 
 tape('create an add-on and get the router', function(t) {
 	var addon = new addonSDK(manifest)
