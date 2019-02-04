@@ -4,6 +4,7 @@ const express = require('express')
 const cors = require('cors')
 const linter = require('stremio-addon-linter')
 const qs = require('querystring')
+const router = require('router')
 
 const publishToDir = require('./publishToDir')
 const publishToCentral = require('./publishToCentral')
@@ -33,18 +34,9 @@ module.exports = function Addon(manifest) {
 	const manifestBuf = new Buffer.from(JSON.stringify(manifest))
 	if (manifestBuf.length > 8192) throw 'manifest size exceeds 8kb, which is incompatible with addonCollection API'
 
-
-	// Add CORS if not set (for serverless handlers)
-	function addCors(res) {
-		if (res.getHeader('Access-Control-Allow-Origin') != '*')
-			res.setHeader('Access-Control-Allow-Origin', '*')
-		return
-	}
-
 	// Serve the manifest
 
 	function manifestHandler(req, res) {
-		addCors(res)
 		res.setHeader('Content-Type', 'application/json; charset=utf-8')
 		res.end(manifestBuf)
 	}
@@ -53,14 +45,12 @@ module.exports = function Addon(manifest) {
 
 	// Handle all resources
 
-	function handlerToServerless(resource) {
+	function handlerToServerless() {
 		return function(req, res, next) {
-
-			addCors(res)
 
 			const params = req.params || qs.parse(req.url.replace(/^.*\?/, ''))
 
-			let handler = handlers[resource || params.resource]
+			let handler = handlers[req.params.resource]
 
 			if (! handler) {
 				if (next) next()
@@ -74,9 +64,9 @@ module.exports = function Addon(manifest) {
 			res.setHeader('Content-Type', 'application/json; charset=utf-8')
 
 			const args = {
-				type: params.type,
-				id: params.id,
-				extra: params.extra ? qs.parse(params.extra) : { }
+				type: req.params.type,
+				id: req.params.id,
+				extra: req.params.extra ? qs.parse(req.params.extra) : { }
 			}
 			
 			handler(args, function(err, resp) {
@@ -104,8 +94,12 @@ module.exports = function Addon(manifest) {
 	this.getServerlessHandler = function() {
 		const serverless = { manifest: manifestHandler }
 
-		manifest.resources.forEach(resource => {
-			serverless[resource] = handlerToServerless(resource)
+		router.use(cors())
+
+		manifest.resources.forEach(function(resource) {
+			serverless[resource] = function(req, res) {
+				router.get('/:resource/:type/:id/:extra?.json', handleToServerless())
+			}
 		})
 
 		return serverless
