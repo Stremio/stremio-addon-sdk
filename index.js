@@ -56,7 +56,10 @@ module.exports = function Addon(manifest) {
 
 			if (! handler) {
 				if (next) next()
-				else page404()
+				else {
+					res.writeHead(404)
+					res.end('Cannot GET ' + req.url)
+				}
 				return
 			}
 
