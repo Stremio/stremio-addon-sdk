@@ -33,10 +33,18 @@ module.exports = function Addon(manifest) {
 	const manifestBuf = new Buffer.from(JSON.stringify(manifest))
 	if (manifestBuf.length > 8192) throw 'manifest size exceeds 8kb, which is incompatible with addonCollection API'
 
+
+	// Add CORS if not set (for serverless handlers)
+	function addCors(res) {
+		if (res.getHeader('Access-Control-Allow-Origin') != '*')
+			res.setHeader('Access-Control-Allow-Origin', '*')
+		return
+	}
+
 	// Serve the manifest
 
 	function manifestHandler(req, res) {
-		res.setHeader('Access-Control-Allow-Origin', '*')
+		addCors(res)
 		res.setHeader('Content-Type', 'application/json; charset=utf-8')
 		res.end(manifestBuf)
 	}
@@ -48,7 +56,7 @@ module.exports = function Addon(manifest) {
 	function handlerToServerless(resource) {
 		return function(req, res, next) {
 
-			res.setHeader('Access-Control-Allow-Origin', '*')
+			addCors(res)
 
 			const params = req.params || qs.parse(req.url.replace(/^.*\?/, ''))
 
