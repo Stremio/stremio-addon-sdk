@@ -36,6 +36,7 @@ module.exports = function Addon(manifest) {
 	// Serve the manifest
 
 	function manifestHandler(req, res) {
+		res.setHeader('Access-Control-Allow-Origin', '*')
 		res.setHeader('Content-Type', 'application/json; charset=utf-8')
 		res.end(manifestBuf)
 	}
@@ -46,6 +47,8 @@ module.exports = function Addon(manifest) {
 
 	function handlerToServerless(resource) {
 		return function(req, res, next) {
+
+			res.setHeader('Access-Control-Allow-Origin', '*')
 
 			const params = req.params || qs.parse(req.url.replace(/^.*\?/, ''))
 
