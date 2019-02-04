@@ -29,6 +29,7 @@
     "mkdirp": "^0.5.1",
     "node-fetch": "^2.1.2",
     "router": "^1.3.3",
+    "finalhandler": "^1.1.1",
     "stremio-addon-linter": "^1.5.0"
   },
   "devDependencies": {
