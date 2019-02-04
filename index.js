@@ -48,8 +48,6 @@ module.exports = function Addon(manifest) {
 	function handlerToServerless() {
 		return function(req, res, next) {
 
-			const params = req.params || qs.parse(req.url.replace(/^.*\?/, ''))
-
 			let handler = handlers[req.params.resource]
 
 			if (! handler) {
