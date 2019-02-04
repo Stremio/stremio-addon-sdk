@@ -96,7 +96,7 @@ module.exports = function Addon(manifest) {
 		const serverless = { manifest: manifestHandler }
 		router.use(cors())
 		manifest.resources.forEach(function(resource) {
-			router.get('/'+resource+'/:type/:id/:extra?.json', handleToServerless(resource))
+			router.get('/'+resource+'/:type/:id/:extra?.json', handlerToServerless(resource))
 			serverless[resource] = router
 		})
 		return serverless
