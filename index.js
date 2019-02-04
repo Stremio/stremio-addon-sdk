@@ -34,43 +34,67 @@ module.exports = function Addon(manifest) {
 	if (manifestBuf.length > 8192) throw 'manifest size exceeds 8kb, which is incompatible with addonCollection API'
 
 	// Serve the manifest
-	addonHTTP.get('/manifest.json', function (req, res) {
+
+	function manifestHandler(req, res) {
 		res.setHeader('Content-Type', 'application/json; charset=utf-8')
 		res.end(manifestBuf)
-	})
+	}
+
+	addonHTTP.get('/manifest.json', manifestHandler)
 
 	// Handle all resources
-	addonHTTP.get('/:resource/:type/:id/:extra?.json', function(req, res, next) {
-		let handler = handlers[req.params.resource]
 
-		if (! handler) {
-			next()
-			return
-		}
+	function handlerToServerless(resource) {
+		return function(req, res, next) {
 
-		res.setHeader('Content-Type', 'application/json; charset=utf-8')
+			const params = req.params || qs.parse(req.url.replace(/^.*\?/, ''))
 
-		const args = {
-			type: req.params.type,
-			id: req.params.id,
-			extra: req.params.extra ? qs.parse(req.params.extra) : { }
-		}
-		
-		handler(args, function(err, resp) {
-			if (err) {
-				console.error(err)
-				res.writeHead(500)
-				res.end(JSON.stringify({ err: 'handler error' }))
+			let handler = handlers[resource || params.resource]
+
+			if (! handler) {
+				if (next) next()
+				else page404()
+				return
 			}
 
-			res.end(JSON.stringify(resp))
-		})
-	})
+			res.setHeader('Content-Type', 'application/json; charset=utf-8')
+
+			const args = {
+				type: params.type,
+				id: params.id,
+				extra: params.extra ? qs.parse(params.extra) : { }
+			}
+			
+			handler(args, function(err, resp) {
+				if (err) {
+					console.error(err)
+					res.writeHead(500)
+					res.end(JSON.stringify({ err: 'handler error' }))
+				}
+
+				res.end(JSON.stringify(resp))
+			})
+		}
+	}
+
+	addonHTTP.get('/:resource/:type/:id/:extra?.json', handlerToServerless())
 
 	// Public interface
 	this.defineResourceHandler = function(resource, handler) {
 		if (handlers[resource]) throw 'handler for '+resource+' already defined'
 		handlers[resource] = handler
+	}
+
+
+	// Serverless handlers
+	this.getServerlessHandler = function() {
+		const serverless = { manifest: manifestHandler }
+
+		manifest.resources.forEach(resource => {
+			serverless[resource] = handlerToServerless(resource)
+		})
+
+		return serverless
 	}
 
 	this.defineStreamHandler = this.defineResourceHandler.bind(this, 'stream')
