@@ -45,14 +45,16 @@ module.exports = function Addon(manifest) {
 
 	// Handle all resources
 
-	function handlerToServerless() {
+	function handlerToServerless(resource) {
 		return function(req, res, next) {
 
-			let handler = handlers[req.params.resource]
+			let handler = handlers[resource || req.params.resource]
 
 			if (! handler) {
-				if (next) next()
-				else {
+				if (next) {
+					console.log('has next')
+					next()
+				} else {
 					res.writeHead(404)
 					res.end('Cannot GET ' + req.url)
 				}
@@ -91,15 +93,11 @@ module.exports = function Addon(manifest) {
 	// Serverless handlers
 	this.getServerlessHandler = function() {
 		const serverless = { manifest: manifestHandler }
-
 		router.use(cors())
-
 		manifest.resources.forEach(function(resource) {
-			serverless[resource] = function(req, res) {
-				router.get('/:resource/:type/:id/:extra?.json', handleToServerless())
-			}
+			router.get('/'+resource+'/:type/:id/:extra?.json', handleToServerless(resource))
+			serverless[resource] = router
 		})
-
 		return serverless
 	}
 
