@@ -4,7 +4,7 @@ const express = require('express')
 const cors = require('cors')
 const linter = require('stremio-addon-linter')
 const qs = require('querystring')
-const router = require('router')
+const Router = require('router')
 
 const publishToDir = require('./publishToDir')
 const publishToCentral = require('./publishToCentral')
@@ -92,6 +92,7 @@ module.exports = function Addon(manifest) {
 
 	// Serverless handlers
 	this.getServerlessHandler = function() {
+		const router = Router()
 		const serverless = { manifest: manifestHandler }
 		router.use(cors())
 		manifest.resources.forEach(function(resource) {
