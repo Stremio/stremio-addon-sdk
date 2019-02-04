@@ -99,7 +99,7 @@ module.exports = function Addon(manifest) {
 		}
 		const serverless = {
 			manifest: function(req,res) {
-				createRouter('manifest.json', manifestHandler)(req, res, finalhandler(req, res))
+				createRouter('/manifest.json', manifestHandler)(req, res, finalhandler(req, res))
 			}
 		}
 		manifest.resources.forEach(function(resource) {
