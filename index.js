@@ -5,6 +5,7 @@ const cors = require('cors')
 const linter = require('stremio-addon-linter')
 const qs = require('querystring')
 const Router = require('router')
+const finalhandler = require('finalhandler')
 
 const publishToDir = require('./publishToDir')
 const publishToCentral = require('./publishToCentral')
@@ -93,11 +94,18 @@ module.exports = function Addon(manifest) {
 	// Serverless handlers
 	this.getServerlessHandler = function() {
 		const router = Router()
-		const serverless = { manifest: manifestHandler }
 		router.use(cors())
+		router.get('/manifest.json', manifestHandler)
+		const serverless = {
+			manifest: function(req,res) {
+				router(req, res, finalhandler(req, res))
+			}
+		}
 		manifest.resources.forEach(function(resource) {
 			router.get('/'+resource+'/:type/:id/:extra?.json', handlerToServerless(resource))
-			serverless[resource] = router
+			serverless[resource] = function(req, res) {
+				router(req, res, finalhandler(req, res))
+			}
 		})
 		return serverless
 	}
