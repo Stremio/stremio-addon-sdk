@@ -4,6 +4,8 @@ const express = require('express')
 const cors = require('cors')
 const linter = require('stremio-addon-linter')
 const qs = require('querystring')
+const Router = require('router')
+const finalhandler = require('finalhandler')
 
 const publishToDir = require('./publishToDir')
 const publishToCentral = require('./publishToCentral')
@@ -34,43 +36,79 @@ module.exports = function Addon(manifest) {
 	if (manifestBuf.length > 8192) throw 'manifest size exceeds 8kb, which is incompatible with addonCollection API'
 
 	// Serve the manifest
-	addonHTTP.get('/manifest.json', function (req, res) {
+
+	function manifestHandler(req, res) {
 		res.setHeader('Content-Type', 'application/json; charset=utf-8')
 		res.end(manifestBuf)
-	})
+	}
+
+	addonHTTP.get('/manifest.json', manifestHandler)
 
 	// Handle all resources
-	addonHTTP.get('/:resource/:type/:id/:extra?.json', function(req, res, next) {
-		let handler = handlers[req.params.resource]
 
-		if (! handler) {
-			next()
-			return
-		}
+	function handlerToServerless(resource) {
+		return function(req, res, next) {
 
-		res.setHeader('Content-Type', 'application/json; charset=utf-8')
+			let handler = handlers[resource || req.params.resource]
 
-		const args = {
-			type: req.params.type,
-			id: req.params.id,
-			extra: req.params.extra ? qs.parse(req.params.extra) : { }
-		}
-		
-		handler(args, function(err, resp) {
-			if (err) {
-				console.error(err)
-				res.writeHead(500)
-				res.end(JSON.stringify({ err: 'handler error' }))
+			if (! handler) {
+				if (next) next()
+				else {
+					res.writeHead(404)
+					res.end('Cannot GET ' + req.url)
+				}
+				return
 			}
 
-			res.end(JSON.stringify(resp))
-		})
-	})
+			res.setHeader('Content-Type', 'application/json; charset=utf-8')
+
+			const args = {
+				type: req.params.type,
+				id: req.params.id,
+				extra: req.params.extra ? qs.parse(req.params.extra) : { }
+			}
+			
+			handler(args, function(err, resp) {
+				if (err) {
+					console.error(err)
+					res.writeHead(500)
+					res.end(JSON.stringify({ err: 'handler error' }))
+				}
+
+				res.end(JSON.stringify(resp))
+			})
+		}
+	}
+
+	addonHTTP.get('/:resource/:type/:id/:extra?.json', handlerToServerless())
 
 	// Public interface
 	this.defineResourceHandler = function(resource, handler) {
 		if (handlers[resource]) throw 'handler for '+resource+' already defined'
 		handlers[resource] = handler
+	}
+
+
+	// Serverless handlers
+	this.getServerlessHandler = function() {
+		function createRouter(route, handler) {
+			const router = Router()
+			router.use(cors())
+			router.get(route, handler)
+			return router
+		}
+		const serverless = {
+			manifest: function(req,res) {
+				createRouter('/manifest.json', manifestHandler)(req, res, finalhandler(req, res))
+			}
+		}
+		manifest.resources.forEach(function(resource) {
+			serverless[resource] = function(req, res) {
+				const router = createRouter('/'+resource+'/:type/:id/:extra?.json', handlerToServerless(resource))
+				router(req, res, finalhandler(req, res))
+			}
+		})
+		return serverless
 	}
 
 	this.defineStreamHandler = this.defineResourceHandler.bind(this, 'stream')
