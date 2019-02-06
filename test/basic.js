@@ -29,6 +29,10 @@ let addonServer
 
 let addonClient
 
+let serverless
+
+const serverlessPORT = 5001;
+
 tape('try to create an add-on with an invalid manifest', function(t) {
 	try { new addonSDK(null) }
 	catch(e) {
@@ -162,6 +166,42 @@ tape('publishToCentral', function(t) {
 		t.error(err)
 		t.end()
 	})
+})
+
+tape('create serverless handlers', function(t) {
+
+	var addon = new addonSDK(manifest)
+
+	serverless = addon.getServerlessHandler()
+
+	t.ok(serverless.manifest, 'has serverless manifest handler')
+	t.ok(serverless.stream, 'has serverless resource handler')
+
+	t.end()
+
+})
+
+tape('create http server for serverless tests and request manifest', function(t) {
+	var http = require('http')
+
+	var httpServerless = http.createServer(serverless.manifest)
+
+	httpServerless.listen(serverlessPORT, 'localhost', function(err) {
+		t.error(err, 'error on http server for serverless tests')
+
+		request(httpServerless)
+		.get('/manifest.json')
+		.expect(200)
+		.end((err, res) => {
+			t.error(err, 'request error')
+			t.error(res.error, 'response error')
+			t.equal(res.ok, true, 'has response status 200')
+			t.equal(res.status, 200, 'has response status ok')
+			t.end()
+		})
+
+	})
+
 })
 
 tape('initialize an add-on client for the add-on', function(t) {
