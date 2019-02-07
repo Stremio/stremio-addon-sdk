@@ -115,7 +115,11 @@ Publishes your add-on to a directory. This creates a static version of your add-
 
 #### `addon.runHTTPWithOptions(options, cb)`
 
-Starts the addon server. `options` is an object that can contain `port` and `cache` (in seconds); `cache` means the `Cache-Control` header being set to `max-age=$cache`
+Starts the addon server. `options` is an object that contains:
+
+* `port`
+* `cache` (in seconds); `cache` means the `Cache-Control` header being set to `max-age=$cache`
+
 
 **The JSON format of the response to these resources is described [here](./api/responses).**
 

@@ -76,7 +76,7 @@ tape('create an add-on and expose on HTTP with addon.run()', function(t) {
 tape('create an add-on and expose on HTTP with addon.runHTTPWithOptions()', function(t) {
 	addon = new addonSDK(manifest)
 
-	addon.runHTTPWithOptions({ port: PORT }, function(err, h) {
+	addon.runHTTPWithOptions({ port: PORT, cache: 3600 }, function(err, h) {
 		// This executes first
 		t.error(err, 'error on addon.runHTTPWithOptions()')
 
@@ -96,6 +96,7 @@ tape('create an add-on and expose on HTTP with addon.runHTTPWithOptions()', func
 			t.error(res.error, 'response error')
 			t.equal(res.ok, true, 'has response status 200')
 			t.equal(res.status, 200, 'has response status ok')
+			t.equal(res.headers['cache-control'], 'max-age=3600', 'cache headers are correct')
 			t.end()
 		})
 
@@ -168,7 +169,7 @@ tape('publishToCentral', function(t) {
 	})
 })
 
-tape('create serverless handlers', function(t) {
+tape('create serverless handlers: getServerlessHandler()', function(t) {
 
 	var addon = new addonSDK(manifest)
 
