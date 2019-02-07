@@ -8,6 +8,7 @@ There are currently two such clients that you can test with:
 
 - Stremio Web Version
 
+**Note:** if you want to load an add-on by URL in Stremio, the URL must either have `127.0.0.1` as it's host or support HTTPS.
 
 ### Testing in Stremio App
 

@@ -55,6 +55,8 @@ $ node ./addon.js
 
 It will output a URL that you can use to [install the add-on in Stremio](./docs/testing.md#how-to-install-add-on-in-stremio)
 
+**Please note:** addon URLs in Stremio must be loaded with HTTPS (except `127.0.0.1`) and must support CORS!
+
 
 ## Documentation
 
