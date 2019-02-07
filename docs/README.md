@@ -124,6 +124,20 @@ Starts the addon server. `options` is an object that contains:
 **The JSON format of the response to these resources is described [here](./api/responses).**
 
 
+### `addon.getServerlessHandler()`
+
+Returns an object that contains `{manifest, catalog, stream, meta}`, where each one is a handler that can be used for a serverless application
+
+To do that, we encourage that you export your `addon` from a separate module (e.g. `addon.js`) and then create each entrypoint like so:
+
+`catalog.js`
+
+```
+const addon = require('./addon')
+module.exports = addon.getServerlessHandler().catalog // or manifest, stream, meta
+```
+
+
 #### `addon.publishToWeb(url)`
 
 Creates an add-on homepage on the root of the web server that includes an "Install Add-on" button. This method expects a URL using HTTPS pointing to the manifest (example: `https://example.com/manifest.json`)
