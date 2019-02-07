@@ -61,7 +61,7 @@ It will output a URL that you can use to [install the add-on in Stremio](./docs/
 ## Documentation
 
 All our documentation is [hosted on GitHub](./docs). Take a look at our [examples list](./docs/examples/Readme.md) for some high-level
-information, or dive straight into our [sdk documentation](./docs/README.md) for our code reference docs.
+information, or dive straight into our [SDK documentation](./docs/README.md) for our code reference docs.
 
 We also have an [example add-on](https://github.com/Stremio/addon-helloworld) that you can use as a guide to help you build your own add-on.
 
