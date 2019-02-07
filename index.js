@@ -13,8 +13,10 @@ const publishToWeb = require('./publishToWeb')
 
 module.exports = function Addon(manifest) {
 	const addonHTTPApp = express()
+	const addonHTTPInitial = express.Router()
 	const addonHTTP = express.Router()
 	addonHTTP.use(cors())
+	addonHTTPApp.use(addonHTTPInitial)
 	addonHTTPApp.use('/', addonHTTP)
 
 	const handlers = { }
@@ -125,6 +127,11 @@ module.exports = function Addon(manifest) {
 	}
 
 	this.runHTTPWithOptions = function(options, cb) {
+		addonHTTPInitial.use(function(req, res, next) {
+			if (options.cache) res.setHeader('Cache-Control', 'max-age='+options.cache)
+			next()
+		})
+
 		const server = addonHTTPApp.listen(options.port, function() {
 			var url = `http://127.0.0.1:${server.address().port}/manifest.json`;
 			console.log('HTTP addon accessible at:', url)
