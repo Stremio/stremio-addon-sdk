@@ -44,7 +44,7 @@ Valid properties are:
 
 ``extraSupported`` - all of the extra properties this catalog support, array of strings (explained below)
 
-``extraRequired`` - all of the extra properties this catalog requires, array of strings (explained below)
+``extraRequired`` - all of the extra properties this catalog requires, array of strings; all properties included here must also be in `extraSupported` (explained below)
 
 
 **NOTE:**
