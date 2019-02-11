@@ -47,42 +47,35 @@ module.exports = function Addon(manifest) {
 	addonHTTP.get('/manifest.json', manifestHandler)
 
 	// Handle all resources
+	addonHTTP.get('/:resource/:type/:id/:extra?.json', function(req, res, next) {
+		const handler = handlers[req.params.resource]
 
-	function handlerToServerless(resource) {
-		return function(req, res, next) {
-
-			let handler = handlers[resource || req.params.resource]
-
-			if (! handler) {
-				if (next) next()
-				else {
-					res.writeHead(404)
-					res.end('Cannot GET ' + req.url)
-				}
-				return
+		if (!handler) {
+			if (next) next()
+			else {
+				res.writeHead(404)
+				res.end('Cannot GET ' + req.url)
 			}
-
-			res.setHeader('Content-Type', 'application/json; charset=utf-8')
-
-			const args = {
-				type: req.params.type,
-				id: req.params.id,
-				extra: req.params.extra ? qs.parse(req.params.extra) : { }
-			}
-			
-			handler(args, function(err, resp) {
-				if (err) {
-					console.error(err)
-					res.writeHead(500)
-					res.end(JSON.stringify({ err: 'handler error' }))
-				}
-
-				res.end(JSON.stringify(resp))
-			})
+			return
 		}
-	}
 
-	addonHTTP.get('/:resource/:type/:id/:extra?.json', handlerToServerless())
+		res.setHeader('Content-Type', 'application/json; charset=utf-8')
+
+		const args = {
+			type: req.params.type,
+			id: req.params.id,
+			extra: req.params.extra ? qs.parse(req.params.extra) : { }
+		}
+		handler(args, function(err, resp) {
+			if (err) {
+				console.error(err)
+				res.writeHead(500)
+				res.end(JSON.stringify({ err: 'handler error' }))
+			}
+
+			res.end(JSON.stringify(resp))
+		})
+	})
 
 	// Public interface
 	this.defineResourceHandler = function(resource, handler) {
@@ -93,24 +86,7 @@ module.exports = function Addon(manifest) {
 
 	// Serverless handlers
 	this.getServerlessHandler = function() {
-		function createRouter(route, handler) {
-			const router = Router()
-			router.use(cors())
-			router.get(route, handler)
-			return router
-		}
-		const serverless = {
-			manifest: function(req,res) {
-				createRouter('/manifest.json', manifestHandler)(req, res, finalhandler(req, res))
-			}
-		}
-		manifest.resources.forEach(function(resource) {
-			serverless[resource] = function(req, res) {
-				const router = createRouter('/'+resource+'/:type/:id/:extra?.json', handlerToServerless(resource))
-				router(req, res, finalhandler(req, res))
-			}
-		})
-		return serverless
+		return { manifest: addonHTTP, catalog: addonHTTP, meta: addonHTTP, stream: addonHTTP, subtitles: addonHTTP }
 	}
 
 	this.defineStreamHandler = this.defineResourceHandler.bind(this, 'stream')
