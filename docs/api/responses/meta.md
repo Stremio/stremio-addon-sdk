@@ -50,7 +50,7 @@ Used as a response for [`defineCatalogHandler`](../requests/defineCatalogHandler
 
 #### Video object
 
-``id`` - **required** - ID of the video; you can skip this only if you've passed ``season`` and ``episode``
+``id`` - **required** - ID of the video
 
 ``title`` - **required** - title of the video
 
