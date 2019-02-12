@@ -92,6 +92,8 @@ button:hover {
 
 
 function landingTemplate(manifest) {
+	const background = manifest.background || 'https://dl.strem.io/addon-background.jpg'
+	const logo = manifest.logo || 'https://dl.strem.io/addon-logo.png'
 	const contactHTML = manifest.contactEmail ?
 		`<h3 class="contact">
 		    To contact add-on creator:
@@ -104,25 +106,25 @@ function landingTemplate(manifest) {
 
 	return `
 	<!DOCTYPE html>
-	<html style="background-image: transportUrl(${manifest.background});">
+	<html style="background-image: url(${background});">
 
 	<head>
 	    <meta charset="utf-8">
 	    <title>${manifest.name} - Stremio Addon</title>
-	    <link href="//fonts.googleapis.com/css?family=OpenSans:300" rel="stylesheet" type="text/css">
 	    <style>${STYLESHEET}</style>
-	    <link rel="shortcut icon" href="${manifest.logo}" type="image/x-icon">
+	    <link rel="shortcut icon" href="${logo}" type="image/x-icon">
 	</head>
 
 	<body>
 		<div id="addon">
-			<img class="logo" src="${manifest.logo}">
-			<h3 class="version"><i>${manifest.version}</i></h3>
-			<h3 class="description">${manifest.description}</h3>
+			<img class="logo" src="${logo}">
+			<h3 class="name"><b>${manifest.name}</b></h3>
+			<h3 class="version"><i>${manifest.version || '0.0.0'}</i></h3>
+			<h3 class="description">${manifest.description || ''}</h3>
 
 			<h2 class="gives">This add-on has:</h2>
 			<ul>
-				<li>More ${stylizedTypes} in Discover</li>
+				<li>More ${stylizedTypes}</li>
 			</ul>
 
 			<a id="installLink" class="install-link" href="#">
@@ -131,7 +133,7 @@ function landingTemplate(manifest) {
 			${contactHTML}
 		</div>
 		<script>
-			document.installLink.href = window.location = 'stremio://' + window.location.host + '/manifest.json'
+			installLink.href = 'stremio://' + window.location.host + '/manifest.json'
 		</script>
 	</body>
 
