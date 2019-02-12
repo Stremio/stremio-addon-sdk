@@ -49,9 +49,18 @@ tape('try to create an add-on with an invalid manifest: linter', function(t) {
         }
 })
 
+tape('try to create an add-on with an unspecified resource', function(t) {
+        try { new addonBuilder(manifest).defineMetaHandler(function() { }) }
+        catch(e) {
+                t.equal(e.message, 'manifest.resources does not contain: meta')
+                t.end()
+        }
+})
+
+
 tape('create an add-on and get the router', function(t) {
 	var addon = new addonBuilder(manifest)
-	t.ok(addon, 'can get router')
+	t.ok(addon.getRouter(), 'can get router')
 	t.end()
 })
 
