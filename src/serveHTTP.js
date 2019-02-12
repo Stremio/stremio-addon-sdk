@@ -1,5 +1,5 @@
 const express = require('express')
-const landingTemplate = require('./landing')
+const landingTemplate = require('./landingTemplate')
 
 function serveHTTP(builder, opts = {}) {
 	if (builder.constructor.name !== 'AddonBuilder') {
