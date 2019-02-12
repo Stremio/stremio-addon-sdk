@@ -51,13 +51,13 @@ tape('try to create an add-on with an invalid manifest: linter', function(t) {
 
 tape('create an add-on and get the router', function(t) {
 	var addon = new addonBuilder(manifest)
-	t.ok(addon.getRouter(), 'can get router')
+	t.ok(addon, 'can get router')
 	t.end()
 })
 
 tape('create an add-on and expose on HTTP with serveHTTP()', function(t) {
 	const addon = new addonBuilder(manifest)
-	serveHTTP(addon.getRouter()).then(function(h) {
+	serveHTTP(addon).then(function(h) {
 		t.ok(h.url, 'has url')
 		t.ok(h.url.endsWith('manifest.json'), 'url ends with manifest.json')
 
@@ -73,7 +73,7 @@ tape('create an add-on and expose on HTTP with serveHTTP()', function(t) {
 tape('create an add-on and expose on HTTP with serveHTTP()', function(t) {
 	addon = new addonBuilder(manifest)
 
-	serveHTTP(addon.getRouter(), { port: PORT, cache: 3600 }).then(function(h) {
+	serveHTTP(addon, { port: PORT, cache: 3600 }).then(function(h) {
 		t.ok(h.url, 'has url')
 		t.ok(h.url.endsWith('manifest.json'), 'url ends with manifest.json')
 

@@ -1,14 +1,21 @@
-const exphbs = require('express-handlebars')
-const path = require('path')
 const express = require('express')
+const landingTemplate = require('./landing')
 
-module.exports = function serveHTTP(router, opts = {}) {
+function serveHTTP(builder, opts = {}) {
+	if (builder.constructor.name !== 'AddonBuilder') {
+		throw 'first argument must be an instance of AddonBuilder'
+	}
+
 	const app = express()
 	app.use(function(req, res, next) {
 		if (opts.cache) res.setHeader('Cache-Control', 'max-age='+opts.cache)
 		next()
 	})
-	app.use(router)
+	app.use(builder.getRouter())
+
+	// landing page
+	const landingHTML = landingTemplate(builder.getInterface().manifest)
+	app.get('/', (_, res) => res.end(landingHTML))
 
 	const server = app.listen(opts.port)
 	return new Promise(function(resolve, reject) {
@@ -20,3 +27,5 @@ module.exports = function serveHTTP(router, opts = {}) {
 		server.on('error', reject)
 	})
 }
+
+module.exports = serveHTTP

@@ -41,7 +41,7 @@ addon.defineStreamHandler(function(args, cb) {
     }
 })
 
-serveHTTP(addon.getRouter(), { port: 7000 })
+serveHTTP(addon, { port: 7000 })
 publishToCentral("https://your-domain/manifest.json") // <- invoke this if you want to publish your add-on and it's accessible publically on "your-domain"
 ```
 

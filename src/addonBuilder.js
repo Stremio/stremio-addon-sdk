@@ -19,6 +19,7 @@ function AddonBuilder(manifest) {
 			console.log('WARNING:', warning.message)
 		})
 	}
+	Object.freeze(manifest)
 
 	// Check the manifest length
 	if (JSON.stringify(manifest).length > 8192) {
@@ -36,11 +37,11 @@ function AddonBuilder(manifest) {
 	this.defineSubtitlesHandler = this.defineResourceHandler.bind(this, 'subtitles')
 
 	// build into
-	this.getRouter = () => getRouter(manifest, handlers)
-
 	this.getInterface = function() {
-		// @TODO
+		// @TODO get, and maybe refactor the router to use it
+		return { manifest }
 	}
+	this.getRouter = () => getRouter(manifest, handlers)
 
 	return this
 }
