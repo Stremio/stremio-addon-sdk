@@ -98,7 +98,7 @@ function landingTemplate(manifest) {
 		`<h3 class="contact">
 		    To contact add-on creator:
 		    <a href="mailto:${manifest.contactEmail}">${manifest.contactEmail}</a>
-		</h3>` : ``
+		</h3>` : ''
 
 	const stylizedTypes = manifest.types
 		.map(t => t[0].toUpperCase() + t.slice(1) + (t !=='series' ? 's' : ''))

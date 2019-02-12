@@ -23,7 +23,7 @@ function serveHTTP(builder, opts = {}) {
 	const server = app.listen(opts.port)
 	return new Promise(function(resolve, reject) {
 		server.on('listening', function() {
-			const url = `http://127.0.0.1:${server.address().port}/manifest.json`;
+			const url = `http://127.0.0.1:${server.address().port}/manifest.json`
 			console.log('HTTP addon accessible at:', url)
 			resolve({ url, server })
 		})

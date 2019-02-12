@@ -9,43 +9,43 @@ function getRouter(manifest, handlers) {
 	router.use(cors())
 
 	// Serve the manifest
-	const manifestBuf = Buffer.from(JSON.stringify(manifest))
-        function manifestHandler(req, res) {
-                res.setHeader('Content-Type', 'application/json; charset=utf-8')
-                res.end(manifestBuf)
-        }
-        router.get('/manifest.json', manifestHandler)
+	const manifestBuf = JSON.stringify(manifest)
+	function manifestHandler(req, res) {
+		res.setHeader('Content-Type', 'application/json; charset=utf-8')
+		res.end(manifestBuf)
+	}
+	router.get('/manifest.json', manifestHandler)
 
-        // Handle all resources
-        router.get('/:resource/:type/:id/:extra?.json', function(req, res, next) {
-                const handler = handlers[req.params.resource]
+	// Handle all resources
+	router.get('/:resource/:type/:id/:extra?.json', function(req, res, next) {
+		const handler = handlers[req.params.resource]
 
-                if (!handler) {
-                        if (next) next()
-                        else {
-                                res.writeHead(404)
-                                res.end('Cannot GET ' + req.url)
-                        }
-                        return
-                }
+		if (!handler) {
+			if (next) next()
+			else {
+				res.writeHead(404)
+				res.end('Cannot GET ' + req.url)
+			}
+			return
+		}
 
-                res.setHeader('Content-Type', 'application/json; charset=utf-8')
-                const args = {
-                        type: req.params.type,
-                        id: req.params.id,
-                        extra: req.params.extra ? qs.parse(req.params.extra) : {}
-                }
-                const cb = function(err, resp) {
-                        if (err) {
-                                console.error(err)
-                                res.writeHead(500)
-                                res.end(JSON.stringify({ err: 'handler error' }))
-                        }
+		res.setHeader('Content-Type', 'application/json; charset=utf-8')
+		const args = {
+			type: req.params.type,
+			id: req.params.id,
+			extra: req.params.extra ? qs.parse(req.params.extra) : {}
+		}
+		const cb = function(err, resp) {
+			if (err) {
+				console.error(err)
+				res.writeHead(500)
+				res.end(JSON.stringify({ err: 'handler error' }))
+			}
 
-                        res.end(JSON.stringify(resp))
-                })
-                handler(args, cb)
-        })
+			res.end(JSON.stringify(resp))
+		}
+		handler(args, cb)
+	})
 
 	return router
 }
