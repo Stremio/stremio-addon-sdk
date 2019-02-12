@@ -20,7 +20,7 @@ const manifest = {
 	resources: ['stream'],
 	types: ['movie'],
 
-	catalogs: [],
+	catalogs: [{ type: 'movie', id: 'test' }],
 }
 
 let addon

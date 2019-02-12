@@ -28,7 +28,17 @@ function AddonBuilder(manifest) {
 
 	// Public interface
 	this.defineResourceHandler = function(resource, handler) {
-		if (handlers[resource]) throw 'handler for '+resource+' already defined'
+		// Some basic validation to make sure stuff makes sense
+		if (resource == 'catalog') {
+			if (manifest.catalogs.length == 0) {
+				throw 'manifest.catalogs is empty, catalog handler will never be called'
+			}
+		} else if (!manifest.resources.find(r => resource == (r.name || r))) {
+			throw 'manifest.resources does not contain: '+resource
+		}
+		if (handlers[resource]) {
+			throw 'handler for '+resource+' already defined'
+		}
 		handlers[resource] = handler
 	}
 	this.defineStreamHandler = this.defineResourceHandler.bind(this, 'stream')
