@@ -57,10 +57,7 @@ tape('create an add-on and get the router', function(t) {
 
 tape('create an add-on and expose on HTTP with serveHTTP()', function(t) {
 	const addon = new addonBuilder(manifest)
-	serveHTTP(addon.getRouter(), {}, function(err, h) {
-		// This executes first
-		t.error(err, 'error on serveHTTP()')
-
+	serveHTTP(addon.getRouter()).then(function(h) {
 		t.ok(h.url, 'has url')
 		t.ok(h.url.endsWith('manifest.json'), 'url ends with manifest.json')
 
@@ -76,10 +73,7 @@ tape('create an add-on and expose on HTTP with serveHTTP()', function(t) {
 tape('create an add-on and expose on HTTP with serveHTTP()', function(t) {
 	addon = new addonBuilder(manifest)
 
-	serveHTTP(addon.getRouter(), { port: PORT, cache: 3600 }, function(err, h) {
-		// This executes first
-		t.error(err, 'error on serveHTTP()')
-
+	serveHTTP(addon.getRouter(), { port: PORT, cache: 3600 }).then(function(h) {
 		t.ok(h.url, 'has url')
 		t.ok(h.url.endsWith('manifest.json'), 'url ends with manifest.json')
 
