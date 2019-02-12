@@ -2,13 +2,14 @@ const Router = require('router')
 const qs = require('querystring')
 const cors = require('cors')
 
-function getRouter(manifestBuf, handlers) {
+function getRouter(manifest, handlers) {
 	const router = new Router()
 
 	// CORS is mandatory for the addon protocol
 	router.use(cors())
 
 	// Serve the manifest
+	const manifestBuf = Buffer.from(JSON.stringify(manifest))
         function manifestHandler(req, res) {
                 res.setHeader('Content-Type', 'application/json; charset=utf-8')
                 res.end(manifestBuf)

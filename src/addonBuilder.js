@@ -20,9 +20,10 @@ function AddonBuilder(manifest) {
 		})
 	}
 
-	// Check the manifest
-	const manifestBuf = new Buffer.from(JSON.stringify(manifest))
-	if (manifestBuf.length > 8192) throw 'manifest size exceeds 8kb, which is incompatible with addonCollection API'
+	// Check the manifest length
+	if (JSON.stringify(manifest).length > 8192) {
+		throw 'manifest size exceeds 8kb, which is incompatible with addonCollection API'
+	}
 
 	// Public interface
 	this.defineResourceHandler = function(resource, handler) {
@@ -35,7 +36,7 @@ function AddonBuilder(manifest) {
 	this.defineSubtitlesHandler = this.defineResourceHandler.bind(this, 'subtitles')
 
 	// build into
-	this.getRouter = () => getRouter(manifestBuf, handlers)
+	this.getRouter = () => getRouter(manifest, handlers)
 
 	this.getInterface = function() {
 		// @TODO
