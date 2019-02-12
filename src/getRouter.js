@@ -35,7 +35,7 @@ function getRouter(manifest, handlers) {
                         id: req.params.id,
                         extra: req.params.extra ? qs.parse(req.params.extra) : {}
                 }
-                handler(args, function(err, resp) {
+                const cb = function(err, resp) {
                         if (err) {
                                 console.error(err)
                                 res.writeHead(500)
@@ -44,6 +44,7 @@ function getRouter(manifest, handlers) {
 
                         res.end(JSON.stringify(resp))
                 })
+                handler(args, cb)
         })
 
 	return router
