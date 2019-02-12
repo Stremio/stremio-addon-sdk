@@ -9,7 +9,7 @@ It is typically transported over HTTP or IPFS, and follows a paradigm similar to
 
 This allows Stremio or other similar applications to aggregate content seamlessly from different sources, for example YouTube, Twitch, iTunes, Netflix, DTube and others. It also allows developers to build such add-ons with minimal skill.
 
-To define a minimal add-on, you only need an HTTP server/endpoint serving a `manifest.json` file and responding to resource requests at `/{resource}/{type}/{id}.json`.
+To define a minimal add-on, you only need an HTTP server/endpoint serving a `/manifest.json` file and responding to resource requests at `/{resource}/{type}/{id}.json`.
 
 Currently used resources are: `catalog`, `meta`, `stream`, `subtitles`.
 
@@ -24,6 +24,8 @@ Currently used resources are: `catalog`, `meta`, `stream`, `subtitles`.
 The JSON format of the response to these resources is described [here](./api/responses/).
 
 To pass extra args, such as the ones needed for `catalog` resources (e.g. `search`, `skip`), you should define a route of the format `/{resource}/{type}/{id}/{extraArgs}.json` where `extraArgs` is the query string stringified object of extra arguments (for example `"search=game%20of%20thrones&skip=100"`)
+
+For the HTTP transport, each route, including `/manifest.json`, must serve CORS headers that allow all origins.
 
 **NOTE: Your add-on may selectively provide any number of resources. It must provide at least 1 resource and a manifest.**
 
