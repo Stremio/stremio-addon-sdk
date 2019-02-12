@@ -150,20 +150,6 @@ tape('should return a valid background jpg image', function (t) {
 	});
 })
 */
-
-// pubishToCentral publishes to the API
-tape('publishToCentral', function(t) {
-	publishToCentral('https://cinemeta.strem.io/manifest.json')
-	.then(function(resp) {
-		t.equal(resp.success, true, 'can announce')
-		t.end()
-	})
-	.catch(function(err) {
-		t.error(err)
-		t.end()
-	})
-})
-
 /*
 tape('create serverless handlers: getServerlessHandler()', function(t) {
 	var addon = new addonBuilder(manifest)
@@ -260,8 +246,24 @@ tape('define a handler on the add-on and test it, with extra args', function(t) 
 		t.deepEquals(args.extra, { search: 'the office' }, 'args.extra is right')
 
 		t.end()
-
-		// Our measure of quitting while the server is running
-		process.exit()
 	})
+})
+
+// publishToCentral publishes to the API
+tape('publishToCentral', function(t) {
+	publishToCentral('https://cinemeta.strem.io/manifest.json')
+	.then(function(resp) {
+		t.equal(resp.success, true, 'can announce')
+		t.end()
+	})
+	.catch(function(err) {
+		t.error(err)
+		t.end()
+	})
+})
+
+tape.onFinish(function() {
+	// cause the server is still listening
+	// @TODO find a better way to mitigate that
+	process.exit()
 })
