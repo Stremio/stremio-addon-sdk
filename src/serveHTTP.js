@@ -3,7 +3,7 @@ const landingTemplate = require('./landingTemplate')
 
 function serveHTTP(builder, opts = {}) {
 	if (builder.constructor.name !== 'AddonBuilder') {
-		throw 'first argument must be an instance of AddonBuilder'
+		throw new Error('first argument must be an instance of AddonBuilder')
 	}
 
 	const app = express()

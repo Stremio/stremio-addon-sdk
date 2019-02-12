@@ -23,7 +23,7 @@ function AddonBuilder(manifest) {
 
 	// Check the manifest length
 	if (JSON.stringify(manifest).length > 8192) {
-		throw 'manifest size exceeds 8kb, which is incompatible with addonCollection API'
+		throw new Error('manifest size exceeds 8kb, which is incompatible with addonCollection API')
 	}
 
 	// Public interface
@@ -31,13 +31,13 @@ function AddonBuilder(manifest) {
 		// Some basic validation to make sure stuff makes sense
 		if (resource == 'catalog') {
 			if (manifest.catalogs.length == 0) {
-				throw 'manifest.catalogs is empty, catalog handler will never be called'
+				throw new Error('manifest.catalogs is empty, catalog handler will never be called')
 			}
 		} else if (!manifest.resources.find(r => resource == (r.name || r))) {
-			throw 'manifest.resources does not contain: '+resource
+			throw new Error('manifest.resources does not contain: '+resource)
 		}
 		if (handlers[resource]) {
-			throw 'handler for '+resource+' already defined'
+			throw new Error('handler for '+resource+' already defined')
 		}
 		handlers[resource] = handler
 	}
