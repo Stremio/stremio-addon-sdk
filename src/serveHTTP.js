@@ -7,15 +7,18 @@ function serveHTTP(builder, opts = {}) {
 	}
 
 	const app = express()
-	app.use(function(req, res, next) {
-		if (opts.cache) res.setHeader('Cache-Control', 'max-age='+opts.cache)
+	app.use((_, res, next) => {
+		if (opts.cache) res.setHeader('cache-control', 'max-age='+opts.cache)
 		next()
 	})
 	app.use(builder.getRouter())
 
 	// landing page
 	const landingHTML = landingTemplate(builder.getInterface().manifest)
-	app.get('/', (_, res) => res.end(landingHTML))
+	app.get('/', (_, res) => {
+		res.setHeader('content-type', 'text/html')
+		res.end(landingHTML)
+	})
 
 	const server = app.listen(opts.port)
 	return new Promise(function(resolve, reject) {

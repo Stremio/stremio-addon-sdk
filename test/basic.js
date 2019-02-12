@@ -97,7 +97,6 @@ tape('create an add-on and expose on HTTP with serveHTTP()', function(t) {
 	})
 })
 
-/*
 // Test the homepage of the addon
 tape('should return a valid html document', function (t) {
 	request(addonServer)
@@ -114,36 +113,6 @@ tape('should return a valid html document', function (t) {
 	});
 })
 
-tape('should return a valid logo png image', function (t) {
-	request(addonServer)
-	.get('/static/imgs/logo.png')
-	.expect(200)
-	.end((err, res) => {
-		t.error(err, 'request error');
-		t.error(res.error, 'response error');
-		t.equal(res.ok, true, 'has response status 200');
-		t.equal(res.status, 200, 'has response status ok');
-		t.notEqual(res.body, undefined, 'is not undefined');
-		t.equal(res.type, 'image/png', 'is a valid png image');
-		t.end();
-	});
-})
-
-tape('should return a valid background jpg image', function (t) {
-	request(addonServer)
-	.get('/static/imgs/background.jpg')
-	.expect(200)
-	.end((err, res) => {
-		t.error(err, 'request error');
-		t.error(res.error, 'response error');
-		t.equal(res.ok, true, 'has response status 200');
-		t.equal(res.status, 200, 'has response status ok');
-		t.notEqual(res.body, undefined, 'is not undefined');
-		t.equal(res.type, 'image/jpeg', 'is a valid jpg image');
-		t.end();
-	});
-})
-*/
 /*
 tape('create serverless handlers: getServerlessHandler()', function(t) {
 	var addon = new addonBuilder(manifest)
