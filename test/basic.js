@@ -3,7 +3,7 @@
 const tape = require('tape')
 const request = require('supertest');
 const AddonClient = require('stremio-addon-client')
-const addonSDK = require('../')
+const { addonBuilder, serveHTTP, publishToCentral } = require('../')
 
 const PORT = 5000;
 
@@ -34,7 +34,7 @@ let serverless
 const serverlessPORT = 5001;
 
 tape('try to create an add-on with an invalid manifest', function(t) {
-	try { new addonSDK(null) }
+	try { new addonBuilder(null) }
 	catch(e) {
 		t.ok(e.message, 'invalid manifest')
 		t.end()
@@ -42,7 +42,7 @@ tape('try to create an add-on with an invalid manifest', function(t) {
 })
 
 tape('try to create an add-on with an invalid manifest: linter', function(t) {
-        try { new addonSDK({ name: 'something' }) }
+        try { new addonBuilder({ name: 'something' }) }
         catch(e) {
                 t.equal(e.message, 'manifest.id must be a string')
                 t.end()
@@ -50,16 +50,16 @@ tape('try to create an add-on with an invalid manifest: linter', function(t) {
 })
 
 tape('create an add-on and get the router', function(t) {
-	var addon = new addonSDK(manifest)
+	var addon = new addonBuilder(manifest)
 	t.ok(addon.getRouter(), 'can get router')
 	t.end()
 })
 
-tape('create an add-on and expose on HTTP with addon.run()', function(t) {
-	var addon = new addonSDK(manifest)
-	addon.run(function(err, h) {
+tape('create an add-on and expose on HTTP with serveHTTP()', function(t) {
+	const addon = new addonBuilder(manifest)
+	serveHTTP(addon.getRouter(), {}, function(err, h) {
 		// This executes first
-		t.error(err, 'error on addon.run()')
+		t.error(err, 'error on serveHTTP()')
 
 		t.ok(h.url, 'has url')
 		t.ok(h.url.endsWith('manifest.json'), 'url ends with manifest.json')
@@ -73,12 +73,12 @@ tape('create an add-on and expose on HTTP with addon.run()', function(t) {
 	})
 })
 
-tape('create an add-on and expose on HTTP with addon.runHTTPWithOptions()', function(t) {
-	addon = new addonSDK(manifest)
+tape('create an add-on and expose on HTTP with serveHTTP()', function(t) {
+	addon = new addonBuilder(manifest)
 
-	addon.runHTTPWithOptions({ port: PORT, cache: 3600 }, function(err, h) {
+	serveHTTP(addon.getRouter(), { port: PORT, cache: 3600 }, function(err, h) {
 		// This executes first
-		t.error(err, 'error on addon.runHTTPWithOptions()')
+		t.error(err, 'error on serveHTTP()')
 
 		t.ok(h.url, 'has url')
 		t.ok(h.url.endsWith('manifest.json'), 'url ends with manifest.json')
@@ -103,12 +103,7 @@ tape('create an add-on and expose on HTTP with addon.runHTTPWithOptions()', func
 	})
 })
 
-// Test directory serving function (using the static images folder of the sdk)
-tape('publishToWeb', function (t) {
-	t.ok(addon.publishToWeb(`https://cinemeta.strem.io/manifest.json`), 'can publishToWeb');
-	t.end();
-})
-
+/*
 // Test the homepage of the addon
 tape('should return a valid html document', function (t) {
 	request(addonServer)
@@ -154,11 +149,11 @@ tape('should return a valid background jpg image', function (t) {
 		t.end();
 	});
 })
-
+*/
 
 // pubishToCentral publishes to the API
 tape('publishToCentral', function(t) {
-	addon.publishToCentral('https://cinemeta.strem.io/manifest.json')
+	publishToCentral('https://cinemeta.strem.io/manifest.json')
 	.then(function(resp) {
 		t.equal(resp.success, true, 'can announce')
 		t.end()
@@ -169,9 +164,9 @@ tape('publishToCentral', function(t) {
 	})
 })
 
+/*
 tape('create serverless handlers: getServerlessHandler()', function(t) {
-
-	var addon = new addonSDK(manifest)
+	var addon = new addonBuilder(manifest)
 
 	serverless = addon.getServerlessHandler()
 
@@ -179,7 +174,6 @@ tape('create serverless handlers: getServerlessHandler()', function(t) {
 	t.ok(serverless.stream, 'has serverless resource handler')
 
 	t.end()
-
 })
 
 tape('create http server for serverless tests and request manifest', function(t) {
@@ -204,6 +198,7 @@ tape('create http server for serverless tests and request manifest', function(t)
 	})
 
 })
+*/
 
 tape('initialize an add-on client for the add-on', function(t) {
 	AddonClient.detectFromURL(addonUrl)
@@ -250,8 +245,6 @@ tape('defining the same handler throws', function(t) {
 		t.end()
 	}
 })
-
-
 
 // @WARNING: we should throw the second time we call defineStreamHandler (same goes for define*Handler)
 tape('define a handler on the add-on and test it, with extra args', function(t) {

@@ -2,7 +2,9 @@ const exphbs = require('express-handlebars')
 const path = require('path')
 const express = require('express')
 
-module.exports = function(addonUrl, manifest, addonHTTP, addonHTTPApp) {
+module.exports = function serveHTTP(router, opts, cb) {
+	/*
+	// @TODO getRouterWithLanding in the builder
 	if (typeof addonUrl !== 'string') throw 'publishToWeb: No URL set'
 	if (!addonUrl.startsWith('https://')) throw 'publishToWeb: URL needs to use HTTPS'
 	if (!addonUrl.endsWith('manifest.json')) throw 'publishToWeb: URL needs to point to manifest.json'
@@ -36,4 +38,17 @@ module.exports = function(addonUrl, manifest, addonHTTP, addonHTTPApp) {
 	})
 
 	return true;
+	*/
+	const app = express()
+	app.use(function(req, res, next) {
+		if (opts.cache) res.setHeader('Cache-Control', 'max-age='+opts.cache)
+		next()
+	})
+	app.use(router)
+
+	const server = app.listen(opts.port, function() {
+		const url = `http://127.0.0.1:${server.address().port}/manifest.json`;
+		console.log('HTTP addon accessible at:', url)
+		cb(null, { url, server })
+	})
 }

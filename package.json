@@ -2,7 +2,7 @@
   "name": "stremio-addon-sdk",
   "version": "0.7.1",
   "description": "An SDK for making and publishing Stremio add-ons",
-  "main": "index.js",
+  "main": "./src/index.js",
   "scripts": {
     "test": "tape test/*"
   },

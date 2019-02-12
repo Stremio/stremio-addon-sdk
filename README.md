@@ -13,9 +13,9 @@ Stremio currently supports Windows, OSX, Linux, Android and iOS.
 This arbitrary example creates an add-on that provides a stream for Big Buck Bunny and outputs a HTTP address where you can access it.
 
 ```javascript
-const addonSDK = require('stremio-addon-sdk')
+const { addonBuilder, serveHTTP, publishToCentral }  = require('stremio-addon-sdk')
 
-const addon = new addonSDK({
+const addon = new addonBuilder({
     id: 'org.myexampleaddon',
     version: '1.0.0',
 
@@ -33,7 +33,6 @@ const addon = new addonSDK({
 addon.defineStreamHandler(function(args, cb) {
     if (args.type === 'movie' && args.id === 'tt1254207') {
         // serve one stream to big buck bunny
-        // return addonSDK.Stream({ url: '...' })
         const stream = { url: 'http://distribution.bbb3d.renderfarming.net/video/mp4/bbb_sunflower_1080p_30fps_normal.mp4' }
         cb(null, { streams: [stream] })
     } else {
@@ -42,8 +41,8 @@ addon.defineStreamHandler(function(args, cb) {
     }
 })
 
-addon.runHTTPWithOptions({ port: 7000 })
-//addon.publishToCentral("https://your-domain/manifest.json") // <- invoke this if you want to publish your add-on and it's accessible publically on "your-domain"
+serveHTTP(addon.getRouter(), { port: 7000 })
+publishToCentral("https://your-domain/manifest.json") // <- invoke this if you want to publish your add-on and it's accessible publically on "your-domain"
 ```
 
 Save this as `addon.js` and run:

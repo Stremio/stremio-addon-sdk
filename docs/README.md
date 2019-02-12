@@ -12,9 +12,9 @@ This can publish an add-on via HTTP(s) or IPFS
 ```javascript
 #!/usr/bin/env node
 
-const addonSDK = require('stremio-addon-sdk')
+const { addonBuilder, serveHTTP, publishToCentral } = require('stremio-addon-sdk')
 
-const addon = new addonSDK({
+const addon = new addonBuilder({
     id: 'org.myexampleaddon',
     version: '1.0.0',
 
@@ -40,10 +40,10 @@ addon.defineStreamHandler(function(args, cb) {
     }
 })
 
-addon.runHTTPWithOptions({ port: 7000 })
+serveHTTP(addon.getRouter(), { port: 7000 })
 
 // If you want this add-on to appear in the addon catalogs, call .publishToCentral() with the publically available URL to your manifest
-addon.publishToCentral('https://my-addon.com/manifest.json')
+//publishToCentral('https://my-addon.com/manifest.json')
 
 ```
 
@@ -59,14 +59,15 @@ It will output a URL that you can use to [install the add-on in Stremio](./docs/
 ## Documentation
 
 
-#### `const addonSDK = require('stremio-addon-sdk')`
+#### `const { addonBuilder, serveHTTP } = require('stremio-addon-sdk')`
 
-Imports the SDK module
+Imports `addonBuilder`, which you'll need to define the addon, 
+and `serveHTTP`, which you will need to serve a HTTP server for this addon
 
 
-#### `var addon = new addonSDK(manifest)`
+#### `const addon = new addonBuilder(manifest)`
 
-Creates a new ready-to-publish add-on with a given manifest. 
+Creates an  add-on builder obbject with a given manifest. 
 
 [Manifest Object Definition](./api/responses/manifest.md)
 
@@ -99,21 +100,23 @@ Handles subtitle requests.
 [Subtitle Request Parameters and Example](./api/requests/defineSubtitlesHandler.md)
 
 
-#### `addon.publishToCentral()`
+#### `publishToCentral(url)`
 
 This method expects a string with the url to your `manifest.json` file.
 
 Publish your add-on to the central server. After using this method your add-on will be available in the Community Add-ons list in Stremio for users to install and use. Your add-on needs to be publicly available with a URL in order for this to happen, as local add-ons that are not publicly available cannot be used by other Stremio users.
 
 
-#### `addon.publishToDir()`
+#### `publishToDir()`
+
+@TODO
 
 This method expects a string with a folder name.
 
 Publishes your add-on to a directory. This creates a static version of your add-on in a folder that can then be [published with now.sh](https://github.com/Stremio/stremio-static-addon-example) or uploaded to a web server. As this is a static version of your add-on it is not scallable and presumes you are not using a database. Alternatively, you can use a database and re-publish your add-on to a directory periodically to update data.
 
 
-#### `addon.runHTTPWithOptions(options, cb)`
+#### `serveHTTP(options)`
 
 Starts the addon server. `options` is an object that contains:
 
@@ -125,6 +128,8 @@ Starts the addon server. `options` is an object that contains:
 
 
 ### `addon.getServerlessHandler()`
+
+@TODO
 
 Returns an object that contains `{manifest, catalog, stream, meta}`, where each one is a handler that can be used for a serverless application
 
@@ -140,9 +145,13 @@ module.exports = addon.getServerlessHandler().catalog // or manifest, stream, me
 
 #### `addon.publishToWeb(url)`
 
+@TODO
+
 Creates an add-on homepage on the root of the web server that includes an "Install Add-on" button. This method expects a URL using HTTPS pointing to the manifest (example: `https://example.com/manifest.json`)
 
 
 #### `addon.serveDir(publicDirectory, localDirectory)`
+
+@TODO
 
 Serve a local (static) directory through the web server. Useful if you need to host the logo and background images for the add-on on the same server (example: `addon.serveDir('/public', './static/imgs')`
