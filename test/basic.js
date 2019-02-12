@@ -178,6 +178,10 @@ tape('initialize an add-on client for the add-on', function(t) {
 
 tape('define a stream handler on the add-on and test it', function(t) {
 	addonClient.get('stream', 'channel', '11')
+	.then(r => {
+		t.ok(r.streams, 'response has streams')
+		t.end()
+	})
 	.catch(function(err) {
 		t.error(err, 'error on addonclient stream request')
 		t.end()
@@ -189,7 +193,7 @@ tape('define a stream handler on the add-on and test it', function(t) {
 		t.equals(args.id, '11', 'args.id is right')
 		t.deepEquals(args.extra, { }, 'args.extra is empty')
 
-		t.end()
+		cb(null, {streams:[]})
 	})
 })
 
@@ -207,6 +211,10 @@ tape('defining the same handler throws', function(t) {
 // @WARNING: we should throw the second time we call defineStreamHandler (same goes for define*Handler)
 tape('define a handler on the add-on and test it, with extra args', function(t) {
 	addonClient.get('catalog', 'movie', 'top', { search: 'the office' })
+	.then(r => {
+		t.ok(r.metas, 'response has metas)')
+		t.end()
+	})
 	.catch(function(err) {
 		t.error(err, 'error on addonclient stream request')
 		t.end()
@@ -216,8 +224,7 @@ tape('define a handler on the add-on and test it, with extra args', function(t) 
 		t.equals(args.type, 'movie', 'args.type is right')
 		t.equals(args.id, 'top', 'args.id is right')
 		t.deepEquals(args.extra, { search: 'the office' }, 'args.extra is right')
-
-		t.end()
+		cb(null, { metas: [] })
 	})
 })
 
