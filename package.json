@@ -30,6 +30,7 @@
     "stremio-addon-linter": "^1.5.0"
   },
   "devDependencies": {
+    "eslint": "^5.13.0",
     "stremio-addon-client": "git://github.com/Stremio/stremio-addon-client.git#v1.1.0",
     "supertest": "^3.3.0",
     "tape": "^4.9.0"
