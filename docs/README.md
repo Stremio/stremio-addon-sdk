@@ -33,10 +33,10 @@ addon.defineStreamHandler(function(args, cb) {
         // serve one stream to big buck bunny
         // return addonSDK.Stream({ url: '...' })
         const stream = { url: 'http://distribution.bbb3d.renderfarming.net/video/mp4/bbb_sunflower_1080p_30fps_normal.mp4' }
-        cb(null, { streams: [stream] })
+        return Promise.resolve({ streams: [stream] })
     } else {
         // otherwise return no streams
-        cb(null, { streams: [] })
+	return Promise.resolve({ streams: [] })
     }
 })
 

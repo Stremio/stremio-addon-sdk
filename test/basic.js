@@ -188,19 +188,19 @@ tape('define a stream handler on the add-on and test it', function(t) {
 	})
 
 	// NOTE: this also tests the case where .defineStreamHandler is invoked after .run()
-	addon.defineStreamHandler(function(args, cb) {
+	addon.defineStreamHandler(function(args) {
 		t.equals(args.type, 'channel', 'args.type is right')
 		t.equals(args.id, '11', 'args.id is right')
 		t.deepEquals(args.extra, { }, 'args.extra is empty')
 
-		cb(null, {streams:[]})
+		return Promise.resolve({streams:[]})
 	})
 })
 
 tape('defining the same handler throws', function(t) {
 	try {
-		addon.defineStreamHandler(function(args, cb) {
-			cb(null, null)
+		addon.defineStreamHandler(function(args) {
+			return Promise.resolve(null)
 		})
 	} catch(e) {
 		t.ok(e, 'has exception')
@@ -220,11 +220,11 @@ tape('define a handler on the add-on and test it, with extra args', function(t) 
 		t.end()
 	})
 
-	addon.defineCatalogHandler(function(args, cb) {
+	addon.defineCatalogHandler(function(args) {
 		t.equals(args.type, 'movie', 'args.type is right')
 		t.equals(args.id, 'top', 'args.id is right')
 		t.deepEquals(args.extra, { search: 'the office' }, 'args.extra is right')
-		cb(null, { metas: [] })
+		return Promise.resolve({ metas: [] })
 	})
 })
 

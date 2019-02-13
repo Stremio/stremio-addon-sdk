@@ -34,10 +34,10 @@ addon.defineStreamHandler(function(args, cb) {
     if (args.type === 'movie' && args.id === 'tt1254207') {
         // serve one stream to big buck bunny
         const stream = { url: 'http://distribution.bbb3d.renderfarming.net/video/mp4/bbb_sunflower_1080p_30fps_normal.mp4' }
-        cb(null, { streams: [stream] })
+        return Promise.resolve({ streams: [stream] })
     } else {
         // otherwise return no streams
-        cb(null, { streams: [] })
+        return Promise.resolve({ streams: [] })
     }
 })
 
@@ -78,7 +78,6 @@ SDK Features Include:
 - Publishing your add-on link to the [public Add-on collection](https://api.strem.io/addonscollection.json) with [.publishToCentral](./docs/README.md#addonpublishtocentral)
 - Creating a homepage for your add-on that includes an "Install Add-on" button with [.publishToWeb](./docs/README.md#addonpublishtoweburl)
 
-
 ## Testing
 
 For developers looking for a quick way to test their new add-ons, you can either:
@@ -102,6 +101,15 @@ Check out our ever growing list of [examples and demo add-ons](./docs/examples/R
 ## Reporting Issues
 
 If you have any issues regarding the Stremio Add-on SDK, please feel free to [report them here](https://github.com/Stremio/stremio-addon-sdk/issues).
+
+## Migration from v0.x
+
+To migrate from v0.x, you need to:
+
+- change `new addonSDK` to `new addonBuilder`, which you can import via `const addonBuilder = require('stremio-addon-sdk').addonBuilder`
+- change `addon.run(opts)` to `serveHTTP(addon, opts)`, which you can import via `const serveHTTP = require('stremio-addon-sdk').serveHTTP`
+- all handlers have to return a `Promise` (rather than take a `cb`)
+
 
 
 ## Use Cases Outside Add-on SDK

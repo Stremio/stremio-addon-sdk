@@ -35,16 +35,15 @@ function getRouter(manifest, handlers) {
 			id: req.params.id,
 			extra: req.params.extra ? qs.parse(req.params.extra) : {}
 		}
-		const cb = function(err, resp) {
-			if (err) {
-				console.error(err)
-				res.writeHead(500)
-				res.end(JSON.stringify({ err: 'handler error' }))
-			}
-
+		handler(args)
+		.then(resp => {
 			res.end(JSON.stringify(resp))
-		}
-		handler(args, cb)
+		})
+		.catch(err => {
+			console.error(err)
+			res.writeHead(500)
+			res.end(JSON.stringify({ err: 'handler error' }))
+		})
 	})
 
 	return router
