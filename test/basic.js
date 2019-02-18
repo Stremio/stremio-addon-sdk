@@ -50,7 +50,7 @@ tape('try to create an add-on with an invalid manifest: linter', function(t) {
 })
 
 tape('try to create an add-on with an unspecified resource', function(t) {
-        try { new addonBuilder(manifest).defineMetaHandler(function() { }) }
+        try { new addonBuilder(manifest).defineMetaHandler(function() { }).getInterface() }
         catch(e) {
                 t.equal(e.message, 'manifest.resources does not contain: meta')
                 t.end()
@@ -59,13 +59,18 @@ tape('try to create an add-on with an unspecified resource', function(t) {
 
 
 tape('create an add-on and get the router', function(t) {
+	// getRouter requires all handlers to be defined
 	var addon = new addonBuilder(manifest)
+		.defineCatalogHandler(() => Promise.resolve())
+		.defineStreamHandler(() => Promise.resolve())
 	t.ok(addon.getRouter(), 'can get router')
 	t.end()
 })
 
 tape('create an add-on and expose on HTTP with serveHTTP()', function(t) {
 	const addon = new addonBuilder(manifest)
+		.defineCatalogHandler(() => Promise.resolve())
+		.defineStreamHandler(() => Promise.resolve())
 	serveHTTP(addon).then(function(h) {
 		t.ok(h.url, 'has url')
 		t.ok(h.url.endsWith('manifest.json'), 'url ends with manifest.json')
@@ -81,6 +86,8 @@ tape('create an add-on and expose on HTTP with serveHTTP()', function(t) {
 
 tape('create an add-on and expose on HTTP with serveHTTP()', function(t) {
 	addon = new addonBuilder(manifest)
+		.defineCatalogHandler(() => Promise.resolve())
+		.defineStreamHandler(() => Promise.resolve())
 
 	serveHTTP(addon, { port: PORT, cache: 3600 }).then(function(h) {
 		t.ok(h.url, 'has url')
@@ -177,6 +184,8 @@ tape('initialize an add-on client for the add-on', function(t) {
 })
 
 tape('define a stream handler on the add-on and test it', function(t) {
+	// @TODO use getInterface
+	
 	addonClient.get('stream', 'channel', '11')
 	.then(r => {
 		t.ok(r.streams, 'response has streams')

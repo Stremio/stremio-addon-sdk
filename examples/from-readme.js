@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-
 const { addonBuilder, serveHTTP } = require('../')
 
 const addon = new addonBuilder({

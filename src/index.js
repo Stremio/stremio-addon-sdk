@@ -1,5 +1,5 @@
 module.exports = {
-	addonBuilder: require('./addonBuilder'),
+	addonBuilder: require('./builder'),
 	serveHTTP: require('./serveHTTP'),
 	publishToCentral: require('./publishToCentral'),
 }

@@ -18,14 +18,23 @@ Valid properties are:
 
 **NOTE:** In order to understand the next properties better, please check out the [protocol documentation](../../protocol.md) and keep in mind requests to add-ons are formed in the format of `/{resource}/{type}/{id}`
 
-``resources`` - **required** - supported resources - for example ``['catalog', 'meta', 'stream', 'subtitles']``, resources can also be added as objects instead of strings, for added details on how they should be requested, example: `{ "name": "stream", "type": "movie", "idPrefixes": [ "tt" ] }`
+``resources`` - **required** - supported resources - for example ``['catalog', 'meta', 'stream', 'subtitles']``, resources can also be added as objects instead of strings, for additional details on how they should be requested, example: `{ "name": "stream", "type": "movie", "idPrefixes": [ "tt" ] }` (see the **ADVANCED** note)
 
 ``types`` - **required** - array of supported types, from all the [``Content Types``](./content.types.md). If you wish to provide different sets of types for different resources, see the **ADVANCED** note.
 
 ``idPrefixes`` - _optional_ - use this if you want your add-on to be called only for specific content IDs - for example, if you set this to `["yt_id:", "tt"]`, your add-on will only be called for `id` values that start with `yt_id:` or `tt`. If you wish to provide different sets of `idPrefixes` for different resources, see the **ADVANCED** note.
 
-**ADVANCED:** A resource may either be a string (e.g. `'meta'`) or an object of the format `{ name, types, idPrefixes  }`. The latter can be used to control the `types` and `idPrefixes` for a particular resource. Those properties work in the same way as if you put them in the manifest directly. If you just provide a string, the `types` and `idPrefixes` in the manifest will be applied for the resource.
+### Advanced
 
+A resource may either be a string (e.g. `'meta'`) or an object of the format `{ name, types, idPrefixes  }`.
+
+The latter can be used to provide different `types` and `idPrefixes` for a particular resource. Those properties work in the same way as if you put them in the manifest directly.
+
+Keep in mind, `idPrefixes` is always optional, and if you use the full notation without it (e.g. `{ name: "stream", types: ["movie"] }`), this would mean matching on all those types and all possible IDs.
+
+If you just provide a string, the `types` and `idPrefixes` from the manifest will be applied for the resource.
+
+The local addon is an example of a [complex resource description](https://github.com/Stremio/stremio-local-addon/blob/master/lib/manifest.js).
 
 ## Content catalogs
 
