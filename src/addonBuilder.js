@@ -26,16 +26,17 @@ function AddonBuilder(manifest) {
 		throw new Error('manifest size exceeds 8kb, which is incompatible with addonCollection API')
 	}
 
+	// Validation: called on building
+	const validOrExit = function() {
+		const handlersInManifest = []
+		if (manifest.catalogs.length > 0) handlersInManifest.push('catalog')
+		manifest.resources.forEach((r) => handlersInManifest.push(r.name || r))
+		const handlersDefined = Object.keys(handlers)
+		console.log(handlersInManifest, handlersDefined)
+	}
+
 	// Public interface
 	this.defineResourceHandler = function(resource, handler) {
-		// Some basic validation to make sure stuff makes sense
-		if (resource == 'catalog') {
-			if (manifest.catalogs.length == 0) {
-				throw new Error('manifest.catalogs is empty, catalog handler will never be called')
-			}
-		} else if (!manifest.resources.find(r => resource == (r.name || r))) {
-			throw new Error('manifest.resources does not contain: '+resource)
-		}
 		if (handlers[resource]) {
 			throw new Error('handler for '+resource+' already defined')
 		}
@@ -46,12 +47,16 @@ function AddonBuilder(manifest) {
 	this.defineCatalogHandler = this.defineResourceHandler.bind(this, 'catalog')
 	this.defineSubtitlesHandler = this.defineResourceHandler.bind(this, 'subtitles')
 
-	// build into
+	// build into an interface or a router
 	this.getInterface = function() {
+		validOrExit()
 		// @TODO get, and maybe refactor the router to use it
 		return { manifest }
 	}
-	this.getRouter = () => getRouter(manifest, handlers)
+	this.getRouter = function() {
+		validOrExit()
+		return getRouter(manifest, handlers)
+	}
 
 	return this
 }
