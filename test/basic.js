@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
 const tape = require('tape')
-const request = require('supertest');
+const request = require('supertest')
 const AddonClient = require('stremio-addon-client')
 const { addonBuilder, serveHTTP, publishToCentral } = require('../')
 
-const PORT = 5000;
+const PORT = 5000
 
 let addonUrl
 let addonServer
@@ -35,19 +35,19 @@ tape('try to create an addon with an invalid manifest', function(t) {
 })
 
 tape('try to create an addon with an invalid manifest: linter', function(t) {
-        try { new addonBuilder({ name: 'something' }) }
-        catch(e) {
-                t.equal(e.message, 'manifest.id must be a string')
-                t.end()
-        }
+	try { new addonBuilder({ name: 'something' }) }
+	catch(e) {
+		t.equal(e.message, 'manifest.id must be a string')
+		t.end()
+	}
 })
 
 tape('try to create an addon with an unspecified resource', function(t) {
-        try { new addonBuilder(manifest).defineMetaHandler(function() { }).getInterface() }
-        catch(e) {
-                t.equal(e.message, 'manifest.resources does not contain: meta')
-                t.end()
-        }
+	try { new addonBuilder(manifest).defineMetaHandler(function() { }).getInterface() }
+	catch(e) {
+		t.equal(e.message, 'manifest.resources does not contain: meta')
+		t.end()
+	}
 })
 
 
@@ -76,16 +76,16 @@ tape('create an addon and expose on HTTP with serveHTTP()', function(t) {
 		addonServer = h.server
 
 		request(addonServer)
-		.get('/manifest.json')
-		.expect(200)
-		.end((err, res) => {
-			t.error(err, 'request error')
-			t.error(res.error, 'response error')
-			t.equal(res.ok, true, 'has response status 200')
-			t.equal(res.status, 200, 'has response status ok')
-			t.equal(res.headers['cache-control'], 'max-age=3600', 'cache headers are correct')
-			t.end()
-		})
+			.get('/manifest.json')
+			.expect(200)
+			.end((err, res) => {
+				t.error(err, 'request error')
+				t.error(res.error, 'response error')
+				t.equal(res.ok, true, 'has response status 200')
+				t.equal(res.status, 200, 'has response status ok')
+				t.equal(res.headers['cache-control'], 'max-age=3600', 'cache headers are correct')
+				t.end()
+			})
 
 	})
 })
@@ -93,51 +93,51 @@ tape('create an addon and expose on HTTP with serveHTTP()', function(t) {
 // Test the homepage of the addon
 tape('should return a valid html document', function (t) {
 	request(addonServer)
-	.get('/')
-	.expect(200)
-	.end((err, res) => {
-		t.error(err, 'request error');
-		t.error(res.error, 'response error');
-		t.equal(res.ok, true, 'has response status ok');
-		t.equal(res.status, 200, 'has response status 200');
-		t.notEqual(res.text, undefined, 'is not undefined');
-		t.equal(res.type, 'text/html', 'is a valid html document');
-		t.end();
-	});
+		.get('/')
+		.expect(200)
+		.end((err, res) => {
+			t.error(err, 'request error')
+			t.error(res.error, 'response error')
+			t.equal(res.ok, true, 'has response status ok')
+			t.equal(res.status, 200, 'has response status 200')
+			t.notEqual(res.text, undefined, 'is not undefined')
+			t.equal(res.type, 'text/html', 'is a valid html document')
+			t.end()
+		})
 })
 
 
 tape('initialize an addon client for the addon', function(t) {
 	AddonClient.detectFromURL(addonUrl)
-	.then(function(resp) {
-		t.ok(resp.addon, 'has addon')
-
-		t.ok(resp.addon.manifest, 'has manifest')
-		// NOTE: this is an important design principle - immutability on the manifest object
-		t.deepEquals(resp.addon.manifest, manifest, 'addon.manifest is the same as manifest')
-
-		const addon = resp.addon
-		return addon.get('stream', 'channel', '11')
 		.then(function(resp) {
-			t.ok(resp.streams, 'has streams')
-			t.deepEqual(resp.args, { type: 'channel', id: '11', extra: {} }, 'args parsed right')
-			return addon.get('stream', 'channel', '11', { search: 'foobar' })
+			t.ok(resp.addon, 'has addon')
+
+			t.ok(resp.addon.manifest, 'has manifest')
+			// NOTE: this is an important design principle - immutability on the manifest object
+			t.deepEquals(resp.addon.manifest, manifest, 'addon.manifest is the same as manifest')
+
+			const addon = resp.addon
+			return addon.get('stream', 'channel', '11')
+				.then(function(resp) {
+					t.ok(resp.streams, 'has streams')
+					t.deepEqual(resp.args, { type: 'channel', id: '11', extra: {} }, 'args parsed right')
+					return addon.get('stream', 'channel', '11', { search: 'foobar' })
+				})
+				.then(function(resp) {
+					t.ok(resp.streams, 'has streams')
+					t.deepEqual(resp.args, { type: 'channel', id: '11', extra: { search: 'foobar' } }, 'args parsed right')
+				})
 		})
-		.then(function(resp) {
-			t.ok(resp.streams, 'has streams')
-			t.deepEqual(resp.args, { type: 'channel', id: '11', extra: { search: 'foobar' } }, 'args parsed right')
+		.then(() => t.end())
+		.catch(function(err) {
+			t.error(err, 'error on addonClient')
+			t.end()
 		})
-	})
-	.then(() => t.end())
-	.catch(function(err) {
-		t.error(err, 'error on addonClient')
-		t.end()
-	})
 })
 
-tape('define a stream handler on the addon and test it', function(t) {
+tape('getInterface: define a stream handler on the addon and test it', function(t) {
 	const addon = new addonBuilder(manifest)
-		.defineCatalogHandler(({ type, id }) => Promise.resolve({ metas: [] }))
+		.defineCatalogHandler(() => Promise.resolve({ metas: [] }))
 		.defineStreamHandler(function(args) {
 			t.equals(args.type, 'channel', 'args.type is right')
 			t.equals(args.id, '11', 'args.id is right')
@@ -146,20 +146,20 @@ tape('define a stream handler on the addon and test it', function(t) {
 		})
 	const addonInterface = addon.getInterface()
 	addonInterface.get('stream', 'channel', '11')
-	.then(r => {
-		t.ok(r.streams, 'response has streams')
-	})
-	.then(() => t.end())
-	.catch(function(err) {
-		t.error(err, 'error on addonClient stream request')
-		t.end()
-	})
+		.then(r => {
+			t.ok(r.streams, 'response has streams')
+		})
+		.then(() => t.end())
+		.catch(function(err) {
+			t.error(err, 'error on addonClient stream request')
+			t.end()
+		})
 })
 
 tape('defining the same handler throws', function(t) {
 	const addon = new addonBuilder(manifest)
-		.defineCatalogHandler(({ type, id }) => Promise.resolve({ metas: [] }))
-		.defineStreamHandler(({ type, id }) => Promise.resolve({ streams: [] }))
+		.defineCatalogHandler(() => Promise.resolve({ metas: [] }))
+		.defineStreamHandler(() => Promise.resolve({ streams: [] }))
 	try {
 		addon.defineStreamHandler(() => Promise.resolve())
 	} catch(e) {
@@ -172,14 +172,14 @@ tape('defining the same handler throws', function(t) {
 // publishToCentral publishes to the API
 tape('publishToCentral', function(t) {
 	publishToCentral('https://cinemeta.strem.io/manifest.json')
-	.then(function(resp) {
-		t.equal(resp.success, true, 'can announce')
-		t.end()
-	})
-	.catch(function(err) {
-		t.error(err)
-		t.end()
-	})
+		.then(function(resp) {
+			t.equal(resp.success, true, 'can announce')
+			t.end()
+		})
+		.catch(function(err) {
+			t.error(err)
+			t.end()
+		})
 })
 
 tape.onFinish(function() {
