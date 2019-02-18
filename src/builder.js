@@ -33,13 +33,17 @@ function AddonBuilder(manifest) {
 		manifest.resources.forEach((r) => handlersInManifest.push(r.name || r))
 		const handlersDefined = Object.keys(handlers)
 		handlersDefined.forEach(defined => {
-			console.log(defined)
 			if (!handlersInManifest.includes(defined)) {
 				if (defined == 'catalog') throw new Error('manifest.catalogs is empty, catalog handler will never be called')
 				else throw new Error('manifest.resources does not contain: '+defined)
 			}
 		})
-		console.log(handlersInManifest, handlersDefined)
+		handlersInManifest.forEach(defined => {
+			if (!handlersDefined.includes(defined)) {
+				const capitalized = defined[0].toUpperCase() + defined.slice(1)
+				throw new Error(`manifest definition requires handler for ${defined}, but it is not provided (use .define${capitalized}Handler())`)
+			}
+		})
 	}
 
 	// Public interface
