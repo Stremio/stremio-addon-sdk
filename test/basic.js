@@ -50,7 +50,7 @@ tape('try to create an add-on with an invalid manifest: linter', function(t) {
 })
 
 tape('try to create an add-on with an unspecified resource', function(t) {
-        try { new addonBuilder(manifest).defineMetaHandler(function() { }) }
+        try { new addonBuilder(manifest).defineMetaHandler(function() { }).getInterface() }
         catch(e) {
                 t.equal(e.message, 'manifest.resources does not contain: meta')
                 t.end()

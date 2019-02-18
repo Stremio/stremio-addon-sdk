@@ -32,6 +32,13 @@ function AddonBuilder(manifest) {
 		if (manifest.catalogs.length > 0) handlersInManifest.push('catalog')
 		manifest.resources.forEach((r) => handlersInManifest.push(r.name || r))
 		const handlersDefined = Object.keys(handlers)
+		handlersDefined.forEach(defined => {
+			console.log(defined)
+			if (!handlersInManifest.includes(defined)) {
+				if (defined == 'catalog') throw new Error('manifest.catalogs is empty, catalog handler will never be called')
+				else throw new Error('manifest.resources does not contain: '+defined)
+			}
+		})
 		console.log(handlersInManifest, handlersDefined)
 	}
 
