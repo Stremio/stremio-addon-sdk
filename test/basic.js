@@ -26,7 +26,7 @@ const manifest = {
 	catalogs: [{ type: 'movie', id: 'test' }],
 }
 
-tape('try to create an add-on with an invalid manifest', function(t) {
+tape('try to create an addon with an invalid manifest', function(t) {
 	try { new addonBuilder(null) }
 	catch(e) {
 		t.ok(e.message, 'invalid manifest')
@@ -34,7 +34,7 @@ tape('try to create an add-on with an invalid manifest', function(t) {
 	}
 })
 
-tape('try to create an add-on with an invalid manifest: linter', function(t) {
+tape('try to create an addon with an invalid manifest: linter', function(t) {
         try { new addonBuilder({ name: 'something' }) }
         catch(e) {
                 t.equal(e.message, 'manifest.id must be a string')
@@ -42,7 +42,7 @@ tape('try to create an add-on with an invalid manifest: linter', function(t) {
         }
 })
 
-tape('try to create an add-on with an unspecified resource', function(t) {
+tape('try to create an addon with an unspecified resource', function(t) {
         try { new addonBuilder(manifest).defineMetaHandler(function() { }).getInterface() }
         catch(e) {
                 t.equal(e.message, 'manifest.resources does not contain: meta')
@@ -51,7 +51,7 @@ tape('try to create an add-on with an unspecified resource', function(t) {
 })
 
 
-tape('create an add-on and get the router', function(t) {
+tape('create an addon and get the router', function(t) {
 	// getRouter requires all handlers to be defined
 	var addon = new addonBuilder(manifest)
 		.defineCatalogHandler(() => Promise.resolve())
@@ -60,10 +60,11 @@ tape('create an add-on and get the router', function(t) {
 	t.end()
 })
 
-tape('create an add-on and expose on HTTP with serveHTTP()', function(t) {
+tape('create an addon and expose on HTTP with serveHTTP()', function(t) {
 	const addon = new addonBuilder(manifest)
 		.defineCatalogHandler(() => Promise.resolve({ metas: [] }))
-		.defineStreamHandler(() => Promise.resolve({ streams: [] }))
+		// NOTE: we're not supposed to mirror back the `args`, but we're doing it for easier testing
+		.defineStreamHandler((args) => Promise.resolve({ streams: [], args }))
 
 	serveHTTP(addon, { port: PORT, cache: 3600 }).then(function(h) {
 		t.ok(h.url, 'has url')
@@ -106,7 +107,7 @@ tape('should return a valid html document', function (t) {
 })
 
 
-tape('initialize an add-on client for the add-on', function(t) {
+tape('initialize an addon client for the addon', function(t) {
 	AddonClient.detectFromURL(addonUrl)
 	.then(function(resp) {
 		t.ok(resp.addon, 'has addon')
@@ -115,9 +116,16 @@ tape('initialize an add-on client for the add-on', function(t) {
 		// NOTE: this is an important design principle - immutability on the manifest object
 		t.deepEquals(resp.addon.manifest, manifest, 'addon.manifest is the same as manifest')
 
-		return resp.addon.get('stream', 'channel', '11')
+		const addon = resp.addon
+		return addon.get('stream', 'channel', '11')
 		.then(function(resp) {
 			t.ok(resp.streams, 'has streams')
+			t.deepEqual(resp.args, { type: 'channel', id: '11', extra: {} }, 'args parsed right')
+			return addon.get('stream', 'channel', '11', { search: 'foobar' })
+		})
+		.then(function(resp) {
+			t.ok(resp.streams, 'has streams')
+			t.deepEqual(resp.args, { type: 'channel', id: '11', extra: { search: 'foobar' } }, 'args parsed right')
 		})
 	})
 	.then(() => t.end())
@@ -127,7 +135,7 @@ tape('initialize an add-on client for the add-on', function(t) {
 	})
 })
 
-tape('define a stream handler on the add-on and test it', function(t) {
+tape('define a stream handler on the addon and test it', function(t) {
 	const addon = new addonBuilder(manifest)
 		.defineCatalogHandler(({ type, id }) => Promise.resolve({ metas: [] }))
 		.defineStreamHandler(function(args) {
@@ -140,8 +148,8 @@ tape('define a stream handler on the add-on and test it', function(t) {
 	addonInterface.get('stream', 'channel', '11')
 	.then(r => {
 		t.ok(r.streams, 'response has streams')
-		t.end()
 	})
+	.then(() => t.end())
 	.catch(function(err) {
 		t.error(err, 'error on addonClient stream request')
 		t.end()
@@ -160,29 +168,6 @@ tape('defining the same handler throws', function(t) {
 		t.end()
 	}
 })
-
-// @WARNING: we should throw the second time we call defineStreamHandler (same goes for define*Handler)
-/*
-// @TODO test this through the router (parsing extra)
-tape('define a handler on the add-on and test it, with extra args', function(t) {
-	addonClient.get('catalog', 'movie', 'top', { search: 'the office' })
-	.then(r => {
-		t.ok(r.metas, 'response has metas)')
-		t.end()
-	})
-	.catch(function(err) {
-		t.error(err, 'error on addonclient stream request')
-		t.end()
-	})
-
-	addon.defineCatalogHandler(function(args) {
-		t.equals(args.type, 'movie', 'args.type is right')
-		t.equals(args.id, 'top', 'args.id is right')
-		t.deepEquals(args.extra, { search: 'the office' }, 'args.extra is right')
-		return Promise.resolve({ metas: [] })
-	})
-})
-*/
 
 // publishToCentral publishes to the API
 tape('publishToCentral', function(t) {

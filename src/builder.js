@@ -52,7 +52,7 @@ function AddonBuilder(manifest) {
 	const validOrExit = function() {
 		const errors = validate()
 		if (errors.length) {
-			errors.forEach(e => console.error(`ERROR: ${e.message}`))
+			//errors.forEach(e => console.error(`ERROR: ${e.message}`))
 			throw errors[0]
 		}
 	}
