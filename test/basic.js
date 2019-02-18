@@ -184,6 +184,8 @@ tape('initialize an add-on client for the add-on', function(t) {
 })
 
 tape('define a stream handler on the add-on and test it', function(t) {
+	// @TODO use getInterface
+	
 	addonClient.get('stream', 'channel', '11')
 	.then(r => {
 		t.ok(r.streams, 'response has streams')

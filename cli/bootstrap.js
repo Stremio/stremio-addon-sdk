@@ -73,12 +73,13 @@ function usage({exists} = {}) {
 }
 
 // @TODO refactor this
+// @TODO proper identation both on the generated code itself AND this code
 function genIndex(manifest, resources) {
 let indexjs = `#!/usr/bin/env node
 
 const { addonBuilder, serveHTTP } = require('stremio-addon-sdk')
 
-const addon = new addonBuilder(${JSON.stringify(manifest, null, 4)})
+const addon = new addonBuilder(${JSON.stringify(manifest, null, '\t')})
 `
 
 	if (resources.includes('catalog')) {
