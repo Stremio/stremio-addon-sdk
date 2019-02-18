@@ -4,6 +4,7 @@
   "description": "An SDK for making and publishing Stremio add-ons",
   "main": "./src/index.js",
   "scripts": {
+    "pretest": "eslint --ignore-path .gitignore .",
     "test": "tape test/*"
   },
   "repository": {
