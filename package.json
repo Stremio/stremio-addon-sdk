@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/Stremio/stremio-addon-sdk#readme",
   "dependencies": {
+    "chalk": "^2.4.2",
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "mkdirp": "^0.5.1",
