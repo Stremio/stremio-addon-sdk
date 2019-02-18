@@ -2,7 +2,6 @@ const linter = require('stremio-addon-linter')
 
 const getRouter = require('./getRouter')
 
-// @TODO turn this into an ES6 class
 // Implements a builder pattern, but we can built into a router or an interface
 // the addonInterface is just an object: { manifest, get(resource, type, id, extra) }
 function AddonBuilder(manifest) {
