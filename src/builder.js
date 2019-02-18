@@ -74,8 +74,12 @@ function AddonBuilder(manifest) {
 	// build into an interface or a router
 	this.getInterface = function() {
 		validOrExit()
-		// @TODO get, and maybe refactor the router to use it
-		return { manifest }
+		const get = (resource, type, id, extra) => {
+			const handler = handlers[resource]
+			if (!handler) return Promise.reject(`No handler for ${resource}`)
+			return handler({ type, id, extra })
+		}
+		return { manifest, get }
 	}
 	this.getRouter = function() {
 		validOrExit()
