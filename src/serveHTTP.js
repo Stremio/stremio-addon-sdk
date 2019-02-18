@@ -26,7 +26,8 @@ function serveHTTP(builder, opts = {}) {
 			const url = `http://127.0.0.1:${server.address().port}/manifest.json`
 			console.log('HTTP addon accessible at:', url)
 			if (process.argv.includes('--launch')) {
-				const base = 'https://app.strem.io/shell-v4.4#/addons/community/all'
+				const base = 'https://staging.strem.io#/addons/community/all'
+				//const base = 'https://app.strem.io/shell-v4.4#/addons/community/all'
 				//const base = 'https://app.strem.io/shell-v4.4#/discover/'
 				const installUrl = `${base}?addon=${encodeURIComponent(url)}`
 				require('child_process').exec(`chromium --incognito "${installUrl}"`)
