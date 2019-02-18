@@ -7,6 +7,9 @@ const { addonBuilder, serveHTTP, publishToCentral } = require('../')
 
 const PORT = 5000;
 
+let addonUrl
+let addonServer
+
 const manifest = {
 	id: 'org.myexampleaddon',
 	version: '1.0.0',
@@ -22,16 +25,6 @@ const manifest = {
 
 	catalogs: [{ type: 'movie', id: 'test' }],
 }
-
-let addon
-let addonUrl
-let addonServer
-
-let addonClient
-
-let serverless
-
-const serverlessPORT = 5001;
 
 tape('try to create an add-on with an invalid manifest', function(t) {
 	try { new addonBuilder(null) }
@@ -69,25 +62,8 @@ tape('create an add-on and get the router', function(t) {
 
 tape('create an add-on and expose on HTTP with serveHTTP()', function(t) {
 	const addon = new addonBuilder(manifest)
-		.defineCatalogHandler(() => Promise.resolve())
-		.defineStreamHandler(() => Promise.resolve())
-	serveHTTP(addon).then(function(h) {
-		t.ok(h.url, 'has url')
-		t.ok(h.url.endsWith('manifest.json'), 'url ends with manifest.json')
-
-		t.ok(h.server, 'has h.server')
-
-		addonUrl = h.url
-		addonServer = h.server
-
-		t.end()
-	})
-})
-
-tape('create an add-on and expose on HTTP with serveHTTP()', function(t) {
-	addon = new addonBuilder(manifest)
-		.defineCatalogHandler(() => Promise.resolve())
-		.defineStreamHandler(() => Promise.resolve())
+		.defineCatalogHandler(() => Promise.resolve({ metas: [] }))
+		.defineStreamHandler(() => Promise.resolve({ streams: [] }))
 
 	serveHTTP(addon, { port: PORT, cache: 3600 }).then(function(h) {
 		t.ok(h.url, 'has url')
@@ -139,49 +115,55 @@ tape('initialize an add-on client for the add-on', function(t) {
 		// NOTE: this is an important design principle - immutability on the manifest object
 		t.deepEquals(resp.addon.manifest, manifest, 'addon.manifest is the same as manifest')
 
-		addonClient = resp.addon
-		t.end()
+		return resp.addon.get('stream', 'channel', '11')
+		.then(function(resp) {
+			t.ok(resp.streams, 'has streams')
+		})
 	})
+	.then(() => t.end())
 	.catch(function(err) {
-		t.error(err, 'error on addonclient')
+		t.error(err, 'error on addonClient')
 		t.end()
 	})
 })
 
 tape('define a stream handler on the add-on and test it', function(t) {
-	// @TODO use getInterface
-	addonClient.get('stream', 'channel', '11')
+	const addon = new addonBuilder(manifest)
+		.defineCatalogHandler(({ type, id }) => Promise.resolve({ metas: [] }))
+		.defineStreamHandler(function(args) {
+			t.equals(args.type, 'channel', 'args.type is right')
+			t.equals(args.id, '11', 'args.id is right')
+			t.deepEquals(args.extra, {}, 'args.extra is empty')
+			return Promise.resolve({streams:[]})
+		})
+	const addonInterface = addon.getInterface()
+	addonInterface.get('stream', 'channel', '11')
 	.then(r => {
 		t.ok(r.streams, 'response has streams')
 		t.end()
 	})
 	.catch(function(err) {
-		t.error(err, 'error on addonclient stream request')
+		t.error(err, 'error on addonClient stream request')
 		t.end()
-	})
-
-	// NOTE: this also tests the case where .defineStreamHandler is invoked after .run()
-	addon.defineStreamHandler(function(args) {
-		t.equals(args.type, 'channel', 'args.type is right')
-		t.equals(args.id, '11', 'args.id is right')
-		t.deepEquals(args.extra, { }, 'args.extra is empty')
-
-		return Promise.resolve({streams:[]})
 	})
 })
 
 tape('defining the same handler throws', function(t) {
+	const addon = new addonBuilder(manifest)
+		.defineCatalogHandler(({ type, id }) => Promise.resolve({ metas: [] }))
+		.defineStreamHandler(({ type, id }) => Promise.resolve({ streams: [] }))
 	try {
-		addon.defineStreamHandler(function(args) {
-			return Promise.resolve(null)
-		})
+		addon.defineStreamHandler(() => Promise.resolve())
 	} catch(e) {
 		t.ok(e, 'has exception')
+		t.equal(e.message, 'handler for stream already defined')
 		t.end()
 	}
 })
 
 // @WARNING: we should throw the second time we call defineStreamHandler (same goes for define*Handler)
+/*
+// @TODO test this through the router (parsing extra)
 tape('define a handler on the add-on and test it, with extra args', function(t) {
 	addonClient.get('catalog', 'movie', 'top', { search: 'the office' })
 	.then(r => {
@@ -200,6 +182,7 @@ tape('define a handler on the add-on and test it, with extra args', function(t) 
 		return Promise.resolve({ metas: [] })
 	})
 })
+*/
 
 // publishToCentral publishes to the API
 tape('publishToCentral', function(t) {

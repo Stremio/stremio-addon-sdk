@@ -73,7 +73,7 @@ function AddonBuilder(manifest) {
 	// build into an interface or a router
 	this.getInterface = function() {
 		validOrExit()
-		const get = (resource, type, id, extra) => {
+		const get = (resource, type, id, extra = {}) => {
 			const handler = handlers[resource]
 			if (!handler) return Promise.reject(`No handler for ${resource}`)
 			return handler({ type, id, extra })
