@@ -48,6 +48,7 @@ function AddonBuilder(manifest) {
 			throw new Error('handler for '+resource+' already defined')
 		}
 		handlers[resource] = handler
+		return this
 	}
 	this.defineStreamHandler = this.defineResourceHandler.bind(this, 'stream')
 	this.defineMetaHandler = this.defineResourceHandler.bind(this, 'meta')
