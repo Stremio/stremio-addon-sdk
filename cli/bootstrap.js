@@ -72,42 +72,43 @@ function usage({exists} = {}) {
 	process.exit(1)
 }
 
-// @TODO refactor this
-// @TODO proper identation both on the generated code itself AND this code
-function genIndex(manifest, resources) {
-let indexjs = `#!/usr/bin/env node
-
+const headerTmpl = (manifest) => `#!/usr/bin/env node
 const { addonBuilder, serveHTTP } = require('stremio-addon-sdk')
 
 const addon = new addonBuilder(${JSON.stringify(manifest, null, '\t')})
 `
 
-	if (resources.includes('catalog')) {
-		indexjs += `
+const catalogTmpl = () => `
 addon.defineCatalogHandler(({type, id}) => {
 	console.log('request for catalogs: '+type+' '+id)
 	return Promise.resolve({ metas: [] })
 })
 `
-	}
 
-	if (resources.includes('meta')) {
-		indexjs += `
+const metaTmpl = () => `
 addon.defineMetaHandler(({type, id}) => {
 	console.log('request for meta: '+type+' '+id)
 	return Promise.resolve({ meta: null })
 })
 `
-	}
-	if (resources.includes('stream')) {
-		indexjs += `
+
+const streamsTmpl = () => `
 addon.defineStreamHandler(({type, id}) => {
 	console.log('request for streams: '+type+' '+id)
 	return Promise.resolve({ streams: [] })
 })
 `
-	}
-indexjs += `\nserveHTTP(addon, { /* options */ })`
 
-return indexjs 
+// @TODO port
+const footerTmpl = () =>
+`serveHTTP(addon, { /* port: 7777 */ })`
+
+
+function genIndex(manifest, resources) {
+	return [headerTmpl(manifest)]
+		.concat(resources.includes('catalog') ? [catalogTmpl()] : [])
+		.concat(resources.includes('meta') ? [metaTmpl()] : [])
+		.concat(resources.includes('stream') ? [streamsTmpl()] : [])
+		.concat(footerTmpl())
+		.join('')
 }
