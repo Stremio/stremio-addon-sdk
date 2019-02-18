@@ -20,7 +20,7 @@ createAddon()
 .then(() => {
 	console.log(chalk.green(`BOOTSTRAPPER: addon created!`))
 	console.log(`BOOTSTRAPPER: launch your addon by running:\n\n\n`)
-	console.log(chalk.blue(`./${dir}/index.js --launch`))
+	console.log(chalk.blue(`./${dir}/server.js --launch`))
 })
 
 async function createAddon() {
@@ -60,8 +60,9 @@ async function createAddon() {
 	const outputIndexJS = genIndex(manifest, userInput.resources)
 
 	// @TODO proper npm module
-	fs.writeFileSync(path.join(dir, 'index.js'), outputIndexJS)
-	fs.chmodSync(path.join(dir, 'index.js'), 0755)
+	fs.writeFileSync(path.join(dir, 'addon.js'), outputIndexJS)
+	fs.writeFileSync(path.join(dir, 'server.js'), serverTmpl())
+	fs.chmodSync(path.join(dir, 'server.js'), 0755)
 	// @TODO types and id prefixes
 	// @TODO subtitles
 }
@@ -72,8 +73,12 @@ function usage({exists} = {}) {
 	process.exit(1)
 }
 
-const headerTmpl = (manifest) => `#!/usr/bin/env node
-const { addonBuilder, serveHTTP } = require('stremio-addon-sdk')
+const serverTmpl = () => `#!/usr/bin/env node
+const { serveHTTP } = require('stremio-addon-sdk')
+const addon = require('./addon')
+serveHTTP(addon, { /* port: 7778 */ })`
+
+const headerTmpl = (manifest) => `const { addonBuilder } = require('stremio-addon-sdk')
 
 const addon = new addonBuilder(${JSON.stringify(manifest, null, '\t')})
 `
@@ -100,8 +105,7 @@ addon.defineStreamHandler(({type, id}) => {
 `
 
 // @TODO port
-const footerTmpl = () =>
-`serveHTTP(addon, { /* port: 7777 */ })`
+const footerTmpl = () => `module.exports = addon`
 
 
 function genIndex(manifest, resources) {
