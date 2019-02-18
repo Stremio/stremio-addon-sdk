@@ -36,14 +36,14 @@ function getRouter(manifest, handlers) {
 			extra: req.params.extra ? qs.parse(req.params.extra) : {}
 		}
 		handler(args)
-		.then(resp => {
-			res.end(JSON.stringify(resp))
-		})
-		.catch(err => {
-			console.error(err)
-			res.writeHead(500)
-			res.end(JSON.stringify({ err: 'handler error' }))
-		})
+			.then(resp => {
+				res.end(JSON.stringify(resp))
+			})
+			.catch(err => {
+				console.error(err)
+				res.writeHead(500)
+				res.end(JSON.stringify({ err: 'handler error' }))
+			})
 	})
 
 	return router
