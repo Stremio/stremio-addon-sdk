@@ -129,41 +129,6 @@ tape('should return a valid html document', function (t) {
 	});
 })
 
-/*
-tape('create serverless handlers: getServerlessHandler()', function(t) {
-	var addon = new addonBuilder(manifest)
-
-	serverless = addon.getServerlessHandler()
-
-	t.ok(serverless.manifest, 'has serverless manifest handler')
-	t.ok(serverless.stream, 'has serverless resource handler')
-
-	t.end()
-})
-
-tape('create http server for serverless tests and request manifest', function(t) {
-	var http = require('http')
-
-	var httpServerless = http.createServer(serverless.manifest)
-
-	httpServerless.listen(serverlessPORT, 'localhost', function(err) {
-		t.error(err, 'error on http server for serverless tests')
-
-		request(httpServerless)
-		.get('/manifest.json')
-		.expect(200)
-		.end((err, res) => {
-			t.error(err, 'request error')
-			t.error(res.error, 'response error')
-			t.equal(res.ok, true, 'has response status 200')
-			t.equal(res.status, 200, 'has response status ok')
-			t.end()
-		})
-
-	})
-
-})
-*/
 
 tape('initialize an add-on client for the add-on', function(t) {
 	AddonClient.detectFromURL(addonUrl)
@@ -185,7 +150,6 @@ tape('initialize an add-on client for the add-on', function(t) {
 
 tape('define a stream handler on the add-on and test it', function(t) {
 	// @TODO use getInterface
-	
 	addonClient.get('stream', 'channel', '11')
 	.then(r => {
 		t.ok(r.streams, 'response has streams')
