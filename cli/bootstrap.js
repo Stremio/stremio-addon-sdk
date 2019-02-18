@@ -9,8 +9,6 @@ const path = require('path')
 const {promisify} = require('util')
 const mkdirp = promisify(require('mkdirp'))
 const inquirer = require('inquirer')
-const writeFile = promisify(fs.writeFile)
-const chmod = promisify(fs.chmod)
 
 if (typeof(dir) !== 'string') usage()
 if (fs.existsSync(dir)) usage({exists: true})
@@ -18,11 +16,11 @@ if (fs.existsSync(dir)) usage({exists: true})
 // @TODO split this and clean it up
 
 createAddon()
-.then(() => {
-	console.log(chalk.green(`BOOTSTRAPPER: addon created!`))
-	console.log(`BOOTSTRAPPER: launch your addon by running:\n\n\n`)
-	console.log(chalk.blue(`./${dir}/server.js --launch`))
-})
+	.then(() => {
+		console.log(chalk.green('BOOTSTRAPPER: addon created!'))
+		console.log('BOOTSTRAPPER: launch your addon by running:\n\n\n')
+		console.log(chalk.blue(`./${dir}/server.js --launch`))
+	})
 
 async function createAddon() {
 	await mkdirp(dir)
@@ -63,13 +61,13 @@ async function createAddon() {
 	// @TODO proper npm module
 	fs.writeFileSync(path.join(dir, 'addon.js'), outputIndexJS)
 	fs.writeFileSync(path.join(dir, 'server.js'), serverTmpl())
-	fs.chmodSync(path.join(dir, 'server.js'), 0755)
+	fs.chmodSync(path.join(dir, 'server.js'), '755')
 	// @TODO types and id prefixes
 	// @TODO subtitles
 }
 
 function usage({exists} = {}) {
-	if (exists) console.log(chalk.red(`Output directory already exists!`))
+	if (exists) console.log(chalk.red('Output directory already exists!'))
 	else console.log(`Usage: ${process.argv[1]} {OUTPUT DIRECTORY}`)
 	process.exit(1)
 }
@@ -109,8 +107,7 @@ addon.defineStreamHandler(({type, id}) => {
 `
 
 // @TODO port
-const footerTmpl = () => `module.exports = addon.getInterface()`
-
+const footerTmpl = () => 'module.exports = addon.getInterface()'
 
 function genIndex(manifest, resources) {
 	return [headerTmpl(manifest)]
