@@ -27,23 +27,35 @@ function AddonBuilder(manifest) {
 	}
 
 	// Validation: called on building
-	const validOrExit = function() {
+	const validate = function() {
+		const errors = []
 		const handlersInManifest = []
 		if (manifest.catalogs.length > 0) handlersInManifest.push('catalog')
 		manifest.resources.forEach((r) => handlersInManifest.push(r.name || r))
 		const handlersDefined = Object.keys(handlers)
 		handlersDefined.forEach(defined => {
 			if (!handlersInManifest.includes(defined)) {
-				if (defined == 'catalog') throw new Error('manifest.catalogs is empty, catalog handler will never be called')
-				else throw new Error('manifest.resources does not contain: '+defined)
+				if (defined == 'catalog') errors.push(new Error('manifest.catalogs is empty, catalog handler will never be called'))
+				else errors.push(new Error('manifest.resources does not contain: '+defined))
 			}
 		})
 		handlersInManifest.forEach(defined => {
 			if (!handlersDefined.includes(defined)) {
 				const capitalized = defined[0].toUpperCase() + defined.slice(1)
-				throw new Error(`manifest definition requires handler for ${defined}, but it is not provided (use .define${capitalized}Handler())`)
+				errors.push(new Error(
+					`manifest definition requires handler for ${defined},`
+					+` but it is not provided (use .define${capitalized}Handler())`
+				))
 			}
 		})
+		return errors
+	}
+	const validOrExit = function() {
+		const errors = validate()
+		if (errors.length) {
+			errors.forEach(e => console.error(`Error: ${e.message}`))
+			throw errors[0]
+		}
 	}
 
 	// Public interface
