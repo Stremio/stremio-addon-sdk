@@ -21,6 +21,9 @@
   "bugs": {
     "url": "https://github.com/Stremio/stremio-addon-sdk/issues"
   },
+  "bin": {
+    "addon-sdk-bootstrap": "./cli/bootstrap.js"
+  },
   "homepage": "https://github.com/Stremio/stremio-addon-sdk#readme",
   "dependencies": {
     "chalk": "^2.4.2",
