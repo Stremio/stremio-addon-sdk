@@ -2,16 +2,19 @@ const express = require('express')
 const landingTemplate = require('./landingTemplate')
 const getRouter = require('./getRouter')
 
-function serveHTTP({ manifest, get }, opts = {}) {
+function serveHTTP(addonInterface, opts = {}) {
+	if (addonInterface.constructor.name !== 'AddonInterface') {
+		throw new Error('first argument must be an instance of AddonInterface')
+	}
 	const app = express()
 	app.use((_, res, next) => {
 		if (opts.cache) res.setHeader('cache-control', 'max-age='+opts.cache)
 		next()
 	})
-	app.use(getRouter({ manifest, get }))
+	app.use(getRouter(addonInterface))
 
 	// landing page
-	const landingHTML = landingTemplate(manifest)
+	const landingHTML = landingTemplate(addonInterface.manifest)
 	app.get('/', (_, res) => {
 		res.setHeader('content-type', 'text/html')
 		res.end(landingHTML)
