@@ -15,6 +15,7 @@ const chmod = promisify(fs.chmod)
 if (typeof(dir) !== 'string') usage()
 if (fs.existsSync(dir)) usage({exists: true})
 
+// @TODO split this and clean it up
 
 createAddon()
 .then(() => {
@@ -86,6 +87,7 @@ const addon = new addonBuilder(${JSON.stringify(manifest, null, '\t')})
 const catalogTmpl = () => `
 addon.defineCatalogHandler(({type, id}) => {
 	console.log('request for catalogs: '+type+' '+id)
+	// Docs: https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/api/responses/meta.md
 	return Promise.resolve({ metas: [] })
 })
 `
@@ -93,6 +95,7 @@ addon.defineCatalogHandler(({type, id}) => {
 const metaTmpl = () => `
 addon.defineMetaHandler(({type, id}) => {
 	console.log('request for meta: '+type+' '+id)
+	// Docs: https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/api/responses/meta.md
 	return Promise.resolve({ meta: null })
 })
 `
@@ -100,6 +103,7 @@ addon.defineMetaHandler(({type, id}) => {
 const streamsTmpl = () => `
 addon.defineStreamHandler(({type, id}) => {
 	console.log('request for streams: '+type+' '+id)
+	// Docs: https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/api/responses/stream.md
 	return Promise.resolve({ streams: [] })
 })
 `
