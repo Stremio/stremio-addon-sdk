@@ -26,4 +26,4 @@ addon.defineStreamHandler(function(args) {
 	}
 })
 
-serveHTTP(addon, {})
+serveHTTP(addon.getInterface(), {})

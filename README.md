@@ -41,7 +41,7 @@ addon.defineStreamHandler(function(args, cb) {
     }
 })
 
-serveHTTP(addon, { port: 7000 })
+serveHTTP(addon.getInterface(), { port: 7000 })
 publishToCentral("https://your-domain/manifest.json") // <- invoke this if you want to publish your add-on and it's accessible publically on "your-domain"
 ```
 
@@ -107,7 +107,7 @@ If you have any issues regarding the Stremio Add-on SDK, please feel free to [re
 To migrate from v0.x, you need to:
 
 - change `new addonSDK` to `new addonBuilder`, which you can import via `const addonBuilder = require('stremio-addon-sdk').addonBuilder`
-- change `addon.run(opts)` to `serveHTTP(addon, opts)`, which you can import via `const serveHTTP = require('stremio-addon-sdk').serveHTTP`
+- change `addon.run(opts)` to `serveHTTP(addon.getInterface(), opts)`, which you can import via `const serveHTTP = require('stremio-addon-sdk').serveHTTP`
 - all handlers have to return a `Promise` (rather than take a `cb`)
 
 

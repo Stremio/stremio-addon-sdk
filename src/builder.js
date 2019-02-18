@@ -75,14 +75,19 @@ function AddonBuilder(manifest) {
 		validOrExit()
 		const get = (resource, type, id, extra = {}) => {
 			const handler = handlers[resource]
-			if (!handler) return Promise.reject(`No handler for ${resource}`)
+			if (!handler) {
+				return Promise.reject({
+					message: `No handler for ${resource}`,
+					noHandler: true
+				})
+			}
 			return handler({ type, id, extra })
 		}
 		return { manifest, get }
 	}
 	this.getRouter = function() {
 		validOrExit()
-		return getRouter(manifest, handlers)
+		return getRouter(this.getInterface())
 	}
 
 	return this

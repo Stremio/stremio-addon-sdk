@@ -1,20 +1,17 @@
 const express = require('express')
 const landingTemplate = require('./landingTemplate')
+const getRouter = require('./getRouter')
 
-function serveHTTP(builder, opts = {}) {
-	if (builder.constructor.name !== 'AddonBuilder') {
-		throw new Error('first argument must be an instance of AddonBuilder')
-	}
-
+function serveHTTP({ manifest, get }, opts = {}) {
 	const app = express()
 	app.use((_, res, next) => {
 		if (opts.cache) res.setHeader('cache-control', 'max-age='+opts.cache)
 		next()
 	})
-	app.use(builder.getRouter())
+	app.use(getRouter({ manifest, get }))
 
 	// landing page
-	const landingHTML = landingTemplate(builder.getInterface().manifest)
+	const landingHTML = landingTemplate(manifest)
 	app.get('/', (_, res) => {
 		res.setHeader('content-type', 'text/html')
 		res.end(landingHTML)
@@ -30,6 +27,7 @@ function serveHTTP(builder, opts = {}) {
 				//const base = 'https://app.strem.io/shell-v4.4#/addons/community/all'
 				//const base = 'https://app.strem.io/shell-v4.4#/discover/'
 				const installUrl = `${base}?addon=${encodeURIComponent(url)}`
+				// @TODO better launcher
 				require('child_process').exec(`chromium --incognito "${installUrl}"`)
 			}
 			resolve({ url, server })

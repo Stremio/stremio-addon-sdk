@@ -40,7 +40,7 @@ addon.defineStreamHandler(function(args, cb) {
     }
 })
 
-serveHTTP(addon, { port: 7000 })
+serveHTTP(addon.getInterface(), { port: 7000 })
 
 // If you want this add-on to appear in the addon catalogs, call .publishToCentral() with the publically available URL to your manifest
 //publishToCentral('https://my-addon.com/manifest.json')
@@ -116,7 +116,7 @@ This method expects a string with a folder name.
 Publishes your add-on to a directory. This creates a static version of your add-on in a folder that can then be [published with now.sh](https://github.com/Stremio/stremio-static-addon-example) or uploaded to a web server. As this is a static version of your add-on it is not scallable and presumes you are not using a database. Alternatively, you can use a database and re-publish your add-on to a directory periodically to update data.
 
 
-#### `serveHTTP(options)`
+#### `serveHTTP(addonInterface, options)`
 
 Starts the addon server. `options` is an object that contains:
 

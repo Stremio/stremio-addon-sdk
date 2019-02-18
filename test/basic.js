@@ -66,7 +66,7 @@ tape('create an addon and expose on HTTP with serveHTTP()', function(t) {
 		// NOTE: we're not supposed to mirror back the `args`, but we're doing it for easier testing
 		.defineStreamHandler((args) => Promise.resolve({ streams: [], args }))
 
-	serveHTTP(addon, { port: PORT, cache: 3600 }).then(function(h) {
+	serveHTTP(addon.getInterface(), { port: PORT, cache: 3600 }).then(function(h) {
 		t.ok(h.url, 'has url')
 		t.ok(h.url.endsWith('manifest.json'), 'url ends with manifest.json')
 

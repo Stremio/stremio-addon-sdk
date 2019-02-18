@@ -109,7 +109,7 @@ addon.defineStreamHandler(({type, id}) => {
 `
 
 // @TODO port
-const footerTmpl = () => `module.exports = addon`
+const footerTmpl = () => `module.exports = addon.getInterface()`
 
 
 function genIndex(manifest, resources) {
