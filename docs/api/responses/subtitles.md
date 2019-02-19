@@ -4,4 +4,4 @@ Used as a response for [`defineSubtitlesHandler`](../requests/defineSubtitlesHan
 
 ``url`` - **required** - url to the subtitle file
 
-``lang`` - **required** - language code for the subtitle, in ISO 639-1
+``lang`` - **required** - language code for the subtitle, in ISO 639-2

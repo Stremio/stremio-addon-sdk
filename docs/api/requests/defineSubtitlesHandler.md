@@ -34,7 +34,7 @@ addon.defineSubtitlesHandler(function(args, cb) {
         // serve one subtitle for big buck bunny
         const subtitle = {
             url: 'https://mkvtoolnix.download/samples/vsshort-en.srt',
-            lang: 'en'
+            lang: 'eng'
         }
         cb(null, { subtitles: { all: [subtitle] } })
     } else {
