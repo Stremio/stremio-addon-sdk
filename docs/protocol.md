@@ -19,7 +19,7 @@ Currently used resources are: `catalog`, `meta`, `stream`, `subtitles`.
 
 `/stream/{type}/{id}.json` - list of all streams for a particular item; `type` again denotes the type, and `id` is the ID of the particular item, as found in the catalog or a video ID (a single metadata object may contain mutiple videos, for example a YouTube channel or a TV series)
 
-`/subtitle/{type}/{id}.json` - list of all subtitles for a particular item; `type` again denotes the type, and `id` is the ID of the particular item, as found in the catalog or a video ID (a single metadata object may contain mutiple subtitles)
+`/subtitles/{type}/{id}.json` - list of all subtitles for a particular item; `type` again denotes the type, the `id` in this case is the Open Subtitles file hash, while `extraArgs` (read below) is used for `videoId` (the ID of the particular item, as found in the catalog or a video ID) and `videoSize` (video file size in bytes)
 
 The JSON format of the response to these resources is described [here](./api/responses/).
 
