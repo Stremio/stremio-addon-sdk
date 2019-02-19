@@ -116,12 +116,12 @@ tape('initialize an addon client for the addon', function(t) {
 			// NOTE: this is an important design principle - immutability on the manifest object
 			t.deepEquals(resp.addon.manifest, manifest, 'addon.manifest is the same as manifest')
 
-			const addon = resp.addon
-			return addon.get('stream', 'channel', '11')
+			const addonClient = resp.addon
+			return addonClient.get('stream', 'channel', '11')
 				.then(function(resp) {
 					t.ok(resp.streams, 'has streams')
 					t.deepEqual(resp.args, { type: 'channel', id: '11', extra: {} }, 'args parsed right')
-					return addon.get('stream', 'channel', '11', { search: 'foobar' })
+					return addonClient.get('stream', 'channel', '11', { search: 'foobar' })
 				})
 				.then(function(resp) {
 					t.ok(resp.streams, 'has streams')
