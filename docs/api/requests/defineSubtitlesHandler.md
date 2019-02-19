@@ -7,39 +7,39 @@ Returns:
 
 `args` - request object; parameters defined below
 
-`cb` - function expecting to be called with `Error` and/or an object containing `{ subtitles: [] }` with an array of [Subtitle Objects](../responses/subtitles.md).
+`cb` - function expecting to be called with `Error` and/or an object containing `{ subtitles: { all: [] } }` with an array of [Subtitle Objects](../responses/subtitles.md).
 
 
 ## Request Parameters
 
 ``type`` - type of the item that we're requesting subtitles for; e.g. `movie`, `series`, `channel`, `tv` (see [Content Types](../responses/content.types.md))
 
-``id`` - string id of the meta item that we're requesting subtitles for; these are set in the [Meta Object](../responses/meta.md)
+``id`` - string open subtitles file hash for the video
 
 ``extra`` - object that holds additional properties; parameters defined below
 
 
 ## Extra Parameters
 
-``itemHash`` - can be a Metadata Item Hash or Open Subtitles File Hash; the Metadata Item Hash is defined as a combination of the [Meta Object](../responses/meta.md)'s id followed by `season` / `episode` or `video_id`, separated by a `:`, an example of this is `tt0898266:9:17`; if it is an Open Subtitles File Hash, `itemHash` will start with `opensubtitles:`
+``videoId`` - string id of the meta item that we're requesting subtitles for; these are set in the [Meta Object](../responses/meta.md)
+
+``videoSize`` - size of the video file in bytes
 
 
 ## Basic Example
 
 ```javascript
 addon.defineSubtitlesHandler(function(args, cb) {
-    if (args.extra && args.extra.itemHash === 'tt1254207') {
-        // serve one stream to big buck bunny
-        // return addonSDK.Stream({ url: '...' })
+    if (args.extra && args.extra.videoId === 'tt1254207') {
+        // serve one subtitle for big buck bunny
         const subtitle = {
-            id: 'sub1',
             url: 'https://mkvtoolnix.download/samples/vsshort-en.srt',
             lang: 'en'
         }
-        cb(null, { subtitles: [subtitle] })
+        cb(null, { subtitles: { all: [subtitle] } })
     } else {
-        // otherwise return no streams
-        cb(null, { subtitles: [] })
+        // otherwise return no subtitles
+        cb(null, { subtitles: { all: [] } })
     }
 })
 ```
