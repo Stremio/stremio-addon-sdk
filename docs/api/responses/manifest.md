@@ -47,7 +47,7 @@ The local addon is an example of a [complex resource description](https://github
 
 ``type`` - this is the content type of the catalog
 
-``id`` - the id of the catalog, can be any unique string describing the catalog (unique per add-on, as an add-on can have many catalogs), for example: if the catalog name is "Favourite Youtube Videos", the id can be "fav_youtube_videos"
+``id`` - the id of the catalog, can be any unique string describing the catalog (unique per add-on, as an add-on can have many catalogs), for example: if the catalog name is "Favourite Youtube Videos", the id can be `"fav_youtube_videos"`
 
 ``name`` - human readable name of the catalog
 
