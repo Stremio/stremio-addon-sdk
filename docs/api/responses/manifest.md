@@ -40,7 +40,7 @@ The local addon is an example of a [complex resource description](https://github
 
 **NOTE:** Leave this an empty array (``[]``) if your add-on does not provide the `catalog` resource.
 
-``catalogs`` - _optional_ - a list of the content catalogs your add-on provides, an array of objects in the catalog format (see below), although this is marked as "optional" it is **required** in all cases that serve playable streams, the only case in which this is not required is when making add-ons that serve only subtitles and no streams
+``catalogs`` - **required** - a list of the content catalogs your add-on provides, an array of objects in the catalog format (see below), although this is marked as "optional" it is **required** in all cases that serve playable streams, the only case in which this is not required is when making add-ons that serve only subtitles and no streams
 
 
 ### Catalog format
