@@ -77,6 +77,7 @@ The format of `extra` is an array of `{ name, isRequired, options, optionsLimit 
 
 For a complete list of extra catalog properties that Stremio pays attention to, check the [Catalog Handler Definition](../requests/defineCatalogHandler.md)
 
+If you're looking for the legacy way of setting extra propreties (also called "short"), [check out the old docs](https://github.com/Stremio/stremio-addon-sdk/blob/b11bd517f8ce3b24a843de320ec8ac193611e9a0/docs/api/responses/manifest.md#catalog-format)
 
 ## Other metadata
 
