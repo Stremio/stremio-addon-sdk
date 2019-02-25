@@ -121,3 +121,9 @@ This manifest example is for an add-on that:
 - provides streams and catalogs
 - has one catalog that includes movies
 - will receive stream requests for meta items that have an id that starts with `tt` (imdb id, example: `tt0068646`), for both movies and series
+
+For more examples of addon manifests, see:
+
+* https://github.com/Stremio/stremio-local-addon/blob/master/lib/manifest.js
+* https://stremio-public-domain-foreign.now.sh/manifest.json
+* https://v3-cinemeta.strem.io/manifest.json
