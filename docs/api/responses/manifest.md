@@ -45,28 +45,37 @@ The local addon is an example of a [complex resource description](https://github
 
 ### Catalog format
 
-``type`` - this is the content type of the catalog
+``type`` - **required** - this is the content type of the catalog
 
-``id`` - the id of the catalog, can be any unique string describing the catalog (unique per add-on, as an add-on can have many catalogs), for example: if the catalog name is "Favourite Youtube Videos", the id can be `"fav_youtube_videos"`
+``id`` - **required** - the id of the catalog, can be any unique string describing the catalog (unique per add-on, as an add-on can have many catalogs), for example: if the catalog name is "Favourite Youtube Videos", the id can be `"fav_youtube_videos"`
 
-``name`` - human readable name of the catalog
+``name`` - **required** - human readable name of the catalog
 
-``extraSupported`` - all of the extra properties this catalog support, array of strings (explained below)
-
-``extraRequired`` - all of the extra properties this catalog requires, array of strings; all properties included here must also be in `extraSupported` (explained below)
+``extra`` - _optional_ - all extra properties related to this catalog; should be set to an array of `{ name, isRequired, options, optionsLimit }`
 
 
-**NOTE:**
+#### Extra properties
 
 Stremio can invoke `/catalog/{type}/{id}.json` for catalogs specified in `catalogs` in order to get the feed of [Meta Objects](./meta.md).
 
-It can also invoke `/catalog/{type}/{id}/{extraArgs}.json` in which case `{extraArgs}` will contain other properties such as a search query in order to search the catalog for a list of [Meta Object](./meta.md) results.
+It can also invoke `/catalog/{type}/{id}/{extraProps}.json` in which case `{extraProps}` will contain other properties such as a search query in order to search the catalog for a list of [Meta Object](./meta.md) results.
 
-``extraSupported`` and ``extraRequired`` only need to be set in certain cases, for example, these don't need to be set if your catalog only supports giving a feed of items, but not search them. If your catalog supports searching, set `extraSupported: ['search']`, if your catalog supports filtering by `genre`, set `extraSupported: ['genre']`. But what if your catalog supports only searching, but not giving a feed? Then set `extraSupported: ['search'], extraRequired: ['search']` and your catalog will only be requested for searching, nothing else.
+``extra`` only needs to be set in certain cases, for example, these don't need to be set if your catalog only supports giving a feed of items, but not search them.
 
-If your catalog supports any extra properties, `extraSupported` is mandatory. If you use `extraRequired`, `extraSupported` is still mandatory and must include at least all properties included in `extraRequired`
+If your catalog supports searching, set `extra: [{ name: 'search', isRequired: false }]`, if your catalog supports filtering by `genre`, set `extra: [{ name: 'genre', isRequired: false }]`. But what if your catalog supports only searching, but not giving a feed? Then set `extra: [{ name: 'search', isRequired: true }]` and your catalog will only be requested for searching, nothing else.
 
-For a complete list of extra catalog properties check the [Catalog Handler Definition](../requests/defineCatalogHandler.md)
+The format of `extra` is an array of `{ name, isRequired, options, optionsLimit }`, where:
+
+* `name` - **required** - is the name of the property; this name will be used in the `extraProps` argument itself
+
+* `isRequired` - _optional_ - set to true if this property must always be passed
+
+* `options` - _optional_ - array of possible values for this property; this is useful for things like genres, where you need the user to select from a pre-set list of options
+
+* `optionsLimit` - _optional_ - the limit of values a user may select from the pre-set `options` list; by default, this is set to 1
+
+
+For a complete list of extra catalog properties that Stremio pays attention to, check the [Catalog Handler Definition](../requests/defineCatalogHandler.md)
 
 
 ## Other metadata
