@@ -1,6 +1,7 @@
 const express = require('express')
 const landingTemplate = require('./landingTemplate')
 const getRouter = require('./getRouter')
+const opn = require('opn')
 
 function serveHTTP(addonInterface, opts = {}) {
 	if (addonInterface.constructor.name !== 'AddonInterface') {
@@ -30,8 +31,7 @@ function serveHTTP(addonInterface, opts = {}) {
 				//const base = 'https://app.strem.io/shell-v4.4#/addons/community/all'
 				//const base = 'https://app.strem.io/shell-v4.4#/discover/'
 				const installUrl = `${base}?addon=${encodeURIComponent(url)}`
-				// @TODO better launcher
-				require('child_process').exec(`chromium --incognito "${installUrl}"`)
+				opn(installUrl)
 			}
 			resolve({ url, server })
 		})
