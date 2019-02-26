@@ -38,7 +38,7 @@ addon.defineCatalogHandler(function(args, cb) {
         // to both feed and search requests
 
         const meta = {
-            id: 'imdb_id:tt1254207',
+            id: 'tt1254207',
             name: 'Big Buck Bunny',
             year: 2008,
             poster: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/uVEFQvFMMsg4e6yb03xOfVsDz4o.jpg',
