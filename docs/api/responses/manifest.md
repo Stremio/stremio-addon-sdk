@@ -13,6 +13,8 @@ Valid properties are:
 
 ``description`` - **required** - human readable description
 
+``version`` - **required** - [semantic version](https://semver.org/) of the add-on
+
 
 ## Filtering properties
 
