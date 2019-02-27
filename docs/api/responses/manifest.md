@@ -28,7 +28,7 @@ Valid properties are:
 
 ### Advanced
 
-A resource may either be a string (e.g. `'meta'`) or an object of the format `{ name, types, idPrefixes  }`.
+A resource may either be a string (e.g. `"meta"`) or an object of the format `{ name, types, idPrefixes?  }`.
 
 The latter can be used to provide different `types` and `idPrefixes` for a particular resource. Those properties work in the same way as if you put them in the manifest directly.
 
