@@ -187,5 +187,5 @@ tape('publishToCentral', function(t) {
 
 tape.onFinish(function() {
 	// cause the server is still listening
-	process.exit()
+	addonServer.close()
 })
