@@ -105,6 +105,9 @@ const packageTmpl = ({ name, version, description }) => `{
 	"name": "${name}",
 	"version": "${version}",
 	"description": "${description}",
+	"scripts": {
+		"start": "node server.js"
+	},
 	"dependencies": {
 		"stremio-addon-sdk": "1.0.x"
 	}
