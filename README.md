@@ -74,7 +74,7 @@ SDK Features Include:
 
 - Publishing an add-on through HTTP(s)
 - Publishing an add-on through IPFS
-- Publishing your add-on link to the [public Add-on collection](https://api.strem.io/addonscollection.json) with [.publishToCentral](./docs/README.md#publishtocentral)
+- Publishing your add-on link to the [public Add-on collection](https://api.strem.io/addonscollection.json) with [publishToCentral](./docs/README.md#publishtocentral)
 - Creating a homepage for your add-on that includes an "Install Add-on" button
 
 ## Testing
@@ -91,6 +91,7 @@ In order for your add-on to be used by others, it needs to be deployed online.
 
 You can check our [list of recommended hosting providers for Node.js](./docs/deploying.md) or alternatively host it locally with [localtunnel](https://github.com/localtunnel/localtunnel).
 
+After you've deployed publically, in order to get your add-on to show in Stremio (through the [public Add-on collection](https://api.strem.io/addonscollection.json)), you need to use [publishToCentral](./docs/README.md#publishtocentral).
 
 
 ## Examples
