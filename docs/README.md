@@ -69,12 +69,14 @@ and `serveHTTP`, which you will need to serve a HTTP server for this addon
 
 Creates an  add-on builder obbject with a given manifest. This will throw if the manifest is not valid.
 
+The manifest will determine the basic information of your add-on (name, description, images), but most importantly, it will determine **when and how** your add-on will be invoked by Stremio.
+
 [Manifest Object Definition](./api/responses/manifest.md)
 
 
 #### `addon.defineCatalogHandler(function handler(args) { })`
 
-Handles catalog feed and search requests.
+Handles catalog requests, including search.
 
 [Catalog Request Parameters and Example](./api/requests/defineCatalogHandler.md)
 
