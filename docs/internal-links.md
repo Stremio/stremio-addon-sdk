@@ -38,9 +38,9 @@ In the Channels add-on, the `videoID` is formed as `{id}:{youtube video ID}`
 
 Examples:
 
-[stremio://detail/movie/tt0066921/tt0066921][stremio://detail/movie/tt0066921/tt0066921]
+[stremio://detail/movie/tt0066921/tt0066921](stremio://detail/movie/tt0066921/tt0066921)
 
-[stremio://detail/series/tt0108778/tt0108778:1:1][stremio://detail/series/tt0108778:1:1]
+[stremio://detail/series/tt0108778/tt0108778:1:1](stremio://detail/series/tt0108778:1:1)
 
 [stremio://detail/channel/yt_id:UCrDkAvwZum-UTjHmzDI2iIw](stremio://detail/channel/yt_id:UCrDkAvwZum-UTjHmzDI2iIw)
 
