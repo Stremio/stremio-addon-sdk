@@ -24,7 +24,7 @@ A promise that resolves to an object containing `{ metas: [] }` with an array of
 
 ## Extra Parameters
 
-If you wish to use these parameters, you'll need to specify them in `extraSupported` for the catalog in the [add-on manifest](../responses/manifest.md)
+If you wish to use these parameters, you'll need to specify them in `extra` for the catalog in the [add-on manifest](../responses/manifest.md#extra-properties)
 
 ``search`` - set in the `extra` object; string to search for in the catalog
 
