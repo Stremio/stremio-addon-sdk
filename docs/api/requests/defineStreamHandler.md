@@ -15,7 +15,7 @@ A promise resolving to an an object containing `{ streams: [] }` with an array o
 
 ``type`` - type of the item that we're requesting streams for; e.g. `movie`, `series`, `channel`, `tv` (see [Content Types](../responses/content.types.md))
 
-``id`` - a Video ID as described in the [Video Object](../responses/meta.md#videoobject). The Video ID is the same as the Meta ID for movies, and formed by joining the Meta ID, season and episode for IMDb series (e.g. `"tt0898266:9:17"`).
+``id`` - a Video ID as described in the [Video Object](../responses/meta.md#video-object). The Video ID is the same as the Meta ID for movies, and formed by joining the Meta ID, season and episode for IMDb series (e.g. `"tt0898266:9:17"`).
 
 
 ## Basic Example

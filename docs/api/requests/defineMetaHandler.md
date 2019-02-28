@@ -15,7 +15,7 @@ A promise resolving to an object containing `{ meta: {} }` with a [Meta Object](
 
 ``type`` - type of the item; e.g. `movie`, `series`, `channel`, `tv` (see [Content Types](../responses/content.types.md))
 
-``id`` - string id of the meta item that is requested; these are set in the [Meta Object](../responses/meta.md)
+``id`` - string id of the meta item that is requested; these are set in the [Meta Preview Object](../responses/meta.md#meta-preview-object)
 
 
 ## Basic Example
@@ -25,13 +25,11 @@ addon.defineMetaHandler(function(args) {
     if (args.type === 'movie' && args.id === 'tt1254207') {
         // serve metadata for Big Buck Bunny
         const metaObj = {
-            id: 'imdb_id:tt1254207',
+            id: 'tt1254207',
             name: 'Big Buck Bunny',
             year: 2008,
             poster: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/uVEFQvFMMsg4e6yb03xOfVsDz4o.jpg',
             posterShape: 'regular',
-            banner: 'https://image.tmdb.org/t/p/original/aHLST0g8sOE1ixCxRDgM35SKwwp.jpg',
-            isFree: true,
             type: 'movie'
         }
         return Promise.resolve({ meta: metaObj })

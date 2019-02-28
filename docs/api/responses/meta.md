@@ -1,8 +1,8 @@
 ## Meta Object
 
-Used as a response for [`defineCatalogHandler`](../requests/defineCatalogHandler.md) and [`defineMetaHandler`](../requests/defineMetaHandler.md)
+Used as a response for [`defineMetaHandler`](../requests/defineMetaHandler.md)
 
-``id`` - **required** - universal identifier, formed like `DOMAIN_id:ID`, for example `yt_id:UCrDkAvwZum-UTjHmzDI2iIw`.
+``id`` - **required** - universal identifier; you may use a [prefix](./manifest.md##filtering-properties) unique to your add-on, for example `yt_id:UCrDkAvwZum-UTjHmzDI2iIw`
 
 ``type`` - **required** - type of the content; e.g. `movie`, `series`, `channel`, `tv` (see [Content Types](./content.types.md))
 
@@ -96,3 +96,26 @@ You can see a comprehensive example of how detailed Meta objects with videos are
     thumbnail: "https://i.ytimg.com/vi/9bZkp7q19f0/hqdefault.jpg"
 }
 ```
+
+## Meta Preview Object
+
+This is a shorter variant of the previously described [Meta Object](#meta-object)
+
+Used as a response for [`defineCatalogHandler`](../requests/defineCatalogHandler.md)
+
+``id`` - **required** - universal identifier; you may use a [prefix](./manifest.md##filtering-properties) unique to your add-on, for example `yt_id:UCrDkAvwZum-UTjHmzDI2iIw`
+
+``type`` - **required** - type of the content; e.g. `movie`, `series`, `channel`, `tv` (see [Content Types](./content.types.md))
+
+``name`` - **required** - name of the content
+
+``poster`` - **required** - URL to png of poster; accepted aspect ratios: 1:0.675 (IMDb poster type) or 1:1 (square) ; you can use any resolution, as long as the file size is below 100kb; below 50kb is recommended
+
+``posterShape`` - _optional_ - can be `square` (1:1 aspect) or `regular` (1:0.675) or `landscape` (1:1.77). If you don't pass this, `regular` is assumed
+
+``background`` - _optional_ - the background shown on the stremio detail page ; heavily encouraged if you want your content to look good; URL to PNG, max file size 500kb
+
+``logo`` - _optional_ - the logo shown on the stremio detail page ; encouraged if you want your content to look good; URL to PNG
+
+``description`` - _optional_ - a few sentances describing your content
+
