@@ -22,9 +22,13 @@ Returns:
 
 ## Extra Parameters
 
+If you wish to use these parameters, you'll need to specify them in `extraSupported` for the catalog in the [add-on manifest](../responses/manifest.md)
+
 ``search`` - set in the `extra` object; string to search for in the catalog
 
 ``genre`` - set in the `extra` object; array of strings to filter the feed or search results by genres
+
+``skip`` - set in the `extra` object; used for catalog pagination
 
 
 ## Basic Example
