@@ -59,7 +59,7 @@ It will output a URL that you can use to [install the add-on in Stremio](./docs/
 
 ## Documentation
 
-All our documentation is [hosted on GitHub](./docs). Take a look at our [examples list](./docs/examples/Readme.md) for some high-level
+All our documentation is [hosted on GitHub](./docs). Take a look at our [examples list](./docs/examples/README.md) for some high-level
 information, or dive straight into our [SDK documentation](./docs/README.md) for our code reference docs.
 
 We also have an [example add-on](https://github.com/Stremio/addon-helloworld) that you can use as a guide to help you build your own add-on.
@@ -95,7 +95,7 @@ You can check our [list of recommended hosting providers for Node.js](./docs/dep
 
 ## Examples
 
-Check out our ever growing list of [examples and demo add-ons](./docs/examples/Readme.md).
+Check out our ever growing list of [examples and demo add-ons](./docs/examples/README.md).
 
 
 ## Reporting Issues
