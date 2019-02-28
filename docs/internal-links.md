@@ -2,6 +2,8 @@
 
 Stremio supports two types of internal links through the `stremio://` protocol
 
+**NOTE:** GitHub does not allow links with a custom protocol, so just copy-paste the examples links in your browser's address bar and press Enter.
+
 ## To addons
 
 Simply take a normal URL to a Stremio add-on manifest, e.g. `https://watchhub-us.strem.io/manifest.json`, and replace the leading `https://` with `stremio://`
