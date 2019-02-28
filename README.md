@@ -85,11 +85,12 @@ For developers looking for a quick way to test their new add-ons, you can either
 - [Test with our Web Version](./docs/testing.md#testing-in-stremio-web-version)
 
 
-## Hosting
+## Deploying
 
-In order for your add-on to be used by others, it needs to be hosted online.
+In order for your add-on to be used by others, it needs to be deployed online.
 
-You can check our [list of recommended hosting providers for Node.js](./docs/hosting.md) or alternatively host it locally with [localtunnel](https://github.com/localtunnel/localtunnel).
+You can check our [list of recommended hosting providers for Node.js](./docs/deploying.md) or alternatively host it locally with [localtunnel](https://github.com/localtunnel/localtunnel).
+
 
 
 ## Examples
