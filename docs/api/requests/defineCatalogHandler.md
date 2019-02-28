@@ -9,7 +9,7 @@ This method handles both catalog feed and search requests.
 
 ### Returns:
 
-A promise that resolves to an object containing `{ metas: [] }` with an array of [Meta Object](../responses/meta.md)
+A promise that resolves to an object containing `{ metas: [] }` with an array of [Meta Preview Object](../responses/meta.md#meta-preview-object)
 
 
 
