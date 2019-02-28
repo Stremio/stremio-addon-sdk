@@ -19,6 +19,7 @@ createAddon()
 	.then(() => {
 		console.log(chalk.green('BOOTSTRAPPER: addon created!'))
 		console.log('BOOTSTRAPPER: launch your addon by running:\n\n\n')
+		console.log(chalk.blue(`( cd ${dir} && npm install )`))
 		console.log(chalk.blue(`./${dir}/server.js --launch`))
 	})
 
@@ -46,6 +47,7 @@ async function createAddon() {
 				{name: 'catalog'},
 				{name: 'stream'},
 				{name: 'meta'},
+				{name: 'subtitles'},
 			]
 		}
 	])
@@ -55,6 +57,7 @@ async function createAddon() {
 		id: 'id.gettingstarted',
 		version: '0.0.1',
 		// @TODO types
+		// @TODO idPrefixes
 		catalogs: userInput.resources.includes('catalog') ? [{ type: 'movie', id: 'top' }] : [],
 		resources: [],
 		types: ['movie'],
@@ -63,13 +66,11 @@ async function createAddon() {
 
 	const outputIndexJS = genIndex(manifest, userInput.resources)
 
-	// @TODO proper npm module
 	fs.writeFileSync(path.join(dir, 'addon.js'), outputIndexJS)
 	fs.writeFileSync(path.join(dir, 'server.js'), serverTmpl())
 	fs.chmodSync(path.join(dir, 'server.js'), '755')
 	fs.writeFileSync(path.join(dir, 'package.json'), packageTmpl({ version: manifest.version, ...userInput }))
-	// @TODO types and id prefixes
-	// @TODO subtitles
+	fs.writeFileSync(path.join(dir, '.gitignore'), gitignoreTmpl())
 }
 
 function usage({exists} = {}) {
@@ -89,8 +90,7 @@ const addon = new addonBuilder(${JSON.stringify(manifest, null, '\t')})
 `
 
 // @TODO: auto update the stremio-addon-sdk version
-const packageTmpl = ({ name, version, description }) => `
-{
+const packageTmpl = ({ name, version, description }) => `{
 	"name": "${name}",
 	"version": "${version}",
 	"description": "${description}",
@@ -98,6 +98,9 @@ const packageTmpl = ({ name, version, description }) => `
 		"stremio-addon-sdk": "1.0.x"
 	}
 }
+`
+
+const gitignoreTmpl = () => `node_modules
 `
 
 const catalogTmpl = () => `
