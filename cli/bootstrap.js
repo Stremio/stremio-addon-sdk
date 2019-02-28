@@ -49,7 +49,18 @@ async function createAddon() {
 				{name: 'meta'},
 				{name: 'subtitles'},
 			]
-		}
+		},
+		{
+			type: 'checkbox',
+			message: 'Select the types that your addon provides',
+			name: 'types',
+			choices: [
+				{name: 'movie'},
+				{name: 'series'},
+				{name: 'channel'},
+				{name: 'tv'},
+			],
+		},
 	])
 
 	const manifest = {
