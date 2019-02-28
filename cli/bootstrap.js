@@ -93,7 +93,7 @@ function usage({exists} = {}) {
 const serverTmpl = () => `#!/usr/bin/env node
 const { serveHTTP } = require('stremio-addon-sdk')
 const addon = require('./addon')
-serveHTTP(addon, { /* port: 7778 */ })`
+serveHTTP(addon, { port: 7778 })`
 
 const headerTmpl = (manifest) => `const { addonBuilder } = require('stremio-addon-sdk')
 
