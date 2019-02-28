@@ -34,6 +34,11 @@ async function createAddon() {
 			message: 'What is the addon name?',
 		},
 		{
+			type: 'input',
+			name: 'description',
+			message: 'What is your addon\'s description?',
+		},
+		{
 			type: 'checkbox',
 			message: 'Select the resources that your addon provides',
 			name: 'resources',
@@ -62,6 +67,7 @@ async function createAddon() {
 	fs.writeFileSync(path.join(dir, 'addon.js'), outputIndexJS)
 	fs.writeFileSync(path.join(dir, 'server.js'), serverTmpl())
 	fs.chmodSync(path.join(dir, 'server.js'), '755')
+	fs.writeFileSync(path.join(dir, 'package.json'), packageTmpl({ version: manifest.version, ...userInput }))
 	// @TODO types and id prefixes
 	// @TODO subtitles
 }
@@ -80,6 +86,18 @@ serveHTTP(addon, { /* port: 7778 */ })`
 const headerTmpl = (manifest) => `const { addonBuilder } = require('stremio-addon-sdk')
 
 const addon = new addonBuilder(${JSON.stringify(manifest, null, '\t')})
+`
+
+// @TODO: auto update the stremio-addon-sdk version
+const packageTmpl = ({ name, version, description }) => `
+{
+	"name": "${name}",
+	"version": "${version}",
+	"description": "${description}",
+	"dependencies": {
+		"stremio-addon-sdk": "1.0.x"
+	}
+}
 `
 
 const catalogTmpl = () => `
