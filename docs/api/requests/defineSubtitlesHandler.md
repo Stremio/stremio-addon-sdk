@@ -15,7 +15,7 @@ A promise resolving to an object containing `{ subtitles: { all: [] } }` with an
 
 ``type`` - type of the item that we're requesting subtitles for; e.g. `movie`, `series`, `channel`, `tv` (see [Content Types](../responses/content.types.md))
 
-``id`` - string open subtitles file hash for the video
+``id`` - string opensubtitles file hash for the video
 
 ``extra`` - object that holds additional properties; parameters defined below
 

@@ -46,7 +46,6 @@ Used as a response for [`defineCatalogHandler`](../requests/defineCatalogHandler
 
 ``website`` - _optional_ - URL to official website
 
-``isPeered`` - _optional_ - set this property if you know whether that item can be streamed with peering by the same add-on which is serving the meta
 
 #### Video object
 
@@ -70,15 +69,12 @@ Used as a response for [`defineCatalogHandler`](../requests/defineCatalogHandler
 
 ``overview`` - _optional_ - video overview/summary
 
-_**NOTE** - In case you've provided ``id``, the query to ``stream.find`` for playing that video will contain ``video_id`` property with the same value._
-
-_In case you've provided ``season`` and ``episode`` combination, both would be contained in the query to ``stream.find``._
 
 ##### Video object - series example
 
 ```javascript
 {
-    id: "1:1",
+    id: "tt0108778:1:1",
     title: "Pilot",
     publishedAt: new Date("1994-09-22 20:00 UTC+02"),
     season: 1,
@@ -87,12 +83,14 @@ _In case you've provided ``season`` and ``episode`` combination, both would be c
 }
 ```
 
+You can see a comprehensive example of how detailed Meta objects with videos are returned [here, on the Cinemeta add-on](https://v3-cinemeta.strem.io/meta/series/tt0386676/lastVideos=1.json)
+
 ##### Video object - YouTube video example (channels)
 
 
 ```javascript
 {
-    id: "9bZkp7q19f0",
+    id: "yt_id:UCrDkAvwZum-UTjHmzDI2iIw:9bZkp7q19f0",
     title: "PSY - GANGNAM STYLE",
     publishedAt: new Date("2012-07-15 20:00 UTC+02"),
     thumbnail: "https://i.ytimg.com/vi/9bZkp7q19f0/hqdefault.jpg"
