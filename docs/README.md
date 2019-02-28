@@ -67,7 +67,7 @@ and `serveHTTP`, which you will need to serve a HTTP server for this addon
 
 #### `const addon = new addonBuilder(manifest)`
 
-Creates an  add-on builder obbject with a given manifest. 
+Creates an  add-on builder obbject with a given manifest. This will throw if the manifest is not valid.
 
 [Manifest Object Definition](./api/responses/manifest.md)
 
@@ -99,6 +99,8 @@ Handles subtitle requests.
 
 [Subtitle Request Parameters and Example](./api/requests/defineSubtitlesHandler.md)
 
+**The JSON format of the response to these resources is described [here](./api/responses).**
+
 
 #### `addon.getInterface()`
 
@@ -125,6 +127,5 @@ Starts the addon server. `options` is an object that contains:
 * `cache` (in seconds); `cache` means the `Cache-Control` header being set to `max-age=$cache`
 
 
-**The JSON format of the response to these resources is described [here](./api/responses).**
 
 
