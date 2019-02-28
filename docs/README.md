@@ -27,8 +27,8 @@ const addon = new addonBuilder({
     idPrefixes: ['tt']
 })
 
-// takes function(args, cb)
-addon.defineStreamHandler(function(args, cb) {
+// takes function(args), returns Promise
+addon.defineStreamHandler(function(args) {
     if (args.type === 'movie' && args.id === 'tt1254207') {
         // serve one stream to big buck bunny
         // return addonSDK.Stream({ url: '...' })
@@ -50,8 +50,8 @@ serveHTTP(addon.getInterface(), { port: 7000 })
 Save this as `addon.js` and run:
 
 ```bash
-$ npm install stremio-addon-sdk
-$ node ./addon.js
+npm install stremio-addon-sdk
+node ./addon.js
 ```
 
 It will output a URL that you can use to [install the add-on in Stremio](./docs/testing.md#how-to-install-add-on-in-stremio)
@@ -72,32 +72,42 @@ Creates an  add-on builder obbject with a given manifest.
 [Manifest Object Definition](./api/responses/manifest.md)
 
 
-#### `addon.defineCatalogHandler(function handler(args, cb) { })`
+#### `addon.defineCatalogHandler(function handler(args) { })`
 
 Handles catalog feed and search requests.
 
 [Catalog Request Parameters and Example](./api/requests/defineCatalogHandler.md)
 
 
-#### `addon.defineMetaHandler(function handler(args, cb) { })`
+#### `addon.defineMetaHandler(function handler(args) { })`
 
 Handles metadata requests. (title, year, poster, background, etc.)
 
 [Meta Request Parameters and Example](./api/requests/defineMetaHandler.md)
 
 
-#### `addon.defineStreamHandler(function handler(args, cb) { })`
+#### `addon.defineStreamHandler(function handler(args) { })`
 
 Handles stream requests.
 
 [Stream Request Parameters and Example](./api/requests/defineStreamHandler.md)
 
 
-#### `addon.defineSubtitlesHandler(function handler(args, cb) { })`
+#### `addon.defineSubtitlesHandler(function handler(args) { })`
 
 Handles subtitle requests.
 
 [Subtitle Request Parameters and Example](./api/requests/defineSubtitlesHandler.md)
+
+
+#### `addon.getInterface()`
+
+Turns the `addon` into an `addonInterface`, which is an immutable (frozen) object that has `{manifest, get}`; manifest is a regular [manifest object](./api/responses/manifest.md), while `get` is a function that takes one argument of the form `{ resource, type, id, extra }`, and returns a `Promise`
+
+
+#### `addon.getRouter()`
+
+Turns the `addon` into an express router, that serves the addon according to [the protocol](./protocol.md), and a landing page on the root (`/`)
 
 
 #### `publishToCentral(url)`
@@ -105,15 +115,6 @@ Handles subtitle requests.
 This method expects a string with the url to your `manifest.json` file.
 
 Publish your add-on to the central server. After using this method your add-on will be available in the Community Add-ons list in Stremio for users to install and use. Your add-on needs to be publicly available with a URL in order for this to happen, as local add-ons that are not publicly available cannot be used by other Stremio users.
-
-
-#### `publishToDir()`
-
-@TODO
-
-This method expects a string with a folder name.
-
-Publishes your add-on to a directory. This creates a static version of your add-on in a folder that can then be [published with now.sh](https://github.com/Stremio/stremio-static-addon-example) or uploaded to a web server. As this is a static version of your add-on it is not scallable and presumes you are not using a database. Alternatively, you can use a database and re-publish your add-on to a directory periodically to update data.
 
 
 #### `serveHTTP(addonInterface, options)`
@@ -127,31 +128,3 @@ Starts the addon server. `options` is an object that contains:
 **The JSON format of the response to these resources is described [here](./api/responses).**
 
 
-### `addon.getServerlessHandler()`
-
-@TODO
-
-Returns an object that contains `{manifest, catalog, stream, meta}`, where each one is a handler that can be used for a serverless application
-
-To do that, we encourage that you export your `addon` from a separate module (e.g. `addon.js`) and then create each entrypoint like so:
-
-`catalog.js`
-
-```
-const addon = require('./addon')
-module.exports = addon.getServerlessHandler().catalog // or manifest, stream, meta
-```
-
-
-#### `addon.publishToWeb(url)`
-
-@TODO
-
-Creates an add-on homepage on the root of the web server that includes an "Install Add-on" button. This method expects a URL using HTTPS pointing to the manifest (example: `https://example.com/manifest.json`)
-
-
-#### `addon.serveDir(publicDirectory, localDirectory)`
-
-@TODO
-
-Serve a local (static) directory through the web server. Useful if you need to host the logo and background images for the add-on on the same server (example: `addon.serveDir('/public', './static/imgs')`

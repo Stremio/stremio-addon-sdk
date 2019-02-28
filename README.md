@@ -42,14 +42,14 @@ addon.defineStreamHandler(function(args, cb) {
 })
 
 serveHTTP(addon.getInterface(), { port: 7000 })
-publishToCentral("https://your-domain/manifest.json") // <- invoke this if you want to publish your add-on and it's accessible publically on "your-domain"
+//publishToCentral("https://your-domain/manifest.json") // <- invoke this if you want to publish your add-on and it's accessible publically on "your-domain"
 ```
 
 Save this as `addon.js` and run:
 
 ```bash
-$ npm install stremio-addon-sdk
-$ node ./addon.js
+npm install stremio-addon-sdk
+node ./addon.js
 ```
 
 It will output a URL that you can use to [install the add-on in Stremio](./docs/testing.md#how-to-install-add-on-in-stremio)
@@ -74,9 +74,8 @@ SDK Features Include:
 
 - Publishing an add-on through HTTP(s)
 - Publishing an add-on through IPFS
-- Building a static version of your add-on with [.publishToDir](./docs/README.md#addonpublishtodir)
 - Publishing your add-on link to the [public Add-on collection](https://api.strem.io/addonscollection.json) with [.publishToCentral](./docs/README.md#addonpublishtocentral)
-- Creating a homepage for your add-on that includes an "Install Add-on" button with [.publishToWeb](./docs/README.md#addonpublishtoweburl)
+- Creating a homepage for your add-on that includes an "Install Add-on" button
 
 ## Testing
 
@@ -102,6 +101,7 @@ Check out our ever growing list of [examples and demo add-ons](./docs/examples/R
 
 If you have any issues regarding the Stremio Add-on SDK, please feel free to [report them here](https://github.com/Stremio/stremio-addon-sdk/issues).
 
+
 ## Migration from v0.x
 
 To migrate from v0.x, you need to:
@@ -109,7 +109,6 @@ To migrate from v0.x, you need to:
 - change `new addonSDK` to `new addonBuilder`, which you can import via `const addonBuilder = require('stremio-addon-sdk').addonBuilder`
 - change `addon.run(opts)` to `serveHTTP(addon.getInterface(), opts)`, which you can import via `const serveHTTP = require('stremio-addon-sdk').serveHTTP`
 - all handlers have to return a `Promise` (rather than take a `cb`)
-
 
 
 ## Use Cases Outside Add-on SDK
