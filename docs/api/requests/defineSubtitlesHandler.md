@@ -36,10 +36,10 @@ addon.defineSubtitlesHandler(function(args, cb) {
             url: 'https://mkvtoolnix.download/samples/vsshort-en.srt',
             lang: 'eng'
         }
-        cb(null, { subtitles: { all: [subtitle] } })
+        cb(null, { subtitles: [subtitle] })
     } else {
         // otherwise return no subtitles
-        cb(null, { subtitles: { all: [] } })
+        cb(null, { subtitles: [] })
     }
 })
 ```
