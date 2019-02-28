@@ -5,7 +5,7 @@
 **Stremio Add-on SDK** was developed by the Stremio Team as a way of vastly simplifying Node.js add-on creation for
 our streaming platform.
 
-Stremio currently supports Windows, OSX, Linux, Android and iOS.
+Stremio currently supports Windows, macOS, Linux, Android and iOS.
 
 
 ## Quick Example
