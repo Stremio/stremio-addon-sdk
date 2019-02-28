@@ -146,6 +146,8 @@ tape('getInterface: define a stream handler on the addon and test it', function(
 		})
 	const addonInterface = addon.getInterface()
 	t.ok(addonInterface.manifest, 'interface has manifest')
+	addonInterface.manifest.name += 'foobar'
+	t.equal(addonInterface.manifest.name, manifest.name, 'interface.manifest is immutable')
 	addonInterface.get('stream', 'channel', '11')
 		.then(r => {
 			t.ok(r.streams, 'response has streams')

@@ -84,7 +84,7 @@ function AddonBuilder(manifest) {
 }
 
 function AddonInterface(manifest, handlers) {
-	this.manifest = Object.freeze(manifest)
+	this.manifest = Object.freeze(Object.assign({}, manifest))
 	this.get = (resource, type, id, extra = {}) => {
 		const handler = handlers[resource]
 		if (!handler) {
