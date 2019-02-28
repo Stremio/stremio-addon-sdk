@@ -74,7 +74,7 @@ SDK Features Include:
 
 - Publishing an add-on through HTTP(s)
 - Publishing an add-on through IPFS
-- Publishing your add-on link to the [public Add-on collection](https://api.strem.io/addonscollection.json) with [.publishToCentral](./docs/README.md#addonpublishtocentral)
+- Publishing your add-on link to the [public Add-on collection](https://api.strem.io/addonscollection.json) with [.publishToCentral](./docs/README.md#publishtocentral)
 - Creating a homepage for your add-on that includes an "Install Add-on" button
 
 ## Testing
@@ -118,7 +118,7 @@ The use of this SDK is not mandatory for creating Stremio Add-ons. You can use a
 creating a HTTP server to make Stremio Add-ons. Refer to our [protocol specification](./docs/protocol.md) for details and examples.
 
 One useful scenario of not using the SDK is when you need user specific data for you add-on (for example, an API
-Autherntication Token), you can see an example of passing user specific data in the Add-on Repository URL [here](./docs/examples/userData.md).
+Autherntication Token), you can see an example of passing user specific data in the Add-on URL [here](./docs/examples/userData.md).
 This example uses Node.js and Express to get user specific data.
 
 
