@@ -1,6 +1,6 @@
 ## defineCatalogHandler
 
-This method handles both catalog feed and search requests.
+This method handles catalog requests, including search.
 
 
 ### Arguments:

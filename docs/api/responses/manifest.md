@@ -58,13 +58,13 @@ The local addon is an example of a [complex resource description](https://github
 
 #### Extra properties
 
-Stremio can invoke `/catalog/{type}/{id}.json` for catalogs specified in `catalogs` in order to get the feed of [Meta Objects](./meta.md).
+Stremio can invoke `/catalog/{type}/{id}.json` for catalogs specified in `catalogs` in order to get the feed of [Meta Preview Objects](./meta.md#meta-preview-object).
 
-It can also invoke `/catalog/{type}/{id}/{extraProps}.json` in which case `{extraProps}` will contain other properties such as a search query in order to search the catalog for a list of [Meta Object](./meta.md) results.
+It can also invoke `/catalog/{type}/{id}/{extraProps}.json` in which case `{extraProps}` will contain other properties such as a search query in order to search the catalog for a list of [Meta Preview Object](./meta.md#meta-preview-object) results.
 
 ``extra`` only needs to be set in certain cases, for example, these don't need to be set if your catalog only supports giving a feed of items, but not search them.
 
-If your catalog supports searching, set `extra: [{ name: 'search', isRequired: false }]`, if your catalog supports filtering by `genre`, set `extra: [{ name: 'genre', isRequired: false }]`. But what if your catalog supports only searching, but not giving a feed? Then set `extra: [{ name: 'search', isRequired: true }]` and your catalog will only be requested for searching, nothing else.
+If your catalog supports full text searching, set `extra: [{ name: 'search', isRequired: false }]`, if your catalog supports filtering by `genre`, set `extra: [{ name: 'genre', isRequired: false }]`. But what if your catalog supports only searching, but not giving a feed? Then set `extra: [{ name: 'search', isRequired: true }]` and your catalog will only be requested for searching, nothing else.
 
 The format of `extra` is an array of `{ name, isRequired, options, optionsLimit }`, where:
 
