@@ -1,8 +1,8 @@
 ## Meta Object
 
-Used as a response for [`defineCatalogHandler`](../requests/defineCatalogHandler.md) and [`defineMetaHandler`](../requests/defineMetaHandler.md)
+Used as a response for [`defineMetaHandler`](../requests/defineMetaHandler.md)
 
-``id`` - **required** - universal identifier, formed like `DOMAIN_id:ID`, for example `yt_id:UCrDkAvwZum-UTjHmzDI2iIw`.
+``id`` - **required** - universal identifier; you may use a [prefix](./manifest.md##filtering-properties) unique to your add-on, for example `yt_id:UCrDkAvwZum-UTjHmzDI2iIw`
 
 ``type`` - **required** - type of the content; e.g. `movie`, `series`, `channel`, `tv` (see [Content Types](./content.types.md))
 
@@ -46,7 +46,6 @@ Used as a response for [`defineCatalogHandler`](../requests/defineCatalogHandler
 
 ``website`` - _optional_ - URL to official website
 
-``isPeered`` - _optional_ - set this property if you know whether that item can be streamed with peering by the same add-on which is serving the meta
 
 #### Video object
 
@@ -70,15 +69,12 @@ Used as a response for [`defineCatalogHandler`](../requests/defineCatalogHandler
 
 ``overview`` - _optional_ - video overview/summary
 
-_**NOTE** - In case you've provided ``id``, the query to ``stream.find`` for playing that video will contain ``video_id`` property with the same value._
-
-_In case you've provided ``season`` and ``episode`` combination, both would be contained in the query to ``stream.find``._
 
 ##### Video object - series example
 
 ```javascript
 {
-    id: "1:1",
+    id: "tt0108778:1:1",
     title: "Pilot",
     publishedAt: new Date("1994-09-22 20:00 UTC+02"),
     season: 1,
@@ -87,14 +83,39 @@ _In case you've provided ``season`` and ``episode`` combination, both would be c
 }
 ```
 
+You can see a comprehensive example of how detailed Meta objects with videos are returned [here, on the Cinemeta add-on](https://v3-cinemeta.strem.io/meta/series/tt0386676/lastVideos=1.json)
+
 ##### Video object - YouTube video example (channels)
 
 
 ```javascript
 {
-    id: "9bZkp7q19f0",
+    id: "yt_id:UCrDkAvwZum-UTjHmzDI2iIw:9bZkp7q19f0",
     title: "PSY - GANGNAM STYLE",
     publishedAt: new Date("2012-07-15 20:00 UTC+02"),
     thumbnail: "https://i.ytimg.com/vi/9bZkp7q19f0/hqdefault.jpg"
 }
 ```
+
+## Meta Preview Object
+
+This is a shorter variant of the previously described [Meta Object](#meta-object)
+
+Used as a response for [`defineCatalogHandler`](../requests/defineCatalogHandler.md)
+
+``id`` - **required** - universal identifier; you may use a [prefix](./manifest.md##filtering-properties) unique to your add-on, for example `yt_id:UCrDkAvwZum-UTjHmzDI2iIw`
+
+``type`` - **required** - type of the content; e.g. `movie`, `series`, `channel`, `tv` (see [Content Types](./content.types.md))
+
+``name`` - **required** - name of the content
+
+``poster`` - **required** - URL to png of poster; accepted aspect ratios: 1:0.675 (IMDb poster type) or 1:1 (square) ; you can use any resolution, as long as the file size is below 100kb; below 50kb is recommended
+
+``posterShape`` - _optional_ - can be `square` (1:1 aspect) or `regular` (1:0.675) or `landscape` (1:1.77). If you don't pass this, `regular` is assumed
+
+``background`` - _optional_ - the background shown on the stremio detail page ; heavily encouraged if you want your content to look good; URL to PNG, max file size 500kb
+
+``logo`` - _optional_ - the logo shown on the stremio detail page ; encouraged if you want your content to look good; URL to PNG
+
+``description`` - _optional_ - a few sentances describing your content
+

@@ -13,52 +13,73 @@ Valid properties are:
 
 ``description`` - **required** - human readable description
 
+``version`` - **required** - [semantic version](https://semver.org/) of the add-on
+
 
 ## Filtering properties
 
 **NOTE:** In order to understand the next properties better, please check out the [protocol documentation](../../protocol.md) and keep in mind requests to add-ons are formed in the format of `/{resource}/{type}/{id}`
 
-``resources`` - **required** - supported resources - for example ``['catalog', 'meta', 'stream', 'subtitles']``, resources can also be added as objects instead of strings, for added details on how they should be requested, example: `{ "name": "stream", "type": "movie", "idPrefixes": [ "tt" ] }`
+``resources`` - **required** - supported resources - for example ``['catalog', 'meta', 'stream', 'subtitles']``, resources can also be added as objects instead of strings, for additional details on how they should be requested, example: `{ "name": "stream", "type": "movie", "idPrefixes": [ "tt" ] }` (see the **ADVANCED** note)
 
 ``types`` - **required** - array of supported types, from all the [``Content Types``](./content.types.md). If you wish to provide different sets of types for different resources, see the **ADVANCED** note.
 
 ``idPrefixes`` - _optional_ - use this if you want your add-on to be called only for specific content IDs - for example, if you set this to `["yt_id:", "tt"]`, your add-on will only be called for `id` values that start with `yt_id:` or `tt`. If you wish to provide different sets of `idPrefixes` for different resources, see the **ADVANCED** note.
 
-**ADVANCED:** A resource may either be a string (e.g. `'meta'`) or an object of the format `{ name, types, idPrefixes  }`. The latter can be used to control the `types` and `idPrefixes` for a particular resource. Those properties work in the same way as if you put them in the manifest directly. If you just provide a string, the `types` and `idPrefixes` in the manifest will be applied for the resource.
+### Advanced
 
+A resource may either be a string (e.g. `"meta"`) or an object of the format `{ name, types, idPrefixes?  }`.
+
+The latter can be used to provide different `types` and `idPrefixes` for a particular resource. Those properties work in the same way as if you put them in the manifest directly.
+
+Keep in mind, `idPrefixes` is always optional, and if you use the full notation without it (e.g. `{ name: "stream", types: ["movie"] }`), this would mean matching on all those types and all possible IDs.
+
+If you just provide a string, the `types` and `idPrefixes` from the manifest will be applied for the resource.
+
+The local addon is an example of a [complex resource description](https://github.com/Stremio/stremio-local-addon/blob/master/lib/manifest.js).
 
 ## Content catalogs
 
 **NOTE:** Leave this an empty array (``[]``) if your add-on does not provide the `catalog` resource.
 
-``catalogs`` - _optional_ - a list of the content catalogs your add-on provides, an array of objects in the catalog format (see below), although this is marked as "optional" it is **required** in all cases that serve playable streams, the only case in which this is not required is when making add-ons that serve only subtitles and no streams
+``catalogs`` - **required** - a list of the content catalogs your add-on provides, an array of objects in the catalog format (see below), although this is marked as "optional" it is **required** in all cases that serve playable streams, the only case in which this is not required is when making add-ons that serve only subtitles and no streams
 
 
 ### Catalog format
 
-``type`` - this is the content type of the catalog
+``type`` - **required** - this is the content type of the catalog
 
-``id`` - the id of the catalog, can be any unique string describing the catalog (unique per add-on, as an add-on can have many catalogs), for example: if the catalog name is "Favourite Youtube Videos", the id can be "fav_youtube_videos"
+``id`` - **required** - the id of the catalog, can be any unique string describing the catalog (unique per add-on, as an add-on can have many catalogs), for example: if the catalog name is "Favourite Youtube Videos", the id can be `"fav_youtube_videos"`
 
-``name`` - human readable name of the catalog
+``name`` - **required** - human readable name of the catalog
 
-``extraSupported`` - all of the extra properties this catalog support, array of strings (explained below)
-
-``extraRequired`` - all of the extra properties this catalog requires, array of strings; all properties included here must also be in `extraSupported` (explained below)
+``extra`` - _optional_ - all extra properties related to this catalog; should be set to an array of `{ name, isRequired, options, optionsLimit }`
 
 
-**NOTE:**
+#### Extra properties
 
-Stremio can invoke `/catalog/{type}/{id}.json` for catalogs specified in `catalogs` in order to get the feed of [Meta Objects](./meta.md).
+Stremio can invoke `/catalog/{type}/{id}.json` for catalogs specified in `catalogs` in order to get the feed of [Meta Preview Objects](./meta.md#meta-preview-object).
 
-It can also invoke `/catalog/{type}/{id}/{extraArgs}.json` in which case `{extraArgs}` will contain other properties such as a search query in order to search the catalog for a list of [Meta Object](./meta.md) results.
+It can also invoke `/catalog/{type}/{id}/{extraProps}.json` in which case `{extraProps}` will contain other properties such as a search query in order to search the catalog for a list of [Meta Preview Object](./meta.md#meta-preview-object) results.
 
-``extraSupported`` and ``extraRequired`` only need to be set in certain cases, for example, these don't need to be set if your catalog only supports giving a feed of items, but not search them. If your catalog supports searching, set `extraSupported: ['search']`, if your catalog supports filtering by `genre`, set `extraSupported: ['genre']`. But what if your catalog supports only searching, but not giving a feed? Then set `extraSupported: ['search'], extraRequired: ['search']` and your catalog will only be requested for searching, nothing else.
+``extra`` only needs to be set in certain cases, for example, these don't need to be set if your catalog only supports giving a feed of items, but not search them.
 
-If your catalog supports any extra properties, `extraSupported` is mandatory. If you use `extraRequired`, `extraSupported` is still mandatory and must include at least all properties included in `extraRequired`
+If your catalog supports full text searching, set `extra: [{ name: 'search', isRequired: false }]`, if your catalog supports filtering by `genre`, set `extra: [{ name: 'genre', isRequired: false }]`. But what if your catalog supports only searching, but not giving a feed? Then set `extra: [{ name: 'search', isRequired: true }]` and your catalog will only be requested for searching, nothing else.
 
-For a complete list of extra catalog properties check the [Catalog Handler Definition](../requests/defineCatalogHandler.md)
+The format of `extra` is an array of `{ name, isRequired, options, optionsLimit }`, where:
 
+* `name` - **required** - is the name of the property; this name will be used in the `extraProps` argument itself
+
+* `isRequired` - _optional_ - set to true if this property must always be passed
+
+* `options` - _optional_ - array of possible values for this property; this is useful for things like genres, where you need the user to select from a pre-set list of options
+
+* `optionsLimit` - _optional_ - the limit of values a user may select from the pre-set `options` list; by default, this is set to 1
+
+
+For a complete list of extra catalog properties that Stremio pays attention to, check the [Catalog Handler Definition](../requests/defineCatalogHandler.md)
+
+If you're looking for the legacy way of setting extra propreties (also called "short"), [check out the old docs](https://github.com/Stremio/stremio-addon-sdk/blob/b11bd517f8ce3b24a843de320ec8ac193611e9a0/docs/api/responses/manifest.md#catalog-format)
 
 ## Other metadata
 
@@ -102,3 +123,9 @@ This manifest example is for an add-on that:
 - provides streams and catalogs
 - has one catalog that includes movies
 - will receive stream requests for meta items that have an id that starts with `tt` (imdb id, example: `tt0068646`), for both movies and series
+
+For more examples of addon manifests, see:
+
+* https://github.com/Stremio/stremio-local-addon/blob/master/lib/manifest.js
+* https://stremio-public-domain-foreign.now.sh/manifest.json
+* https://v3-cinemeta.strem.io/manifest.json

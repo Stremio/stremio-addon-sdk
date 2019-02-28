@@ -17,9 +17,9 @@ Currently used resources are: `catalog`, `meta`, `stream`, `subtitles`.
 
 `/meta/{type}/{id}.json` - detailed metadata about a particular item; `type` again denotes the type, and `id` is the ID of the particular item, as found in the catalog
 
-`/stream/{type}/{id}.json` - list of all streams for a particular item; `type` again denotes the type, and `id` is the ID of the particular item, as found in the catalog or a video ID (a single metadata object may contain mutiple videos, for example a YouTube channel or a TV series)
+`/stream/{type}/{videoID}.json` - list of all streams for a particular item; `type` again denotes the type, and `videoID` is the video ID: a single metadata object may contain mutiple videos, for example a YouTube channel or a TV series; for single-video items (such as movies), the video ID is equal to the item ID
 
-`/subtitles/{type}/{id}.json` - list of all subtitles for a particular item; `type` again denotes the type, the `id` in this case is the Open Subtitles file hash, while `extraArgs` (read below) is used for `videoId` (the ID of the particular item, as found in the catalog or a video ID) and `videoSize` (video file size in bytes)
+`/subtitles/{type}/{id}.json` - list of all subtitles for a particular item; `type` again denotes the type, the `id` in this case is the Open Subtitles file hash, while `extraArgs` (read below) is used for `videoID` (the ID of the particular item, as found in the catalog or a video ID) and `videoSize` (video file size in bytes)
 
 The JSON format of the response to these resources is described [here](./api/responses/).
 
@@ -174,7 +174,8 @@ Check out the following tutorials for different languages:
 * [Creating an add-on with the NodeJS Stremio Add-on SDK](https://github.com/Stremio/addon-helloworld)
 * [Creating an add-on with NodeJS and express](https://github.com/Stremio/addon-helloworld-express)
 * [Creating an add-on with PHP](https://github.com/Stremio/stremio-php-addon-example)
-* [Creating an add-on with Python]() (coming soon)
-* [Creating an add-on with Go]() (coming soon)
-* [Creating an add-on with C#]() (coming soon)
-* [Creating an add-on with Java]() (coming soon)
+* [Creating an add-on with Python](https://github.com/stremio/addon-helloworld-python)
+* [Creating an add-on with Ruby](https://github.com/stremio/addon-helloworld-ruby)
+* [Creating an add-on with Go](https://github.com/stremio/addon-helloworld-go)
+* [Creating an add-on with C#](https://github.com/stremio/addon-helloworld-csharp)
+* [Creating an add-on with Java](https://github.com/stremio/addon-helloworld-java)

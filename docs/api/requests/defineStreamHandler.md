@@ -2,32 +2,33 @@
 
 This method handles stream requests.
 
-
-Returns:
+### Arguments:
 
 `args` - request object; parameters described below
 
-`cb` - function expecting to be called with `Error` and/or an object containing `{ streams: [] }` with an array of [Stream Objects](../responses/stream.md).
+### Returns:
+
+A promise resolving to an an object containing `{ streams: [] }` with an array of [Stream Objects](../responses/stream.md).
 
 
 ## Request Parameters
 
 ``type`` - type of the item that we're requesting streams for; e.g. `movie`, `series`, `channel`, `tv` (see [Content Types](../responses/content.types.md))
 
-``id`` - a Metadata Item Hash defined as a combination of the [Meta Object](../responses/meta.md)'s id followed by `season` / `episode` or `video_id`, separated by a `:`, an example of this is `tt0898266:9:17`
+``id`` - a Video ID as described in the [Video Object](../responses/meta.md#video-object). The Video ID is the same as the Meta ID for movies, and formed by joining the Meta ID, season and episode for IMDb series (e.g. `"tt0898266:9:17"`).
 
 
 ## Basic Example
 
 ```javascript
-addon.defineStreamHandler(function(args, cb) {
+addon.defineStreamHandler(function(args) {
     if (args.type === 'movie' && args.id === 'tt1254207') {
         // serve one stream for big buck bunny
         const stream = { url: 'http://distribution.bbb3d.renderfarming.net/video/mp4/bbb_sunflower_1080p_30fps_normal.mp4' }
-        cb(null, { streams: [stream] })
+        return Promise.resolve({ streams: [stream] })
     } else {
         // otherwise return no streams
-        cb(null, { streams: [] })
+        return Promise.resolve({ streams: [] })
     }
 })
 ```

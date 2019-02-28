@@ -1,6 +1,6 @@
-## Hosting your Add-on
+## Deploying your Add-on
 
-**Note:** Although a hosting provider is recommended, there is also the alternative of using [localtunnel](https://github.com/localtunnel/localtunnel) to host your add-ons locally.
+**Note:** Although deploying is recommended, there is also the alternative of using [localtunnel](https://github.com/localtunnel/localtunnel) to host your add-ons locally.
 
 Stremio add-ons require hosting in order to be published. You will need a NodeJS hosting solution, as Stremio Add-ons made with the Stremio Add-on SDK are NodeJS apps.
 
@@ -18,3 +18,7 @@ You can also check this very comprehensive [guide by nodejs](https://github.com/
 Stremio add-ons are deployed just like regular nodejs apps, so follow the nodejs instructions provided by your particular service provider.
 
 If you've built a great add-on, and need help with hosting your add-on, you are welcome to contact us at [addons@stremio.com](addons@stremio.com)
+
+### Publishing to Stremio
+
+If you want your add-on to appear in the list of Community add-ons in Stremio, check out [publishToCentral](./README.md#publishtocentralurl)

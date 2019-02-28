@@ -2,19 +2,20 @@
 
 This method handles subtitle requests.
 
-
-Returns:
+### Arguments:
 
 `args` - request object; parameters defined below
 
-`cb` - function expecting to be called with `Error` and/or an object containing `{ subtitles: { all: [] } }` with an array of [Subtitle Objects](../responses/subtitles.md).
+### Returns:
+
+A promise resolving to an object containing `{ subtitles: { all: [] } }` with an array of [Subtitle Objects](../responses/subtitles.md).
 
 
 ## Request Parameters
 
 ``type`` - type of the item that we're requesting subtitles for; e.g. `movie`, `series`, `channel`, `tv` (see [Content Types](../responses/content.types.md))
 
-``id`` - string open subtitles file hash for the video
+``id`` - string opensubtitles file hash for the video
 
 ``extra`` - object that holds additional properties; parameters defined below
 
@@ -29,17 +30,17 @@ Returns:
 ## Basic Example
 
 ```javascript
-addon.defineSubtitlesHandler(function(args, cb) {
+addon.defineSubtitlesHandler(function(args) {
     if (args.extra && args.extra.videoId === 'tt1254207') {
         // serve one subtitle for big buck bunny
         const subtitle = {
             url: 'https://mkvtoolnix.download/samples/vsshort-en.srt',
             lang: 'eng'
         }
-        cb(null, { subtitles: { all: [subtitle] } })
+        return Promise.resolve({ subtitles: [subtitle] })
     } else {
         // otherwise return no subtitles
-        cb(null, { subtitles: { all: [] } })
+        return Promise.resolve({ subtitles: [] })
     }
 })
 ```
