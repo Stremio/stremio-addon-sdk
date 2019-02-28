@@ -23,7 +23,7 @@
     "url": "https://github.com/Stremio/stremio-addon-sdk/issues"
   },
   "bin": {
-    "addon-sdk-bootstrap": "./cli/bootstrap.js"
+    "addon-bootstrap": "./cli/bootstrap.js"
   },
   "homepage": "https://github.com/Stremio/stremio-addon-sdk#readme",
   "dependencies": {
