@@ -3,11 +3,13 @@
 This method handles both catalog feed and search requests.
 
 
-Returns:
+### Arguments:
 
 `args` - request object; parameters described below
 
-`cb` - function expecting to be called with `Error` and/or an object containing `{ metas: [] }` with an array of [Meta Object](../responses/meta.md)
+### Returns:
+
+A promise that resolves to an object containing `{ metas: [] }` with an array of [Meta Object](../responses/meta.md)
 
 
 
@@ -35,7 +37,7 @@ If you wish to use these parameters, you'll need to specify them in `extraSuppor
 
 
 ```javascript
-addon.defineCatalogHandler(function(args, cb) {
+addon.defineCatalogHandler(function(args) {
     if (args.type === 'movie' && args.id === 'top') {
 
         // we will only respond with Big Buck Bunny
@@ -48,7 +50,6 @@ addon.defineCatalogHandler(function(args, cb) {
             poster: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/uVEFQvFMMsg4e6yb03xOfVsDz4o.jpg',
             posterShape: 'regular',
             banner: 'https://image.tmdb.org/t/p/original/aHLST0g8sOE1ixCxRDgM35SKwwp.jpg',
-            isFree: true,
             type: 'movie'
         }
 
@@ -57,22 +58,22 @@ addon.defineCatalogHandler(function(args, cb) {
             // catalog search request
 
             if (args.extra.search == 'big buck bunny') {
-                cb(null, { metas: [meta] })
+                return Promise.resolve({ metas: [meta] })
             } else {
-                cb(null, { metas: [] })
+                return Promise.resolve({ metas: [] })
             }
 
         } else {
 
             // catalog feed request
 
-            cb(null, { metas: [meta] })
+            return Promise.resolve({ metas: [meta] })
 
         }
 
     } else {
         // otherwise return empty catalog
-        cb(null, { metas: [] })
+        return Promise.resolve({ metas: [] })
     }
 })
 ```

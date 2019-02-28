@@ -2,12 +2,13 @@
 
 This method handles subtitle requests.
 
-
-Returns:
+### Arguments:
 
 `args` - request object; parameters defined below
 
-`cb` - function expecting to be called with `Error` and/or an object containing `{ subtitles: { all: [] } }` with an array of [Subtitle Objects](../responses/subtitles.md).
+### Returns:
+
+A promise resolving to an object containing `{ subtitles: { all: [] } }` with an array of [Subtitle Objects](../responses/subtitles.md).
 
 
 ## Request Parameters
@@ -29,17 +30,17 @@ Returns:
 ## Basic Example
 
 ```javascript
-addon.defineSubtitlesHandler(function(args, cb) {
+addon.defineSubtitlesHandler(function(args) {
     if (args.extra && args.extra.videoId === 'tt1254207') {
         // serve one subtitle for big buck bunny
         const subtitle = {
             url: 'https://mkvtoolnix.download/samples/vsshort-en.srt',
             lang: 'eng'
         }
-        cb(null, { subtitles: [subtitle] })
+        return Promise.resolve({ subtitles: [subtitle] })
     } else {
         // otherwise return no subtitles
-        cb(null, { subtitles: [] })
+        return Promise.resolve({ subtitles: [] })
     }
 })
 ```

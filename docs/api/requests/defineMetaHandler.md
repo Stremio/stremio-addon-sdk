@@ -2,12 +2,13 @@
 
 This method handles metadata requests. (title, year, poster, background, etc.)
 
-
-Returns:
+### Arguments:
 
 `args` - request object; parameters described below
 
-`cb` - function expecting to be called with `Error` and/or an object containing `{ meta: {} }` with a [Meta Object](../responses/meta.md)
+### Returns:
+
+A promise resolving to an object containing `{ meta: {} }` with a [Meta Object](../responses/meta.md)
 
 
 ## Request Parameters
@@ -20,7 +21,7 @@ Returns:
 ## Basic Example
 
 ```javascript
-addon.defineMetaHandler(function(args, cb) {
+addon.defineMetaHandler(function(args) {
     if (args.type === 'movie' && args.id === 'tt1254207') {
         // serve metadata for Big Buck Bunny
         const metaObj = {
@@ -33,10 +34,10 @@ addon.defineMetaHandler(function(args, cb) {
             isFree: true,
             type: 'movie'
         }
-        cb(null, { meta: metaObj })
+        return Promise.resolve({ meta: metaObj })
     } else {
         // otherwise return no meta
-        cb(null, { meta: {} })
+        return Promise.resolve({ meta: {} })
     }
 })
 ```
