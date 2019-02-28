@@ -114,7 +114,7 @@ tape('initialize an addon client for the addon', function(t) {
 
 			t.ok(resp.addon.manifest, 'has manifest')
 			// NOTE: this is an important design principle - immutability on the manifest object
-			t.deepEquals(resp.addon.manifest, manifest, 'addon.manifest is the same as manifest')
+			t.deepEquals(resp.addon.manifest, manifest, 'addon.manifest is immutable')
 
 			const addonClient = resp.addon
 			return addonClient.get('stream', 'channel', '11')
@@ -145,6 +145,7 @@ tape('getInterface: define a stream handler on the addon and test it', function(
 			return Promise.resolve({streams:[]})
 		})
 	const addonInterface = addon.getInterface()
+	t.ok(addonInterface.manifest, 'interface has manifest')
 	addonInterface.get('stream', 'channel', '11')
 		.then(r => {
 			t.ok(r.streams, 'response has streams')
@@ -184,6 +185,5 @@ tape('publishToCentral', function(t) {
 
 tape.onFinish(function() {
 	// cause the server is still listening
-	// @TODO find a better way to mitigate that
 	process.exit()
 })
