@@ -8,9 +8,9 @@ Used as a response for [`defineMetaHandler`](../requests/defineMetaHandler.md)
 
 ``name`` - **required** - name of the content
 
-``genres`` - **required**  - genre/categories of the content; array of strings, e.g. ``["Thriller", "Horror"]``
+``genres`` - _optional_  - genre/categories of the content; array of strings, e.g. ``["Thriller", "Horror"]``
 
-``poster`` - **required** - URL to png of poster; accepted aspect ratios: 1:0.675 (IMDb poster type) or 1:1 (square) ; you can use any resolution, as long as the file size is below 100kb; below 50kb is recommended
+``poster`` - _optional_ - URL to png of poster; accepted aspect ratios: 1:0.675 (IMDb poster type) or 1:1 (square) ; you can use any resolution, as long as the file size is below 100kb; below 50kb is recommended
 
 ``posterShape`` - _optional_ - can be `square` (1:1 aspect) or `regular` (1:0.675) or `landscape` (1:1.77). If you don't pass this, `regular` is assumed
 
