@@ -65,10 +65,8 @@ async function createAddon() {
 	])
 
 	const manifest = {
-		// @TODO id
-		id: 'id.gettingstarted',
+		id: 'community.'+userInput.name.split(' ')[0].replace(/\W/g, ''),
 		version: '0.0.1',
-		// @TODO types
 		// @TODO idPrefixes
 		catalogs: userInput.resources.includes('catalog') ? [{ type: 'movie', id: 'top' }] : [],
 		resources: [],
