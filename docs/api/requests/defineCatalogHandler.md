@@ -28,9 +28,9 @@ If you wish to use these parameters, you'll need to specify them in `extra` for 
 
 ``search`` - set in the `extra` object; string to search for in the catalog
 
-``genre`` - set in the `extra` object; array of strings to filter the feed or search results by genres
+``genre`` - set in the `extra` object; a string to filter the feed or search results by genres
 
-``skip`` - set in the `extra` object; used for catalog pagination
+``skip`` - set in the `extra` object; used for catalog pagination, refers to the number of items skipped from the beginning of the catalog; the standard page size in Stremio is 100, so the `skip` value will be a multiple of 100; if you return less than 100 items, Stremio will consider this to be the end of the catalog
 
 
 ## Basic Example
