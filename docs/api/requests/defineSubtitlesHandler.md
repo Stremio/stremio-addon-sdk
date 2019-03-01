@@ -8,7 +8,7 @@ This method handles subtitle requests.
 
 ### Returns:
 
-A promise resolving to an object containing `{ subtitles: { all: [] } }` with an array of [Subtitle Objects](../responses/subtitles.md).
+A promise resolving to an object containing `{ subtitles: [] }` with an array of [Subtitle Objects](../responses/subtitles.md).
 
 
 ## Request Parameters
