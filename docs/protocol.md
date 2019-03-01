@@ -29,6 +29,19 @@ For the HTTP transport, each route, including `/manifest.json`, must serve CORS 
 
 **NOTE: Your add-on may selectively provide any number of resources. It must provide at least 1 resource and a manifest.**
 
+## Transports, URLs
+
+The abstractions that are used to actually request data from add-ons are called "transports".
+
+A client library normally implements the following transports: HTTP, legacy and IPFS. "legacy" is a special type of transport that maps the resource requests (in the form of `{ resource, type, id, extraArgs }`) to requests to the legacy v1/v2 versions of the addon protocol.
+
+"Transport URL" refers to the URL to the add-on. Depending on the protocol of the URL and suffix of the pathname, the relevant transport will be selected:
+
+* `https://.../manifest.json`: HTTP transport
+* `https://.../stremio/v1`: legacy transport
+* `ipfs://.../manifest.json` or `ipns://.../manifest.json`: IPFS transport
+
+For more details regarding the concepts used in the client library, go to https://github.com/stremio/stremio-addon-client/
 
 ## Minimal example
 
