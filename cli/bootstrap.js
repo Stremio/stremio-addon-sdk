@@ -64,8 +64,9 @@ async function createAddon() {
 		},
 	])
 
+	const identifier = userInput.name.split(' ')[0].replace(/\W/g, '')
 	const manifest = {
-		id: 'community.'+userInput.name.split(' ')[0].replace(/\W/g, ''),
+		id: 'community.'+identifier,
 		version: '0.0.1',
 		// @TODO idPrefixes
 		catalogs: userInput.resources.includes('catalog') ? [{ type: 'movie', id: 'top' }] : [],
@@ -79,7 +80,11 @@ async function createAddon() {
 	fs.writeFileSync(path.join(dir, 'addon.js'), outputIndexJS)
 	fs.writeFileSync(path.join(dir, 'server.js'), serverTmpl())
 	fs.chmodSync(path.join(dir, 'server.js'), '755')
-	fs.writeFileSync(path.join(dir, 'package.json'), packageTmpl({ version: manifest.version, ...userInput }))
+	fs.writeFileSync(path.join(dir, 'package.json'), packageTmpl({
+		version: manifest.version,
+		name: 'stremio-addon-'+identifier,
+		description: userInput.description,
+	}))
 	fs.writeFileSync(path.join(dir, '.gitignore'), gitignoreTmpl())
 }
 
@@ -90,6 +95,7 @@ function usage({exists} = {}) {
 }
 
 const serverTmpl = () => `#!/usr/bin/env node
+
 const { serveHTTP, publishToCentral } = require("stremio-addon-sdk")
 const addonInterface = require('./addon')
 serveHTTP(addonInterface, { port: 7778 })
@@ -125,7 +131,14 @@ const catalogTmpl = () => `
 addon.defineCatalogHandler(({type, id}) => {
 	console.log("request for catalogs: "+type+" "+id)
 	// Docs: https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/api/requests/defineCatalogHandler.md
-	return Promise.resolve({ metas: [] })
+	return Promise.resolve({ metas: [
+		{
+			id: "tt1254207",
+			type: "movie",
+			name: "The Big Buck Bunny",
+			poster: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Big_buck_bunny_poster_big.jpg/220px-Big_buck_bunny_poster_big.jpg"
+		}
+	] })
 })
 `
 
