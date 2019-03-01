@@ -128,6 +128,7 @@ Starts the addon server. `options` is an object that contains:
 * `port`
 * `cache` (in seconds); `cache` means the `Cache-Control` header being set to `max-age=$cache`
 
+This method is also special in that it will react to certain process arguments, such as:
 
-
-
+* `--launch`: launches Stremio in the web browser, and automatically installs/upgrades the add-on
+* `--install`: installs the add-on in the desktop version of Stremio
