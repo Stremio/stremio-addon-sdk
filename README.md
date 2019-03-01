@@ -2,7 +2,7 @@
 
 ![Stremio](https://www.stremio.com/website/stremio-purple-small.png)
 
-**Stremio Add-on SDK** was developed by the Stremio Team as a way of vastly simplifying Node.js add-on creation for
+The **🧙  Stremio Add-on SDK 🧙** was developed by the Stremio Team as a way of vastly simplifying Node.js add-on creation for
 our streaming platform.
 
 Stremio currently supports Windows, macOS, Linux, Android and iOS.
