@@ -57,7 +57,7 @@ It will output a URL that you can use to [install the add-on in Stremio](./docs/
 **Please note:** add-on URLs in Stremio must be loaded with HTTPS (except `127.0.0.1`) and must support CORS! CORS support is handled automatically by the SDK, but if you're trying to load your add-on remotely (not from `127.0.0.1`), you need to support HTTPS.
 
 
-## Bootstrapping
+## Getting started with a new add-on
 
 In order to scaffold a new Stremio add-on, we've made a tool called `addon-bootstrap`.
 

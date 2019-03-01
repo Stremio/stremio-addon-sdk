@@ -19,8 +19,9 @@ createAddon()
 	.then(() => {
 		console.log(chalk.green('BOOTSTRAPPER: addon created!'))
 		console.log('BOOTSTRAPPER: launch your addon by running:\n\n\n')
-		console.log(chalk.blue(`( cd ${dir} && npm install )`))
-		console.log(chalk.blue(`./${dir}/server.js --launch`))
+		console.log(chalk.blue(`cd ${dir}`))
+		console.log(chalk.blue(`npm install`))
+		console.log(chalk.blue(`npm start -- --launch`))
 	})
 
 async function createAddon() {
@@ -92,8 +93,8 @@ function usage({exists} = {}) {
 
 const serverTmpl = () => `#!/usr/bin/env node
 const { serveHTTP } = require('stremio-addon-sdk')
-const addon = require('./addon')
-serveHTTP(addon, { port: 7778 })`
+const addonInterface = require('./addon')
+serveHTTP(addonInterface, { port: 7778 })`
 
 const headerTmpl = (manifest) => `const { addonBuilder } = require('stremio-addon-sdk')
 
