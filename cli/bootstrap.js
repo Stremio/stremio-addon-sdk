@@ -90,9 +90,14 @@ function usage({exists} = {}) {
 }
 
 const serverTmpl = () => `#!/usr/bin/env node
-const { serveHTTP } = require('stremio-addon-sdk')
+const { serveHTTP, publishToCentral } = require('stremio-addon-sdk')
 const addonInterface = require('./addon')
-serveHTTP(addonInterface, { port: 7778 })`
+serveHTTP(addonInterface, { port: 7778 })
+
+// when you've deployed your addon, un-comment this line
+// publishToCentral('https://my-addon.awesoem/manifest.json')
+// for more information on deploying, see: https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/deploying.md
+`
 
 const headerTmpl = (manifest) => `const { addonBuilder } = require('stremio-addon-sdk')
 
