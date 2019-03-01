@@ -20,7 +20,7 @@ Valid properties are:
 
 **NOTE:** In order to understand the next properties better, please check out the [protocol documentation](../../protocol.md) and keep in mind requests to add-ons are formed in the format of `/{resource}/{type}/{id}`
 
-``resources`` - **required** - supported resources - for example ``['catalog', 'meta', 'stream', 'subtitles']``, resources can also be added as objects instead of strings, for additional details on how they should be requested, example: `{ "name": "stream", "type": "movie", "idPrefixes": [ "tt" ] }` (see the **ADVANCED** note)
+``resources`` - **required** - supported resources - for example ``["catalog", "meta", "stream", "subtitles"]``, resources can also be added as objects instead of strings, for additional details on how they should be requested, example: `{ "name": "stream", "type": "movie", "idPrefixes": [ "tt" ] }` (see the **ADVANCED** note)
 
 ``types`` - **required** - array of supported types, from all the [``Content Types``](./content.types.md). If you wish to provide different sets of types for different resources, see the **ADVANCED** note.
 
@@ -64,7 +64,7 @@ It can also invoke `/catalog/{type}/{id}/{extraProps}.json` in which case `{extr
 
 ``extra`` only needs to be set in certain cases, for example, these don't need to be set if your catalog only supports giving a feed of items, but not search them.
 
-If your catalog supports full text searching, set `extra: [{ name: 'search', isRequired: false }]`, if your catalog supports filtering by `genre`, set `extra: [{ name: 'genre', isRequired: false }]`. But what if your catalog supports only searching, but not giving a feed? Then set `extra: [{ name: 'search', isRequired: true }]` and your catalog will only be requested for searching, nothing else.
+If your catalog supports full text searching, set `extra: [{ name: "search", isRequired: false }]`, if your catalog supports filtering by `genre`, set `extra: [{ name: "genre", isRequired: false }]`. But what if your catalog supports only searching, but not giving a feed? Then set `extra: [{ name: "search", isRequired: true }]` and your catalog will only be requested for searching, nothing else.
 
 The format of `extra` is an array of `{ name, isRequired, options, optionsLimit }`, where:
 
@@ -72,7 +72,7 @@ The format of `extra` is an array of `{ name, isRequired, options, optionsLimit 
 
 * `isRequired` - _optional_ - set to true if this property must always be passed
 
-* `options` - _optional_ - array of possible values for this property; this is useful for things like genres, where you need the user to select from a pre-set list of options (e.g. `{ name: 'genres', options: ['Action', 'Comedy', 'Drama'] }`); it's also useful if we want to specify a limited number of pages (for the `skip` parameter), e.g. `{ name: 'skip', options: ['0', '100', '200'] }`
+* `options` - _optional_ - array of possible values for this property; this is useful for things like genres, where you need the user to select from a pre-set list of options (e.g. `{ name: "genres", options: ["Action", "Comedy", "Drama"] }`); it's also useful if we want to specify a limited number of pages (for the `skip` parameter), e.g. `{ name: "skip", options: ["0", "100", "200"] }`
 
 * `optionsLimit` - _optional_ - the limit of values a user may select from the pre-set `options` list; by default, this is set to 1
 
@@ -90,7 +90,7 @@ If you're looking for the legacy way of setting extra propreties (also called "s
 ``contactEmail`` - _optional_ - contact email for add-on issues; used for the Report button in the app; also, the Stremio team may reach you on this email for anything relating your add-on
 
 
-***TIP* - to implement sources where streams are geo-restricted, see [``Stream object's``](./stream.md) `geos`**
+***TIP* - to implement sources where streams are geo-restricted, see [``Stream objects``](./stream.md) `geos`**
 
 
 ## Example
