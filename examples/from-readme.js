@@ -26,4 +26,4 @@ addon.defineStreamHandler(function(args) {
 	}
 })
 
-serveHTTP(addon.getInterface(), {})
+serveHTTP(addon.getInterface(), { port: 43001 })
