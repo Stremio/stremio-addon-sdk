@@ -76,6 +76,8 @@ npm install
 npm start -- --launch
 ```
 
+If you wish to install the add-on in the Desktop version of Stremio (which you can [download here](https://www.stremio.com/downloads)), you should use `npm start -- --install`
+
 ## Documentation
 
 All our documentation is [hosted on GitHub](./docs). Take a look at our [examples list](./docs/examples/README.md) for some high-level
