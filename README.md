@@ -64,7 +64,7 @@ In order to scaffold a new Stremio add-on, we've made a tool called `addon-boots
 You can use it in the following way:
 
 ```bash
-npm install -g stremio-addon-sdk
+npm install -g stremio-addon-sdk # use sudo if on Linux
 addon-bootstrap hello-world
 ```
 
