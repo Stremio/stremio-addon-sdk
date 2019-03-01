@@ -1,4 +1,4 @@
-# Stremio Add-on SDK
+# Stremio Add-on SDK 🧙
 
 ![Stremio](https://www.stremio.com/website/stremio-purple-small.png)
 
