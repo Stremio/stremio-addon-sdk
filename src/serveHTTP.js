@@ -32,6 +32,9 @@ function serveHTTP(addonInterface, opts = {}) {
 				const installUrl = `${base}?addonOpen=${encodeURIComponent(url)}`
 				opn(installUrl)
 			}
+			if (process.argv.includes('--install')) {
+				opn(url.replace('http://', 'stremio://'))
+			}
 			resolve({ url, server })
 		})
 		server.on('error', reject)
