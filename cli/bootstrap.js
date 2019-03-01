@@ -20,8 +20,8 @@ createAddon()
 		console.log(chalk.green('BOOTSTRAPPER: addon created!'))
 		console.log('BOOTSTRAPPER: launch your addon by running:\n\n\n')
 		console.log(chalk.blue(`cd ${dir}`))
-		console.log(chalk.blue(`npm install`))
-		console.log(chalk.blue(`npm start -- --launch`))
+		console.log(chalk.blue('npm install'))
+		console.log(chalk.blue('npm start -- --launch'))
 	})
 
 async function createAddon() {
