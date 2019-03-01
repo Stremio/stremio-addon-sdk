@@ -90,16 +90,16 @@ function usage({exists} = {}) {
 }
 
 const serverTmpl = () => `#!/usr/bin/env node
-const { serveHTTP, publishToCentral } = require('stremio-addon-sdk')
+const { serveHTTP, publishToCentral } = require("stremio-addon-sdk")
 const addonInterface = require('./addon')
 serveHTTP(addonInterface, { port: 7778 })
 
 // when you've deployed your addon, un-comment this line
-// publishToCentral('https://my-addon.awesome/manifest.json')
+// publishToCentral("https://my-addon.awesome/manifest.json")
 // for more information on deploying, see: https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/deploying.md
 `
 
-const headerTmpl = (manifest) => `const { addonBuilder } = require('stremio-addon-sdk')
+const headerTmpl = (manifest) => `const { addonBuilder } = require("stremio-addon-sdk")
 
 const addon = new addonBuilder(${JSON.stringify(manifest, null, '\t')})
 `
@@ -123,36 +123,46 @@ const gitignoreTmpl = () => `node_modules
 
 const catalogTmpl = () => `
 addon.defineCatalogHandler(({type, id}) => {
-	console.log('request for catalogs: '+type+' '+id)
-	// Docs: https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/api/responses/meta.md
+	console.log("request for catalogs: "+type+" "+id)
+	// Docs: https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/api/requests/defineCatalogHandler.md
 	return Promise.resolve({ metas: [] })
 })
 `
 
 const metaTmpl = () => `
 addon.defineMetaHandler(({type, id}) => {
-	console.log('request for meta: '+type+' '+id)
-	// Docs: https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/api/responses/meta.md
+	console.log("request for meta: "+type+" "+id)
+	// Docs: https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/api/requests/defineMetaHandler.md
 	return Promise.resolve({ meta: null })
 })
 `
 
 const streamsTmpl = () => `
 addon.defineStreamHandler(({type, id}) => {
-	console.log('request for streams: '+type+' '+id)
-	// Docs: https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/api/responses/stream.md
+	console.log("request for streams: "+type+" "+id)
+	// Docs: https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/api/requests/defineStreamHandler.md
 	return Promise.resolve({ streams: [] })
 })
 `
 
+const subtitlesTmpl = () => `
+addon.defineSubtitlesHandler(({type, id}) => {
+	console.log("request for subtitles: "+type+" "+id)
+	// Docs: https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/api/requests/defineSubtitlesHandler.md
+	return Promise.resolve({ subtitles: [] })
+})
+`
+
 // @TODO port
-const footerTmpl = () => 'module.exports = addon.getInterface()'
+const footerTmpl = () => `
+module.exports = addon.getInterface()`
 
 function genIndex(manifest, resources) {
 	return [headerTmpl(manifest)]
 		.concat(resources.includes('catalog') ? [catalogTmpl()] : [])
 		.concat(resources.includes('meta') ? [metaTmpl()] : [])
 		.concat(resources.includes('stream') ? [streamsTmpl()] : [])
+		.concat(resources.includes('subtitles') ? [subtitlesTmpl()] : [])
 		.concat(footerTmpl())
 		.join('')
 }
