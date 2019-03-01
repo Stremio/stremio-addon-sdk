@@ -115,7 +115,7 @@ After you've deployed publically, in order to get your add-on to show in Stremio
 
 ## Examples
 
-Check out our ever growing list of [examples and demo add-ons](./docs/examples/README.md).
+Check out our ever growing list of [examples and demo add-ons](./docs/examples/README.md). This list also includes examples & tutorials on how to develop Stremio addons in PHP, Python, Ruby, C#, Java and Go.
 
 
 ## Reporting Issues
