@@ -73,7 +73,7 @@ async function createAddon() {
 				default: false,
 			}
 		])
-		console.log(isFromIMDb)
+		if (isFromIMDb.isIMDb) userInput.idPrefixes = ['tt']
 	}
 
 	const identifier = userInput.name.split(' ')[0].replace(/\W/g, '')
@@ -87,7 +87,7 @@ async function createAddon() {
 		...userInput,
 	}
 
-	const outputIndexJS = genIndex(manifest, userInput.resources)
+	const outputIndexJS = genAddonJS(manifest, userInput.resources)
 
 	fs.writeFileSync(path.join(dir, 'addon.js'), outputIndexJS)
 	fs.writeFileSync(path.join(dir, 'server.js'), serverTmpl())
@@ -109,7 +109,7 @@ function usage({exists} = {}) {
 const serverTmpl = () => `#!/usr/bin/env node
 
 const { serveHTTP, publishToCentral } = require("stremio-addon-sdk")
-const addonInterface = require('./addon')
+const addonInterface = require("./addon")
 serveHTTP(addonInterface, { port: ${Math.floor(Math.random() * 16383) + 49152} })
 
 // when you've deployed your addon, un-comment this line
@@ -119,7 +119,9 @@ serveHTTP(addonInterface, { port: ${Math.floor(Math.random() * 16383) + 49152} }
 
 const headerTmpl = (manifest) => `const { addonBuilder } = require("stremio-addon-sdk")
 
-const addon = new addonBuilder(${JSON.stringify(manifest, null, '\t')})
+// Docs: https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/api/responses/manifest.md
+const manifest = ${JSON.stringify(manifest, null, '\t')}
+const addon = new addonBuilder(manifest)
 `
 
 // @TODO: auto update the stremio-addon-sdk version
@@ -182,7 +184,7 @@ addon.defineSubtitlesHandler(({type, id}) => {
 const footerTmpl = () => `
 module.exports = addon.getInterface()`
 
-function genIndex(manifest, resources) {
+function genAddonJS(manifest, resources) {
 	return [headerTmpl(manifest)]
 		.concat(resources.includes('catalog') ? [catalogTmpl()] : [])
 		.concat(resources.includes('meta') ? [metaTmpl()] : [])
