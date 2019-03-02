@@ -58,6 +58,7 @@ It will output a URL that you can use to [install the add-on in Stremio](./docs/
 
 ## Documentation
 
+**To get familiar with the resources and their roles, [read this](./api/README).**
 
 #### `const { addonBuilder, serveHTTP } = require('stremio-addon-sdk')`
 
