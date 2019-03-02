@@ -7,4 +7,4 @@
 * ``channel`` - channel type - created to cover YouTube channels; has name, description and an array of uploaded videos
 * ``tv`` - tv type - has name, description, genre; streams for ``tv`` should be live (without duration)
 
-**If you think Stremio should add another streaming source, feel free to open an issue at this repo.**
+**If you think Stremio should add another content type, feel free to open an issue on this repository.**
