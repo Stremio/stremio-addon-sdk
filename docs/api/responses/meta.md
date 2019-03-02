@@ -32,7 +32,7 @@ Used as a response for [`defineMetaHandler`](../requests/defineMetaHandler.md)
 
 ``inTheaters`` - _optional_ - used only for ``movie`` type, boolean whether this movie is still in theaters or not; if not provided, it will be decided based on ``released`` date
 
-``videos`` - _optional_ - used for ``channel`` and ``series``, array of Video objects
+``videos`` - _optional_ - used for ``channel`` and ``series``, array of Video objects; if you do not provide this (e.g. for ``movie``), Stremio assumes this meta item has one video, and it's ID is equal to the meta item `id`
 
 ``certification`` - _optional_ - [MPAA rating](http://www.mpaa.org/film-ratings/) - can be "G", "PG", "PG-13", "R", "NC-17"
 

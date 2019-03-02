@@ -38,6 +38,7 @@ If you just provide a string, the `types` and `idPrefixes` from the manifest wil
 
 The local addon is an example of a [complex resource description](https://github.com/Stremio/stremio-local-addon/blob/master/lib/manifest.js).
 
+Please note, the `idPrefixes` filtering does not matter for the `"catalog"` resource, since this is a special case that will always be requested if defined in `catalogs`.
 
 ## Content catalogs
 
