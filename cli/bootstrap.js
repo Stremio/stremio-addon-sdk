@@ -64,6 +64,18 @@ async function createAddon() {
 		},
 	])
 
+	if (!userInput.resources.includes('meta') && !userInput.types.includes('channel') && !userInput.types.includes('tv')) {
+		const isFromIMDb = await inquirer.prompt([
+			{
+				type: 'confirm',
+				message: `Is your addon going to provide ${userInput.resources.join('/')} for IMDb items only?`,
+				name: 'isIMDb',
+				default: false,
+			}
+		])
+		console.log(isFromIMDb)
+	}
+
 	const identifier = userInput.name.split(' ')[0].replace(/\W/g, '')
 	const manifest = {
 		id: 'community.'+identifier,
