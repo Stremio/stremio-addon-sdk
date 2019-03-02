@@ -2,9 +2,6 @@
 
 A NodeJS SDK for making and publishing Stremio add-ons
 
-This can publish an add-on via HTTP(s) or IPFS
-
-
 ## Example
 
 **This arbitrary example creates an add-on that provides a stream for Big Buck Bunny and outputs a HTTP address where you can access it**
@@ -58,7 +55,7 @@ It will output a URL that you can use to [install the add-on in Stremio](./docs/
 
 ## Documentation
 
-**To get familiar with the resources and their roles, [read this](./api/README).**
+**To get familiar with the resources and their roles, [read this](./api/README.md).**
 
 #### `const { addonBuilder, serveHTTP } = require('stremio-addon-sdk')`
 
