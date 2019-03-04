@@ -14,7 +14,7 @@
 ## Understanding Catalogs
 
 The `catalog` resource in Stremio add-ons can be used to:
-- show one or more catalogs in the Board and Discover pages, these responses can also be filtered, paginated and geo-restricted
+- show one or more catalogs in the Board and Discover pages, these responses can also be filtered and paginated
 - show search results from catalogs
 
 Let's first look at how `catalog` is declared in the [manifest](./api/responses/manifest.md):
@@ -30,7 +30,7 @@ Let's first look at how `catalog` is declared in the [manifest](./api/responses/
 }
 ```
 
-This is normally all you'd need to make a standard catalog, but it won't support filtering, it won't be searchable and won't be geo-restricted.
+This is normally all you'd need to make a standard catalog, but it won't support filtering, paginating and it won't be searchable.
 
 
 ### Searching in Catalogs
