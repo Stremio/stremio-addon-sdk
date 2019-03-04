@@ -18,3 +18,7 @@
 - [IMDB Lists - Node.js Express Add-on Using User Data and Ajax Calls](https://github.com/jaruba/stremio-imdb-list)
 - [IMDB Watchlist - Node.js Express Add-on Using User Data and Proxying Another Stremio Add-on](https://github.com/jaruba/stremio-imdb-watchlist)
 - [Jackett Add-on - Node.js Express Add-on Using User Data](https://github.com/BoredLama/stremio-jackett-addon)
+
+### Video tutorials
+
+- [Building a Stremio add-on](https://www.youtube.com/watch?v=HqTkQeRKF-c&list=PLhslIqdUyoB-8olXVaYQxDLJIIOcSQU3H)
