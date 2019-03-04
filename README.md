@@ -68,7 +68,7 @@ npm install -g stremio-addon-sdk # use sudo if on Linux
 addon-bootstrap hello-world
 ```
 
-You'll be asked about what [resources and types](./docs/api/responses/manifest.md) you want to support, after which the add-on will be created in the `hello-world` directory, and you'll be able to run it:
+You'll be asked about what [resources and types](./docs/api/README.md) you want to support, after which the add-on will be created in the `hello-world` directory, and you'll be able to run it:
 
 ```bash
 cd hello-world
