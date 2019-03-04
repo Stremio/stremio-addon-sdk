@@ -20,13 +20,13 @@ The `catalog` resource in Stremio add-ons can be used to:
 Let's first look at how `catalog` is declared in the [manifest](./api/responses/manifest.md):
 ```
 {
-	resources: ["catalog"],
-	catalogs: [
-		{
-			id: "testcatalog",
-			type: "movie"			
-		}
-	]
+  resources: ["catalog"],
+  catalogs: [
+    {
+      id: "testcatalog",
+      type: "movie"      
+    }
+  ]
 }
 ```
 
@@ -39,16 +39,16 @@ To state that your catalog supports searching, you'd need to set it in `extraSup
 
 ```
 catalogs: [
-	{
-		id: "testcatalog",
-		type: "movie",
-		extra: [
-			{
-				name: "search",
-				isRequired: false
-			}
-		]
-	}
+  {
+    id: "testcatalog",
+    type: "movie",
+    extra: [
+      {
+        name: "search",
+        isRequired: false
+      }
+    ]
+  }
 ]
 ```
 
@@ -58,16 +58,16 @@ Then you'd need to state that your catalog supports only searching, and you can 
 
 ```
 catalogs: [
-	{
-		id: "testcatalog",
-		type: "movie",
-		extra: [
-			{
-				name: "search",
-				isRequired: true
-			}
-		]
-	}
+  {
+    id: "testcatalog",
+    type: "movie",
+    extra: [
+      {
+        name: "search",
+        isRequired: true
+      }
+    ]
+  }
 ]
 ```
 
@@ -75,36 +75,36 @@ Once you've set `search` in `extraSupported`, your catalog handler will receive 
 
 ```
 const meta = {
-    id: 'tt1254207',
-    name: 'Big Buck Bunny',
-    year: 2008,
-    poster: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/uVEFQvFMMsg4e6yb03xOfVsDz4o.jpg',
-    posterShape: 'regular',
-    banner: 'https://image.tmdb.org/t/p/original/aHLST0g8sOE1ixCxRDgM35SKwwp.jpg',
-    type: 'movie'
+  id: 'tt1254207',
+  name: 'Big Buck Bunny',
+  year: 2008,
+  poster: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/uVEFQvFMMsg4e6yb03xOfVsDz4o.jpg',
+  posterShape: 'regular',
+  banner: 'https://image.tmdb.org/t/p/original/aHLST0g8sOE1ixCxRDgM35SKwwp.jpg',
+  type: 'movie'
 }
 addon.defineCatalogHandler(function(args) {
-	if (args.id == 'testcatalog') {
-		// this is a request to our catalog id
-		if (args.extra && args.extra.search) {
-			// this is a search request
-			if (args.extra.search == 'big buck bunny') {
-				// if someone searched for "big buck bunny" (exact match)
-				// respond with our meta item
-				return Promise.resolve({ metas: [meta] })
-			} else {
-				// otherwise with no meta item
-				return Promise.resolve({ metas: [] })
-			}
-		} else {
-			// this is a standard catalog request
-			// just respond with our meta item
-			return Promise.resolve({ metas: [meta] })
-		}
-	} else {
-		// this is not a request for our catalog
-		return Promise.resolve({ metas: [] })
-	}
+  if (args.id == 'testcatalog') {
+    // this is a request to our catalog id
+    if (args.extra && args.extra.search) {
+      // this is a search request
+      if (args.extra.search == 'big buck bunny') {
+        // if someone searched for "big buck bunny" (exact match)
+        // respond with our meta item
+        return Promise.resolve({ metas: [meta] })
+      } else {
+        // otherwise with no meta item
+        return Promise.resolve({ metas: [] })
+      }
+    } else {
+      // this is a standard catalog request
+      // just respond with our meta item
+      return Promise.resolve({ metas: [meta] })
+    }
+  } else {
+    // this is not a request for our catalog
+    return Promise.resolve({ metas: [] })
+  }
 })
 ```
 
@@ -115,17 +115,17 @@ Maybe you would like your catalog to be filtered by `genre`, in this case, we'll
 
 ```
 catalogs: [
-	{
-		id: "testcatalog",
-		type: "movie",
-		extra: [
-			{
-				name: "genre",
-				options: [ "Drama", "Action" ]
-				isRequired: false
-			}
-		]
-	}
+  {
+    id: "testcatalog",
+    type: "movie",
+    extra: [
+      {
+        name: "genre",
+        options: [ "Drama", "Action" ]
+        isRequired: false
+      }
+    ]
+  }
 ]
 ```
 
@@ -133,36 +133,36 @@ Now we'll receive `genre` in our catalog handler:
 
 ```
 const meta = {
-    id: 'tt1254207',
-    name: 'Big Buck Bunny',
-    year: 2008,
-    poster: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/uVEFQvFMMsg4e6yb03xOfVsDz4o.jpg',
-    posterShape: 'regular',
-    banner: 'https://image.tmdb.org/t/p/original/aHLST0g8sOE1ixCxRDgM35SKwwp.jpg',
-    type: 'movie'
+  id: 'tt1254207',
+  name: 'Big Buck Bunny',
+  year: 2008,
+  poster: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/uVEFQvFMMsg4e6yb03xOfVsDz4o.jpg',
+  posterShape: 'regular',
+  banner: 'https://image.tmdb.org/t/p/original/aHLST0g8sOE1ixCxRDgM35SKwwp.jpg',
+  type: 'movie'
 }
 addon.defineCatalogHandler(function(args) {
-	if (args.id == 'testcatalog') {
-		// this is a request to our catalog id
-		if (args.extra && args.extra.genre) {
-			// this is a filter request
-			if (args.extra.genre == "Action") {
-				// in this example we'll only respon with our
-				// meta item if the genre is "Action"
-				return Promise.resolve({ metas: [meta] })
-			} else {
-				// otherwise with no meta item
-				return Promise.resolve({ metas: [] })
-			}
-		} else {
-			// this is a standard catalog request
-			// just respond with our meta item
-			return Promise.resolve({ metas: [meta] })
-		}
-	} else {
-		// this is not a request for our catalog
-		return Promise.resolve({ metas: [] })
-	}
+  if (args.id == 'testcatalog') {
+    // this is a request to our catalog id
+    if (args.extra && args.extra.genre) {
+      // this is a filter request
+      if (args.extra.genre == "Action") {
+        // in this example we'll only respon with our
+        // meta item if the genre is "Action"
+        return Promise.resolve({ metas: [meta] })
+      } else {
+        // otherwise with no meta item
+        return Promise.resolve({ metas: [] })
+      }
+    } else {
+      // this is a standard catalog request
+      // just respond with our meta item
+      return Promise.resolve({ metas: [meta] })
+    }
+  } else {
+    // this is not a request for our catalog
+    return Promise.resolve({ metas: [] })
+  }
 })
 ```
 
@@ -173,16 +173,16 @@ If we want our catalogs to be paginated, we can use `skip` as follows:
 
 ```
 catalogs: [
-	{
-		id: "testcatalog",
-		type: "movie",
-		extra: [
-			{
-				name: "skip",
-				isRequired: false
-			}
-		]
-	}
+  {
+    id: "testcatalog",
+    type: "movie",
+    extra: [
+      {
+        name: "skip",
+        isRequired: false
+      }
+    ]
+  }
 ]
 ```
 
@@ -190,17 +190,17 @@ Optionally, we can also set the steps in which the catalog will request the next
 
 ```
 catalogs: [
-	{
-		id: "testcatalog",
-		type: "movie",
-		extra: [
-			{
-				name: "skip",
-				options: ["0", "100", "200"],
-				isRequired: false
-			}
-		]
-	}
+  {
+    id: "testcatalog",
+    type: "movie",
+    extra: [
+      {
+        name: "skip",
+        options: ["0", "100", "200"],
+        isRequired: false
+      }
+    ]
+  }
 ]
 ```
 
@@ -211,39 +211,39 @@ Here's an example of using `skip`:
 ```
 // we only have one meta item
 const meta = {
-    id: 'tt1254207',
-    name: 'Big Buck Bunny',
-    year: 2008,
-    poster: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/uVEFQvFMMsg4e6yb03xOfVsDz4o.jpg',
-    posterShape: 'regular',
-    banner: 'https://image.tmdb.org/t/p/original/aHLST0g8sOE1ixCxRDgM35SKwwp.jpg',
-    type: 'movie'
+  id: 'tt1254207',
+  name: 'Big Buck Bunny',
+  year: 2008,
+  poster: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/uVEFQvFMMsg4e6yb03xOfVsDz4o.jpg',
+  posterShape: 'regular',
+  banner: 'https://image.tmdb.org/t/p/original/aHLST0g8sOE1ixCxRDgM35SKwwp.jpg',
+  type: 'movie'
 }
 
 const metaList = []
 
 // but we'll make an array that includes our meta 60 times
 for (let i = 0; i++; i < 60) {
-	metaList.push(meta)
+  metaList.push(meta)
 }
 
 addon.defineCatalogHandler(function(args) {
-	if (args.id == 'testcatalog') {
-		// this is a request to our catalog id
-		if (args.extra && args.extra.skip) {
-			// this is a skipped catalog request
-			// we'll slice our meta list using
-			// skip as the starting point
-			return Promise.resolve({ metas: metaList.slice(args.extra.skip, 20) })
-		} else {
-			// this is a standard catalog request
-			// we'll respond with the first 20 items
-			return Promise.resolve({ metas: metaList.slice(0, 20) })
-		}
-	} else {
-		// this is not a request for our catalog
-		return Promise.resolve({ metas: [] })
-	}
+  if (args.id == 'testcatalog') {
+    // this is a request to our catalog id
+    if (args.extra && args.extra.skip) {
+      // this is a skipped catalog request
+      // we'll slice our meta list using
+      // skip as the starting point
+      return Promise.resolve({ metas: metaList.slice(args.extra.skip, 20) })
+    } else {
+      // this is a standard catalog request
+      // we'll respond with the first 20 items
+      return Promise.resolve({ metas: metaList.slice(0, 20) })
+    }
+  } else {
+    // this is not a request for our catalog
+    return Promise.resolve({ metas: [] })
+  }
 })
 ```
 
@@ -269,19 +269,19 @@ Now here is an example of returning stream responses for Cinemeta items:
 
 ```
 addon.defineStreamHandler(function(args) {
-    if (args.type === 'movie' && args.id === 'tt1254207') {
-        // serve one stream for big buck bunny
-        const stream = { url: 'http://distribution.bbb3d.renderfarming.net/video/mp4/bbb_sunflower_1080p_30fps_normal.mp4' }
-        return Promise.resolve({ streams: [stream] })
-    } else if (args.type === 'series' && args.id === 'tt8633518:1:1') {
-        // return one stream for the series Weird City, Season 1 Episode 1
-        // (free Youtube Originals series)
-        const stream = { id: 'yt_id::fMnq5v8yZp4' }
-        return Promise.resolve({ streams: [stream] })
-    } else {
-    	// otherwise return no streams
-    	return Promise.resolve({ streams: [] })
-    }
+  if (args.type === 'movie' && args.id === 'tt1254207') {
+    // serve one stream for big buck bunny
+    const stream = { url: 'http://distribution.bbb3d.renderfarming.net/video/mp4/bbb_sunflower_1080p_30fps_normal.mp4' }
+    return Promise.resolve({ streams: [stream] })
+  } else if (args.type === 'series' && args.id === 'tt8633518:1:1') {
+    // return one stream for the series Weird City, Season 1 Episode 1
+    // (free Youtube Originals series)
+    const stream = { id: 'yt_id::fMnq5v8yZp4' }
+    return Promise.resolve({ streams: [stream] })
+  } else {
+    // otherwise return no streams
+    return Promise.resolve({ streams: [] })
+  }
 })
 ```
 
@@ -304,12 +304,12 @@ var itemImdbId = 'tt1254207'
 
 needle.get('https://v3-cinemeta.strem.io/meta/' + itemType + '/' + itemImdbId + '.json', function(err, resp, body) {
 
-    if (body && body.meta) {
+  if (body && body.meta) {
 
-    	// log Big Buck Bunny's metadata
-    	console.log(body.meta)
+    // log Big Buck Bunny's metadata
+    console.log(body.meta)
 
-    }
+  }
 
 })
 ```
@@ -325,8 +325,8 @@ We recommend using [name-to-imdb](https://github.com/Ivshti/name-to-imdb) in thi
 var nameToImdb = require("name-to-imdb");
 
 nameToImdb({ name: "south park" }, function(err, res, inf) { 
-	console.log(res); // prints "tt0121955"
-	console.log(inf); // inf contains info on where we matched that name - e.g. metadata, or on imdb
+  console.log(res); // prints "tt0121955"
+  console.log(inf); // inf contains info on where we matched that name - e.g. metadata, or on imdb
 })
 ```
 
@@ -346,21 +346,21 @@ const express = require('express')
 const addon = express()
 
 addon.get('/:someParameter/manifest.json', function (req, res) {
-    res.send({
-        id: 'org.parameterized.'+req.params.someParameter,
-        name: 'add-on for '+req.params.someParameter,
-        resources: ['stream'],
-        types: ['series'],
-    })
+  res.send({
+    id: 'org.parameterized.'+req.params.someParameter,
+    name: 'add-on for '+req.params.someParameter,
+    resources: ['stream'],
+    types: ['series'],
+  })
 })
 
 addon.get('/:someParameter/stream/:type/:id.json', function(req, res) {
-    // @TODO do something depending on req.params.someParameter
-    res.send({ streams: [] })
+  // @TODO do something depending on req.params.someParameter
+  res.send({ streams: [] })
 })
 
 addon.listen(7000, function() {
-    console.log('http://127.0.0.1:7000/[someParameter]/manifest.json')
+  console.log('http://127.0.0.1:7000/[someParameter]/manifest.json')
 })
 ```
 
@@ -388,14 +388,14 @@ Here's an example:
 // movie, that if clicked, will redirect Stremio to the
 // Board page
 addon.defineStreamHandler(function(args) {
-    if (args.type === 'movie' && args.id === 'tt1254207') {
-        // serve one stream for big buck bunny
-        const stream = { externalUrl: 'stremio://board' }
-        return Promise.resolve({ streams: [stream] })
-    } else {
-    	// otherwise return no streams
-    	return Promise.resolve({ streams: [] })
-    }
+  if (args.type === 'movie' && args.id === 'tt1254207') {
+    // serve one stream for big buck bunny
+    const stream = { externalUrl: 'stremio://board' }
+    return Promise.resolve({ streams: [stream] })
+  } else {
+    // otherwise return no streams
+    return Promise.resolve({ streams: [] })
+  }
 })
 ```
 
