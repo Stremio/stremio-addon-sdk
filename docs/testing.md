@@ -13,7 +13,7 @@ There are currently two such clients that you can test with:
 
 ### Starting/launching shortcuts
 
-If you're using the `serveHTTP` method, there are two shortcuts that you can use:
+If you're using the [`serveHTTP`](/docs/README.md#servehttpaddoninterface-options) method, there are two shortcuts that you can use:
 
 If you launch your add-on with `npm start -- --launch`, it will open a web version of Stremio with the add-on pre-installed.
 
