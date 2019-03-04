@@ -1,14 +1,14 @@
 # Advanced Usage
 
-- Understanding Catalogs (searching, filtering, paginating)
-- Understanding Cinemeta
-- Adding Stream Results to Cinemeta Items
-- Getting Metadata from Cinemeta
-- Resolving Movie / Series names to IMDB ID
-- Using User Data in Add-ons
-- Using Internal Links in Add-ons
-- Proxying Other Add-ons
-- Crawler (Scraping) Add-ons
+- [Understanding Catalogs](#understanding-catalogs) (searching, filtering, paginating)
+- [Understanding Cinemeta](#understanding-cinemeta)
+- [Adding Stream Results to Cinemeta Items](#adding-stream-results-to-cinemeta-items)
+- [Getting Metadata from Cinemeta](#getting-metadata-from-cinemeta)
+- [Resolving Movie / Series names to IMDB ID](#resolving-movie--series-names-to-imdb-id)
+- [Using User Data in Add-ons](#using-user-data-in-add-ons)
+- [Using Internal Links in Add-ons](#using-internal-links-in-add-ons)
+- [Proxying Other Add-ons](#proxying-other-add-ons)
+- [Crawler (Scraping) Add-ons](#crawler--scraping-add-ons)
 
 
 ## Understanding Catalogs
@@ -167,7 +167,7 @@ addon.defineCatalogHandler(function(args) {
 ```
 
 
-## Pagination
+## Pagination in Catalogs
 
 If we want our catalogs to be paginated, we can use `skip` as follows:
 
