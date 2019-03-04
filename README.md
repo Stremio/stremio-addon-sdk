@@ -68,7 +68,7 @@ npm install -g stremio-addon-sdk # use sudo if on Linux
 addon-bootstrap hello-world
 ```
 
-You'll be asked about what [resources and types](./docs/api/responses/manifest.md) you want to support, after which the add-on will be created in the `hello-world` directory, and you'll be able to run it:
+You'll be asked about what [resources and types](./docs/api/README.md) you want to support, after which the add-on will be created in the `hello-world` directory, and you'll be able to run it:
 
 ```bash
 cd hello-world
@@ -115,9 +115,9 @@ You can check our [list of recommended hosting providers for Node.js](./docs/dep
 After you've deployed publically, in order to get your add-on to show in Stremio (through the [public Add-on collection](https://api.strem.io/addonscollection.json)), you need to use [publishToCentral](./docs/README.md#publishtocentralurl).
 
 
-## Examples
+## Examples & tutorials
 
-Check out our ever growing list of [examples and demo add-ons](./docs/examples/README.md). This list also includes examples & tutorials on how to develop Stremio addons in PHP, Python, Ruby, C#, Java and Go.
+Check out our ever growing list of [examples and demo add-ons](./docs/examples/README.md). This list also includes examples & tutorials on how to develop Stremio addons in PHP, Python, Ruby, C#, Java and Go. It also includes a list of video tutorials.
 
 
 ## Advanced Usage
