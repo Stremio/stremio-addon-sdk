@@ -416,4 +416,4 @@ Scraping HTML pages presumes downloading the HTML source of a web page in order 
 
 A guide showing a simplistic version of doing this is in the readme of the [IMDB Watchlist Add-on](https://github.com/jaruba/stremio-imdb-watchlist). The add-on uses [needle](https://www.npmjs.com/package/needle) to request the HTML source and [cheerio](https://www.npmjs.com/package/cheerio) to start a jQuery instance in order to simplify getting the desired information.
 
-
+Cheerio is not the only module that can help with crawling / scraping though, other modules that can aid in this: [jsdom](https://www.npmjs.com/package/jsdom), [xpath](https://www.npmjs.com/package/xpath), etc
