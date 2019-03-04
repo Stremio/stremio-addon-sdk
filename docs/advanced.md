@@ -121,7 +121,7 @@ catalogs: [
     "extra": [
       {
         "name": "genre",
-        "options": [ "Drama", "Action" ]
+        "options": [ "Drama", "Action" ],
         "isRequired": false
       }
     ]
