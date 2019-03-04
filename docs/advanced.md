@@ -86,7 +86,7 @@ const meta = {
 addon.defineCatalogHandler(function(args) {
   if (args.id == 'testcatalog') {
     // this is a request to our catalog id
-    if (args.extra && args.extra.search) {
+    if (args.extra.search) {
       // this is a search request
       if (args.extra.search == 'big buck bunny') {
         // if someone searched for "big buck bunny" (exact match)
@@ -144,7 +144,7 @@ const meta = {
 addon.defineCatalogHandler(function(args) {
   if (args.id == 'testcatalog') {
     // this is a request to our catalog id
-    if (args.extra && args.extra.genre) {
+    if (args.extra.genre) {
       // this is a filter request
       if (args.extra.genre == "Action") {
         // in this example we'll only respon with our
@@ -230,7 +230,7 @@ for (let i = 0; i++; i < 60) {
 addon.defineCatalogHandler(function(args) {
   if (args.id == 'testcatalog') {
     // this is a request to our catalog id
-    if (args.extra && args.extra.skip) {
+    if (args.extra.skip) {
       // this is a skipped catalog request
       // we'll slice our meta list using
       // skip as the starting point
