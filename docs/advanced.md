@@ -35,7 +35,7 @@ This is normally all you'd need to make a standard catalog, but it won't support
 
 ### Searching in Catalogs
 
-To state that your catalog supports searching, you'd need to set it in `extraSupported`:
+To state that your catalog supports searching, you'd need to set it in the `extra` property:
 
 ```json
 catalogs: [
@@ -71,7 +71,7 @@ catalogs: [
 ]
 ```
 
-Once you've set `search` in `extraSupported`, your catalog handler will receive `args.extra.search` as the search query (if it is a search request), so here's an example of a search response:
+Once you've set `search` in `extra`, your catalog handler will receive `args.extra.search` as the search query (if it is a search request), so here's an example of a search response:
 
 ```javascript
 const meta = {
