@@ -20,11 +20,11 @@ The `catalog` resource in Stremio add-ons can be used to:
 Let's first look at how `catalog` is declared in the [manifest](./api/responses/manifest.md):
 ```json
 {
-  resources: ["catalog"],
-  catalogs: [
+  "resources": ["catalog"],
+  "catalogs": [
     {
-      id: "testcatalog",
-      type: "movie"      
+      "id": "testcatalog",
+      "type": "movie"      
     }
   ]
 }
@@ -40,12 +40,12 @@ To state that your catalog supports searching, you'd need to set it in `extraSup
 ```json
 catalogs: [
   {
-    id: "testcatalog",
-    type: "movie",
-    extra: [
+    "id": "testcatalog",
+    "type": "movie",
+    "extra": [
       {
-        name: "search",
-        isRequired: false
+        "name": "search",
+        "isRequired": false
       }
     ]
   }
@@ -59,12 +59,12 @@ Then you'd need to state that your catalog supports only searching, and you can 
 ```json
 catalogs: [
   {
-    id: "testcatalog",
-    type: "movie",
-    extra: [
+    "id": "testcatalog",
+    "type": "movie",
+    "extra": [
       {
-        name: "search",
-        isRequired: true
+        "name": "search",
+        "isRequired": true
       }
     ]
   }
@@ -116,13 +116,13 @@ Maybe you would like your catalog to be filtered by `genre`, in this case, we'll
 ```json
 catalogs: [
   {
-    id: "testcatalog",
-    type: "movie",
-    extra: [
+    "id": "testcatalog",
+    "type": "movie",
+    "extra": [
       {
-        name: "genre",
-        options: [ "Drama", "Action" ]
-        isRequired: false
+        "name": "genre",
+        "options": [ "Drama", "Action" ]
+        "isRequired": false
       }
     ]
   }
@@ -174,12 +174,12 @@ If we want our catalogs to be paginated, we can use `skip` as follows:
 ```json
 catalogs: [
   {
-    id: "testcatalog",
-    type: "movie",
-    extra: [
+    "id": "testcatalog",
+    "type": "movie",
+    "extra": [
       {
-        name: "skip",
-        isRequired: false
+        "name": "skip",
+        "isRequired": false
       }
     ]
   }
@@ -191,13 +191,13 @@ Optionally, we can also set the steps in which the catalog will request the next
 ```json
 catalogs: [
   {
-    id: "testcatalog",
-    type: "movie",
-    extra: [
+    "id": "testcatalog",
+    "type": "movie",
+    "extra": [
       {
-        name: "skip",
-        options: ["0", "100", "200"],
-        isRequired: false
+        "name": "skip",
+        "options": ["0", "100", "200"],
+        "isRequired": false
       }
     ]
   }
