@@ -253,8 +253,8 @@ addon.defineCatalogHandler(function(args) {
 Cinemeta is the primary add-on that Stremio uses to show Movie, Series and Anime items. Other add-ons can choose to create their own catalogs of items or respond with streams to the Cinemeta items.
 
 Cinemeta uses IMDB IDs for their metadata, to understand it's pattern:
-- `tt0111161` is the meta ID (and stream request ID) of a movie
-- `tt3107288` is the meta ID of a series, and `tt3107288:1:1` is the request ID for streams for season 1, episode 1 of the series with the `tt3107288` ID
+- `tt0111161` is the meta ID (and video ID) of a movie
+- `tt3107288` is the meta ID of a series, and `tt3107288:1:1` is the video ID for streams for season 1, episode 1 of the series with the `tt3107288` ID
 
 
 ## Adding Stream Results to Cinemeta Items
