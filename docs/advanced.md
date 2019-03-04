@@ -18,7 +18,7 @@ The `catalog` resource in Stremio add-ons can be used to:
 - show search results from catalogs
 
 Let's first look at how `catalog` is declared in the [manifest](./api/responses/manifest.md):
-```
+```json
 {
   resources: ["catalog"],
   catalogs: [
@@ -37,7 +37,7 @@ This is normally all you'd need to make a standard catalog, but it won't support
 
 To state that your catalog supports searching, you'd need to set it in `extraSupported`:
 
-```
+```json
 catalogs: [
   {
     id: "testcatalog",
@@ -56,7 +56,7 @@ But then, what if you want your catalog to support only search (as in, not show 
 
 Then you'd need to state that your catalog supports only searching, and you can do that with:
 
-```
+```json
 catalogs: [
   {
     id: "testcatalog",
@@ -73,7 +73,7 @@ catalogs: [
 
 Once you've set `search` in `extraSupported`, your catalog handler will receive `args.extra.search` as the search query (if it is a search request), so here's an example of a search response:
 
-```
+```javascript
 const meta = {
   id: 'tt1254207',
   name: 'Big Buck Bunny',
@@ -113,7 +113,7 @@ addon.defineCatalogHandler(function(args) {
 
 Maybe you would like your catalog to be filtered by `genre`, in this case, we'll set that in the catalog definition:
 
-```
+```json
 catalogs: [
   {
     id: "testcatalog",
@@ -131,7 +131,7 @@ catalogs: [
 
 Now we'll receive `genre` in our catalog handler:
 
-```
+```javascript
 const meta = {
   id: 'tt1254207',
   name: 'Big Buck Bunny',
@@ -171,7 +171,7 @@ addon.defineCatalogHandler(function(args) {
 
 If we want our catalogs to be paginated, we can use `skip` as follows:
 
-```
+```json
 catalogs: [
   {
     id: "testcatalog",
@@ -188,7 +188,7 @@ catalogs: [
 
 Optionally, we can also set the steps in which the catalog will request the next items, for example:
 
-```
+```json
 catalogs: [
   {
     id: "testcatalog",
@@ -208,7 +208,7 @@ This is not a requirement though, as if we don't set `options` Stremio will requ
 
 Here's an example of using `skip`:
 
-```
+```javascript
 // we only have one meta item
 const meta = {
   id: 'tt1254207',
@@ -267,7 +267,7 @@ Add these to your [manifest](./api/responses/manifest.md):
 
 Now here is an example of returning stream responses for Cinemeta items:
 
-```
+```javascript
 addon.defineStreamHandler(function(args) {
   if (args.type === 'movie' && args.id === 'tt1254207') {
     // serve one stream for big buck bunny
@@ -294,7 +294,7 @@ Because Cinemeta is also an add-on, you can request the metadata from it.
 
 Here is an example using `needle` to do a HTTP request to Cinemeta for metadata:
 
-```
+```javascript
 var needle = require('needle')
 
 // we will get metadata for the movie: Big Buck Bunny
@@ -321,7 +321,7 @@ What if you have a movie or series name, but you need it's IMDB ID?
 
 We recommend using [name-to-imdb](https://github.com/Ivshti/name-to-imdb) in this case, and it's really easy to use:
 
-```
+```javascript
 var nameToImdb = require("name-to-imdb");
 
 nameToImdb({ name: "south park" }, function(err, res, inf) { 
@@ -383,7 +383,7 @@ First, set the `stream` resource in your [manifest](./api/responses/manifest.md)
 
 Here's an example:
 
-```
+```javascript
 // this responds with one stream for the Big Buck Bunny
 // movie, that if clicked, will redirect Stremio to the
 // Board page
