@@ -254,7 +254,7 @@ Cinemeta is the primary add-on that Stremio uses to show Movie, Series and Anime
 
 Cinemeta uses IMDB IDs for their metadata, to understand it's pattern:
 - `tt0111161` is the meta ID (and video ID) of a movie
-- `tt3107288` is the meta ID of a series, and `tt3107288:1:1` is the video ID for streams for season 1, episode 1 of the series with the `tt3107288` ID
+- `tt3107288` is the meta ID of a series, and `tt3107288:1:1` is the video ID for season 1, episode 1 of the series with the `tt3107288` meta ID
 
 
 ## Adding Stream Results to Cinemeta Items
