@@ -80,7 +80,7 @@ If you wish to install the add-on in the Desktop version of Stremio (which you c
 
 ## Documentation
 
-All our documentation is [hosted on GitHub](./docs). Take a look at our [examples list](./docs/examples/README.md) for some high-level
+All our documentation is [hosted on GitHub](./docs). Take a look at our [examples list](./docs/examples.md) for some high-level
 information, or dive straight into our [SDK documentation](./docs/README.md) for our code reference docs.
 
 We also have an [example add-on](https://github.com/Stremio/addon-helloworld) that you can use as a guide to help you build your own add-on.
@@ -120,6 +120,11 @@ After you've deployed publically, in order to get your add-on to show in Stremio
 Check out our ever growing list of [examples and demo add-ons](./docs/examples/README.md). This list also includes examples & tutorials on how to develop Stremio addons in PHP, Python, Ruby, C#, Java and Go. It also includes a list of video tutorials.
 
 
+## Advanced Usage
+
+Read our [guide for advanced usage](./docs/advanced.md) to understand the many ways that add-ons can be used.
+
+
 ## Reporting Issues
 
 If you have any issues regarding the Stremio Add-on SDK, please feel free to [report them here](https://github.com/Stremio/stremio-addon-sdk/issues).
@@ -140,7 +145,7 @@ The use of this SDK is not mandatory for creating Stremio Add-ons. You can use a
 creating a HTTP server to make Stremio Add-ons. Refer to our [protocol specification](./docs/protocol.md) for details and examples.
 
 One useful scenario of not using the SDK is when you need user specific data for you add-on (for example, an API
-Autherntication Token), you can see an example of passing user specific data in the Add-on URL [here](./docs/examples/userData.md).
+Autherntication Token), you can see an example of passing user specific data in the Add-on URL [here](./docs/advanced.md#using-user-data-in-add-ons).
 This example uses Node.js and Express to get user specific data.
 
 
