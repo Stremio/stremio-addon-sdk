@@ -1,4 +1,6 @@
 const express = require('express')
+const fs = require('fs')
+const path = require('path')
 const landingTemplate = require('./landingTemplate')
 const getRouter = require('./getRouter')
 const opn = require('opn')
@@ -13,6 +15,13 @@ function serveHTTP(addonInterface, opts = {}) {
 		next()
 	})
 	app.use(getRouter(addonInterface))
+
+	// serve static dir
+	if (opts.static) {
+		const location = path.join(process.cwd(), opts.static)
+		if (!fs.existsSync(location)) throw `directory to serve ${location} does not exist`
+		app.use(opts.static, express.static(location))
+	}
 
 	// landing page
 	const landingHTML = landingTemplate(addonInterface.manifest)

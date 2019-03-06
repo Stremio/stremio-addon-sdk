@@ -90,6 +90,28 @@ tape('create an addon and expose on HTTP with serveHTTP()', function(t) {
 	})
 })
 
+tape('try to serve a directory', function (t) {
+	var addon = new addonBuilder(manifest)
+		.defineCatalogHandler(() => Promise.resolve())
+		.defineStreamHandler(() => Promise.resolve())
+
+	serveHTTP(addon.getInterface(), { static: '/docs' }).then(function (h) {
+		request(h.server)
+			.get('/docs/README.md')
+			.expect(200)
+			.end((err, res) => {
+				h.server.close()
+				t.error(err, 'request error')
+				t.error(res.error, 'response error')
+				t.equal(res.ok, true, 'has response status 200')
+				t.equal(res.status, 200, 'has response status ok')
+				t.equal(res.type, 'text/markdown', 'is a valid markdown document')
+				t.end()
+			})
+
+	})
+})
+
 // Test the homepage of the addon
 tape('should return a valid html document', function (t) {
 	request(addonServer)
