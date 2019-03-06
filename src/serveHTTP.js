@@ -19,7 +19,7 @@ function serveHTTP(addonInterface, opts = {}) {
 	// serve static dir
 	if (opts.static) {
 		const location = path.join(process.cwd(), opts.static)
-		if (!fs.existsSync(location)) throw `directory to serve ${location} does not exist`
+		if (!fs.existsSync(location)) throw new Error('directory to serve does not exist')
 		app.use(opts.static, express.static(location))
 	}
 

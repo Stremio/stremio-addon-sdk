@@ -90,6 +90,18 @@ tape('create an addon and expose on HTTP with serveHTTP()', function(t) {
 	})
 })
 
+tape('try to serve a directory that does not exist', function (t) {
+	var addon = new addonBuilder(manifest)
+		.defineCatalogHandler(() => Promise.resolve())
+		.defineStreamHandler(() => Promise.resolve())
+	try {
+		serveHTTP(addon.getInterface(), { static: '/notexist' })
+	} catch (e) {
+		t.equal(e.message, 'directory to serve does not exist')
+		t.end()
+	}
+})
+
 tape('try to serve a directory', function (t) {
 	var addon = new addonBuilder(manifest)
 		.defineCatalogHandler(() => Promise.resolve())
@@ -108,7 +120,6 @@ tape('try to serve a directory', function (t) {
 				t.equal(res.type, 'text/markdown', 'is a valid markdown document')
 				t.end()
 			})
-
 	})
 })
 
