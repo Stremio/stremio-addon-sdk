@@ -87,7 +87,7 @@ async function createAddon() {
 		...userInput,
 	}
 
-	const outputIndexJS = genAddonJS(manifest, userInput.resources)
+	const outputIndexJS = genAddonJS(manifest, userInput.resources, userInput.types)
 
 	fs.writeFileSync(path.join(dir, 'addon.js'), outputIndexJS)
 	fs.writeFileSync(path.join(dir, 'server.js'), serverTmpl())
@@ -164,10 +164,26 @@ builder.defineMetaHandler(({type, id}) => {
 })
 `
 
+const streamsMovieTmpl = () => `
+builder.defineStreamHandler(({type, id}) => {
+	console.log("request for streams: "+type+" "+id)
+	// Docs: https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/api/requests/defineStreamHandler.md
+	if (type === "movie" && id === "tt1254207") {
+		// serve one stream to big buck bunny
+		const stream = { url: "http://distribution.bbb3d.renderfarming.net/video/mp4/bbb_sunflower_1080p_30fps_normal.mp4" }
+		return Promise.resolve({ streams: [stream] })
+	}
+
+	// otherwise return no streams
+	return Promise.resolve({ streams: [] })
+})
+`
+
 const streamsTmpl = () => `
 builder.defineStreamHandler(({type, id}) => {
 	console.log("request for streams: "+type+" "+id)
 	// Docs: https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/api/requests/defineStreamHandler.md
+	// return no streams
 	return Promise.resolve({ streams: [] })
 })
 `
@@ -184,11 +200,11 @@ builder.defineSubtitlesHandler(({type, id}) => {
 const footerTmpl = () => `
 module.exports = builder.getInterface()`
 
-function genAddonJS(manifest, resources) {
+function genAddonJS(manifest, resources, types) {
 	return [headerTmpl(manifest)]
 		.concat(resources.includes('catalog') ? [catalogTmpl()] : [])
 		.concat(resources.includes('meta') ? [metaTmpl()] : [])
-		.concat(resources.includes('stream') ? [streamsTmpl()] : [])
+		.concat(resources.includes('stream') ? [types.includes('movie') ? streamsMovieTmpl() : streamsTmpl()] : [])
 		.concat(resources.includes('subtitles') ? [subtitlesTmpl()] : [])
 		.concat(footerTmpl())
 		.join('')
