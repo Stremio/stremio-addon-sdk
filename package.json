@@ -1,6 +1,6 @@
 {
   "name": "stremio-addon-sdk",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "An SDK for making and publishing Stremio add-ons",
   "main": "./src/index.js",
   "scripts": {
