@@ -133,7 +133,7 @@ const packageTmpl = ({ name, version, description }) => `{
 		"start": "node server.js"
 	},
 	"dependencies": {
-		"stremio-addon-sdk": "1.0.x"
+		"stremio-addon-sdk": "1.1.x"
 	}
 }
 `
