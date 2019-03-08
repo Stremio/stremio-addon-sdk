@@ -121,7 +121,7 @@ const headerTmpl = (manifest) => `const { addonBuilder } = require("stremio-addo
 
 // Docs: https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/api/responses/manifest.md
 const manifest = ${JSON.stringify(manifest, null, '\t')}
-const addon = new addonBuilder(manifest)
+const builder = new addonBuilder(manifest)
 `
 
 // @TODO: auto update the stremio-addon-sdk version
@@ -142,7 +142,7 @@ const gitignoreTmpl = () => `node_modules
 `
 
 const catalogTmpl = () => `
-addon.defineCatalogHandler(({type, id}) => {
+builder.defineCatalogHandler(({type, id}) => {
 	console.log("request for catalogs: "+type+" "+id)
 	// Docs: https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/api/requests/defineCatalogHandler.md
 	return Promise.resolve({ metas: [
@@ -157,7 +157,7 @@ addon.defineCatalogHandler(({type, id}) => {
 `
 
 const metaTmpl = () => `
-addon.defineMetaHandler(({type, id}) => {
+builder.defineMetaHandler(({type, id}) => {
 	console.log("request for meta: "+type+" "+id)
 	// Docs: https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/api/requests/defineMetaHandler.md
 	return Promise.resolve({ meta: null })
@@ -165,7 +165,7 @@ addon.defineMetaHandler(({type, id}) => {
 `
 
 const streamsTmpl = () => `
-addon.defineStreamHandler(({type, id}) => {
+builder.defineStreamHandler(({type, id}) => {
 	console.log("request for streams: "+type+" "+id)
 	// Docs: https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/api/requests/defineStreamHandler.md
 	return Promise.resolve({ streams: [] })
@@ -173,7 +173,7 @@ addon.defineStreamHandler(({type, id}) => {
 `
 
 const subtitlesTmpl = () => `
-addon.defineSubtitlesHandler(({type, id}) => {
+builder.defineSubtitlesHandler(({type, id}) => {
 	console.log("request for subtitles: "+type+" "+id)
 	// Docs: https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/api/requests/defineSubtitlesHandler.md
 	return Promise.resolve({ subtitles: [] })
@@ -182,7 +182,7 @@ addon.defineSubtitlesHandler(({type, id}) => {
 
 // @TODO port
 const footerTmpl = () => `
-module.exports = addon.getInterface()`
+module.exports = builder.getInterface()`
 
 function genAddonJS(manifest, resources) {
 	return [headerTmpl(manifest)]

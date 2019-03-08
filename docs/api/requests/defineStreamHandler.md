@@ -25,7 +25,7 @@ For IMDb series (provided by Cinemeta), the video ID is formed by joining the Me
 ## Basic Example
 
 ```javascript
-addon.defineStreamHandler(function(args) {
+builder.defineStreamHandler(function(args) {
     if (args.type === 'movie' && args.id === 'tt1254207') {
         // serve one stream for big buck bunny
         const stream = { url: 'http://distribution.bbb3d.renderfarming.net/video/mp4/bbb_sunflower_1080p_30fps_normal.mp4' }

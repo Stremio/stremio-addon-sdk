@@ -21,7 +21,7 @@ A promise resolving to an object containing `{ meta: {} }` with a [Meta Object](
 ## Basic Example
 
 ```javascript
-addon.defineMetaHandler(function(args) {
+builder.defineMetaHandler(function(args) {
     if (args.type === 'movie' && args.id === 'tt1254207') {
         // serve metadata for Big Buck Bunny
         const metaObj = {

@@ -61,12 +61,12 @@ tape('create an addon and get the router', function(t) {
 })
 
 tape('create an addon and expose on HTTP with serveHTTP()', function(t) {
-	const addon = new addonBuilder(manifest)
+	const builder = new addonBuilder(manifest)
 		.defineCatalogHandler(() => Promise.resolve({ metas: [] }))
 		// NOTE: we're not supposed to mirror back the `args`, but we're doing it for easier testing
 		.defineStreamHandler((args) => Promise.resolve({ streams: [], args }))
 
-	serveHTTP(addon.getInterface(), { port: PORT, cache: 3600 }).then(function(h) {
+	serveHTTP(builder.getInterface(), { port: PORT, cache: 3600 }).then(function(h) {
 		t.ok(h.url, 'has url')
 		t.ok(h.url.endsWith('manifest.json'), 'url ends with manifest.json')
 

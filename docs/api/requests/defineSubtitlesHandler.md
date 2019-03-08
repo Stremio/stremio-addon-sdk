@@ -30,7 +30,7 @@ A promise resolving to an object containing `{ subtitles: [] }` with an array of
 ## Basic Example
 
 ```javascript
-addon.defineSubtitlesHandler(function(args) {
+builder.defineSubtitlesHandler(function(args) {
     if (args.extra && args.extra.videoId === 'tt1254207') {
         // serve one subtitle for big buck bunny
         const subtitle = {

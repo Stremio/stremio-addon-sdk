@@ -11,7 +11,7 @@ A NodeJS SDK for making and publishing Stremio add-ons
 
 const { addonBuilder, serveHTTP, publishToCentral } = require('stremio-addon-sdk')
 
-const addon = new addonBuilder({
+const builder = new addonBuilder({
     id: 'org.myexampleaddon',
     version: '1.0.0',
 
@@ -25,7 +25,7 @@ const addon = new addonBuilder({
 })
 
 // takes function(args), returns Promise
-addon.defineStreamHandler(function(args) {
+builder.defineStreamHandler(function(args) {
     if (args.type === 'movie' && args.id === 'tt1254207') {
         // serve one stream to big buck bunny
         // return addonSDK.Stream({ url: '...' })
@@ -37,7 +37,7 @@ addon.defineStreamHandler(function(args) {
     }
 })
 
-serveHTTP(addon.getInterface(), { port: 7000 })
+serveHTTP(builder.getInterface(), { port: 7000 })
 
 // If you want this add-on to appear in the addon catalogs, call .publishToCentral() with the publically available URL to your manifest
 //publishToCentral('https://my-addon.com/manifest.json')
@@ -67,7 +67,7 @@ Imports everything the SDK provides:
 * `publishToCentral`: publishes an add-on URL to the public add-on catalog
 
 
-#### `const addon = new addonBuilder(manifest)`
+#### `const builder = new addonBuilder(manifest)`
 
 Creates an  add-on builder obbject with a given manifest. This will throw if the manifest is not valid.
 
@@ -76,28 +76,28 @@ The manifest will determine the basic information of your add-on (name, descript
 [Manifest Object Definition](./api/responses/manifest.md)
 
 
-#### `addon.defineCatalogHandler(function handler(args) { })`
+#### `builder.defineCatalogHandler(function handler(args) { })`
 
 Handles catalog requests, including search.
 
 [Catalog Request Parameters and Example](./api/requests/defineCatalogHandler.md)
 
 
-#### `addon.defineMetaHandler(function handler(args) { })`
+#### `builder.defineMetaHandler(function handler(args) { })`
 
 Handles metadata requests. (title, year, poster, background, etc.)
 
 [Meta Request Parameters and Example](./api/requests/defineMetaHandler.md)
 
 
-#### `addon.defineStreamHandler(function handler(args) { })`
+#### `builder.defineStreamHandler(function handler(args) { })`
 
 Handles stream requests.
 
 [Stream Request Parameters and Example](./api/requests/defineStreamHandler.md)
 
 
-#### `addon.defineSubtitlesHandler(function handler(args) { })`
+#### `builder.defineSubtitlesHandler(function handler(args) { })`
 
 Handles subtitle requests.
 
@@ -106,7 +106,7 @@ Handles subtitle requests.
 **The JSON format of the response to these resources is described [here](./api/responses).**
 
 
-#### `addon.getInterface()`: returns an `addonInterface`
+#### `builder.getInterface()`: returns an `addonInterface`
 
 Turns the `addon` into an `addonInterface`, which is an immutable (frozen) object that has `{manifest, get}`; manifest is a regular [manifest object](./api/responses/manifest.md), while `get` is a function that takes one argument of the form `{ resource, type, id, extra }`, and returns a `Promise`
 
@@ -138,7 +138,7 @@ This method is also special in that it will react to certain process arguments, 
 
 #### `addonInterface`
 
-The `addonInterface`, as returned from `addon.getInterface()`, has two properties:
+The `addonInterface`, as returned from `builder.getInterface()`, has two properties:
 
 * `get({ resource, type, id, extra })` - returns a Promise
 * `manifest`: [manifest object](./api/responses/manifest.md)

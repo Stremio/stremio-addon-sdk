@@ -83,7 +83,7 @@ const meta = {
   banner: 'https://image.tmdb.org/t/p/original/aHLST0g8sOE1ixCxRDgM35SKwwp.jpg',
   type: 'movie'
 }
-addon.defineCatalogHandler(function(args) {
+builder.defineCatalogHandler(function(args) {
   if (args.id == 'testcatalog') {
     // this is a request to our catalog id
     if (args.extra.search) {
@@ -141,7 +141,7 @@ const meta = {
   banner: 'https://image.tmdb.org/t/p/original/aHLST0g8sOE1ixCxRDgM35SKwwp.jpg',
   type: 'movie'
 }
-addon.defineCatalogHandler(function(args) {
+builder.defineCatalogHandler(function(args) {
   if (args.id == 'testcatalog') {
     // this is a request to our catalog id
     if (args.extra.genre) {
@@ -227,7 +227,7 @@ for (let i = 0; i++; i < 60) {
   metaList.push(meta)
 }
 
-addon.defineCatalogHandler(function(args) {
+builder.defineCatalogHandler(function(args) {
   if (args.id == 'testcatalog') {
     // this is a request to our catalog id
     if (args.extra.skip) {
@@ -268,7 +268,7 @@ Add these to your [manifest](./api/responses/manifest.md):
 Now here is an example of returning stream responses for Cinemeta items:
 
 ```javascript
-addon.defineStreamHandler(function(args) {
+builder.defineStreamHandler(function(args) {
   if (args.type === 'movie' && args.id === 'tt1254207') {
     // serve one stream for big buck bunny
     const stream = { url: 'http://distribution.bbb3d.renderfarming.net/video/mp4/bbb_sunflower_1080p_30fps_normal.mp4' }
@@ -387,7 +387,7 @@ Here's an example:
 // this responds with one stream for the Big Buck Bunny
 // movie, that if clicked, will redirect Stremio to the
 // Board page
-addon.defineStreamHandler(function(args) {
+builder.defineStreamHandler(function(args) {
   if (args.type === 'movie' && args.id === 'tt1254207') {
     // serve one stream for big buck bunny
     const stream = { externalUrl: 'stremio://board' }

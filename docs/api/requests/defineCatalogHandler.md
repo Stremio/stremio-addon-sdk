@@ -37,7 +37,7 @@ If you wish to use these parameters, you'll need to specify them in `extra` for 
 
 
 ```javascript
-addon.defineCatalogHandler(function(args) {
+builder.defineCatalogHandler(function(args) {
     if (args.type === 'movie' && args.id === 'top') {
 
         // we will only respond with Big Buck Bunny
