@@ -84,27 +84,27 @@ const meta = {
   type: 'movie'
 }
 addon.defineCatalogHandler(function(args) {
-  if (args.id == 'testcatalog') {
-    // this is a request to our catalog id
-    if (args.extra.search) {
-      // this is a search request
-      if (args.extra.search == 'big buck bunny') {
-        // if someone searched for "big buck bunny" (exact match)
-        // respond with our meta item
-        return Promise.resolve({ metas: [meta] })
+  return new Promise(function(resolve, reject) {
+    if (args.id == 'testcatalog') {
+      // this is a request to our catalog id
+      if (args.extra.search) {
+        // this is a search request
+        if (args.extra.search == 'big buck bunny') {
+          // if someone searched for "big buck bunny" (exact match)
+          // respond with our meta item
+          resolve({ metas: [meta] })
+        } else {
+          reject(new Error('No search results found'))
+        }
       } else {
-        // otherwise with no meta item
-        return Promise.resolve({ metas: [] })
+        // this is a standard catalog request
+        // just respond with our meta item
+        resolve({ metas: [meta] })
       }
     } else {
-      // this is a standard catalog request
-      // just respond with our meta item
-      return Promise.resolve({ metas: [meta] })
+      reject(new Error('Unknown catalog request'))
     }
-  } else {
-    // this is not a request for our catalog
-    return Promise.resolve({ metas: [] })
-  }
+  })
 })
 ```
 
@@ -142,27 +142,28 @@ const meta = {
   type: 'movie'
 }
 addon.defineCatalogHandler(function(args) {
-  if (args.id == 'testcatalog') {
-    // this is a request to our catalog id
-    if (args.extra.genre) {
-      // this is a filter request
-      if (args.extra.genre == "Action") {
-        // in this example we'll only respon with our
-        // meta item if the genre is "Action"
-        return Promise.resolve({ metas: [meta] })
+  return new Promise(function(resolve, reject) {
+    if (args.id == 'testcatalog') {
+      // this is a request to our catalog id
+      if (args.extra.genre) {
+        // this is a filter request
+        if (args.extra.genre == "Action") {
+          // in this example we'll only respon with our
+          // meta item if the genre is "Action"
+          resolve({ metas: [meta] })
+        } else {
+          // otherwise with no meta item
+          resolve({ metas: [] })
+        }
       } else {
-        // otherwise with no meta item
-        return Promise.resolve({ metas: [] })
+        // this is a standard catalog request
+        // just respond with our meta item
+        resolve({ metas: [meta] })
       }
     } else {
-      // this is a standard catalog request
-      // just respond with our meta item
-      return Promise.resolve({ metas: [meta] })
+      reject(new Error('Unknown catalog request'))
     }
-  } else {
-    // this is not a request for our catalog
-    return Promise.resolve({ metas: [] })
-  }
+  })
 })
 ```
 
@@ -228,22 +229,16 @@ for (let i = 0; i++; i < 60) {
 }
 
 addon.defineCatalogHandler(function(args) {
-  if (args.id == 'testcatalog') {
-    // this is a request to our catalog id
-    if (args.extra.skip) {
-      // this is a skipped catalog request
+  return new Promise(function(resolve, reject) {
+    if (args.id == 'testcatalog') {
       // we'll slice our meta list using
       // skip as the starting point
-      return Promise.resolve({ metas: metaList.slice(args.extra.skip, 20) })
+      const skip = args.extra.skip || 0
+      resolve({ metas: metaList.slice(skip, skip + 20) })
     } else {
-      // this is a standard catalog request
-      // we'll respond with the first 20 items
-      return Promise.resolve({ metas: metaList.slice(0, 20) })
+      reject(new Error('Unknown catalog request'))
     }
-  } else {
-    // this is not a request for our catalog
-    return Promise.resolve({ metas: [] })
-  }
+  })
 })
 ```
 
@@ -269,19 +264,20 @@ Now here is an example of returning stream responses for Cinemeta items:
 
 ```javascript
 addon.defineStreamHandler(function(args) {
-  if (args.type === 'movie' && args.id === 'tt1254207') {
-    // serve one stream for big buck bunny
-    const stream = { url: 'http://distribution.bbb3d.renderfarming.net/video/mp4/bbb_sunflower_1080p_30fps_normal.mp4' }
-    return Promise.resolve({ streams: [stream] })
-  } else if (args.type === 'series' && args.id === 'tt8633518:1:1') {
-    // return one stream for the series Weird City, Season 1 Episode 1
-    // (free Youtube Originals series)
-    const stream = { id: 'yt_id::fMnq5v8yZp4' }
-    return Promise.resolve({ streams: [stream] })
-  } else {
-    // otherwise return no streams
-    return Promise.resolve({ streams: [] })
-  }
+  return new Promise(function(resolve, reject) {
+    if (args.type === 'movie' && args.id === 'tt1254207') {
+      // serve one stream for big buck bunny
+      const stream = { url: 'http://distribution.bbb3d.renderfarming.net/video/mp4/bbb_sunflower_1080p_30fps_normal.mp4' }
+      resolve({ streams: [stream] })
+    } else if (args.type === 'series' && args.id === 'tt8633518:1:1') {
+      // return one stream for the series Weird City, Season 1 Episode 1
+      // (free Youtube Originals series)
+      const stream = { id: 'yt_id::fMnq5v8yZp4' }
+      resolve({ streams: [stream] })
+    } else {
+      reject(new Error('No streams available for: ' + args.id))
+    }
+  })
 })
 ```
 
@@ -388,14 +384,15 @@ Here's an example:
 // movie, that if clicked, will redirect Stremio to the
 // Board page
 addon.defineStreamHandler(function(args) {
-  if (args.type === 'movie' && args.id === 'tt1254207') {
-    // serve one stream for big buck bunny
-    const stream = { externalUrl: 'stremio://board' }
-    return Promise.resolve({ streams: [stream] })
-  } else {
-    // otherwise return no streams
-    return Promise.resolve({ streams: [] })
-  }
+  return new Promise(function(resolve, reject) {
+    if (args.type === 'movie' && args.id === 'tt1254207') {
+      // serve one stream for big buck bunny
+      const stream = { externalUrl: 'stremio://board' }
+      resolve({ streams: [stream] })
+    } else {
+      reject(new Error('No streams found for: ' + args.id))
+    }
+  })
 })
 ```
 
