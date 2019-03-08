@@ -15,7 +15,7 @@ This arbitrary example creates an add-on that provides a stream for Big Buck Bun
 ```javascript
 const { addonBuilder, serveHTTP, publishToCentral }  = require('stremio-addon-sdk')
 
-const addon = new addonBuilder({
+const builder = new addonBuilder({
     id: 'org.myexampleaddon',
     version: '1.0.0',
 
@@ -30,7 +30,7 @@ const addon = new addonBuilder({
 })
 
 // takes function(args, cb)
-addon.defineStreamHandler(function(args, cb) {
+builder.defineStreamHandler(function(args, cb) {
     if (args.type === 'movie' && args.id === 'tt1254207') {
         // serve one stream to big buck bunny
         const stream = { url: 'http://distribution.bbb3d.renderfarming.net/video/mp4/bbb_sunflower_1080p_30fps_normal.mp4' }
@@ -41,7 +41,7 @@ addon.defineStreamHandler(function(args, cb) {
     }
 })
 
-serveHTTP(addon.getInterface(), { port: 7000 })
+serveHTTP(builder.getInterface(), { port: 7000 })
 //publishToCentral("https://your-domain/manifest.json") // <- invoke this if you want to publish your add-on and it's accessible publically on "your-domain"
 ```
 
