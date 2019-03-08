@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const { addonBuilder, serveHTTP } = require('../')
 
-const addon = new addonBuilder({
+const builder = new addonBuilder({
 	id: 'org.myexampleaddon',
 	version: '1.0.0',
 
@@ -15,7 +15,7 @@ const addon = new addonBuilder({
 })
 
 // takes function(type, id, cb)
-addon.defineStreamHandler(function(args) {
+builder.defineStreamHandler(function(args) {
 	if (args.type === 'movie' && args.id === 'tt1254207') {
 		// serve one stream to big buck bunny
 		const stream = { url: 'http://distribution.bbb3d.renderfarming.net/video/mp4/bbb_sunflower_1080p_30fps_normal.mp4' }
@@ -26,4 +26,4 @@ addon.defineStreamHandler(function(args) {
 	}
 })
 
-serveHTTP(addon.getInterface(), { port: 43001 })
+serveHTTP(builder.getInterface(), { port: 43001 })
