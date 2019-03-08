@@ -21,4 +21,6 @@ If you've built a great add-on, and need help with hosting your add-on, you are 
 
 ### Publishing to Stremio
 
-If you want your add-on to appear in the list of Community add-ons in Stremio, check out [publishToCentral](./README.md#publishtocentralurl)
+If you are using the Add-on SDK and want your add-on to appear in the list of Community add-ons in Stremio, check out [publishToCentral](./README.md#publishtocentralurl)
+
+If you are not using the Add-on SDK to create your add-on, you can publish your add-on in the list of Community add-ons in Stremio by submitting it on [this site](https://stremio.github.io/stremio-publish-addon/index.html)
