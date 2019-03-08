@@ -3,7 +3,7 @@
 const tape = require('tape')
 const request = require('supertest')
 const AddonClient = require('stremio-addon-client')
-const { addonBuilder, serveHTTP, publishToCentral } = require('../')
+const { addonBuilder, serveHTTP, getRouter, publishToCentral } = require('../')
 
 const PORT = 5000
 
@@ -56,7 +56,7 @@ tape('create an addon and get the router', function(t) {
 	var addon = new addonBuilder(manifest)
 		.defineCatalogHandler(() => Promise.resolve())
 		.defineStreamHandler(() => Promise.resolve())
-	t.ok(addon.getRouter(), 'can get router')
+	t.ok(getRouter(addon.getInterface()), 'can get router')
 	t.end()
 })
 

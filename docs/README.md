@@ -57,10 +57,14 @@ It will output a URL that you can use to [install the add-on in Stremio](./docs/
 
 **To get familiar with the resources and their roles, [read this](./api/README.md).**
 
-#### `const { addonBuilder, serveHTTP } = require('stremio-addon-sdk')`
+#### `const { addonBuilder, serveHTTP, getRouter, publishToCentral } = require('stremio-addon-sdk')`
 
-Imports `addonBuilder`, which you'll need to define the addon, 
-and `serveHTTP`, which you will need to serve a HTTP server for this addon
+Imports everything the SDK provides:
+
+* `addonBuilder`, which you'll need to define the addon
+* `serveHTTP`, which you will need to serve a HTTP server for this addon
+* `getRouter`, converts an `addonInterface` to an express router
+* `publishToCentral`: publishes an add-on URL to the public add-on catalog
 
 
 #### `const addon = new addonBuilder(manifest)`
@@ -102,14 +106,14 @@ Handles subtitle requests.
 **The JSON format of the response to these resources is described [here](./api/responses).**
 
 
-#### `addon.getInterface()`
+#### `addon.getInterface()`: returns an `addonInterface`
 
 Turns the `addon` into an `addonInterface`, which is an immutable (frozen) object that has `{manifest, get}`; manifest is a regular [manifest object](./api/responses/manifest.md), while `get` is a function that takes one argument of the form `{ resource, type, id, extra }`, and returns a `Promise`
 
 
-#### `addon.getRouter()`
+#### `getRouter(addonInterface)`
 
-Turns the `addon` into an express router, that serves the addon according to [the protocol](./protocol.md), and a landing page on the root (`/`)
+Turns the `addonInterface` into an express router, that serves the addon according to [the protocol](./protocol.md), and a landing page on the root (`/`)
 
 
 #### `publishToCentral(url)`
@@ -130,3 +134,11 @@ This method is also special in that it will react to certain process arguments, 
 
 * `--launch`: launches Stremio in the web browser, and automatically installs/upgrades the add-on
 * `--install`: installs the add-on in the desktop version of Stremio
+
+
+#### `addonInterface`
+
+The `addonInterface`, as returned from `addon.getInterface()`, has two properties:
+
+* `get({ resource, type, id, extra })` - returns a Promise
+* `manifest`: [manifest object](./api/responses/manifest.md)

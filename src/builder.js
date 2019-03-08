@@ -1,7 +1,5 @@
 const linter = require('stremio-addon-linter')
 
-const getRouter = require('./getRouter')
-
 // Implements a builder pattern, but we can built into a router or an interface
 // the addonInterface is just an object: { manifest, get(resource, type, id, extra) }
 function AddonBuilder(manifest) {
@@ -70,14 +68,10 @@ function AddonBuilder(manifest) {
 	this.defineCatalogHandler = this.defineResourceHandler.bind(this, 'catalog')
 	this.defineSubtitlesHandler = this.defineResourceHandler.bind(this, 'subtitles')
 
-	// build into an interface or a router
+	// build into an interface
 	this.getInterface = function() {
 		validOrExit()
 		return new AddonInterface(manifest, handlers)
-	}
-	this.getRouter = function() {
-		validOrExit()
-		return getRouter(new AddonInterface(manifest, handlers))
 	}
 
 	return this
