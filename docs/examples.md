@@ -3,7 +3,7 @@
 
 ### Examples using SDK
 
-- [Hello World Add-on](https://github.com/Stremio/addon-helloworld)
+- [Hello World Add-on](https://github.com/Stremio/addon-helloworld): also includes a step by step tutorial
 - [IGDB Add-on](https://github.com/Stremio/stremio-igdb-addon/tree/tutorial)
 
 ### Examples not using this SDK
@@ -18,6 +18,13 @@
 - [IMDB Lists - Node.js Express Add-on Using User Data and Ajax Calls](https://github.com/jaruba/stremio-imdb-list)
 - [IMDB Watchlist - Node.js Express Add-on Using User Data and Proxying Another Stremio Add-on](https://github.com/jaruba/stremio-imdb-watchlist)
 - [Jackett Add-on - Node.js Express Add-on Using User Data](https://github.com/BoredLama/stremio-jackett-addon)
+
+
+### Guides
+
+- [Official SDK guide](https://stremio.github.io/stremio-addon-guide/sdk-guide/prelude)
+- [Official generic guide](https://stremio.github.io/stremio-addon-guide/basics)
+
 
 ### Video tutorials
 

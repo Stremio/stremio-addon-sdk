@@ -88,6 +88,8 @@ We also have an [example add-on](https://github.com/Stremio/addon-helloworld) th
 If you don't wish to use Node.js (and therefore not use this SDK either), you can create add-ons in any programming
 language, see the [add-on protocol specification](./docs/protocol.md) for more information.
 
+We've made two step by step guides: one for this SDK, and one for any programming language, which you can [read here](https://stremio.github.io/stremio-addon-guide).
+
 It is also possible to create an add-on without any programming language, see our [static add-on example](https://github.com/Stremio/stremio-static-addon-example) based
 on the protocol specification.
 
