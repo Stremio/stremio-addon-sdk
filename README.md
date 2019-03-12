@@ -80,15 +80,15 @@ If you wish to install the add-on in the Desktop version of Stremio (which you c
 
 ## Documentation
 
-All our documentation is [hosted on GitHub](./docs). Take a look at our [examples list](./docs/examples.md) for some high-level
+All our documentation is [right here on GitHub](./docs). Take a look at our [examples list](./docs/examples.md) for some high-level
 information, or dive straight into our [SDK documentation](./docs/README.md) for our code reference docs.
 
 We also have an [example add-on](https://github.com/Stremio/addon-helloworld) that you can use as a guide to help you build your own add-on.
 
+We've made two step by step guides: one for this SDK, and one for any programming language, [which you can read here](https://stremio.github.io/stremio-addon-guide).
+
 If you don't wish to use Node.js (and therefore not use this SDK either), you can create add-ons in any programming
 language, see the [add-on protocol specification](./docs/protocol.md) for more information.
-
-We've made two step by step guides: one for this SDK, and one for any programming language, which you can [read here](https://stremio.github.io/stremio-addon-guide).
 
 It is also possible to create an add-on without any programming language, see our [static add-on example](https://github.com/Stremio/stremio-static-addon-example) based
 on the protocol specification.
