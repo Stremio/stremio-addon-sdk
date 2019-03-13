@@ -64,7 +64,10 @@ async function createAddon() {
 		},
 	])
 
-	if (!userInput.resources.includes('meta') && !userInput.types.includes('channel') && !userInput.types.includes('tv')) {
+	if (
+		!userInput.resources.includes('meta') && !userInput.resources.includes('subtitles')
+		&& !userInput.types.includes('channel') && !userInput.types.includes('tv')
+	) {
 		const isFromIMDb = await inquirer.prompt([
 			{
 				type: 'confirm',
