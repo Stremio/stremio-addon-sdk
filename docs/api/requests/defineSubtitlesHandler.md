@@ -15,7 +15,7 @@ A promise resolving to an object containing `{ subtitles: [] }` with an array of
 
 ``type`` - type of the item that we're requesting subtitles for; e.g. `movie`, `series`, `channel`, `tv` (see [Content Types](../responses/content.types.md))
 
-``id`` -  string id of the meta item that we're requesting subtitles for; these are set in the [Meta Object](../responses/meta.md)
+``id`` -  string id of the video that we're requesting subtitles for (videoId); see [Meta Object](../responses/meta.md)
 
 ``extra`` - object that holds additional properties; parameters defined below
 
@@ -30,7 +30,7 @@ A promise resolving to an object containing `{ subtitles: [] }` with an array of
 
 ```javascript
 builder.defineSubtitlesHandler(function(args) {
-    if (args.extra && args.extra.videoId === 'tt1254207') {
+    if (args.id === 'tt1254207') {
         // serve one subtitle for big buck bunny
         const subtitle = {
             url: 'https://mkvtoolnix.download/samples/vsshort-en.srt',
