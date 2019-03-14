@@ -15,17 +15,16 @@ A promise resolving to an object containing `{ subtitles: [] }` with an array of
 
 ``type`` - type of the item that we're requesting subtitles for; e.g. `movie`, `series`, `channel`, `tv` (see [Content Types](../responses/content.types.md))
 
-``id`` - string opensubtitles file hash for the video
+``id`` -  string id of the meta item that we're requesting subtitles for; these are set in the [Meta Object](../responses/meta.md)
 
 ``extra`` - object that holds additional properties; parameters defined below
 
 
 ## Extra Parameters
 
-``videoId`` - string id of the meta item that we're requesting subtitles for; these are set in the [Meta Object](../responses/meta.md)
+``videoHash`` - string [OpenSubtitles file hash](http://trac.opensubtitles.org/projects/opensubtitles/wiki/HashSourceCodes) for the video
 
 ``videoSize`` - size of the video file in bytes
-
 
 ## Basic Example
 
