@@ -10,6 +10,8 @@ This method handles stream requests.
 
 A promise resolving to an an object containing `{ streams: [] }` with an array of [Stream Objects](../responses/stream.md).
 
+The resolving object can also include `{ cacheMaxAge: int }` (in seconds) which sets the `Cache-Control` header to `max-age=$cacheMaxAge` and overwrites the global cache time set in `serveHTTP` [options](../../README.md#servehttpaddoninterface-options).
+
 
 ## Request Parameters
 

@@ -128,7 +128,7 @@ Publish your add-on to the central server. After using this method your add-on w
 Starts the addon server. `options` is an object that contains:
 
 * `port`
-* `cache` (in seconds); `cache` means the `Cache-Control` header being set to `max-age=$cache`
+* `cacheMaxAge` (in seconds); `cacheMaxAge` means the `Cache-Control` header being set to `max-age=$cacheMaxAge`
 
 This method is also special in that it will react to certain process arguments, such as:
 
