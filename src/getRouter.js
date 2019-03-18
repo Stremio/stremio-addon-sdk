@@ -22,6 +22,7 @@ function getRouter({ manifest , get }) {
 		const extra = req.params.extra ? qs.parse(req.params.extra) : {}
 		get(resource, type, id, extra)
 			.then(resp => {
+				if (resp.cacheMaxAge) res.setHeader('Cache-Control', 'max-age='+resp.cacheMaxAge)
 				res.setHeader('Content-Type', 'application/json; charset=utf-8')
 				res.end(JSON.stringify(resp))
 			})
