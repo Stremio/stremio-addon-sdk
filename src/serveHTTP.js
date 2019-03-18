@@ -9,10 +9,11 @@ function serveHTTP(addonInterface, opts = {}) {
 	if (addonInterface.constructor.name !== 'AddonInterface') {
 		throw new Error('first argument must be an instance of AddonInterface')
 	}
+	const cacheMaxAge = opts.cacheMaxAge || opts.cache
 	const app = express()
 	app.use((_, res, next) => {
-		if (opts.cache && !res.getHeader('Cache-Control'))
-			res.setHeader('Cache-Control', 'max-age='+opts.cache)
+		if (cacheMaxAge && !res.getHeader('Cache-Control'))
+			res.setHeader('Cache-Control', 'max-age='+cacheMaxAge)
 		next()
 	})
 	app.use(getRouter(addonInterface))
