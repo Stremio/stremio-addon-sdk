@@ -10,6 +10,8 @@ This method handles subtitle requests.
 
 A promise resolving to an object containing `{ subtitles: [] }` with an array of [Subtitle Objects](../responses/subtitles.md).
 
+The resolving object can also include `{ cacheMaxAge: int }` (in seconds) which sets the `Cache-Control` header to `max-age=$cacheMaxAge` and overwrites the global cache time set in `serveHTTP` [options](../../README.md#servehttpaddoninterface-options).
+
 
 ## Request Parameters
 
