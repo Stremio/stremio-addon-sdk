@@ -16,7 +16,7 @@ Used as a response for [`defineStreamHandler`](../requests/defineStreamHandler.m
 ``subtitles`` - _optional_ - array of [``Subtitle Objects``](./subtitles.md) representing subtitles for this stream
 
 - `behaviorHints` (all are optional)
-    - `countryWhitelist`: which hints it's restricted to particular countries  - array of ISO 3166-1 alpha-2 country codes **in lowercase** in which the stream is accessible
+    - `countryWhitelist`: which hints it's restricted to particular countries  - array of ISO 3166-1 alpha-3 country codes **in lowercase** in which the stream is accessible
     - `notWebReady`: applies if the protocol of the url is http(s); needs to be set to `true` if the URL does not support https or is not an MP4 file
     - `group`: if defined, addons with the same `behaviorHints.group` will be chosen automatically for binge watching; this should be something that identifies the stream's nature within your addon: for example, if your addon is called "gobsAddon", and the stream is 720p, the group should be "gobsAddon-720p"; if the next episode has a stream with the same `group`, stremio should select that stream implicitly
     - ~~`headers`~~: **Not implemented yet!** Only applies to `url`s; HTTP headers to use when communicating with `url`
