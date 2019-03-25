@@ -8,35 +8,15 @@ Used as a response for [`defineStreamHandler`](../requests/defineStreamHandler.m
 * ``ytId`` - youtube video ID, plays using the built-in YouTube player
 * ``infoHash`` and/or ``fileIdx`` - info hash of a torrent file, and mapIdx is the index of the video file within the torrent; **if fileIdx is not specified, the largest file in the torrent will be selected**
 * ``externalUrl`` - URL to the video, which should be opened in a browser (webpage), e.g. link to Netflix
-* ``externalUris`` - an array of objects that represent URI to the video; supports linking to iOS or Android apps (see ``externalUri`` docs below)
 
-**Additional properties to provide information / behaviour flags**
-
-``name`` - _optional_ - name of the stream, e.g. "Netflix"; the add-on name will be used if not specified
+### Additional properties to provide information / behaviour flags
 
 ``title`` - _optional_ - title of the stream; usually used for stream quality
 
-``tag`` - _optional_ - array, optional tags of the stream; use ``"480p"``, ``"720p"``, ``"1080p"``/``"hd"`` or ``"2160p"`` to specify quality
-
-``isFree`` - _optional_ - set this to ``true`` if the stream si free of charge
-
-``isSubscription`` - _optional_ - set this to ``true`` if this stream requires a subscription (e.g. Netflix)
-
 ``subtitles`` - _optional_ - array of [``Subtitle Objects``](./subtitles.md) representing subtitles for this stream
 
-``subtitlesExclusive`` - _optional_ - set to `true` if you don't want Stremio to try to find more subtitles by [`defineSubtitlesHandler()`](../requests/defineSubtitlesHandler.md). Applicable when returning a Subtitle Array with your stream response.
-
-``live`` - _optional_ - boolean, specify if this is a live stream; this will be auto-detected if you're using HLS
-
-``repeat`` - _optional_ - boolean, true if you want stremio to do ``stream.find`` again with the same arguments when the video ends, and play the result
-
-``geos`` - _optional_ - use if the stream is geo-restricted - array of ISO 3166-1 alpha-2 country codes **in lowercase** in which the stream is accessible
-
-
-#### ``externalUris``
-
-``externalUris`` is an array of objects containing three properties:
-
-  * ``platform`` - platform for which the URI is relevant - possible values are ``android`` and ``ios``
-  * ``uri`` - URI to the video; example: ``aiv://aiv/play?asin=B012HPO8TE``
-  * ``appUri`` - URI to download the app required, if any; example: ``itms-apps://itunes.apple.com/app/amazon-instant-video/id5455193``
+- `behaviorHints` (all are optional)
+    - `countryWhitelist`: which hints it's restricted to particular countries  - array of ISO 3166-1 alpha-2 country codes **in lowercase** in which the stream is accessible
+    - `notWebReady`: applies if the protocol of the url is http(s); needs to be set to `true` if the URL does not support https or is not an MP4 file
+    - `group`: if defined, addons with the same `behaviorHints.group` will be chosen automatically for binge watching; this should be something that identifies the stream's nature within your addon: for example, if your addon is called "gobsAddon", and the stream is 720p, the group should be "gobsAddon-720p"; if the next episode has a stream with the same `group`, stremio should select that stream implicitly
+    - ~~`headers`~~: **Not implemented yet!** Only applies to `url`s; HTTP headers to use when communicating with `url`
