@@ -28,7 +28,7 @@ Used as a response for [`defineMetaHandler`](../requests/defineMetaHandler.md)
 
 ``dvdRelease`` - _optional_ - string, DVD release date
 
-``released`` - _optional_ - string, initial release date; for movies, this is the cinema debut
+``released`` - _optional_ - string, ISO 8601, initial release date; for movies, this is the cinema debut, e.g. "2010-12-06T05:00:00.000Z"
 
 ``inTheaters`` - _optional_ - boolean, used only for ``movie`` type, whether this movie is still in theaters or not; if not provided, it will be decided based on ``released`` date
 
@@ -53,7 +53,7 @@ Used as a response for [`defineMetaHandler`](../requests/defineMetaHandler.md)
 
 ``title`` - **required** - string, title of the video
 
-``released`` - **required** - string, publish date of the video; for episodes, this should be the initial air date, e.g. "2010-12-06T05:00:00.000Z"
+``released`` - **required** - string, ISO 8601, publish date of the video; for episodes, this should be the initial air date, e.g. "2010-12-06T05:00:00.000Z"
 
 ``thumbnail`` - _optional_ - string, URL to png of the video thumbnail, in the video's aspect ratio, max file size 5kb
 
