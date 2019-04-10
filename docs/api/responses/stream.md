@@ -4,16 +4,17 @@ Used as a response for [`defineStreamHandler`](../requests/defineStreamHandler.m
 
 **One of the following must be passed** to point to the stream itself
 
-* ``url`` - direct URL to a video stream - http, https, rtmp protocols supported
-* ``ytId`` - youtube video ID, plays using the built-in YouTube player
-* ``infoHash`` and/or ``fileIdx`` - info hash of a torrent file, and mapIdx is the index of the video file within the torrent; **if fileIdx is not specified, the largest file in the torrent will be selected**
-* ``externalUrl`` - URL to the video, which should be opened in a browser (webpage), e.g. link to Netflix
+* ``url`` - string, direct URL to a video stream - http, https, rtmp protocols supported
+* ``ytId`` - string, youtube video ID, plays using the built-in YouTube player
+* ``infoHash`` - string, info hash of a torrent file, and `fileIdx` is the index of the video file within the torrent; **if fileIdx is not specified, the largest file in the torrent will be selected**
+* ``fileIdx`` - number, the index of the video file within the torrent (from `infoHash`); **if fileIdx is not specified, the largest file in the torrent will be selected**
+* ``externalUrl`` - string, URL to the video, which should be opened in a browser (webpage), e.g. link to Netflix
 
 ### Additional properties to provide information / behaviour flags
 
-``title`` - _optional_ - title of the stream; usually used for stream quality
+``title`` - _optional_ - string, title of the stream; usually used for stream quality
 
-``subtitles`` - _optional_ - array of [``Subtitle Objects``](./subtitles.md) representing subtitles for this stream
+``subtitles`` - _optional_ - array of [``Subtitle objects``](./subtitles.md) representing subtitles for this stream
 
 - `behaviorHints` (all are optional)
     - `countryWhitelist`: which hints it's restricted to particular countries  - array of ISO 3166-1 alpha-3 country codes **in lowercase** in which the stream is accessible

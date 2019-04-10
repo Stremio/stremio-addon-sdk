@@ -2,72 +2,72 @@
 
 Used as a response for [`defineMetaHandler`](../requests/defineMetaHandler.md)
 
-``id`` - **required** - universal identifier; you may use a [prefix](./manifest.md##filtering-properties) unique to your add-on, for example `yt_id:UCrDkAvwZum-UTjHmzDI2iIw`
+``id`` - **required** - string, universal identifier; you may use a [prefix](./manifest.md##filtering-properties) unique to your add-on, for example `yt_id:UCrDkAvwZum-UTjHmzDI2iIw`
 
-``type`` - **required** - type of the content; e.g. `movie`, `series`, `channel`, `tv` (see [Content Types](./content.types.md))
+``type`` - **required** - string, type of the content; e.g. `movie`, `series`, `channel`, `tv` (see [Content Types](./content.types.md))
 
-``name`` - **required** - name of the content
+``name`` - **required** - string, name of the content
 
-``genres`` - _optional_  - genre/categories of the content; array of strings, e.g. ``["Thriller", "Horror"]``
+``genres`` - _optional_  - array of strings, genre/categories of the content; e.g. ``["Thriller", "Horror"]``
 
-``poster`` - _optional_ - URL to png of poster; accepted aspect ratios: 1:0.675 (IMDb poster type) or 1:1 (square) ; you can use any resolution, as long as the file size is below 100kb; below 50kb is recommended
+``poster`` - _optional_ - string, URL to png of poster; accepted aspect ratios: 1:0.675 (IMDb poster type) or 1:1 (square) ; you can use any resolution, as long as the file size is below 100kb; below 50kb is recommended
 
-``posterShape`` - _optional_ - can be `square` (1:1 aspect) or `regular` (1:0.675) or `landscape` (1:1.77). If you don't pass this, `regular` is assumed
+``posterShape`` - _optional_ - string, can be `square` (1:1 aspect) or `regular` (1:0.675) or `landscape` (1:1.77). If you don't pass this, `regular` is assumed
 
-``background`` - _optional_ - the background shown on the stremio detail page ; heavily encouraged if you want your content to look good; URL to PNG, max file size 500kb
+``background`` - _optional_ - string, the background shown on the stremio detail page ; heavily encouraged if you want your content to look good; URL to PNG, max file size 500kb
 
-``logo`` - _optional_ - the logo shown on the stremio detail page ; encouraged if you want your content to look good; URL to PNG
+``logo`` - _optional_ - string, the logo shown on the stremio detail page ; encouraged if you want your content to look good; URL to PNG
 
-``description`` - _optional_ - a few sentances describing your content
+``description`` - _optional_ - string, a few sentances describing your content
 
-``releaseInfo`` - _optional_ - string - year the content came out ; if it's ``series`` or ``channel``, use a start and end years split by a tide - e.g. ``"2000-2014"``. If it's still running, use a format like ``"2000-"``
+``releaseInfo`` - _optional_ - string, year the content came out ; if it's ``series`` or ``channel``, use a start and end years split by a tide - e.g. ``"2000-2014"``. If it's still running, use a format like ``"2000-"``
 
-``director``, ``cast`` - _optional_  - directors and cast, both arrays of names
+``director``, ``cast`` - _optional_  - directors and cast, both arrays of names (string)
 
-``imdbRating`` -  _optional_ - IMDb rating, a number from 0 to 10 ; use if applicable
+``imdbRating`` -  _optional_ - string, IMDb rating, a number from 0.0 to 10.0 ; use if applicable
 
-``dvdRelease`` - _optional_ - DVD release date
+``dvdRelease`` - _optional_ - string, DVD release date
 
-``released`` - _optional_ - initial release date; for movies, this is the cinema debut
+``released`` - _optional_ - string, ISO 8601, initial release date; for movies, this is the cinema debut, e.g. "2010-12-06T05:00:00.000Z"
 
-``inTheaters`` - _optional_ - used only for ``movie`` type, boolean whether this movie is still in theaters or not; if not provided, it will be decided based on ``released`` date
+``inTheaters`` - _optional_ - boolean, used only for ``movie`` type, whether this movie is still in theaters or not; if not provided, it will be decided based on ``released`` date
 
-``videos`` - _optional_ - used for ``channel`` and ``series``, array of Video objects; if you do not provide this (e.g. for ``movie``), Stremio assumes this meta item has one video, and it's ID is equal to the meta item `id`
+``videos`` - _optional_ - array of [``Video objects``](#video-object), used for ``channel`` and ``series``; if you do not provide this (e.g. for ``movie``), Stremio assumes this meta item has one video, and it's ID is equal to the meta item `id`
 
-``certification`` - _optional_ - [MPAA rating](http://www.mpaa.org/film-ratings/) - can be "G", "PG", "PG-13", "R", "NC-17"
+``certification`` - _optional_ - string, [MPAA rating](http://www.mpaa.org/film-ratings/) - can be "G", "PG", "PG-13", "R", "NC-17"
 
-``runtime`` - _optional_ - human-readable expected runtime - e.g. "120m"
+``runtime`` - _optional_ - string, human-readable expected runtime - e.g. "120m"
 
-``language`` - _optional_ - spoken language
+``language`` - _optional_ - string, spoken language
 
-``country`` - _optional_ - official country of origin
+``country`` - _optional_ - string, official country of origin
 
-``awards`` - _optional_ - human-readable string that describes all the significant awards
+``awards`` - _optional_ - string, human-readable that describes all the significant awards
 
-``website`` - _optional_ - URL to official website
+``website`` - _optional_ - string, URL to official website
 
 
 #### Video object
 
-``id`` - **required** - ID of the video
+``id`` - **required** - string, ID of the video
 
-``title`` - **required** - title of the video
+``title`` - **required** - string, title of the video
 
-``released`` - **required** - Date, publish date of the video; for episodes, this should be the initial air date
+``released`` - **required** - string, ISO 8601, publish date of the video; for episodes, this should be the initial air date, e.g. "2010-12-06T05:00:00.000Z"
 
-``thumbnail`` - _optional_ - URL to png of the video thumbnail, in the video's aspect ratio, max file size 5kb
+``thumbnail`` - _optional_ - string, URL to png of the video thumbnail, in the video's aspect ratio, max file size 5kb
 
-``streams`` - _optional_ - In case you can return links to streams while forming meta response, **you can pass and array of [``Stream Objects``](./stream.md)** to point the video to a HTTP URL, BitTorrent, YouTube or any other stremio-supported transport protocol.
+``streams`` - _optional_ - array of [``Stream Objects``](./stream.md), in case streams can be returned when forming the meta response; stream objects can point to a HTTP URL, BitTorrent, YouTube or any other stremio-supported transport protocol.
 
-``available`` - _optional_ - set to ``true`` to explicitly state that this video is available for streaming, from your add-on; no need to use this if you've passed ``stream``
+``available`` - _optional_ - boolean, set to ``true`` to explicitly state that this video is available for streaming, from your add-on; no need to use this if you've passed ``stream``
 
-``episode`` - _optional_ - episode number, if applicable
+``episode`` - _optional_ - number, episode number, if applicable
 
-``season`` - _optional_ - season number, if applicable
+``season`` - _optional_ - number, season number, if applicable
 
-``trailer`` - _optional_ - YouTube ID (string) of the trailer video; use if this is an episode for a series
+``trailer`` - _optional_ - string, YouTube ID of the trailer video; use if this is an episode for a series
 
-``overview`` - _optional_ - video overview/summary
+``overview`` - _optional_ - string, video overview/summary
 
 
 ##### Video object - series example
@@ -103,19 +103,19 @@ This is a shorter variant of the previously described [Meta Object](#meta-object
 
 Used as a response for [`defineCatalogHandler`](../requests/defineCatalogHandler.md)
 
-``id`` - **required** - universal identifier; you may use a [prefix](./manifest.md##filtering-properties) unique to your add-on, for example `yt_id:UCrDkAvwZum-UTjHmzDI2iIw`
+``id`` - **required** - string, universal identifier; you may use a [prefix](./manifest.md##filtering-properties) unique to your add-on, for example `yt_id:UCrDkAvwZum-UTjHmzDI2iIw`
 
-``type`` - **required** - type of the content; e.g. `movie`, `series`, `channel`, `tv` (see [Content Types](./content.types.md))
+``type`` - **required** - string, type of the content; e.g. `movie`, `series`, `channel`, `tv` (see [Content Types](./content.types.md))
 
-``name`` - **required** - name of the content
+``name`` - **required** - string, name of the content
 
-``poster`` - **required** - URL to png of poster; accepted aspect ratios: 1:0.675 (IMDb poster type) or 1:1 (square) ; you can use any resolution, as long as the file size is below 100kb; below 50kb is recommended
+``poster`` - **required** - string, URL to png of poster; accepted aspect ratios: 1:0.675 (IMDb poster type) or 1:1 (square) ; you can use any resolution, as long as the file size is below 100kb; below 50kb is recommended
 
-``posterShape`` - _optional_ - can be `square` (1:1 aspect) or `regular` (1:0.675) or `landscape` (1:1.77). If you don't pass this, `regular` is assumed
+``posterShape`` - _optional_ - string, can be `square` (1:1 aspect) or `regular` (1:0.675) or `landscape` (1:1.77). If you don't pass this, `regular` is assumed
 
-``background`` - _optional_ - the background shown on the stremio detail page ; heavily encouraged if you want your content to look good; URL to PNG, max file size 500kb
+``background`` - _optional_ - string, the background shown on the stremio detail page ; heavily encouraged if you want your content to look good; URL to PNG, max file size 500kb
 
-``logo`` - _optional_ - the logo shown on the stremio detail page ; encouraged if you want your content to look good; URL to PNG
+``logo`` - _optional_ - string, the logo shown on the stremio detail page ; encouraged if you want your content to look good; URL to PNG
 
-``description`` - _optional_ - a few sentances describing your content
+``description`` - _optional_ - string, a few sentances describing your content
 
