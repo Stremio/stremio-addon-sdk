@@ -44,7 +44,7 @@ Please note, the `idPrefixes` filtering does not matter for the `"catalog"` reso
 
 **NOTE:** Leave this an empty array (``[]``) if your add-on does not provide the `catalog` resource.
 
-``catalogs`` - **required** - array of [``Catalog objects``](#content-catalogs), a list of the content catalogs your add-on provides
+``catalogs`` - **required** - array of [``Catalog objects``](#catalog-format), a list of the content catalogs your add-on provides
 
 ### Catalog format
 
