@@ -7,24 +7,24 @@ Valid properties are:
 
 ## Basic information
 
-``id`` - **required** - identifier, dot-separated, e.g. "com.stremio.filmon"
+``id`` - **required** - string, identifier, dot-separated, e.g. "com.stremio.filmon"
 
-``name`` - **required** - human readable name
+``name`` - **required** - string, human readable name
 
-``description`` - **required** - human readable description
+``description`` - **required** - string, human readable description
 
-``version`` - **required** - [semantic version](https://semver.org/) of the add-on
+``version`` - **required** - string, [semantic version](https://semver.org/) of the add-on
 
 
 ## Filtering properties
 
 **NOTE:** In order to understand the next properties better, please check out the [protocol documentation](../../protocol.md) and keep in mind requests to add-ons are formed in the format of `/{resource}/{type}/{id}`
 
-``resources`` - **required** - supported resources - for example ``["catalog", "meta", "stream", "subtitles"]``, resources can also be added as objects instead of strings, for additional details on how they should be requested, example: `{ "name": "stream", "type": "movie", "idPrefixes": [ "tt" ] }` (see the **ADVANCED** note)
+``resources`` - **required** - array of objects or strings, supported resources - for example ``["catalog", "meta", "stream", "subtitles"]``, resources can also be added as objects instead of strings, for additional details on how they should be requested, example: `{ "name": "stream", "type": "movie", "idPrefixes": [ "tt" ] }` (see the **ADVANCED** note)
 
-``types`` - **required** - array of supported types, from all the [``Content Types``](./content.types.md). If you wish to provide different sets of types for different resources, see the **ADVANCED** note.
+``types`` - **required** - array of strings, supported types, from all the [``Content Types``](./content.types.md). If you wish to provide different sets of types for different resources, see the **ADVANCED** note.
 
-``idPrefixes`` - _optional_ - use this if you want your add-on to be called only for specific content IDs - for example, if you set this to `["yt_id:", "tt"]`, your add-on will only be called for `id` values that start with `yt_id:` or `tt`. If you wish to provide different sets of `idPrefixes` for different resources, see the **ADVANCED** note.
+``idPrefixes`` - _optional_ - array of strings, use this if you want your add-on to be called only for specific content IDs - for example, if you set this to `["yt_id:", "tt"]`, your add-on will only be called for `id` values that start with `yt_id:` or `tt`. If you wish to provide different sets of `idPrefixes` for different resources, see the **ADVANCED** note.
 
 ### Advanced
 
@@ -44,18 +44,17 @@ Please note, the `idPrefixes` filtering does not matter for the `"catalog"` reso
 
 **NOTE:** Leave this an empty array (``[]``) if your add-on does not provide the `catalog` resource.
 
-``catalogs`` - **required** - a list of the content catalogs your add-on provides, an array of objects in the catalog format (see below)
-
+``catalogs`` - **required** - array of [``Catalog objects``](#content-catalogs), a list of the content catalogs your add-on provides
 
 ### Catalog format
 
-``type`` - **required** - this is the content type of the catalog
+``type`` - **required** - string, this is the content type of the catalog
 
-``id`` - **required** - the id of the catalog, can be any unique string describing the catalog (unique per add-on, as an add-on can have many catalogs), for example: if the catalog name is "Favourite Youtube Videos", the id can be `"fav_youtube_videos"`
+``id`` - **required** - string, the id of the catalog, can be any unique string describing the catalog (unique per add-on, as an add-on can have many catalogs), for example: if the catalog name is "Favourite Youtube Videos", the id can be `"fav_youtube_videos"`
 
-``name`` - **required** - human readable name of the catalog
+``name`` - **required** - string, human readable name of the catalog
 
-``extra`` - _optional_ - all extra properties related to this catalog; should be set to an array of `{ name, isRequired, options, optionsLimit }`
+``extra`` - _optional_ - array of [``Extra objects``](#extra-properties), all extra properties related to this catalog; should be set to an array of `{ name, isRequired, options, optionsLimit }`
 
 
 #### Extra properties
@@ -70,13 +69,13 @@ If your catalog supports full text searching, set `extra: [{ name: "search", isR
 
 The format of `extra` is an array of `{ name, isRequired, options, optionsLimit }`, where:
 
-* `name` - **required** - is the name of the property; this name will be used in the `extraProps` argument itself
+* `name` - **required** - string, is the name of the property; this name will be used in the `extraProps` argument itself
 
-* `isRequired` - _optional_ - set to true if this property must always be passed
+* `isRequired` - _optional_ - boolean, set to true if this property must always be passed
 
-* `options` - _optional_ - array of possible values for this property; this is useful for things like genres, where you need the user to select from a pre-set list of options (e.g. `{ name: "genres", options: ["Action", "Comedy", "Drama"] }`); it's also useful if we want to specify a limited number of pages (for the `skip` parameter), e.g. `{ name: "skip", options: ["0", "100", "200"] }`
+* `options` - _optional_ - array of strings, possible values for this property; this is useful for things like genres, where you need the user to select from a pre-set list of options (e.g. `{ name: "genres", options: ["Action", "Comedy", "Drama"] }`); it's also useful if we want to specify a limited number of pages (for the `skip` parameter), e.g. `{ name: "skip", options: ["0", "100", "200"] }`
 
-* `optionsLimit` - _optional_ - the limit of values a user may select from the pre-set `options` list; by default, this is set to 1
+* `optionsLimit` - _optional_ - number, the limit of values a user may select from the pre-set `options` list; by default, this is set to 1
 
 
 For a complete list of extra catalog properties that Stremio pays attention to, check the [Catalog Handler Definition](../requests/defineCatalogHandler.md)
@@ -85,11 +84,11 @@ If you're looking for the legacy way of setting extra propreties (also called "s
 
 ## Other metadata
 
-``background`` - _optional_ - background image for the add-on; URL to png/jpg, at least 1024x786 resolution
+``background`` - _optional_ - string, background image for the add-on; URL to png/jpg, at least 1024x786 resolution
 
-``logo`` - _optional_ - logo icon, URL to png, monochrome, 256x256
+``logo`` - _optional_ - string, logo icon, URL to png, monochrome, 256x256
 
-``contactEmail`` - _optional_ - contact email for add-on issues; used for the Report button in the app; also, the Stremio team may reach you on this email for anything relating your add-on
+``contactEmail`` - _optional_ - string, contact email for add-on issues; used for the Report button in the app; also, the Stremio team may reach you on this email for anything relating your add-on
 
 
 ***TIP* - to implement sources where streams are geo-restricted, see [``Stream objects``](./stream.md) `geos`**
