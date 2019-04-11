@@ -90,6 +90,10 @@ If you're looking for the legacy way of setting extra properties (also called "s
 
 ``contactEmail`` - _optional_ - string, contact email for add-on issues; used for the Report button in the app; also, the Stremio team may reach you on this email for anything relating your add-on
 
+``behaviorHints`` - _all are optional_ - object, supports the properties:
+
+- ``adult`` - boolean, if the add-on includes adult content, default is `false`
+
 
 ***TIP* - to implement sources where streams are geo-restricted, see [``Stream objects``](./stream.md) `geos`**
 
