@@ -9,6 +9,7 @@ Used as a response for [`defineStreamHandler`](../requests/defineStreamHandler.m
 * ``infoHash`` - string, info hash of a torrent file, and `fileIdx` is the index of the video file within the torrent; **if fileIdx is not specified, the largest file in the torrent will be selected**
 * ``fileIdx`` - number, the index of the video file within the torrent (from `infoHash`); **if fileIdx is not specified, the largest file in the torrent will be selected**
 * ``externalUrl`` - string, URL to the video, which should be opened in a browser (webpage), e.g. link to Netflix
+* ``urlSet`` - string array, direct URLs to identical video streams. Used for hosting the same content in different regions or at different qualities - http, https, rtmp protocols supported
 
 ### Additional properties to provide information / behaviour flags
 
