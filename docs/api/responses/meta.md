@@ -76,7 +76,7 @@ Used as a response for [`defineMetaHandler`](../requests/defineMetaHandler.md)
 {
     id: "tt0108778:1:1",
     title: "Pilot",
-    publishedAt: new Date("1994-09-22 20:00 UTC+02"),
+    released: new Date("1994-09-22 20:00 UTC+02"),
     season: 1,
     episode: 1,
     overview: "Monica and the gang introduce Rachel to the real world after she leaves her fiancé at the altar."
@@ -92,7 +92,7 @@ You can see a comprehensive example of how detailed Meta objects with videos are
 {
     id: "yt_id:UCrDkAvwZum-UTjHmzDI2iIw:9bZkp7q19f0",
     title: "PSY - GANGNAM STYLE",
-    publishedAt: new Date("2012-07-15 20:00 UTC+02"),
+    released: new Date("2012-07-15 20:00 UTC+02"),
     thumbnail: "https://i.ytimg.com/vi/9bZkp7q19f0/hqdefault.jpg"
 }
 ```
