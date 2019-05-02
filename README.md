@@ -112,14 +112,14 @@ For developers looking for a quick way to test their new add-ons, you can either
 
 In order for your add-on to be used by others, it needs to be deployed online.
 
-You can check our [list of recommended hosting providers for Node.js](./docs/deploying.md) or alternatively host it locally with [localtunnel](https://github.com/localtunnel/localtunnel).
+You can check our [list of recommended hosting providers for Node.js](./docs/deploying/README.md) or alternatively host it locally with [localtunnel](https://github.com/localtunnel/localtunnel).
 
 After you've deployed publically, in order to get your add-on to show in Stremio (through the [public Add-on collection](https://api.strem.io/addonscollection.json)), you need to use [publishToCentral](./docs/README.md#publishtocentralurl).
 
 
 ## Examples & tutorials
 
-Check out our ever growing list of [examples and demo add-ons](./docs/examples/README.md). This list also includes examples & tutorials on how to develop Stremio addons in PHP, Python, Ruby, C#, Java and Go. It also includes a list of video tutorials.
+Check out our ever growing list of [examples and demo add-ons](./docs/examples.md). This list also includes examples & tutorials on how to develop Stremio addons in PHP, Python, Ruby, C#, Java and Go. It also includes a list of video tutorials.
 
 
 ## Advanced Usage
