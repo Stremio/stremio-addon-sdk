@@ -57,7 +57,7 @@ Used as a response for [`defineMetaHandler`](../requests/defineMetaHandler.md)
 
 ``thumbnail`` - _optional_ - string, URL to png of the video thumbnail, in the video's aspect ratio, max file size 5kb
 
-``streams`` - _optional_ - array of [``Stream Objects``](./stream.md), in case streams can be returned when forming the meta response; stream objects can point to a HTTP URL, BitTorrent, YouTube or any other stremio-supported transport protocol.
+``streams`` - _optional_ - array of [``Stream Objects``](./stream.md), in case you can return links to streams while forming meta response, **you can pass and array of [``Stream Objects``](./stream.md)** to point the video to a HTTP URL, BitTorrent, YouTube or any other stremio-supported transport protocol; note that this is exclsuive: passing `video.streams` means that **Stremio will not** request any streams from other add-ons for that video; if you return streams that way, it is still recommended to implement the `streams` resource
 
 ``available`` - _optional_ - boolean, set to ``true`` to explicitly state that this video is available for streaming, from your add-on; no need to use this if you've passed ``stream``
 
