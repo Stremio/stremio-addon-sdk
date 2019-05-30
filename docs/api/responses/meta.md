@@ -26,15 +26,9 @@ Used as a response for [`defineMetaHandler`](../requests/defineMetaHandler.md)
 
 ``imdbRating`` -  _optional_ - string, IMDb rating, a number from 0.0 to 10.0 ; use if applicable
 
-``dvdRelease`` - _optional_ - string, DVD release date
-
 ``released`` - _optional_ - string, ISO 8601, initial release date; for movies, this is the cinema debut, e.g. "2010-12-06T05:00:00.000Z"
 
-``inTheaters`` - _optional_ - boolean, used only for ``movie`` type, whether this movie is still in theaters or not; if not provided, it will be decided based on ``released`` date
-
 ``videos`` - _optional_ - array of [``Video objects``](#video-object), used for ``channel`` and ``series``; if you do not provide this (e.g. for ``movie``), Stremio assumes this meta item has one video, and it's ID is equal to the meta item `id`
-
-``certification`` - _optional_ - string, [MPAA rating](http://www.mpaa.org/film-ratings/) - can be "G", "PG", "PG-13", "R", "NC-17"
 
 ``runtime`` - _optional_ - string, human-readable expected runtime - e.g. "120m"
 
