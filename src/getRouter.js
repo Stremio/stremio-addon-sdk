@@ -19,7 +19,10 @@ function getRouter({ manifest , get }) {
 	// Handle all resources
 	router.get('/:resource/:type/:id/:extra?.json', function(req, res, next) {
 		const { resource, type, id } = req.params
-		const extra = req.params.extra ? qs.parse(req.params.extra) : {}
+		// we get `extra` from `req.url` because `req.params.extra` decodes the characters
+		// and breaks dividing querystring parameters with `&`, in case `&` is one of the
+		// encoded characters of a parameter value
+		const extra = req.params.extra ? qs.parse(req.url.split('/').pop().slice(0, -5)) : {}
 		get(resource, type, id, extra)
 			.then(resp => {
 				if (resp.cacheMaxAge) res.setHeader('Cache-Control', 'max-age='+resp.cacheMaxAge)
