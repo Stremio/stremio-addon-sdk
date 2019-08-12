@@ -19,7 +19,7 @@ function getRouter({ manifest , get }) {
 	// Handle all resources
 	router.get('/:resource/:type/:id/:extra?.json', function(req, res, next) {
 		const { resource, type, id } = req.params
-		const extra = req.params.extra ? qs.parse(req.params.extra) : {}
+		const extra = req.params.extra ? qs.parse(req.url.split('/').pop().slice(0, -5)) : {}
 		get(resource, type, id, extra)
 			.then(resp => {
 				if (resp.cacheMaxAge) res.setHeader('Cache-Control', 'max-age='+resp.cacheMaxAge)
