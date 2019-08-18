@@ -145,7 +145,7 @@ const gitignoreTmpl = () => `node_modules
 `
 
 const catalogTmpl = () => `
-builder.defineCatalogHandler(({type, id}) => {
+builder.defineCatalogHandler(({type, id, extra}) => {
 	console.log("request for catalogs: "+type+" "+id)
 	// Docs: https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/api/requests/defineCatalogHandler.md
 	return Promise.resolve({ metas: [
@@ -192,7 +192,7 @@ builder.defineStreamHandler(({type, id}) => {
 `
 
 const subtitlesTmpl = () => `
-builder.defineSubtitlesHandler(({type, id}) => {
+builder.defineSubtitlesHandler(({type, id, extra}) => {
 	console.log("request for subtitles: "+type+" "+id)
 	// Docs: https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/api/requests/defineSubtitlesHandler.md
 	return Promise.resolve({ subtitles: [] })
