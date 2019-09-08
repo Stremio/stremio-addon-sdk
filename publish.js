@@ -90,7 +90,7 @@ async function publish(identifier) {
 }
 
 async function startScrape(addon) {
-	const queue = new PQueue({ concurrency: 5 }) 
+	const queue = new PQueue({ concurrency: 6 }) 
 	const initialRequests = addon.manifest.catalogs
 		.filter(cat => {
 			const required = getCatalogExtra(cat).filter(x => x.isRequired)
@@ -112,6 +112,9 @@ async function scrapeItem(addon, req, queue) {
 
 	// Scrape other things that can be derived from this response
 	if (queue && Array.isArray(resp.metas)) {
+		resp.metas
+			.filter(meta => addon.isSupported('meta', meta.type, meta.id))
+			.forEach(meta => queue.add(scrapeItem.bind(null, addon, ['meta', meta.type, meta.id], queue)))
 	}
 	// @TODO: later on, implement streams
 	//if (queue && resp.meta) {
