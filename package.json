@@ -36,6 +36,7 @@
     "mkdirp": "^0.5.1",
     "node-fetch": "^2.3.0",
     "opn": "^5.4.0",
+    "promise-ratelimit": "0.0.3",
     "router": "^1.3.3",
     "stremio-addon-linter": "^1.7.0",
     "tape-async": "^2.3.0",
