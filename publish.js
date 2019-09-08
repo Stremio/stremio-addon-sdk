@@ -2,6 +2,7 @@ const WebSocket = require('ws')
 const { detectFromURL, stringifyRequest } = require('stremio-addon-client')
 const assert = require('assert')
 const ipfsClient = require('ipfs-http-client')
+const PQueue = require('p-queue').default
 
 const IPFS_WRITE_OPTS = {
 	create: true,
@@ -72,11 +73,6 @@ async function init() {
 	/*
 	await Promise.all(manifest.catalogs.map(async cat => {
 		const req = ['catalog', cat.type, cat.id]
-		await ipfs.files.write(
-			`/${identifier}${stringifyRequest(req)}`,
-			Buffer.from(JSON.stringify(await get.apply(null, req))),
-			IPFS_WRITE_OPTS
-		)
 	}))
 	*/
 	// @TODO WS should be opened here, and everything should be wired here
@@ -94,6 +90,7 @@ async function publish(identifier) {
 }
 
 async function startScrape(addon) {
+	const queue = new PQueue({ concurrency: 5 }) 
 	const initialRequests = addon.manifest.catalogs
 		.filter(cat => {
 			const required = getCatalogExtra(cat).filter(x => x.isRequired)
@@ -105,7 +102,28 @@ async function startScrape(addon) {
 				['catalog', cat.type, cat.id, Object.fromEntries(required.map(x => [x.name, x.options[0]]))]
 				: ['catalog', cat.type, cat.id]
 		})
-	console.log(initialRequests.map(stringifyRequest))
+	initialRequests.forEach(req => queue.add(scrapeItem.bind(null, addon, req, queue)))
+}
+
+async function scrapeItem(addon, req, queue) {
+	const get = getWithCache.bind(null, addon)
+	const identifier = `${addon.manifest.id}` // @TODO: pub key
+	const resp = await get.apply(null, req)
+
+	// Scrape other things that can be derived from this response
+	if (queue && Array.isArray(resp.metas)) {
+	}
+	// @TODO: later on, implement streams
+	//if (queue && resp.meta) {
+	//}
+
+	await ipfs.files.write(
+		`/${identifier}${stringifyRequest(req)}`,
+		Buffer.from(JSON.stringify(resp)),
+		IPFS_WRITE_OPTS
+	)
+	// @TODO debounced publish
+	console.log('Publish', await ipfs.files.stat(`/${identifier}`))
 }
 
 init().catch(err => console.error('Init error', err))
