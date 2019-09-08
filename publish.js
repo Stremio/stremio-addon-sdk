@@ -11,15 +11,25 @@ const IPFS_WRITE_OPTS = {
 
 const ipfs = ipfsClient('localhost', '5001', { protocol: 'http' })
 
-// @TODO no hardcodes
-function startListening() {
-	const ws = new WebSocket('ws://127.0.0.1:14001')
-	ws.on('open', function open() {
-	  ws.send(JSON.stringify({ type: 'Publish' }))
+async function startListening() {
+	// @TODO take supernode address as an argument
+	return new Promise((resolve, reject) => {
+		const ws = new WebSocket('ws://127.0.0.1:14001')
+		ws.on('open', () => resolve(ws))
+		ws.on('error', err => reject(err))
 	})
-	ws.on('message', function incoming(data) {
-	  console.log(data)
-	})
+}
+
+// Shim the old extra notation
+function getCatalogExtra(catalog) {
+	if (Array.isArray(catalog.extra)) return catalog.extra
+	if (Array.isArray(catalog.extraRequired) && Array.isArray(catalog.extraSupported)) {
+		return catalog.extraSupported.map(name => ({
+			isRequired: catalog.extraRequired.includes(name),
+			name,
+		}))
+	}
+	return []
 }
 
 // Attach caching information to each addon response
@@ -69,10 +79,13 @@ async function init() {
 		)
 	}))
 	*/
-
+	// @TODO WS should be opened here, and everything should be wired here
+	// 
 	await ipfs.files.write(`/${identifier}/manifest.json`, Buffer.from(JSON.stringify(manifest)), IPFS_WRITE_OPTS)
 	await publish(identifier)
-	startListening() // @TODO args, consider merging with publish
+	const ws = await startListening() // @TODO args, consider merging with publish
+	ws.send(JSON.stringify({ type: 'Publish' }))
+	ws.on('message', incoming => console.log('from websocket:', incoming))
 	startScrape(addon).catch(console.error)
 }
 
@@ -80,8 +93,20 @@ async function publish(identifier) {
 	console.log('Publish', await ipfs.files.stat(`/${identifier}`))
 }
 
-async function startScrape() {
+async function startScrape(addon) {
+	const initialRequests = addon.manifest.catalogs
+		.filter(cat => {
+			const required = getCatalogExtra(cat).filter(x => x.isRequired)
+			return required.every(x => Array.isArray(x.options) && x.options[0])
+		})
+		.map(cat => {
+			const required = getCatalogExtra(cat).filter(x => x.isRequired)
+			return required.length ?
+				['catalog', cat.type, cat.id, Object.fromEntries(required.map(x => [x.name, x.options[0]]))]
+				: ['catalog', cat.type, cat.id]
+		})
+	console.log(initialRequests.map(stringifyRequest))
 }
 
-init().catch(console.error)
+init().catch(err => console.error('Init error', err))
 // @TODO get: check if we have the object locally; if not, request it; or wait for it for 2 seconds before requesting from the addon
