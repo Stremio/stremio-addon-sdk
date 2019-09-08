@@ -41,6 +41,8 @@ function getWithCache(addon, resource, type, id, extra) {
 	})
 }
 
+// @TODO publish in the beginning
+// from then, publish every time we have new content
 async function init() {
 	const detected = await detectFromURL('http://127.0.0.1:3005/manifest.json')
 	assert.ok(detected.addon, 'unable to find an addon at this URL')
@@ -54,8 +56,8 @@ async function init() {
 	*/
 	const identifier = `${manifest.id}` // @TODO: pub key
 	console.log(stringifyRequest(['catalog', 'movie', 'top']))
-	await ipfs.files.write(`/${identifier}/manifest.json`, Buffer.from(JSON.stringify(manifest)), { create: true, parents: true })
-	await ipfs.files.write(`/${identifier}/catalog/movie/top.json`, Buffer.from(JSON.stringify(await get('catalog', 'movie', 'top'))), { create: true, parents: true })
+	await ipfs.files.write(`/${identifier}/manifest.json`, Buffer.from(JSON.stringify(manifest)), { create: true, parents: true, truncate: true })
+	await ipfs.files.write(`/${identifier}/catalog/movie/top.json`, Buffer.from(JSON.stringify(await get('catalog', 'movie', 'top'))), { create: true, parents: true, truncate: true })
 	console.log(await ipfs.files.stat('/'))
 }
 
