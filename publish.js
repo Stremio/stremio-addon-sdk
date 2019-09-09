@@ -76,7 +76,6 @@ async function init() {
 	assert.ok(detected.addon, 'unable to find an addon at this URL')
 	const addon = detected.addon
 	const manifest = addon.manifest
-	const get = getWithCache.bind(null, addon)
 	const identifier = `${manifest.id}` // @TODO: pub key
 	const ws = await startListening() // @TODO args, consider merging with publish
 	await ipfs.files.write(`/${identifier}/manifest.json`, Buffer.from(JSON.stringify(manifest)), IPFS_WRITE_OPTS)
