@@ -3,6 +3,7 @@ const { detectFromURL, stringifyRequest } = require('stremio-addon-client')
 const assert = require('assert')
 const ipfsClient = require('ipfs-http-client')
 const PQueue = require('p-queue').default
+const throttle = require('lodash.throttle')
 
 const IPFS_WRITE_OPTS = {
 	create: true,
@@ -11,6 +12,7 @@ const IPFS_WRITE_OPTS = {
 }
 const MIN = 60 * 1000
 const CACHING_ROUND = 10 * MIN
+const SCRAPE_CONCURRENCY = 10
 
 const ipfs = ipfsClient('localhost', '5001', { protocol: 'http' })
 
@@ -76,27 +78,21 @@ async function init() {
 	const manifest = addon.manifest
 	const get = getWithCache.bind(null, addon)
 	const identifier = `${manifest.id}` // @TODO: pub key
-	/*
-	await Promise.all(manifest.catalogs.map(async cat => {
-		const req = ['catalog', cat.type, cat.id]
-	}))
-	*/
-	// @TODO WS should be opened here, and everything should be wired here
-	// 
+	const ws = await startListening() // @TODO args, consider merging with publish
 	await ipfs.files.write(`/${identifier}/manifest.json`, Buffer.from(JSON.stringify(manifest)), IPFS_WRITE_OPTS)
 	await publish(identifier)
-	const ws = await startListening() // @TODO args, consider merging with publish
+	const throttledPublish = throttle(publish.bind(null, identifier), 10000)
 	ws.send(JSON.stringify({ type: 'Publish' }))
 	ws.on('message', incoming => console.log('from websocket:', incoming))
-	startScrape(addon).catch(console.error)
+	startScrape(addon, throttledPublish).catch(console.error)
 }
 
 async function publish(identifier) {
 	console.log('Publish', await ipfs.files.stat(`/${identifier}`))
 }
 
-async function startScrape(addon) {
-	const queue = new PQueue({ concurrency: 8 })
+async function startScrape(addon, publish) {
+	const queue = new PQueue({ concurrency: SCRAPE_CONCURRENCY })
 	const initialRequests = addon.manifest.catalogs
 		.filter(cat => {
 			const required = getCatalogExtra(cat).filter(x => x.isRequired)
@@ -108,10 +104,10 @@ async function startScrape(addon) {
 				['catalog', cat.type, cat.id, Object.fromEntries(required.map(x => [x.name, x.options[0]]))]
 				: ['catalog', cat.type, cat.id]
 		})
-	initialRequests.forEach(req => queue.add(scrapeItem.bind(null, addon, req, queue)))
+	initialRequests.forEach(req => queue.add(scrapeItem.bind(null, addon, req, queue, publish)))
 }
 
-async function scrapeItem(addon, req, queue) {
+async function scrapeItem(addon, req, queue, publish) {
 	const get = getWithCache.bind(null, addon)
 	const identifier = `${addon.manifest.id}` // @TODO: pub key
 	const resp = await get.apply(null, req)
@@ -120,7 +116,7 @@ async function scrapeItem(addon, req, queue) {
 	if (queue && Array.isArray(resp.metas)) {
 		resp.metas
 			.filter(meta => addon.isSupported('meta', meta.type, meta.id))
-			.forEach(meta => queue.add(scrapeItem.bind(null, addon, ['meta', meta.type, meta.id], queue)))
+			.forEach(meta => queue.add(scrapeItem.bind(null, addon, ['meta', meta.type, meta.id], queue, publish)))
 	}
 	// @TODO: later on, implement streams
 	//if (queue && resp.meta) {
@@ -131,8 +127,7 @@ async function scrapeItem(addon, req, queue) {
 		Buffer.from(JSON.stringify(resp)),
 		IPFS_WRITE_OPTS
 	)
-	// @TODO debounced publish
-	console.log('Publish', await ipfs.files.stat(`/${identifier}`))
+	publish()
 }
 
 init().catch(err => console.error('Init error', err))
