@@ -80,15 +80,19 @@ async function init() {
 	const identifier = `${manifest.id}` // @TODO: pub key
 	const ws = await startListening() // @TODO args, consider merging with publish
 	await ipfs.files.write(`/${identifier}/manifest.json`, Buffer.from(JSON.stringify(manifest)), IPFS_WRITE_OPTS)
-	await publish(identifier)
-	const throttledPublish = throttle(publish.bind(null, identifier), 10000)
-	ws.send(JSON.stringify({ type: 'Publish' }))
+	await publish(identifier, ws)
+	const throttledPublish = throttle(publish.bind(null, identifier, ws), 10000)
 	ws.on('message', incoming => console.log('from websocket:', incoming))
 	startScrape(addon, throttledPublish).catch(console.error)
 }
 
-async function publish(identifier) {
-	console.log('Publish', await ipfs.files.stat(`/${identifier}`))
+async function publish(identifier, ws) {
+	const stat = await ipfs.files.stat(`/${identifier}`)
+	// @TODO unpin the previous, pin the latest hash
+	//console.log(await ipfs.pin.add(stat.hash, { recursive: true }))
+	ws.send(JSON.stringify({
+		hash: stat.hash
+	}))
 }
 
 async function startScrape(addon, publish) {
@@ -131,4 +135,6 @@ async function scrapeItem(addon, req, queue, publish) {
 }
 
 init().catch(err => console.error('Init error', err))
-// @TODO get: check if we have the object locally; if not, request it; or wait for it for 2 seconds before requesting from the addon
+
+// @TODO get: check if we have the object locally; if not, request it; or wait for it for a few seconds before requesting from the addon
+// if there's no socket open, we won't wait
