@@ -9,6 +9,8 @@ const IPFS_WRITE_OPTS = {
 	parents: true,
 	truncate: true
 }
+const MIN = 60 * 1000
+const CACHING_ROUND = 10 * MIN
 
 const ipfs = ipfsClient('localhost', '5001', { protocol: 'http' })
 
@@ -45,8 +47,12 @@ function getWithCache(addon, resource, type, id, extra) {
 					.find(x => x.startsWith('max-age='))
 				const maxAgeSeconds = maxAge && parseInt(maxAge.split('=')[1], 10)
 				if (!isNaN(maxAgeSeconds)) {
+					const staleAfterRaw = Date.now() + maxAgeSeconds*1000
+					const staleAfter = maxAgeSeconds > 20 * 60 ?
+						Math.ceil(staleAfterRaw / CACHING_ROUND) * CACHING_ROUND
+						: staleAfterRaw
 					resp = {
-						staleAfter: Date.now() + maxAgeSeconds*1000,
+						staleAfter,
 						// Still allow serving a stale response for 5x the time
 						// Disabled this for now since the same implicit policy can be implemented in the Supernode,
 						// we will reserve this header for when the addon SDK allows the addon creator to set this
@@ -90,7 +96,7 @@ async function publish(identifier) {
 }
 
 async function startScrape(addon) {
-	const queue = new PQueue({ concurrency: 6 }) 
+	const queue = new PQueue({ concurrency: 8 })
 	const initialRequests = addon.manifest.catalogs
 		.filter(cat => {
 			const required = getCatalogExtra(cat).filter(x => x.isRequired)
