@@ -77,7 +77,7 @@ async function init() {
 	const addon = detected.addon
 	const manifest = addon.manifest
 	const identifier = `${manifest.id}` // @TODO: pub key
-	const ws = await startListening() // @TODO args, consider merging with publish
+	const ws = await startListening()
 	await ipfs.files.write(`/${identifier}/manifest.json`, Buffer.from(JSON.stringify(manifest)), IPFS_WRITE_OPTS)
 	await publish(identifier, ws)
 	const throttledPublish = throttle(publish.bind(null, identifier, ws), 10000)
@@ -86,11 +86,13 @@ async function init() {
 }
 
 async function publish(identifier, ws) {
-	const stat = await ipfs.files.stat(`/${identifier}`)
+	const { hash } = await ipfs.files.stat(`/${identifier}`)
 	// @TODO unpin the previous, pin the latest hash
 	//console.log(await ipfs.pin.add(stat.hash, { recursive: true }))
 	ws.send(JSON.stringify({
-		hash: stat.hash
+		type: 'Publish',
+		identifier,
+		hash
 	}))
 }
 
