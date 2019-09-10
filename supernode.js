@@ -30,14 +30,21 @@ function onMessage(msg) {
 const express = require('express')
 const app = express()
 const ipfs = ipfsClient('localhost', '5001', { protocol: 'http' })
-app.use('/:identifier', function(req, res, next) {
-	const hash = byIdentifier.get(req.params.identifier.trim());
+app.use('/:identifier', async function(req, res, next) {
+	const hash = byIdentifier.get(req.params.identifier.trim())
 	if (hash) {
-		// @TODO: handle 404
+		const path = `/ipfs/${hash}${req.url}`
 		res.setHeader('content-type', 'application/json')
-		ipfs.catReadableStream(`/ipfs/${hash}${req.url}`).pipe(res)
+		ipfs.catReadableStream(path)
+			.on('error', e => {
+				if (e.statusCode === 500 && e.message.startsWith('no link named'))
+					res.sendStatus(404)
+				else
+					throw e
+			})
+			.pipe(res)
 	} else {
-		res.send(404)
+		res.sendStatus(404)
 	}
 })
 app.listen(3006)
