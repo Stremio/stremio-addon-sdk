@@ -1,4 +1,4 @@
-const WebSocket = require('ws')
+const WsClient = require('ws-reconnect')
 const { detectFromURL, stringifyRequest } = require('stremio-addon-client')
 const assert = require('assert')
 const ipfsClient = require('ipfs-http-client')
@@ -19,9 +19,12 @@ const ipfs = ipfsClient('localhost', '5001', { protocol: 'http' })
 async function startListening() {
 	// @TODO take supernode address as an argument
 	return new Promise((resolve, reject) => {
-		const ws = new WebSocket('ws://127.0.0.1:14001')
-		ws.on('open', () => resolve(ws))
-		ws.on('error', err => reject(err))
+		const ws = new WsClient('ws://127.0.0.1:14001')
+		const wsStatus = {}
+		ws.onError = err => wsStatus.lastErr = err
+		ws.on('connect', () => resolve(ws))
+		ws.on('destroyed', err => reject(wsStatus.lastErr))
+		ws.start()
 	})
 }
 
