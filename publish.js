@@ -5,14 +5,10 @@ const ipfsClient = require('ipfs-http-client')
 const PQueue = require('p-queue').default
 const throttle = require('lodash.throttle')
 
-const IPFS_WRITE_OPTS = {
-	create: true,
-	parents: true,
-	truncate: true
-}
 const MIN = 60 * 1000
-const CACHING_ROUND = 10 * MIN
+const CACHING_ROUNDING = 10 * MIN
 const SCRAPE_CONCURRENCY = 10
+const { IPFS_WRITE_OPTS } = require('./p2p')
 
 const ipfs = ipfsClient('localhost', '5001', { protocol: 'http' })
 
@@ -54,7 +50,7 @@ function getWithCache(addon, resource, type, id, extra) {
 				if (!isNaN(maxAgeSeconds)) {
 					const staleAfterRaw = Date.now() + maxAgeSeconds*1000
 					const staleAfter = maxAgeSeconds > 20 * 60 ?
-						Math.ceil(staleAfterRaw / CACHING_ROUND) * CACHING_ROUND
+						Math.ceil(staleAfterRaw / CACHING_ROUNDING) * CACHING_ROUNDING
 						: staleAfterRaw
 					resp = {
 						staleAfter,

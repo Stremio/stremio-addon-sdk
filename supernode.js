@@ -1,13 +1,7 @@
 const WebSocket = require('ws')
 const ipfsClient = require('ipfs-http-client')
 
-// @TODO: this is duplicated with publish.js, fix it
-const IPFS_WRITE_OPTS = {
-	create: true,
-	parents: true,
-	truncate: true
-}
-const IPFS_MSG_PATH = '/msgs'
+const { IPFS_WRITE_OPTS, IPFS_MSG_PATH } = require('./p2p')
 
 const byIdentifier = new Map()
 
