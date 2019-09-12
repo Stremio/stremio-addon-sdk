@@ -19,7 +19,7 @@ function onConnection(ws) {
 				throw new Error('invalid signature')
 			}
 			// @TODO more checks
-			if (msg) onMessage(msg).catch(e => console.error(e))
+			if (msg) onMessage(xpub, msg).catch(e => console.error(e))
 		} catch(e) {
 			// catches the parse
 			// @TODO better way to do this
@@ -30,10 +30,12 @@ function onConnection(ws) {
 }
 
 // @TODO pin
-async function onMessage(msg) {
+async function onMessage(xpub, msg) {
 	if (msg.type === 'Publish') {
-		byIdentifier.set(msg.identifier, msg.hash)
-		await ipfs.files.write(`${IPFS_MSG_PATH}/${msg.identifier}`, Buffer.from(JSON.stringify(msg)), IPFS_WRITE_OPTS)
+		const identifier = `${xpub.slice(4, 16)}.${msg.identifier}`
+		//console.log(identifier)
+		byIdentifier.set(identifier, msg.hash)
+		await ipfs.files.write(`${IPFS_MSG_PATH}/${identifier}`, Buffer.from(JSON.stringify(msg)), IPFS_WRITE_OPTS)
 	}
 }
 

@@ -83,7 +83,7 @@ async function init() {
 	assert.ok(detected.addon, 'unable to find an addon at this URL')
 	const addon = detected.addon
 	const manifest = addon.manifest
-	const identifier = `${manifest.id}`
+	const identifier = manifest.id
 	const ws = await startListening()
 	await ipfs.files.write(`/${identifier}/manifest.json`, Buffer.from(JSON.stringify(manifest)), IPFS_WRITE_OPTS)
 	await publish(identifier, ws)
@@ -118,7 +118,7 @@ async function startScrape(addon, publish) {
 
 async function scrapeItem(addon, req, queue, publish) {
 	const get = getWithCache.bind(null, addon)
-	const identifier = `${addon.manifest.id}` // @TODO: pub key
+	const identifier = addon.manifest.id
 	const resp = await get.apply(null, req)
 
 	// Scrape other things that can be derived from this response
