@@ -40,7 +40,7 @@ async function readCachedMsgs() {
 }
 
 // Server part
-// @TODO caching
+// @TODO handle caching information
 const express = require('express')
 const app = express()
 const ipfs = ipfsClient('localhost', '5001', { protocol: 'http' })
@@ -52,7 +52,7 @@ app.use('/:identifier', async function(req, res) {
 		ipfs.catReadableStream(path)
 			.on('error', e => {
 				if (e.statusCode === 500 && e.message.startsWith('no link named'))
-					res.sendStatus(404)
+					res.status(404).json({ error: 'Not found' })
 				else
 					throw e
 			})

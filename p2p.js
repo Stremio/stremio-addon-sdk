@@ -6,6 +6,7 @@ const IPFS_WRITE_OPTS = {
 const IPFS_MSG_PATH = '/msgs'
 
 // @TODO from seed
+const crypto = require('crypto')
 const keypair = crypto.generateKeyPairSync('ec', {
 	namedCurve: 'sect239k1'
 })
