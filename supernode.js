@@ -1,5 +1,7 @@
 const WebSocket = require('ws')
 const ipfsClient = require('ipfs-http-client')
+const HDKey = require('hdkey')
+const crypto = require('crypto')
 
 const { IPFS_WRITE_OPTS, IPFS_MSG_PATH } = require('./p2p')
 
@@ -9,19 +11,26 @@ function onConnection(ws) {
 	// @TODO associate the connection with an addon and don't allow other connections to claim the same
 	// one
 	ws.on('message', data => {
-		let msg
-		try { msg = JSON.parse(data) } catch(e) {
+		try {
+			const { xpub, sig, msg } = JSON.parse(data)
+			const hdkey = HDKey.fromExtendedKey(xpub)
+			const hash = crypto.createHash('sha256').update(JSON.stringify(msg)).digest()
+			if (!hdkey.verify(hash, Buffer.from(sig, 'hex'))) {
+				throw new Error('invalid signature')
+			}
+			// @TODO more checks
+			if (msg) onMessage(msg).catch(e => console.error(e))
+		} catch(e) {
+			// catches the parse
+			// @TODO better way to do this
 			console.error(e)
 		}
-		// @TODO more checks
-		if (msg) onMessage(msg).catch(e => console.error(e))
 	})
 	//ws.send(JSON.stringify());
 }
 
 // @TODO pin
 async function onMessage(msg) {
-	console.log(msg)
 	if (msg.type === 'Publish') {
 		byIdentifier.set(msg.identifier, msg.hash)
 		await ipfs.files.write(`${IPFS_MSG_PATH}/${msg.identifier}`, Buffer.from(JSON.stringify(msg)), IPFS_WRITE_OPTS)

@@ -4,11 +4,12 @@ const assert = require('assert')
 const ipfsClient = require('ipfs-http-client')
 const PQueue = require('p-queue').default
 const throttle = require('lodash.throttle')
+const crypto = require('crypto')
 
 const MIN = 60 * 1000
 const CACHING_ROUNDING = 10 * MIN
 const SCRAPE_CONCURRENCY = 10
-const { IPFS_WRITE_OPTS } = require('./p2p')
+const { IPFS_WRITE_OPTS, hdkey } = require('./p2p')
 
 const ipfs = ipfsClient('localhost', '5001', { protocol: 'http' })
 
@@ -67,6 +68,13 @@ function getWithCache(addon, resource, type, id, extra) {
 	})
 }
 
+function getSignedMsg(msg) {
+	const hash = crypto.createHash('sha256').update(JSON.stringify(msg)).digest()
+	const sig = hdkey.sign(hash).toString('hex')
+	const xpub = hdkey.publicExtendedKey
+	return { msg, sig, xpub }
+}
+
 // @TODO publish in the beginning (put up manifest + Publish msg)
 // from then, publish every time we have new content
 // @TODO read CLI args, auto-gen crypto identity
@@ -75,7 +83,7 @@ async function init() {
 	assert.ok(detected.addon, 'unable to find an addon at this URL')
 	const addon = detected.addon
 	const manifest = addon.manifest
-	const identifier = `${manifest.id}` // @TODO: pub key
+	const identifier = `${manifest.id}`
 	const ws = await startListening()
 	await ipfs.files.write(`/${identifier}/manifest.json`, Buffer.from(JSON.stringify(manifest)), IPFS_WRITE_OPTS)
 	await publish(identifier, ws)
@@ -88,11 +96,8 @@ async function publish(identifier, ws) {
 	const { hash } = await ipfs.files.stat(`/${identifier}`)
 	// @TODO unpin the previous, pin the latest hash
 	//console.log(await ipfs.pin.add(stat.hash, { recursive: true }))
-	ws.send(JSON.stringify({
-		type: 'Publish',
-		identifier,
-		hash
-	}))
+	const msg = { type: 'Publish', identifier, hash }
+	ws.send(JSON.stringify(getSignedMsg(msg)))
 }
 
 async function startScrape(addon, publish) {

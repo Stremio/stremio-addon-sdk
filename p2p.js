@@ -6,9 +6,7 @@ const IPFS_WRITE_OPTS = {
 const IPFS_MSG_PATH = '/msgs'
 
 // @TODO from seed
-const crypto = require('crypto')
-const keypair = crypto.generateKeyPairSync('ec', {
-	namedCurve: 'sect239k1'
-})
+const HDKey = require('hdkey')
+const hdkey = HDKey.fromMasterSeed(Buffer.from('foo bar stremi oaddons', 'hex'))
 
-module.exports = { IPFS_WRITE_OPTS, IPFS_MSG_PATH, keypair }
+module.exports = { IPFS_WRITE_OPTS, IPFS_MSG_PATH, hdkey }
