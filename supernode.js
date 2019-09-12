@@ -12,6 +12,8 @@ const IPFS_MSG_PATH = '/msgs'
 const byIdentifier = new Map()
 
 function onConnection(ws) {
+	// @TODO associate the connection with an addon and don't allow other connections to claim the same
+	// one
 	ws.on('message', data => {
 		let msg
 		try { msg = JSON.parse(data) } catch(e) {
@@ -36,7 +38,7 @@ async function readCachedMsgs() {
 	const files = await ipfs.files.ls(`/${IPFS_MSG_PATH}`)
 	// @TODO: warning: this doesn't consider whether the contents are files or not
 	const buffers = await Promise.all(files.map(f => ipfs.files.read(`/${IPFS_MSG_PATH}/${f.name}`)))
-	for (buf of buffers) {
+	for (let buf of buffers) {
 		// @TODO: reuse onMessage, but without the write
 		const msg = JSON.parse(buf.toString())
 		byIdentifier.set(msg.identifier, msg.hash)
@@ -48,7 +50,7 @@ async function readCachedMsgs() {
 const express = require('express')
 const app = express()
 const ipfs = ipfsClient('localhost', '5001', { protocol: 'http' })
-app.use('/:identifier', async function(req, res, next) {
+app.use('/:identifier', async function(req, res) {
 	const hash = byIdentifier.get(req.params.identifier.trim())
 	if (hash) {
 		const path = `/ipfs/${hash}${req.url}`

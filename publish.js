@@ -23,7 +23,7 @@ async function startListening() {
 		const wsStatus = {}
 		ws.onError = err => wsStatus.lastErr = err
 		ws.on('connect', () => resolve(ws))
-		ws.on('destroyed', err => reject(wsStatus.lastErr))
+		ws.on('destroyed', () => reject(wsStatus.lastErr))
 		ws.start()
 	})
 }
