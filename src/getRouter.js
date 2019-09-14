@@ -23,10 +23,10 @@ function getRouter({ manifest , get }) {
 		// and breaks dividing querystring parameters with `&`, in case `&` is one of the
 		// encoded characters of a parameter value
 		const extra = req.params.extra ? qs.parse(req.url.split('/').pop().slice(0, -5)) : {}
+		res.setHeader('Content-Type', 'application/json; charset=utf-8')
 		get(resource, type, id, extra)
 			.then(resp => {
 				if (resp.cacheMaxAge) res.setHeader('Cache-Control', 'max-age='+resp.cacheMaxAge)
-				res.setHeader('Content-Type', 'application/json; charset=utf-8')
 				res.end(JSON.stringify(resp))
 			})
 			.catch(err => {
@@ -34,7 +34,7 @@ function getRouter({ manifest , get }) {
 					if (next) next()
 					else {
 						res.writeHead(404)
-						res.end('Cannot GET ' + req.url)
+						res.end(JSON.stringify({ err: 'not found' }))
 					}
 				} else {
 					console.error(err)
