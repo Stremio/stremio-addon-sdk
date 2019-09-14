@@ -88,7 +88,20 @@ async function init() {
 	await ipfs.files.write(`/${identifier}/manifest.json`, Buffer.from(JSON.stringify(manifest)), IPFS_WRITE_OPTS)
 	await publish(identifier, ws)
 	const throttledPublish = throttle(publish.bind(null, identifier, ws), 10000)
-	ws.on('message', incoming => console.log('from websocket:', incoming))
+	ws.on('message', async incoming => {
+		try {
+			const { msg } = JSON.parse(incoming)
+			if (msg.type === 'Request') {
+				const url = stringifyRequest(msg.parsed)
+				// @NOTE: we can speed this up by not waiting ipfs.files.write
+				const resp = await scrapeItem(addon, msg.parsed, null, throttledPublish)
+				ws.send(JSON.stringify(getSignedMsg({ type: 'Response', url, resp, identifier })))
+			}
+		} catch (e) {
+			// @TODO: better err handling here?
+			console.error(e)
+		}
+	})
 	startScrape(addon, throttledPublish).catch(console.error)
 }
 
@@ -137,6 +150,8 @@ async function scrapeItem(addon, req, queue, publish) {
 		IPFS_WRITE_OPTS
 	)
 	publish()
+
+	return resp
 }
 
 init().catch(err => console.error('Init error', err))

@@ -26,25 +26,24 @@ function onConnection(ws) {
 			console.error(e)
 		}
 	})
-	ws.on('close', () => console.log('disconnected'))
 }
 
 // @TODO pin
 async function onMessage(socket, xpub, msg) {
+	const identifier = `${xpub.slice(4, 16)}.${msg.identifier}`
+	const conn = connsByIdentifier.get(identifier)
 	if (msg.type === 'Publish') {
-		const identifier = `${xpub.slice(4, 16)}.${msg.identifier}`
-		const conn = connsByIdentifier.get(identifier)
 		if (conn && conn.socket !== socket) throw new Error('only one connection per addon allowed')
 		if (!conn) {
 			connsByIdentifier.set(identifier, { socket, requests: new Map() })
 			socket.on('close', () => connsByIdentifier.delete(identifier))
 		}
-		console.log(connsByIdentifier)
 		hashByIdentifier.set(identifier, msg.hash)
 		await ipfs.files.write(`${IPFS_MSG_PATH}/${identifier}`, Buffer.from(JSON.stringify(msg)), IPFS_WRITE_OPTS)
 	}
-	if (msg.type === 'Response') {
-		// @TODO
+	if (msg.type === 'Response' && conn) {
+		const request = conn.requests.get(msg.url)
+		if (request) request.onResponseMsg(msg)
 	}
 }
 
@@ -102,19 +101,20 @@ function handleNotFound(identifier, req, res) {
 	if (waiting) {
 		promise = waiting.promise
 	} else {
-		let onResponse
+		let onResponseMsg
 		promise = new Promise((resolve, reject) => {
 			const t = setTimeout(() => reject({ isTimeout: true }), RESPONSE_TIMEOUT)
-			onResponse = resp => {
+			onResponseMsg = msg => {
 				clearTimeout(t)
-				resolve(resp)
+				// @TODO: handle errors?
+				resolve(msg.resp)
 			}
 
 		})
-		conn.requests.set(req.url, { promise, onResponse })
+		conn.requests.set(req.url, { promise, onResponseMsg })
 		// The catch is needed otherwise it's an uncaught promise
 		promise.catch(() => null).finally(() => conn.requests.delete(req.url))
-		conn.socket.send(JSON.stringify({ msg: { type: 'Request', req: parsed } }))
+		conn.socket.send(JSON.stringify({ msg: { type: 'Request', parsed } }))
 	}
 
 	promise
@@ -122,13 +122,11 @@ function handleNotFound(identifier, req, res) {
 		.catch(err => {
 			if (err.isTimeout) res.status(504).json({ err: 'addon timed out' })
 			else {
-				console.log(err)
+				console.error(err)
 				res.status(500).json({ err: 'unknown error' })
 			}
 		})
 }
-
-setInterval(() => console.log(connsByIdentifier), 3000)
 
 function parseRequest(url) {
 	if (!url.startsWith('/')) return null
