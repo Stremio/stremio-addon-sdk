@@ -9,7 +9,11 @@ const crypto = require('crypto')
 const MIN = 60 * 1000
 const CACHING_ROUNDING = 10 * MIN
 const SCRAPE_CONCURRENCY = 10
-const { IPFS_WRITE_OPTS, hdkey } = require('./p2p')
+const { IPFS_WRITE_OPTS } = require('./p2p')
+
+// @TODO from seed
+const HDKey = require('hdkey')
+const hdkey = HDKey.fromMasterSeed(Buffer.from(process.env.IDENTITY_KEY || 'stremio-sdk development key'))
 
 const ipfs = ipfsClient('localhost', '5001', { protocol: 'http' })
 
@@ -75,8 +79,9 @@ function getSignedMsg(msg) {
 	return { msg, sig, xpub }
 }
 
-// @TODO publish in the beginning (put up manifest + Publish msg)
-// from then, publish every time we have new content
+// Publish in the beginning (put up manifest + Publish msg)
+// After that, we publish every time we have new content by capturing
+//    throttledPublish into the Request handler
 // @TODO read CLI args, auto-gen crypto identity
 async function init() {
 	const detected = await detectFromURL('http://127.0.0.1:3005/manifest.json')
