@@ -6,11 +6,10 @@ const qs = require('querystring')
 
 const { IPFS_WRITE_OPTS, IPFS_MSG_PATH } = require('./p2p')
 
-const byIdentifier = new Map()
+const hashByIdentifier = new Map()
+const connsByIdentifier = new Map()
 
 function onConnection(ws) {
-	// @TODO associate the connection with an addon and don't allow other connections to claim the same
-	// one
 	ws.on('message', data => {
 		try {
 			const { xpub, sig, msg } = JSON.parse(data)
@@ -20,22 +19,29 @@ function onConnection(ws) {
 				throw new Error('invalid signature')
 			}
 			// @TODO more checks
-			if (msg) onMessage(xpub, msg).catch(e => console.error(e))
+			if (msg) onMessage(ws, xpub, msg).catch(e => console.error(e))
 		} catch(e) {
 			// catches the parse and the msg verification
 			// @TODO better way to do this
 			console.error(e)
 		}
 	})
-	//ws.send(JSON.stringify());
+	ws.on('close', () => console.log('disconnected'))
 }
 
 // @TODO pin
-async function onMessage(xpub, msg) {
+async function onMessage(socket, xpub, msg) {
 	if (msg.type === 'Publish') {
 		const identifier = `${xpub.slice(4, 16)}.${msg.identifier}`
-		byIdentifier.set(identifier, msg.hash)
+		const conn = connsByIdentifier.get(identifier)
+		if (conn && conn.socket !== socket) throw new Error('only one connection per addon allowed')
+		if (!conn) connsByIdentifier.set(identifier, { socket, waiting: [] })
+		console.log(connsByIdentifier)
+		hashByIdentifier.set(identifier, msg.hash)
 		await ipfs.files.write(`${IPFS_MSG_PATH}/${identifier}`, Buffer.from(JSON.stringify(msg)), IPFS_WRITE_OPTS)
+	}
+	if (msg.type === 'Response') {
+		// @TODO
 	}
 }
 
@@ -46,7 +52,7 @@ async function readCachedMsgs() {
 		const identifier = file.name
 		const buf = await ipfs.files.read(`/${IPFS_MSG_PATH}/${identifier}`)
 		const msg = JSON.parse(buf.toString())
-		byIdentifier.set(identifier, msg.hash)
+		hashByIdentifier.set(identifier, msg.hash)
 	}
 }
 
@@ -58,13 +64,13 @@ const ipfs = ipfsClient('localhost', '5001', { protocol: 'http' })
 
 app.use('/:identifier', async function(req, res) {
 	res.setHeader('content-type', 'application/json')
-	const hash = byIdentifier.get(req.params.identifier.trim())
+	const hash = hashByIdentifier.get(req.params.identifier.trim())
 	if (hash) {
 		const path = `/ipfs/${hash}${req.url}`
 		ipfs.catReadableStream(path)
 			.on('error', e => {
 				if (e.statusCode === 500 && e.message.startsWith('no link named'))
-					handleNotFound(req, res, () => res.status(404).json({ err: 'not found' }))
+					handleNotFound(identifier, req, res, () => res.status(404).json({ err: 'not found' }))
 				else
 					throw e
 			})
@@ -78,9 +84,10 @@ app.use('/:identifier', async function(req, res) {
 // we have to respond with either origin down
 // or with a gateway timeout
 // or with the response
-function handleNotFound(req, res) {
+function handleNotFound(identifier, req, res) {
 	// @TODO validate the request, if it's valid then we'll do a dynamic request
 	// upon 404
+	//if (!
 	const parsed = parseRequest(req.url)
 	if (!parsed) {
 		res.status(400).json({ err: 'failed to parse request' })
