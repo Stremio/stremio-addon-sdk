@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const WsClient = require('ws-reconnect')
 const { detectFromURL, stringifyRequest } = require('stremio-addon-client')
 const assert = require('assert')
@@ -11,6 +13,7 @@ const mkdirp = require('mkdirp')
 const os = require('os')
 const path = require('path')
 const fs = require('fs')
+const chalk = require('chalk')
 
 const CACHING_ROUNDING = 10 * 60 * 1000
 const SCRAPE_CONCURRENCY = 10
@@ -38,10 +41,9 @@ console.log(hdkey.publicExtendedKey)
 // @TODO configurable IPFS address
 const ipfs = ipfsClient('localhost', '5001', { protocol: 'http' })
 
-async function startListening() {
-	// @TODO take supernode address as an argument
+async function connectToSupernode(url) {
 	return new Promise((resolve, reject) => {
-		const ws = new WsClient('ws://127.0.0.1:14011')
+		const ws = new WsClient(url)
 		const wsStatus = {}
 		ws.onError = err => wsStatus.lastErr = err
 		ws.on('connect', () => resolve(ws))
@@ -102,15 +104,15 @@ function getSignedMsg(msg) {
 
 // Publish in the beginning (put up manifest + Publish msg)
 // After that, we publish every time we have new content by capturing
-//    throttledPublish into the Request handler
-// @TODO read CLI args, auto-gen crypto identity
+// throttledPublish into the Request handler
 async function init() {
 	const detected = await detectFromURL('http://127.0.0.1:3005/manifest.json')
 	assert.ok(detected.addon, 'unable to find an addon at this URL')
 	const addon = detected.addon
 	const manifest = addon.manifest
 	const identifier = manifest.id
-	const ws = await startListening()
+	// @TODO take supernode address as an argument
+	const ws = await connectToSupernode('ws://127.0.0.1:14011')
 	await ipfs.files.write(`/${identifier}/manifest.json`, Buffer.from(JSON.stringify(manifest)), IPFS_WRITE_OPTS)
 	await publish(identifier, ws)
 	const throttledPublish = throttle(publish.bind(null, identifier, ws), 10000)

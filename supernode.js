@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const WebSocket = require('ws')
 const http = require('http')
 const ipfsClient = require('ipfs-http-client')
@@ -95,8 +97,8 @@ app.use('/:identifier', async function(req, res) {
 		const buf = await ipfs.cat(`/ipfs/${hash}${req.url}`)
 		const { staleAfter } = parseStaleAfter(buf)
 		const shouldBeUpdated = staleAfter &&
-			Date.now() > staleAfter
-			&& connsByIdentifier.has(identifier)
+			Date.now() > staleAfter &&
+			connsByIdentifier.has(identifier)
 		if (shouldBeUpdated) {
 			handleNotFound(identifier, req, res, next)
 		} else {
