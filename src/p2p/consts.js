@@ -5,5 +5,5 @@ module.exports = {
 		truncate: true
 	},
 	IPFS_MSG_PATH: '/msgs',
-	RESPONSE_TIMEOUT: 10000,
+	RESPONSE_TIMEOUT: 15000,
 }
