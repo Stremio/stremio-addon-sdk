@@ -69,14 +69,22 @@ app.use('/:identifier', async function(req, res) {
 	const hash = hashByIdentifier.get(identifier)
 	if (hash) {
 		const path = `/ipfs/${hash}${req.url}`
+		const next = () => res.status(404).json({ err: 'not found' })
 		try {
 			const buf = await ipfs.cat(path)
 			const resp = JSON.parse(buf)
-			res.setHeader('cache-control', getCacheHeader(resp.staleAfter))
-			res.json(resp)
+			const shouldBeUpdated = typeof resp.staleAfter === 'number'
+				&& Date.now() > resp.staleAfter
+				&& connsByIdentifier.has(identifier)
+			if (shouldBeUpdated) {
+				handleNotFound(identifier, req, res, next)
+			} else {
+				res.setHeader('cache-control', getCacheHeader(resp.staleAfter))
+				res.json(resp)
+			}
 		} catch(e) {
 			if (e.statusCode === 500 && e.message.startsWith('no link named'))
-				handleNotFound(identifier, req, res, () => res.status(404).json({ err: 'not found' }))
+				handleNotFound(identifier, req, res, next)
 			else
 				throw e
 		}
@@ -125,7 +133,10 @@ function handleNotFound(identifier, req, res) {
 	}
 
 	promise
-		.then(resp => res.status(200).json(resp))
+		.then(resp => {
+			res.setHeader('cache-control', getCacheHeader(resp.staleAfter))
+			res.status(200).json(resp)
+		})
 		.catch(err => {
 			if (err.isTimeout) res.status(504).json({ err: 'addon timed out' })
 			else {
