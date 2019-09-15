@@ -41,7 +41,7 @@ const ipfs = ipfsClient('localhost', '5001', { protocol: 'http' })
 async function startListening() {
 	// @TODO take supernode address as an argument
 	return new Promise((resolve, reject) => {
-		const ws = new WsClient('ws://127.0.0.1:14001')
+		const ws = new WsClient('ws://127.0.0.1:14011')
 		const wsStatus = {}
 		ws.onError = err => wsStatus.lastErr = err
 		ws.on('connect', () => resolve(ws))

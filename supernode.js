@@ -1,4 +1,5 @@
 const WebSocket = require('ws')
+const http = require('http')
 const ipfsClient = require('ipfs-http-client')
 const HDKey = require('hdkey')
 const crypto = require('crypto')
@@ -90,7 +91,8 @@ app.use('/:identifier', async function(req, res) {
 		try {
 			const buf = await ipfs.cat(path)
 			const { staleAfter } = parseStaleAfter(buf)
-			const shouldBeUpdated = Date.now() > staleAfter
+			const shouldBeUpdated = staleAfter &&
+				Date.now() > staleAfter
 				&& connsByIdentifier.has(identifier)
 			if (shouldBeUpdated) {
 				handleNotFound(identifier, req, res, next)
@@ -179,17 +181,17 @@ async function init() {
 
 	// and start listening on HTTP/WebSocket
 	// @TODO ports to not be hardcoded
-	const port = 14001
-	const httpPort = 3006
+	const port = 14011
 
-	const wss = new WebSocket.Server({ port })
+	const server = http.createServer()
+	const wss = new WebSocket.Server({ server })
 	wss
-		.on('listening', () => console.log(`WebSockets interface listening on: ${port}`))
 		.on('connection', ws => ws.on('message', data => onRawMessage(ws, data)))
 
-	app
-		.listen(httpPort)
-		.on('listening', () => console.log(`HTTP server listening on: ${httpPort}`))
+	server
+		.listen(port)
+		.on('request', app)
+		.on('listening', () => console.log(`Supernode HTTP/WebSocket listening on: ${port}`))
 }
 
 init().catch(e => console.error(e))
