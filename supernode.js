@@ -85,29 +85,29 @@ app.use('/:identifier', async function(req, res) {
 	res.setHeader('content-type', 'application/json')
 	const identifier = req.params.identifier.trim()
 	const hash = hashByIdentifier.get(identifier)
-	if (hash) {
-		const path = `/ipfs/${hash}${req.url}`
-		const next = () => res.status(404).json({ err: 'not found' })
-		try {
-			const buf = await ipfs.cat(path)
-			const { staleAfter } = parseStaleAfter(buf)
-			const shouldBeUpdated = staleAfter &&
-				Date.now() > staleAfter
-				&& connsByIdentifier.has(identifier)
-			if (shouldBeUpdated) {
-				handleNotFound(identifier, req, res, next)
-			} else {
-				res.setHeader('cache-control', getCacheHeader(staleAfter))
-				res.end(buf)
-			}
-		} catch(e) {
-			if (e.statusCode === 500 && e.message.startsWith('no link named'))
-				handleNotFound(identifier, req, res, next)
-			else
-				throw e
-		}
-	} else {
+	if (!hash) {
 		res.status(404).json({ err: 'no addon with that identifier' })
+		return
+	}
+
+	const next = () => res.status(404).json({ err: 'not found' })
+	try {
+		const buf = await ipfs.cat(`/ipfs/${hash}${req.url}`)
+		const { staleAfter } = parseStaleAfter(buf)
+		const shouldBeUpdated = staleAfter &&
+			Date.now() > staleAfter
+			&& connsByIdentifier.has(identifier)
+		if (shouldBeUpdated) {
+			handleNotFound(identifier, req, res, next)
+		} else {
+			res.setHeader('cache-control', getCacheHeader(staleAfter))
+			res.end(buf)
+		}
+	} catch(e) {
+		if (e.statusCode === 500 && e.message.startsWith('no link named'))
+			handleNotFound(identifier, req, res, next)
+		else
+			throw e
 	}
 })
 
