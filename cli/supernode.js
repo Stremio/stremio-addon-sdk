@@ -12,11 +12,10 @@ const parseStaleAfter = turbo(
 	{ buffer: true, ordered: true, validate: false, partial: true }
 )
 
-const { IPFS_WRITE_OPTS, IPFS_MSG_PATH, RESPONSE_TIMEOUT } = require('./src/p2p/consts')
-const getIdentifier = require('./src/p2p/getIdentifier')
+const { IPFS_WRITE_OPTS, IPFS_MSG_PATH, RESPONSE_TIMEOUT } = require('../src/p2p/consts')
+const getIdentifier = require('../src/p2p/getIdentifier')
 
-// @TODO configurable IPFS address
-const ipfs = ipfsClient('localhost', '5001', { protocol: 'http' })
+const ipfs = ipfsClient(process.env.IPFS_MULTIADDR || '/ip4/127.0.0.1/tcp/5001')
 
 const hashByIdentifier = new Map()
 const connsByIdentifier = new Map()
@@ -182,8 +181,7 @@ async function init() {
 	await readCachedMsgs()
 
 	// and start listening on HTTP/WebSocket
-	// @TODO ports to not be hardcoded
-	const port = 14011
+	const port = process.env.PORT || 14011
 
 	const server = http.createServer()
 	const wss = new WebSocket.Server({ server })

@@ -39,7 +39,7 @@ const hdkey = HDKey.fromMasterSeed(seed)
 console.log(hdkey.publicExtendedKey)
 
 // @TODO configurable IPFS address
-const ipfs = ipfsClient('localhost', '5001', { protocol: 'http' })
+const ipfs = ipfsClient(process.env.IPFS_MULTIADDR || '/ip4/127.0.0.1/tcp/5001')
 
 async function connectToSupernode(url) {
 	return new Promise((resolve, reject) => {
