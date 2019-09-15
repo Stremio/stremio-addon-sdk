@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/Stremio/stremio-addon-sdk#readme",
   "dependencies": {
+    "bip39": "^3.0.2",
     "bufferutil": "^4.0.1",
     "chalk": "^2.4.2",
     "cors": "^2.8.4",

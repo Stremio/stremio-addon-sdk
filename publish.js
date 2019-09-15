@@ -5,16 +5,37 @@ const ipfsClient = require('ipfs-http-client')
 const PQueue = require('p-queue').default
 const throttle = require('lodash.throttle')
 const crypto = require('crypto')
+const HDKey = require('hdkey')
+const bip39 = require('bip39')
+const mkdirp = require('mkdirp')
+const os = require('os')
+const path = require('path')
+const fs = require('fs')
 
-const MIN = 60 * 1000
-const CACHING_ROUNDING = 10 * MIN
+const CACHING_ROUNDING = 10 * 60 * 1000
 const SCRAPE_CONCURRENCY = 10
 const { IPFS_WRITE_OPTS } = require('./src/p2p/consts')
 
 // @TODO from seed
-const HDKey = require('hdkey')
-const hdkey = HDKey.fromMasterSeed(Buffer.from(process.env.IDENTITY_KEY || 'stremio-sdk development key'))
+const cfgDir = path.join(os.homedir(), '.config/stremio-addon-sdk')
+const keyFile = path.join(cfgDir, 'publishKey')
+mkdirp.sync(cfgDir)
 
+let seed
+if (fs.existsSync(keyFile)) {
+	seed = fs.readFileSync(keyFile)
+} else {
+	const mnemonic = bip39.generateMnemonic()
+	console.log(mnemonic)
+	seed = bip39.mnemonicToSeedSync(mnemonic)
+	fs.writeFileSync(keyFile, seed)
+}
+
+const hdkey = HDKey.fromMasterSeed(seed)
+// @TODO move this log to the particular command
+console.log(hdkey.publicExtendedKey)
+
+// @TODO configurable IPFS address
 const ipfs = ipfsClient('localhost', '5001', { protocol: 'http' })
 
 async function startListening() {

@@ -12,6 +12,9 @@ const parseStaleAfter = turbo(
 const { IPFS_WRITE_OPTS, IPFS_MSG_PATH, RESPONSE_TIMEOUT } = require('./src/p2p/consts')
 const getIdentifier = require('./src/p2p/getIdentifier')
 
+// @TODO configurable IPFS address
+const ipfs = ipfsClient('localhost', '5001', { protocol: 'http' })
+
 const hashByIdentifier = new Map()
 const connsByIdentifier = new Map()
 
@@ -72,7 +75,6 @@ async function readCachedMsgs() {
 // Server part
 const express = require('express')
 const app = express()
-const ipfs = ipfsClient('localhost', '5001', { protocol: 'http' })
 
 app.get('/', function(req, res) {
 	res.json(Array.from(hashByIdentifier.keys()).map(id => `/${id}/manifest.json`))
@@ -175,7 +177,7 @@ async function init() {
 	// replay previous Publish messages
 	await readCachedMsgs()
 
-	// and start listening on the WebSocket
+	// and start listening on HTTP/WebSocket
 	// @TODO ports to not be hardcoded
 	const port = 14001
 	const httpPort = 3006
