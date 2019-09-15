@@ -9,23 +9,22 @@ const { IPFS_WRITE_OPTS, IPFS_MSG_PATH, RESPONSE_TIMEOUT } = require('./p2p')
 const hashByIdentifier = new Map()
 const connsByIdentifier = new Map()
 
-function onConnection(ws) {
-	ws.on('message', data => {
-		try {
-			const { xpub, sig, msg } = JSON.parse(data)
-			const hdkey = HDKey.fromExtendedKey(xpub)
-			const hash = crypto.createHash('sha256').update(JSON.stringify(msg)).digest()
-			if (!hdkey.verify(hash, Buffer.from(sig, 'hex'))) {
-				throw new Error('invalid signature')
-			}
-			// @TODO more checks
-			if (msg) onMessage(ws, xpub, msg).catch(e => console.error(e))
-		} catch(e) {
-			// catches the parse and the msg verification
-			// @TODO better way to do this
-			console.error(e)
+function onRawMessage(ws, data) {
+	try {
+		if (!data) return
+		const { xpub, sig, msg } = JSON.parse(data)
+		const hdkey = HDKey.fromExtendedKey(xpub)
+		const hash = crypto.createHash('sha256').update(JSON.stringify(msg)).digest()
+		if (!hdkey.verify(hash, Buffer.from(sig, 'hex'))) {
+			throw new Error('invalid signature')
 		}
-	})
+		// @TODO more checks
+		if (msg) onMessage(ws, xpub, msg).catch(e => console.error(e))
+	} catch(e) {
+		// catches the parse and the msg verification
+		// @TODO better way to do this
+		console.error(e)
+	}
 }
 
 // @TODO pin
@@ -70,18 +69,26 @@ app.use('/:identifier', async function(req, res) {
 	const hash = hashByIdentifier.get(identifier)
 	if (hash) {
 		const path = `/ipfs/${hash}${req.url}`
-		ipfs.catReadableStream(path)
-			.on('error', e => {
-				if (e.statusCode === 500 && e.message.startsWith('no link named'))
-					handleNotFound(identifier, req, res, () => res.status(404).json({ err: 'not found' }))
-				else
-					throw e
-			})
-			.pipe(res)
+		try {
+			const buf = await ipfs.cat(path)
+			const resp = JSON.parse(buf)
+			res.setHeader('cache-control', getCacheHeader(resp.staleAfter))
+			res.json(resp)
+		} catch(e) {
+			if (e.statusCode === 500 && e.message.startsWith('no link named'))
+				handleNotFound(identifier, req, res, () => res.status(404).json({ err: 'not found' }))
+			else
+				throw e
+		}
 	} else {
 		res.status(404).json({ err: 'no addon with that identifier' })
 	}
 })
+
+function getCacheHeader(staleAfter) {
+	if (typeof staleAfter !== 'number') return 'max-age=600'
+	return `max-age=${Math.max(600, Math.floor((staleAfter - Date.now()) / 1000))}`
+}
 
 function handleNotFound(identifier, req, res) {
 	const parsed = parseRequest(req.url)
@@ -146,7 +153,7 @@ async function init() {
 	// and start listening on the WebSocket
 	// @TODO ports to not be hardcoded
 	const wss = new WebSocket.Server({ port: 14001 })
-	wss.on('connection', onConnection)
+	wss.on('connection', ws => ws.on('message', data => onRawMessage(ws, data)))
 
 	app.listen(3006)
 }
