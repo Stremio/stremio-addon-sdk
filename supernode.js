@@ -9,7 +9,7 @@ const parseStaleAfter = turbo(
 	{ buffer: true, ordered: true, validate: false, partial: true }
 )
 
-const { IPFS_WRITE_OPTS, IPFS_MSG_PATH, RESPONSE_TIMEOUT } = require('./p2p')
+const { IPFS_WRITE_OPTS, IPFS_MSG_PATH, RESPONSE_TIMEOUT } = require('./src/p2p/consts')
 
 const hashByIdentifier = new Map()
 const connsByIdentifier = new Map()

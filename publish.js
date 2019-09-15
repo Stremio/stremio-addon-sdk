@@ -9,7 +9,7 @@ const crypto = require('crypto')
 const MIN = 60 * 1000
 const CACHING_ROUNDING = 10 * MIN
 const SCRAPE_CONCURRENCY = 10
-const { IPFS_WRITE_OPTS } = require('./p2p')
+const { IPFS_WRITE_OPTS } = require('./src/p2p/consts')
 
 // @TODO from seed
 const HDKey = require('hdkey')
