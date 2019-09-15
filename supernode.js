@@ -4,7 +4,10 @@ const HDKey = require('hdkey')
 const crypto = require('crypto')
 const qs = require('querystring')
 const turbo = require('turbo-json-parse')
-const parseStaleAfter = turbo({ type: 'object', properties: { staleAfter: { type: 'number' } } }, { buffer: true, ordered: true, validate: false })
+const parseStaleAfter = turbo(
+	{ type: 'object', properties: { staleAfter: { type: 'number' } } },
+	{ buffer: true, ordered: true, validate: false, partial: true }
+)
 
 const { IPFS_WRITE_OPTS, IPFS_MSG_PATH, RESPONSE_TIMEOUT } = require('./p2p')
 
@@ -73,17 +76,13 @@ app.use('/:identifier', async function(req, res) {
 		const next = () => res.status(404).json({ err: 'not found' })
 		try {
 			const buf = await ipfs.cat(path)
-			const start = process.hrtime.bigint()
-			const resp = parseStaleAfter(buf)
-			const end = process.hrtime.bigint()
-			console.log(`Benchmark took ${end - start} nanoseconds`);
-			const shouldBeUpdated = typeof resp.staleAfter === 'number'
-				&& Date.now() > resp.staleAfter
+			const { staleAfter } = parseStaleAfter(buf)
+			const shouldBeUpdated = Date.now() > staleAfter
 				&& connsByIdentifier.has(identifier)
 			if (shouldBeUpdated) {
 				handleNotFound(identifier, req, res, next)
 			} else {
-				res.setHeader('cache-control', getCacheHeader(resp.staleAfter))
+				res.setHeader('cache-control', getCacheHeader(staleAfter))
 				res.end(buf)
 			}
 		} catch(e) {
