@@ -84,7 +84,8 @@ app.get('/', function(req, res) {
 	const allAddons = Array.from(hashByIdentifier.entries())
 		.map(([id, hash]) => ({
 			transportUrl: `/${id}/manifest.json`,
-			ipfsSnapshot: `/ipfs/${hash}/manifest.json`
+			ipfsSnapshot: `/ipfs/${hash}/manifest.json`,
+			isConnected: connsByIdentifier.has(id)
 		}))
 	res.json(allAddons)
 })
