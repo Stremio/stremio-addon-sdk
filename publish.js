@@ -103,7 +103,6 @@ async function init() {
 				ws.send(JSON.stringify(getSignedMsg({ type: 'Response', url, resp, identifier })))
 			}
 		} catch (e) {
-			// @TODO: better err handling here?
 			console.error(e)
 		}
 	})
@@ -119,6 +118,7 @@ async function publish(identifier, ws) {
 async function startScrape(addon, publish) {
 	const queue = new PQueue({ concurrency: SCRAPE_CONCURRENCY })
 	const initialRequests = addon.manifest.catalogs
+		// Check which catalogs can be requested without any extra information
 		.filter(cat => {
 			const required = getCatalogExtra(cat).filter(x => x.isRequired)
 			return required.every(x => Array.isArray(x.options) && x.options[0])
@@ -143,7 +143,7 @@ async function scrapeItem(addon, req, queue, publish) {
 			.filter(meta => addon.isSupported('meta', meta.type, meta.id))
 			.forEach(meta => queue.add(scrapeItem.bind(null, addon, ['meta', meta.type, meta.id], queue, publish)))
 	}
-	// @TODO: later on, implement streams
+	// @NOTE: later on, we can implement streams scraping
 	//if (queue && resp.meta) {
 	//}
 
@@ -159,5 +159,3 @@ async function scrapeItem(addon, req, queue, publish) {
 
 init().catch(err => console.error('Init error', err))
 
-// @TODO get: check if we have the object locally; if not, request it; or wait for it for a few seconds before requesting from the addon
-// if there's no socket open, we won't wait

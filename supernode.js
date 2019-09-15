@@ -23,11 +23,8 @@ function onRawMessage(ws, data) {
 		if (!hdkey.verify(hash, Buffer.from(sig, 'hex'))) {
 			throw new Error('invalid signature')
 		}
-		// @TODO more checks
 		if (msg) onMessage(ws, xpub, msg).catch(e => console.error(e))
 	} catch(e) {
-		// catches the parse and the msg verification
-		// @TODO better way to do this
 		console.error(e)
 	}
 }
@@ -60,10 +57,11 @@ async function onMessage(socket, xpub, msg) {
 }
 
 async function readCachedMsgs() {
-	const files = await ipfs.files.ls(`/${IPFS_MSG_PATH}`)
-	// @TODO: warning: this doesn't consider whether the contents are files or not
-	for (let file of files) {
-		const identifier = file.name
+	const entries = await ipfs.files.ls(`/${IPFS_MSG_PATH}`)
+	for (let entry of entries) {
+		// @NOTE: `long: true` does not work
+		// if (entry.type !== 'file') continue
+		const identifier = entry.name
 		const buf = await ipfs.files.read(`/${IPFS_MSG_PATH}/${identifier}`)
 		const msg = JSON.parse(buf.toString())
 		hashByIdentifier.set(identifier, msg.hash)
