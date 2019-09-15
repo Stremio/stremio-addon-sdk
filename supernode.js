@@ -10,6 +10,7 @@ const parseStaleAfter = turbo(
 )
 
 const { IPFS_WRITE_OPTS, IPFS_MSG_PATH, RESPONSE_TIMEOUT } = require('./src/p2p/consts')
+const getIdentifier = require('./src/p2p/getIdentifier')
 
 const hashByIdentifier = new Map()
 const connsByIdentifier = new Map()
@@ -30,7 +31,7 @@ function onRawMessage(ws, data) {
 }
 
 async function onMessage(socket, xpub, msg) {
-	const identifier = `${xpub.slice(4, 16)}.${msg.identifier}`
+	const identifier = getIdentifier(msg.identifier, xpub)
 	const conn = connsByIdentifier.get(identifier)
 	if (msg.type === 'Publish') {
 		if (conn && conn.socket !== socket) {
@@ -46,7 +47,7 @@ async function onMessage(socket, xpub, msg) {
 			// Save the last message for the identifier, so that we replay it on next startup
 			ipfs.files.write(`${IPFS_MSG_PATH}/${identifier}`, Buffer.from(JSON.stringify(msg)), IPFS_WRITE_OPTS),
 			// Unpin previous hash and pin the current one
-			previous ? ipfs.pin.rm(previous) : Promise.resolve(),
+			previous ? ipfs.pin.rm(previous).catch(() => null) : Promise.resolve(),
 			ipfs.pin.add(msg.hash)
 		])
 	}
