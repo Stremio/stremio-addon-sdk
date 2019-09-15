@@ -81,7 +81,12 @@ const app = express()
 
 app.use(cors())
 app.get('/', function(req, res) {
-	res.json(Array.from(hashByIdentifier.keys()).map(id => `/${id}/manifest.json`))
+	const allAddons = Array.from(hashByIdentifier.entries())
+		.map(([id, hash]) => ({
+			transportUrl: `/${id}/manifest.json`,
+			ipfsSnapshot: `/ipfs/${hash}/manifest.json`
+		}))
+	res.json(allAddons)
 })
 app.use('/:identifier', async function(req, res) {
 	res.setHeader('content-type', 'application/json')
