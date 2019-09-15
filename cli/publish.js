@@ -26,9 +26,8 @@ const { argv } = yargs
 	.usage('Usage $0 [options]')
 	.describe('supernode', 'Address of the supernode')
 	.default('supernode', 'ws://127.0.0.1:14011')
+	.describe('restoreFromSeed', 'Restore publishing identity from BIP39 seed')
 	.command('$0 <addonUrl>', 'publish the addon at the provided transport URL')
-
-// @TODO restoreFromSeed
 
 const cfgDir = path.join(os.homedir(), '.config/stremio-addon-sdk')
 const keyFile = path.join(cfgDir, 'publishKey')
@@ -46,18 +45,6 @@ if (fs.existsSync(keyFile)) {
 
 const hdkey = HDKey.fromMasterSeed(seed)
 
-
-
-async function connectToSupernode(url) {
-	return new Promise((resolve, reject) => {
-		const ws = new WsClient(url)
-		const wsStatus = {}
-		ws.onError = err => wsStatus.lastErr = err
-		ws.on('connect', () => resolve(ws))
-		ws.on('destroyed', () => reject(wsStatus.lastErr))
-		ws.start()
-	})
-}
 
 // Shim the old extra notation
 function getCatalogExtra(catalog) {
@@ -109,6 +96,66 @@ function getSignedMsg(msg) {
 	return { msg, sig, xpub }
 }
 
+
+async function publish(identifier, ws) {
+	const { hash } = await ipfs.files.stat(`/${identifier}`)
+	const msg = { type: 'Publish', identifier, hash }
+	ws.send(JSON.stringify(getSignedMsg(msg)))
+}
+
+async function scrapeItem(addon, req, queue, publish) {
+	const get = getWithCache.bind(null, addon)
+	const identifier = addon.manifest.id
+	const resp = await get.apply(null, req)
+
+	// Scrape other things that can be derived from this response
+	if (queue && Array.isArray(resp.metas)) {
+		resp.metas
+			.filter(meta => addon.isSupported('meta', meta.type, meta.id))
+			.forEach(meta => queue.add(scrapeItem.bind(null, addon, ['meta', meta.type, meta.id], queue, publish)))
+	}
+	// @NOTE: later on, we can implement streams scraping
+	//if (queue && resp.meta) {
+	//}
+
+	await ipfs.files.write(
+		`/${identifier}${stringifyRequest(req)}`,
+		Buffer.from(JSON.stringify(resp)),
+		IPFS_WRITE_OPTS
+	)
+	publish()
+
+	return resp
+}
+
+async function startScrape(addon, publish) {
+	const queue = new PQueue({ concurrency: SCRAPE_CONCURRENCY })
+	const initialRequests = addon.manifest.catalogs
+		// Check which catalogs can be requested without any extra information
+		.filter(cat => {
+			const required = getCatalogExtra(cat).filter(x => x.isRequired)
+			return required.every(x => Array.isArray(x.options) && x.options[0])
+		})
+		.map(cat => {
+			const required = getCatalogExtra(cat).filter(x => x.isRequired)
+			return required.length ?
+				['catalog', cat.type, cat.id, Object.fromEntries(required.map(x => [x.name, x.options[0]]))]
+				: ['catalog', cat.type, cat.id]
+		})
+	initialRequests.forEach(req => queue.add(scrapeItem.bind(null, addon, req, queue, publish)))
+}
+
+async function connectToSupernode(url) {
+	return new Promise((resolve, reject) => {
+		const ws = new WsClient(url)
+		const wsStatus = {}
+		ws.onError = err => wsStatus.lastErr = err
+		ws.on('connect', () => resolve(ws))
+		ws.on('destroyed', () => reject(wsStatus.lastErr))
+		ws.start()
+	})
+}
+
 // Publish in the beginning (put up manifest + Publish msg)
 // After that, we publish every time we have new content by capturing
 // throttledPublish into the Request handler
@@ -141,54 +188,6 @@ async function init() {
 		}
 	})
 	startScrape(addon, throttledPublish).catch(console.error)
-}
-
-async function publish(identifier, ws) {
-	const { hash } = await ipfs.files.stat(`/${identifier}`)
-	const msg = { type: 'Publish', identifier, hash }
-	ws.send(JSON.stringify(getSignedMsg(msg)))
-}
-
-async function startScrape(addon, publish) {
-	const queue = new PQueue({ concurrency: SCRAPE_CONCURRENCY })
-	const initialRequests = addon.manifest.catalogs
-		// Check which catalogs can be requested without any extra information
-		.filter(cat => {
-			const required = getCatalogExtra(cat).filter(x => x.isRequired)
-			return required.every(x => Array.isArray(x.options) && x.options[0])
-		})
-		.map(cat => {
-			const required = getCatalogExtra(cat).filter(x => x.isRequired)
-			return required.length ?
-				['catalog', cat.type, cat.id, Object.fromEntries(required.map(x => [x.name, x.options[0]]))]
-				: ['catalog', cat.type, cat.id]
-		})
-	initialRequests.forEach(req => queue.add(scrapeItem.bind(null, addon, req, queue, publish)))
-}
-
-async function scrapeItem(addon, req, queue, publish) {
-	const get = getWithCache.bind(null, addon)
-	const identifier = addon.manifest.id
-	const resp = await get.apply(null, req)
-
-	// Scrape other things that can be derived from this response
-	if (queue && Array.isArray(resp.metas)) {
-		resp.metas
-			.filter(meta => addon.isSupported('meta', meta.type, meta.id))
-			.forEach(meta => queue.add(scrapeItem.bind(null, addon, ['meta', meta.type, meta.id], queue, publish)))
-	}
-	// @NOTE: later on, we can implement streams scraping
-	//if (queue && resp.meta) {
-	//}
-
-	await ipfs.files.write(
-		`/${identifier}${stringifyRequest(req)}`,
-		Buffer.from(JSON.stringify(resp)),
-		IPFS_WRITE_OPTS
-	)
-	publish()
-
-	return resp
 }
 
 init().catch(err => console.error('Publish error', err))
