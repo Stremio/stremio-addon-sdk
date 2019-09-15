@@ -112,6 +112,7 @@ async function publish(identifier, ws) {
 	const { hash } = await ipfs.files.stat(`/${identifier}`)
 	const msg = { type: 'Publish', identifier, hash }
 	ws.send(JSON.stringify(getSignedMsg(msg)))
+	return hash
 }
 
 async function scrapeItem(addon, req, queue, publish) {
@@ -191,7 +192,7 @@ async function init() {
 	const publishedUrl = `${argv.supernode.replace('ws://', 'http://')}/${getIdentifier(identifier, xpub)}/manifest.json`
 	console.log(chalk.green('Published addon at:'), publishedUrl)
 	console.log(chalk.green.bold('\nPlease keep this running, as it will update the content dynamically based on new requests!\n'))
-	
+
 	// Start updating the addon dynamically
 	const throttledPublish = throttle(publish.bind(null, identifier, ws), 10000)
 	ws.on('message', async incoming => {
