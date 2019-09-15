@@ -19,6 +19,7 @@ const yargs = require('yargs')
 const CACHING_ROUNDING = 10 * 60 * 1000
 const SCRAPE_CONCURRENCY = 10
 const { IPFS_WRITE_OPTS } = require('../src/p2p/consts')
+const getIdentifier = require('../src/p2p/getIdentifier')
 
 const ipfs = ipfsClient(process.env.IPFS_MULTIADDR || '/ip4/127.0.0.1/tcp/5001')
 
@@ -55,7 +56,6 @@ if (fs.existsSync(keyFile)) {
 	fs.writeFileSync(keyFile, seed)
 }
 const hdkey = HDKey.fromMasterSeed(seed)
-
 
 // Shim the old extra notation
 function getCatalogExtra(catalog) {
@@ -171,10 +171,12 @@ async function connectToSupernode(url) {
 // After that, we publish every time we have new content by capturing
 // throttledPublish into the Request handler
 async function init() {
+	const xpub = hdkey.publicExtendedKey
+
 	const detected = await detectFromURL(argv.addonUrl)
 	assert.ok(detected.addon, 'unable to find an addon at this URL')
 
-	console.log(chalk.blue('Authenticated with:'), hdkey.publicExtendedKey)
+	console.log(chalk.blue('Authenticated with:'), xpub)
 	console.log(chalk.blue('Publishing addon:'), argv.addonUrl)
 	console.log(chalk.blue('Publishing to:'), argv.supernode)
 
@@ -184,6 +186,13 @@ async function init() {
 	const ws = await connectToSupernode(argv.supernode)
 	await ipfs.files.write(`/${identifier}/manifest.json`, Buffer.from(JSON.stringify(manifest)), IPFS_WRITE_OPTS)
 	await publish(identifier, ws)
+
+	// Addon is now usable
+	const publishedUrl = `${argv.supernode.replace('ws://', 'http://')}/${getIdentifier(identifier, xpub)}/manifest.json`
+	console.log(chalk.green('Published addon at:'), publishedUrl)
+	console.log(chalk.green.bold('\nPlease keep this running, as it will update the content dynamically based on new requests!\n'))
+	
+	// Start updating the addon dynamically
 	const throttledPublish = throttle(publish.bind(null, identifier, ws), 10000)
 	ws.on('message', async incoming => {
 		try {
