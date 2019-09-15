@@ -7,6 +7,7 @@ const HDKey = require('hdkey')
 const crypto = require('crypto')
 const qs = require('querystring')
 const turbo = require('turbo-json-parse')
+const cors = require('cors')
 const parseStaleAfter = turbo(
 	{ type: 'object', properties: { staleAfter: { type: 'number' } } },
 	{ buffer: true, ordered: true, validate: false, partial: true }
@@ -78,10 +79,10 @@ async function readCachedMsgs() {
 const express = require('express')
 const app = express()
 
+app.use(cors())
 app.get('/', function(req, res) {
 	res.json(Array.from(hashByIdentifier.keys()).map(id => `/${id}/manifest.json`))
 })
-
 app.use('/:identifier', async function(req, res) {
 	res.setHeader('content-type', 'application/json')
 	const identifier = req.params.identifier.trim()
