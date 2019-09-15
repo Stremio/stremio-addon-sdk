@@ -112,8 +112,6 @@ async function init() {
 
 async function publish(identifier, ws) {
 	const { hash } = await ipfs.files.stat(`/${identifier}`)
-	// @TODO unpin the previous, pin the latest hash
-	//console.log(await ipfs.pin.add(stat.hash, { recursive: true }))
 	const msg = { type: 'Publish', identifier, hash }
 	ws.send(JSON.stringify(getSignedMsg(msg)))
 }
