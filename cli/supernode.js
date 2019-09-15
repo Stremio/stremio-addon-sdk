@@ -176,11 +176,10 @@ function parseRequest(url) {
 	if (!url.startsWith('/')) return null
 	if (!url.endsWith('.json')) return null
 	const segments = url.slice(1, -5).split('/')
-	if (segments.length === 3) return segments
-	if (segments.length === 4) return [ ...segments.slice(0, 3), qs.parse(segments[3]) ]
+	if (segments.length === 3) return segments.map(decodeURIComponent)
+	if (segments.length === 4) return [ ...segments.slice(0, 3).map(decodeURIComponent), qs.parse(segments[3]) ]
 	return null
 }
-
 
 // Initialize
 async function init() {
