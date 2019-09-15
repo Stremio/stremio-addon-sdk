@@ -26,23 +26,34 @@ const { argv } = yargs
 	.usage('Usage $0 [options]')
 	.describe('supernode', 'Address of the supernode')
 	.default('supernode', 'ws://127.0.0.1:14011')
-	.describe('restoreFromSeed', 'Restore publishing identity from BIP39 seed')
+	.describe('restoreFromMnemonic', 'Restore publishing identity from BIP39 mnemonic')
 	.command('$0 <addonUrl>', 'publish the addon at the provided transport URL')
 
 const cfgDir = path.join(os.homedir(), '.config/stremio-addon-sdk')
-const keyFile = path.join(cfgDir, 'publishKey')
+const keyFile = path.join(cfgDir, 'publishSeed')
 mkdirp.sync(cfgDir)
 
 let seed
 if (fs.existsSync(keyFile)) {
+	if (argv.restoreFromMnemonic) {
+		console.error(chalk.red(`Cannot restore from seed, authentication private key already exists: ${keyFile}`))
+		process.exit(1)
+	}
 	seed = fs.readFileSync(keyFile)
 } else {
-	const mnemonic = bip39.generateMnemonic()
-	console.log(mnemonic)
+	let mnemonic
+	if (argv.restoreFromMnemonic) {
+		mnemonic = argv.restoreFromMnemonic
+	} else {
+		mnemonic = bip39.generateMnemonic()
+		console.log(chalk.red('\nPLEASE BACKUP YOUR MNEMONIC'))
+		console.log(chalk.red('You must write down those words. This is your backup to your publishing identity.'))
+		console.log('\n', chalk.white.bold(mnemonic))
+		console.log('\n\n')
+	}
 	seed = bip39.mnemonicToSeedSync(mnemonic)
 	fs.writeFileSync(keyFile, seed)
 }
-
 const hdkey = HDKey.fromMasterSeed(seed)
 
 
