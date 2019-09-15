@@ -23,7 +23,8 @@
     "url": "https://github.com/Stremio/stremio-addon-sdk/issues"
   },
   "bin": {
-    "addon-bootstrap": "./cli/bootstrap.js"
+    "addon-bootstrap": "./cli/bootstrap.js",
+    "addon-supernode": "./cli/supernode.js"
   },
   "homepage": "https://github.com/Stremio/stremio-addon-sdk#readme",
   "dependencies": {
@@ -46,7 +47,8 @@
     "turbo-json-parse": "github:Ivshti/turbo-json-parse#468fce24d394b1535ebe91e5817a4a0d0a585ed5",
     "utf-8-validate": "^5.0.2",
     "ws": "^7.1.2",
-    "ws-reconnect": "^1.0.6"
+    "ws-reconnect": "^1.0.6",
+    "yargs": "^14.0.0"
   },
   "devDependencies": {
     "eslint": "^5.13.0",

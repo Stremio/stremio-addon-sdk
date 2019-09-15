@@ -14,12 +14,22 @@ const os = require('os')
 const path = require('path')
 const fs = require('fs')
 const chalk = require('chalk')
+const yargs = require('yargs')
 
 const CACHING_ROUNDING = 10 * 60 * 1000
 const SCRAPE_CONCURRENCY = 10
-const { IPFS_WRITE_OPTS } = require('./src/p2p/consts')
+const { IPFS_WRITE_OPTS } = require('../src/p2p/consts')
 
-// @TODO from seed
+const ipfs = ipfsClient(process.env.IPFS_MULTIADDR || '/ip4/127.0.0.1/tcp/5001')
+
+const { argv } = yargs
+	.usage('Usage $0 [options]')
+	.describe('supernode', 'Address of the supernode')
+	.default('supernode', 'ws://127.0.0.1:14011')
+	.command('$0 <addonUrl>', 'publish the addon at the provided transport URL')
+
+// @TODO restoreFromSeed
+
 const cfgDir = path.join(os.homedir(), '.config/stremio-addon-sdk')
 const keyFile = path.join(cfgDir, 'publishKey')
 mkdirp.sync(cfgDir)
@@ -35,11 +45,8 @@ if (fs.existsSync(keyFile)) {
 }
 
 const hdkey = HDKey.fromMasterSeed(seed)
-// @TODO move this log to the particular command
-console.log(hdkey.publicExtendedKey)
 
-// @TODO configurable IPFS address
-const ipfs = ipfsClient(process.env.IPFS_MULTIADDR || '/ip4/127.0.0.1/tcp/5001')
+
 
 async function connectToSupernode(url) {
 	return new Promise((resolve, reject) => {
@@ -106,13 +113,17 @@ function getSignedMsg(msg) {
 // After that, we publish every time we have new content by capturing
 // throttledPublish into the Request handler
 async function init() {
-	const detected = await detectFromURL('http://127.0.0.1:3005/manifest.json')
+	const detected = await detectFromURL(argv.addonUrl)
 	assert.ok(detected.addon, 'unable to find an addon at this URL')
+
+	console.log(chalk.blue('Authenticated with:'), hdkey.publicExtendedKey)
+	console.log(chalk.blue('Publishing addon:'), argv.addonUrl)
+	console.log(chalk.blue('Publishing to:'), argv.supernode)
+
 	const addon = detected.addon
 	const manifest = addon.manifest
 	const identifier = manifest.id
-	// @TODO take supernode address as an argument
-	const ws = await connectToSupernode('ws://127.0.0.1:14011')
+	const ws = await connectToSupernode(argv.supernode)
 	await ipfs.files.write(`/${identifier}/manifest.json`, Buffer.from(JSON.stringify(manifest)), IPFS_WRITE_OPTS)
 	await publish(identifier, ws)
 	const throttledPublish = throttle(publish.bind(null, identifier, ws), 10000)
@@ -180,5 +191,5 @@ async function scrapeItem(addon, req, queue, publish) {
 	return resp
 }
 
-init().catch(err => console.error('Init error', err))
+init().catch(err => console.error('Publish error', err))
 
