@@ -74,6 +74,10 @@ const express = require('express')
 const app = express()
 const ipfs = ipfsClient('localhost', '5001', { protocol: 'http' })
 
+app.get('/', function(req, res) {
+	res.json(Array.from(hashByIdentifier.keys()).map(id => `/${id}/manifest.json`))
+})
+
 app.use('/:identifier', async function(req, res) {
 	res.setHeader('content-type', 'application/json')
 	const identifier = req.params.identifier.trim()
@@ -173,10 +177,17 @@ async function init() {
 
 	// and start listening on the WebSocket
 	// @TODO ports to not be hardcoded
-	const wss = new WebSocket.Server({ port: 14001 })
-	wss.on('connection', ws => ws.on('message', data => onRawMessage(ws, data)))
+	const port = 14001
+	const httpPort = 3006
 
-	app.listen(3006)
+	const wss = new WebSocket.Server({ port })
+	wss
+		.on('listening', () => console.log(`WebSockets interface listening on: ${port}`))
+		.on('connection', ws => ws.on('message', data => onRawMessage(ws, data)))
+
+	app
+		.listen(httpPort)
+		.on('listening', () => console.log(`HTTP server listening on: ${httpPort}`))
 }
 
 init().catch(e => console.error(e))
