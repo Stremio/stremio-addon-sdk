@@ -13,7 +13,7 @@ function serveHTTP(addonInterface, opts = {}) {
 	const app = express()
 	app.use((_, res, next) => {
 		if (cacheMaxAge && !res.getHeader('Cache-Control'))
-			res.setHeader('Cache-Control', 'max-age='+cacheMaxAge)
+			res.setHeader('Cache-Control', 'max-age='+cacheMaxAge+', public')
 		next()
 	})
 	app.use(getRouter(addonInterface))
