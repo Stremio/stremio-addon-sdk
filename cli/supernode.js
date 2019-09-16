@@ -120,8 +120,8 @@ app.use('/:identifier', async function(req, res) {
 })
 
 function getCacheHeader(staleAfter) {
-	if (typeof staleAfter !== 'number') return 'max-age=1200'
-	return `max-age=${Math.max(1200, Math.floor((staleAfter - Date.now()) / 1000))}`
+	if (typeof staleAfter !== 'number') return 'max-age=1200, public'
+	return `max-age=${Math.max(1200, Math.floor((staleAfter - Date.now()) / 1000))}, public`
 }
 
 function handleNotFound(identifier, req, res) {
