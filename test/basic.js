@@ -83,7 +83,7 @@ tape('create an addon and expose on HTTP with serveHTTP()', function(t) {
 				t.error(res.error, 'response error')
 				t.equal(res.ok, true, 'has response status 200')
 				t.equal(res.status, 200, 'has response status ok')
-				t.equal(res.headers['cache-control'], 'max-age=3600', 'cache headers are correct')
+				t.equal(res.headers['cache-control'], 'max-age=3600, public', 'cache headers are correct')
 				t.end()
 			})
 
