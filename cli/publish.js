@@ -74,7 +74,7 @@ function getWithCache(addon, resource, type, id, extra) {
 	return new Promise((resolve, reject) => {
 		addon.get(resource, type, id, extra, (err, resp, cacheInfo) => {
 			if (err) return reject(err)
-			if (cacheInfo && cacheInfo.cacheControl) {
+			if (cacheInfo && cacheInfo.cacheControl && !resp.staleAfter) {
 				const maxAge = cacheInfo
 					.cacheControl
 					.split(',')
