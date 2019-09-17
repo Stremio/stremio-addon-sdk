@@ -1,11 +1,12 @@
 const STYLESHEET = `
+* {
+   box-sizing: border-box;
+}
+
 body,
 html {
-   margin: 0px;
-   padding: 0px;
-   font-family: OpenSans, arial, sans-serif;
-   font-weight: 300;
-   color: white;
+   margin: 0;
+   padding: 0;
    width: 100%;
    height: 100%
 }
@@ -18,21 +19,45 @@ html {
 }
 
 body {
-   background: rgba(0, 0, 0, 0.65)
+   display: flex;
+   background: rgba(0, 0, 0, 0.60);
+   font-family: 'Open Sans', Arial, sans-serif;
+   color: white;
 }
 
-h1, h2, h3 {
-   font-weight: 300
+h1 {
+   font-size: 4.5vh;
+   font-weight: 700;
 }
 
-#addon {
-   width: 400px;
-   position: absolute;
-   left: 0px;
-   right: 0px;
-   top: 10%;
-   bottom: auto;
-   margin: auto
+h2 {
+   font-size: 2.2vh;
+   font-weight: normal;
+   font-style: italic;
+   opacity: 0.8;
+}
+
+h3 {
+   font-size: 2.2vh;
+}
+
+h1,
+h2,
+h3,
+p {
+   margin: 0;
+   text-shadow: 0 0 1vh rgba(0, 0, 0, 0.15);
+}
+
+p {
+   font-size: 1.75vh;
+}
+
+ul {
+   font-size: 1.75vh;
+   margin: 0;
+   margin-top: 1vh;
+   padding-left: 3vh;
 }
 
 a {
@@ -44,92 +69,125 @@ a.install-link {
 }
 
 button {
-   border: 0px;
-   outline: 0px;
+   border: 0;
+   outline: 0;
    color: white;
-   background: rgba(125, 79, 158, 0.85);
-   padding: 13px 22px;
+   background: #8A5AAB;
+   padding: 1.2vh 3.5vh;
+   margin: auto;
    text-align: center;
-   font-size: 17px;
-   font-weight: 300;
+   font-family: 'Open Sans', Arial, sans-serif;
+   font-size: 2.2vh;
+   font-weight: 600;
    cursor: pointer;
-   opacity: 0.9;
-   display: block
+   display: block;
+   box-shadow: 0 0.5vh 1vh rgba(0, 0, 0, 0.2);
+   transition: box-shadow 0.1s ease-in-out;
 }
 
 button:hover {
-   opacity: 1
+   box-shadow: none;
+}
+
+button:active {
+   box-shadow: 0 0 0 0.5vh white inset;
+}
+
+#addon {
+   width: 40vh;
+   margin: auto;
 }
 
 .logo {
-   max-width: 300px;
-   float: left;
-   margin: 20px
+   height: 14vh;
+   width: 14vh;
+   margin: auto;
+   margin-bottom: 3vh;
+}
+
+.logo img {
+   width: 100%;
+}
+
+.name, .version {
+   display: inline-block;
+   vertical-align: top;
 }
 
 .name {
-   float: left
+   line-height: 5vh;
 }
 
 .version {
-   float: right
+   position: absolute;
+   line-height: 5vh;
+   margin-left: 1vh;
+   opacity: 0.8;
 }
 
-.provides,
-.gives,
-.description {
-   clear: both
+.contact {
+   position: absolute;
+   left: 0;
+   bottom: 4vh;
+   width: 100%;
+   text-align: center;
 }
 
-.best {
-   margin-bottom: 30px
+.contact a {
+   font-size: 1.4vh;
+   font-style: italic;
 }
 
-.best img {
-   width: 60px
+.separator {
+   margin-bottom: 4vh;
 }
 `
 
-
 function landingTemplate(manifest) {
-	const background = manifest.background || 'https://dl.strem.io/addon-background.jpg'
-	const logo = manifest.logo || 'https://dl.strem.io/addon-logo.png'
-	const contactHTML = manifest.contactEmail ?
-		`<h3 class="contact">
-		    To contact add-on creator:
-		    <a href="mailto:${manifest.contactEmail}">${manifest.contactEmail}</a>
-		</h3>` : ''
+   const background = manifest.background || 'https://dl.strem.io/addon-background.jpg'
+   const logo = manifest.logo || 'https://dl.strem.io/addon-logo.png'
+   const contactHTML = manifest.contactEmail ?
+      `<div class="contact">
+         <p>Contact ${manifest.name} creator:</p>
+         <a href="mailto:${manifest.contactEmail}">${manifest.contactEmail}</a>
+		</div>` : ''
 
-	const stylizedTypes = manifest.types
-		.map(t => t[0].toUpperCase() + t.slice(1) + (t !=='series' ? 's' : ''))
-		.join(', ')
+   const stylizedTypes = manifest.types
+      .map(t => t[0].toUpperCase() + t.slice(1) + (t !== 'series' ? 's' : ''))
 
-	return `
+   return `
 	<!DOCTYPE html>
 	<html style="background-image: url(${background});">
 
 	<head>
-	    <meta charset="utf-8">
-	    <title>${manifest.name} - Stremio Addon</title>
-	    <style>${STYLESHEET}</style>
-	    <link rel="shortcut icon" href="${logo}" type="image/x-icon">
+      <meta charset="utf-8">
+      <title>${manifest.name} - Stremio Addon</title>
+      <style>${STYLESHEET}</style>
+      <link rel="shortcut icon" href="${logo}" type="image/x-icon">
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=swap" rel="stylesheet">
 	</head>
 
 	<body>
-		<div id="addon">
-			<img class="logo" src="${logo}">
-			<h3 class="name"><b>${manifest.name}</b></h3>
-			<h3 class="version"><i>${manifest.version || '0.0.0'}</i></h3>
-			<h3 class="description">${manifest.description || ''}</h3>
+      <div id="addon">
+         <div class="logo">
+            <img src="${logo}">
+         </div>
+         <h1 class="name">${manifest.name}</h1>
+         <h2 class="version">${manifest.version || '0.0.0'}</h2>
+         <h2 class="description">${manifest.description || ''}</h2>
 
-			<h2 class="gives">This add-on has:</h2>
-			<ul>
-				<li>More ${stylizedTypes}</li>
-			</ul>
+         <div class="separator"></div>
 
-			<a id="installLink" class="install-link" href="#">
-				<button name="Install">Install Add-on</button>
-			</a>
+         <h3 class="gives">This addon has more :</h3>
+         <ul>
+            ${stylizedTypes.map(t => `<li>${t}</li>`).join('')}
+         </ul>
+
+         <div class="separator"></div>
+
+         <a id="installLink" class="install-link" href="#">
+            <button name="Install">INSTALL</button>
+         </a>
 			${contactHTML}
 		</div>
 		<script>
