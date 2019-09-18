@@ -150,22 +150,22 @@ function landingTemplate(manifest) {
       `<div class="contact">
          <p>Contact ${manifest.name} creator:</p>
          <a href="mailto:${manifest.contactEmail}">${manifest.contactEmail}</a>
-		</div>` : ''
+      </div>` : ''
 
    const stylizedTypes = manifest.types
       .map(t => t[0].toUpperCase() + t.slice(1) + (t !== 'series' ? 's' : ''))
 
    return `
-	<!DOCTYPE html>
-	<html style="background-image: url(${background});">
+   <!DOCTYPE html>
+   <html style="background-image: url(${background});">
 
-	<head>
+   <head>
       <meta charset="utf-8">
       <title>${manifest.name} - Stremio Addon</title>
       <style>${STYLESHEET}</style>
       <link rel="shortcut icon" href="${logo}" type="image/x-icon">
       <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=swap" rel="stylesheet">
-	</head>
+   </head>
 
 	<body>
       <div id="addon">
@@ -188,11 +188,11 @@ function landingTemplate(manifest) {
          <a id="installLink" class="install-link" href="#">
             <button name="Install">INSTALL</button>
          </a>
-			${contactHTML}
-		</div>
-		<script>
-			installLink.href = 'stremio://' + window.location.host + '/manifest.json'
-		</script>
+         ${contactHTML}
+      </div>
+      <script>
+         installLink.href = 'stremio://' + window.location.host + '/manifest.json'
+      </script>
 	</body>
 
 	</html>`
