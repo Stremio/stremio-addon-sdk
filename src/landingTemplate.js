@@ -144,18 +144,18 @@ button:active {
 `
 
 function landingTemplate(manifest) {
-   const background = manifest.background || 'https://dl.strem.io/addon-background.jpg'
-   const logo = manifest.logo || 'https://dl.strem.io/addon-logo.png'
-   const contactHTML = manifest.contactEmail ?
-      `<div class="contact">
+	const background = manifest.background || 'https://dl.strem.io/addon-background.jpg'
+	const logo = manifest.logo || 'https://dl.strem.io/addon-logo.png'
+	const contactHTML = manifest.contactEmail ?
+		`<div class="contact">
          <p>Contact ${manifest.name} creator:</p>
          <a href="mailto:${manifest.contactEmail}">${manifest.contactEmail}</a>
       </div>` : ''
 
-   const stylizedTypes = manifest.types
-      .map(t => t[0].toUpperCase() + t.slice(1) + (t !== 'series' ? 's' : ''))
+	const stylizedTypes = manifest.types
+		.map(t => t[0].toUpperCase() + t.slice(1) + (t !== 'series' ? 's' : ''))
 
-   return `
+	return `
    <!DOCTYPE html>
    <html style="background-image: url(${background});">
 
