@@ -32,17 +32,16 @@ function getRouter({ manifest , get }) {
 					staleError: 'stale-if-error'
 				}
 
-				let cacheControl = ''
-
-				for (let prop in cacheHeaders)
-					if (resp[prop]) {
-						if (resp[prop] > 365 * 24 * 60 * 60)
-							console.warn(prop + ' set to more then 1 year, be advised that cache times are in seconds, not milliseconds.')
-						cacheControl += (cacheControl ? ', ' : '') + cacheHeaders[prop] + '=' + resp[prop]
-					}
+				const cacheControl = Object.keys(cacheHeaders).map(prop => {
+					const value = resp[prop]
+					if (!value) return false
+					if (value > 365 * 24 * 60 * 60)
+						console.warn(`${prop} set to more then 1 year, be advised that cache times are in seconds, not milliseconds.`)
+					return cacheHeaders[prop] + '=' + value
+				}).filter(val => !!val).join(', ')
 
 				if (cacheControl)
-					res.setHeader('Cache-Control', cacheControl + ', public')
+					res.setHeader('Cache-Control', `${cacheControl}, public`)
 
 				res.setHeader('Content-Type', 'application/json; charset=utf-8')
 
