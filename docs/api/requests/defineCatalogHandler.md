@@ -11,7 +11,13 @@ This method handles catalog requests, including search.
 
 A promise that resolves to an object containing `{ metas: [] }` with an array of [Meta Preview Object](../responses/meta.md#meta-preview-object)
 
-The resolving object can also include `{ cacheMaxAge: int }` (in seconds) which sets the `Cache-Control` header to `max-age=$cacheMaxAge` and overwrites the global cache time set in `serveHTTP` [options](../../README.md#servehttpaddoninterface-options).
+The resolving object can also include the following cache related properties:
+
+- `{ cacheMaxAge: int }` (in seconds) which sets the `Cache-Control` header to `max-age=$cacheMaxAge` and overwrites the global cache time set in `serveHTTP` [options](../../README.md#servehttpaddoninterface-options)
+
+- `{ staleRevalidate: int }` (in seconds) which sets the `Cache-Control` header to `stale-while-revalidate=$staleRevalidate`
+
+- `{ staleError: int }` (in seconds) which sets the `Cache-Control` header to `stale-if-error=$staleError`
 
 
 ## Request Parameters
