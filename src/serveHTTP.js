@@ -9,7 +9,12 @@ function serveHTTP(addonInterface, opts = {}) {
 	if (addonInterface.constructor.name !== 'AddonInterface') {
 		throw new Error('first argument must be an instance of AddonInterface')
 	}
+
 	const cacheMaxAge = opts.cacheMaxAge || opts.cache
+
+	if (cacheMaxAge > 365 * 24 * 60 * 60)
+		console.warn('cacheMaxAge set to more then 1 year, be advised that cache times are in seconds, not milliseconds.')
+
 	const app = express()
 	app.use((_, res, next) => {
 		if (cacheMaxAge && !res.getHeader('Cache-Control'))
