@@ -26,7 +26,26 @@ function getRouter({ manifest , get }) {
 		res.setHeader('Content-Type', 'application/json; charset=utf-8')
 		get(resource, type, id, extra)
 			.then(resp => {
-				if (resp.cacheMaxAge) res.setHeader('Cache-Control', 'max-age='+resp.cacheMaxAge+', public')
+
+				let cacheHeaders = {
+					cacheMaxAge: 'max-age',
+					staleRevalidate: 'stale-while-revalidate',
+					staleError: 'stale-if-error'
+				}
+
+				const cacheControl = Object.keys(cacheHeaders).map(prop => {
+					const value = resp[prop]
+					if (!value) return false
+					if (value > 365 * 24 * 60 * 60)
+						console.warn(`${prop} set to more then 1 year, be advised that cache times are in seconds, not milliseconds.`)
+					return cacheHeaders[prop] + '=' + value
+				}).filter(val => !!val).join(', ')
+
+				if (cacheControl)
+					res.setHeader('Cache-Control', `${cacheControl}, public`)
+
+				res.setHeader('Content-Type', 'application/json; charset=utf-8')
+
 				res.end(JSON.stringify(resp))
 			})
 			.catch(err => {
