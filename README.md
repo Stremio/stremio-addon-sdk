@@ -121,7 +121,13 @@ After you've deployed publically, in order to get your add-on to show in Stremio
 
 You can optionaly deploy your add-on to IPFS, this is recommended as the P2P network of IPFS can greatly increase an add-on's longevity.
 
-In order to use the IPFS features of `stremio-addon-sdk`, you will need to also set [stremio-addon-ipfs](https://github.com/Stremio/stremio-addon-ipfs) which includes all the IPFS specific dependencies.
+In order to use the IPFS features of `stremio-addon-sdk`, you will need to also:
+
+- have the developer dependencies of this module installed (`npm install --save-dev`)
+
+- use a node.js version of at least v11.10.0
+
+- `npm install stremio-addon-ipfs` this module is required because it includes all IPFS specific dependencies
 
 
 #### IPFS Supernode
