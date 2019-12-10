@@ -1,13 +1,16 @@
 #!/usr/bin/env node
 
-const WebSocket = require('ws')
 const http = require('http')
-const ipfsClient = require('ipfs-http-client')
-const HDKey = require('hdkey')
+const cors = require('cors')
 const crypto = require('crypto')
 const qs = require('querystring')
-const turbo = require('turbo-json-parse')
-const cors = require('cors')
+
+const deps = require('stremio-addon-ipfs')
+
+const WebSocket = deps('ws')
+const ipfsClient = deps('ipfs-http-client')
+const HDKey = deps('hdkey')
+const turbo = deps('turbo-json-parse')
 const parseStaleAfter = turbo(
 	{ type: 'object', properties: { staleAfter: { type: 'number' } } },
 	{ buffer: true, ordered: true, validate: false, partial: true }
@@ -64,7 +67,15 @@ async function onMessage(socket, xpub, msg) {
 }
 
 async function readCachedMsgs() {
-	const entries = await ipfs.files.ls(`/${IPFS_MSG_PATH}`)
+	let entries = []
+	try {
+		entries = await ipfs.files.ls(`/${IPFS_MSG_PATH}`)
+	} catch(e) {
+		if (e.statusCode === 500 && e.message.startsWith('file does not exist'))
+			console.log('No cached messages found.')
+		else
+			throw e
+	}
 	for (let entry of entries) {
 		// @NOTE: `long: true` does not work
 		// if (entry.type !== 'file') continue

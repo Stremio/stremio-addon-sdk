@@ -117,18 +117,34 @@ You can check our [list of recommended hosting providers for Node.js](./docs/dep
 After you've deployed publically, in order to get your add-on to show in Stremio (through the [public Add-on collection](https://api.strem.io/addonscollection.json)), you need to use [publishToCentral](./docs/README.md#publishtocentralurl) or publish [manually through the UI](https://stremio.github.io/stremio-publish-addon/index.html).
 
 
-### P2P deployemnt
+### IPFS deployment
 
-#### Commands
+You can optionaly deploy your add-on to IPFS, this is recommended as the P2P network of IPFS can greatly increase an add-on's longevity.
 
-`./cli/supernode.js`` - runs a server that facilitates serving addons from IPFS
+In order to use the IPFS features of `stremio-addon-sdk`, you will need to also set [stremio-addon-ipfs](https://github.com/Stremio/stremio-addon-ipfs) which includes all the IPFS specific dependencies.
 
-#### Environment variables
 
-* `PORT`: port to listen on (only applies to supernode)
+#### IPFS Supernode
 
-* `IPFS_MULTIADDR`: Multiaddr of the IPFS daemon; default value is `/ip4/127.0.0.1/tcp/5001`
+`./cli/supernode.js` - runs a server that facilitates serving addons from IPFS
 
+Environment variables:
+
+- `PORT`: port to listen on (only applies to supernode)
+
+- `IPFS_MULTIADDR`: Multiaddr of the IPFS daemon; default value is `/ip4/127.0.0.1/tcp/5001`
+
+
+#### IPFS Publish
+
+`./cli/publish.js <addonUrl>` - publish the add-on at the provided transport URL
+
+Options:
+
+- `--help`: Show help
+- `--version`: Show version number
+- `--supernode`: Address of the supernode (default: "ws://127.0.0.1:14011")
+- `--restoreFromMnemonic`: Restore publishing identity from BIP39 mnemonic
 
 
 ## Examples & tutorials
