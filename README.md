@@ -123,7 +123,7 @@ You can optionaly deploy your add-on to IPFS, this is recommended as the P2P net
 
 In order to use the IPFS features of `stremio-addon-sdk`, you will need to also:
 
-- have the developer dependencies of this module installed (`npm install --save-dev`)
+- have the developer dependencies of this module installed (or use `npm install stremio-addon-client`)
 
 - use a node.js version of at least v11.10.0
 
