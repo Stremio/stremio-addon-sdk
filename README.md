@@ -141,8 +141,8 @@ Environment variables:
 
 Options:
 
-- `--help`: Show help (boolean)
-- `--version`: Show version number (boolean)
+- `--help`: Show help
+- `--version`: Show version number
 - `--supernode`: Address of the supernode (default: "ws://127.0.0.1:14011")
 - `--restoreFromMnemonic`: Restore publishing identity from BIP39 mnemonic
 
