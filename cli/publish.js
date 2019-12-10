@@ -6,7 +6,6 @@ const chalk = require('chalk')
 const assert = require('assert')
 const crypto = require('crypto')
 const mkdirp = require('mkdirp')
-const { detectFromURL, stringifyRequest } = require('stremio-addon-client')
 
 const deps = require('stremio-addon-ipfs')
 
@@ -17,6 +16,7 @@ const throttle = deps('lodash.throttle')
 const HDKey = deps('hdkey')
 const bip39 = deps('bip39')
 const yargs = deps('yargs')
+const { detectFromURL, stringifyRequest } = deps('stremio-addon-client')
 
 const CACHING_ROUNDING = 10 * 60 * 1000
 const SCRAPE_CONCURRENCY = 10
