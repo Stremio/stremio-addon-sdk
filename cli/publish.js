@@ -1,20 +1,22 @@
 #!/usr/bin/env node
-
-const WsClient = require('ws-reconnect')
-const { detectFromURL, stringifyRequest } = require('stremio-addon-client')
-const assert = require('assert')
-const ipfsClient = require('ipfs-http-client')
-const PQueue = require('p-queue').default
-const throttle = require('lodash.throttle')
-const crypto = require('crypto')
-const HDKey = require('hdkey')
-const bip39 = require('bip39')
-const mkdirp = require('mkdirp')
 const os = require('os')
-const path = require('path')
 const fs = require('fs')
+const path = require('path')
 const chalk = require('chalk')
-const yargs = require('yargs')
+const assert = require('assert')
+const crypto = require('crypto')
+const mkdirp = require('mkdirp')
+const { detectFromURL, stringifyRequest } = require('stremio-addon-client')
+
+const deps = require('stremio-addon-ipfs')
+
+const WsClient = deps('ws-reconnect')
+const ipfsClient = deps('ipfs-http-client')
+const PQueue = deps('p-queue').default
+const throttle = deps('lodash.throttle')
+const HDKey = deps('hdkey')
+const bip39 = deps('bip39')
+const yargs = deps('yargs')
 
 const CACHING_ROUNDING = 10 * 60 * 1000
 const SCRAPE_CONCURRENCY = 10
