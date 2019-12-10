@@ -23,7 +23,8 @@
     "url": "https://github.com/Stremio/stremio-addon-sdk/issues"
   },
   "bin": {
-    "addon-bootstrap": "./cli/bootstrap.js"
+    "addon-bootstrap": "./cli/bootstrap.js",
+    "addon-supernode": "./cli/supernode.js"
   },
   "homepage": "https://github.com/Stremio/stremio-addon-sdk#readme",
   "dependencies": {
@@ -39,7 +40,7 @@
   },
   "devDependencies": {
     "eslint": "^5.13.0",
-    "stremio-addon-client": "git://github.com/Stremio/stremio-addon-client.git#v1.1.0",
+    "stremio-addon-client": "git://github.com/Stremio/stremio-addon-client.git#v1.16.1",
     "supertest": "^3.3.0",
     "tape": "^4.9.0"
   }
