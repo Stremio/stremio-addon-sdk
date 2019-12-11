@@ -10,6 +10,7 @@ In order for Stremio to display add-on data, the add-on must first supply the re
 | **metadata** | [defineMetaHandler](./requests/defineMetaHandler.md) | [meta](./responses/meta.md) | Detailed description of meta item. This description is displayed when the user selects an item form the catalog. |
 | **streams** | [defineStreamHandler](./requests/defineStreamHandler.md) | [stream](./responses/stream.md) | Tells Stremio how to obtain the media content. It may be torrent info hash, HTTP URL, etc |
 | **subtitles** | [defineSubtitlesHandler](./requests/defineSubtitlesHandler.md) | [subtitles](./responses/subtitles.md) | Subtitles resource for the chosen media. |
+| **addon_catalog** | [defineResourceHandler](./requests/defineResourceHandler.md) | [addon_catalog](./responses/addon_catalog.md) | A catalog (list) of other add-on manifests. |
 
 
 The structure of those resources in Stremio is as follows:

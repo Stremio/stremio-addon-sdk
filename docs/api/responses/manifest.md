@@ -20,7 +20,7 @@ Valid properties are:
 
 **NOTE:** In order to understand the next properties better, please check out the [protocol documentation](../../protocol.md) and keep in mind requests to add-ons are formed in the format of `/{resource}/{type}/{id}`
 
-``resources`` - **required** - array of objects or strings, supported resources - for example ``["catalog", "meta", "stream", "subtitles"]``, resources can also be added as objects instead of strings, for additional details on how they should be requested, example: `{ "name": "stream", "type": "movie", "idPrefixes": [ "tt" ] }` (see the **ADVANCED** note)
+``resources`` - **required** - array of objects or strings, supported resources - for example ``["catalog", "meta", "stream", "subtitles", "addon_catalog"]``, resources can also be added as objects instead of strings, for additional details on how they should be requested, example: `{ "name": "stream", "type": "movie", "idPrefixes": [ "tt" ] }` (see the **ADVANCED** note)
 
 ``types`` - **required** - array of strings, supported types, from all the [``Content Types``](./content.types.md). If you wish to provide different sets of types for different resources, see the **ADVANCED** note.
 
@@ -81,6 +81,18 @@ The format of `extra` is an array of `{ name, isRequired, options, optionsLimit 
 For a complete list of extra catalog properties that Stremio pays attention to, check the [Catalog Handler Definition](../requests/defineCatalogHandler.md)
 
 If you're looking for the legacy way of setting extra properties (also called "short"), [check out the old docs](https://github.com/Stremio/stremio-addon-sdk/blob/b11bd517f8ce3b24a843de320ec8ac193611e9a0/docs/api/responses/manifest.md#catalog-format)
+
+## Add-on catalogs
+
+``addonCatalogs`` - _optional_ - array of [``Catalog objects``](#addon-catalog-format), a list of other add-on manifests, this can be used for an add-on to act just as a catalog of other add-ons.
+
+### Add-on Catalog format
+
+``type`` - **required** - string, this is the content type of the catalog
+
+``id`` - **required** - string, the id of the catalog, can be any unique string describing the catalog (unique per add-on, as an add-on can have many catalogs), for example: if the catalog name is "Favourite Youtube Videos", the id can be `"fav_youtube_videos"`
+
+``name`` - **required** - string, human readable name of the catalog
 
 ## Other metadata
 
