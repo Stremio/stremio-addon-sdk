@@ -103,6 +103,13 @@ Handles subtitle requests.
 
 [Subtitle Request Parameters and Example](./api/requests/defineSubtitlesHandler.md)
 
+
+#### `builder.defineResourceHandler('addon_catalog', function handler(args) { })`
+
+Handles add-on catalog requests, this can be used by an add-on to just send a list of other add-on manifests.
+
+[Add-on Catalog Request Parameters and Example](./api/requests/defineResourceHandler.md)
+
 **The JSON format of the response to these resources is described [here](./api/responses).**
 
 
