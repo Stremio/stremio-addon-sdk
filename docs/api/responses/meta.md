@@ -42,6 +42,10 @@ Used as a response for [`defineMetaHandler`](../requests/defineMetaHandler.md)
 
 ``website`` - _optional_ - string, URL to official website
 
+``behaviorHints`` - _all are optional_ - object, supports the properties:
+
+- ``defaultVideo`` - boolean, set to a [``Video Object``](#video-object) id in order to open the Detail page directly to that video's streams
+
 
 #### Link object
 
