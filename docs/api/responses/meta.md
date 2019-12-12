@@ -53,7 +53,7 @@ Used as a response for [`defineMetaHandler`](../requests/defineMetaHandler.md)
 
 ``category`` - **required** - string, any unique category name, links are grouped based on their category, the following categories are reserved and should not be used: `imdb`, `share`, `similar`
 
-``url`` - **required** - string, an external URL or [``Meta Links``](./meta.links.md)
+``url`` - **required** - string, an external URL or [``Meta Link``](./meta.links.md)
 
 
 #### Video object
