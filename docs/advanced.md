@@ -6,7 +6,7 @@
 - [Getting Metadata from Cinemeta](#getting-metadata-from-cinemeta)
 - [Resolving Movie / Series names to IMDB ID](#resolving-movie--series-names-to-imdb-id)
 - [Using User Data in Add-ons](#using-user-data-in-add-ons)
-- [Using Internal Links in Add-ons](#using-internal-links-in-add-ons)
+- [Using Deep Links in Add-ons](#using-deep-links-in-add-ons)
 - [Proxying Other Add-ons](#proxying-other-add-ons)
 - [Crawler (Scraping) Add-ons](#crawler--scraping-add-ons)
 
@@ -370,9 +370,9 @@ For working examples, you can check these add-ons:
 Another use case for passing user data through the Add-on Repository URL is creating proxy add-ons. This case presumes that the id of a different add-on is sent in the Add-on Repository URL, then the proxy add-on connects to the add-on of which the id it got, requests streams, passes the stream url to some API (for example Real Debrid, Premiumize, etc) to get a different streaming url that it then responds with for Stremio.
 
 
-## Using Internal Links in Add-ons
+## Using Deep Links in Add-ons
 
-Stremio supports [internal links](./internal-links.md), such links can also be used in add-ons to link internally to Stremio.
+Stremio supports [deep links](./deep-links.md), such links can also be used in add-ons to link internally to Stremio.
 
 First, set the `stream` resource in your [manifest](./api/responses/manifest.md):
 - `resources: ["stream"]`
