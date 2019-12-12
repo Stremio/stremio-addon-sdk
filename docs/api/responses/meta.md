@@ -28,7 +28,7 @@ Used as a response for [`defineMetaHandler`](../requests/defineMetaHandler.md)
 
 ``released`` - _optional_ - string, ISO 8601, initial release date; for movies, this is the cinema debut, e.g. "2010-12-06T05:00:00.000Z"
 
-``links`` - _optional_ - array of [``Link objects``](#link-object), can be used to link to internal pages of Stremio, example usage: array of actor / genre / director links
+``links`` - _optional_ - array of [``Meta Link objects``](#meta-link-object), can be used to link to internal pages of Stremio, example usage: array of actor / genre / director links
 
 ``videos`` - _optional_ - array of [``Video objects``](#video-object), used for ``channel`` and ``series``; if you do not provide this (e.g. for ``movie``), Stremio assumes this meta item has one video, and it's ID is equal to the meta item `id`
 
@@ -47,13 +47,13 @@ Used as a response for [`defineMetaHandler`](../requests/defineMetaHandler.md)
 - ``defaultVideo`` - boolean, set to a [``Video Object``](#video-object) id in order to open the Detail page directly to that video's streams
 
 
-#### Link object
+#### Meta Link object
 
 ``name`` - **required** - string, human readable name for the link
 
 ``category`` - **required** - string, any unique category name, links are grouped based on their category, the following categories are reserved and should not be used: `imdb`, `share`, `similar`
 
-``url`` - **required** - string, an external URL or [``Internal Links``](./internal.links.md)
+``url`` - **required** - string, an external URL or [``Meta Links``](./meta.links.md)
 
 
 #### Video object

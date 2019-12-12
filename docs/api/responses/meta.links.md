@@ -1,6 +1,6 @@
-## Internal Links
+## Meta Links
 
-**Stremio supports the following internal links as of Dec 2019:**
+**Stremio supports the following meta links as of Dec 2019:**
 
 * ``stremio:///search?search=${query}`` - opens the Search page with the set `${query}`
 
@@ -10,4 +10,4 @@
 
 * ``stremio:///metadetail/${type}/${id}/${videoId}`` - opens the Detail page with Streams open for the [``Video``](./meta.md#video-object) with the id `${videoId}` for the [``Meta Object``](./meta.md) with the id `${id}` and the type `${type}`
 
-**If you think Stremio should add another internal link, feel free to open an issue on this repository.**
+**If you think Stremio should add another meta link, feel free to open an issue on this repository.**

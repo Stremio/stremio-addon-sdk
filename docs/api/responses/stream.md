@@ -8,7 +8,7 @@ Used as a response for [`defineStreamHandler`](../requests/defineStreamHandler.m
 * ``ytId`` - string, youtube video ID, plays using the built-in YouTube player
 * ``infoHash`` - string, info hash of a torrent file, and `fileIdx` is the index of the video file within the torrent; **if fileIdx is not specified, the largest file in the torrent will be selected**
 * ``fileIdx`` - number, the index of the video file within the torrent (from `infoHash`); **if fileIdx is not specified, the largest file in the torrent will be selected**
-* ``externalUrl`` - string, [``Internal Link``](./internal.links.md) or an external URL to the video, which should be opened in a browser (webpage), e.g. link to Netflix
+* ``externalUrl`` - string, [``Meta Link``](./meta.links.md) or an external URL to the video, which should be opened in a browser (webpage), e.g. link to Netflix
 
 ### Additional properties to provide information / behaviour flags
 
