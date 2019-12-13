@@ -119,7 +119,7 @@ After you've deployed publically, in order to get your add-on to show in Stremio
 
 ### IPFS deployment
 
-You can optionaly deploy your add-on to IPFS, this is recommended as the P2P network of IPFS can greatly increase an add-on's longevity.
+You can optionally deploy your add-on to IPFS, which is very similar to a P2P Torrent network. It is recommended to publish to IPFS to ensure addon longevity and your privacy.
 
 In order to use the IPFS features of `stremio-addon-sdk`, you will need to also:
 
@@ -127,8 +127,12 @@ In order to use the IPFS features of `stremio-addon-sdk`, you will need to also:
 
 - `npm install stremio-addon-ipfs` this module is required because it includes all IPFS specific dependencies
 
+- IPFS installed locally, see [this page](https://docs.ipfs.io/guides/guides/install/) for details
+
 
 #### IPFS Supernode
+
+Supernodes will act as the seeds to your addon, handling it's requests, caching the data and serving it to others too. You can run a Supernode locally, deploy it to a remote server or use one that is already deployed somewhere.
 
 `./cli/supernode.js` - runs a server that facilitates serving addons from IPFS
 
@@ -140,6 +144,8 @@ Environment variables:
 
 
 #### IPFS Publish
+
+Publishing to IPFS requires a Supernode, if one is not given, then it will presume that a Supernode is running locally and attempt to connect to it.
 
 `./cli/publish.js <addonUrl>` - publish the add-on at the provided transport URL
 
