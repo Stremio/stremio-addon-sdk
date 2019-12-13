@@ -51,7 +51,7 @@ Used as a response for [`defineMetaHandler`](../requests/defineMetaHandler.md)
 
 ``name`` - **required** - string, human readable name for the link
 
-``category`` - **required** - string, any unique category name, links are grouped based on their category, the following categories are reserved and should not be used: `imdb`, `share`, `similar`
+``category`` - **required** - string, any unique category name, links are grouped based on their category, some recommended categories are: `actor`, `director`, `writer`, while the following categories are reserved and should not be used: `imdb`, `share`, `similar`
 
 ``url`` - **required** - string, an external URL or [``Meta Link``](./meta.links.md)
 
