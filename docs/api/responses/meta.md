@@ -2,7 +2,7 @@
 
 Used as a response for [`defineMetaHandler`](../requests/defineMetaHandler.md)
 
-``id`` - **required** - string, universal identifier; you may use a [prefix](./manifest.md##filtering-properties) unique to your add-on, for example `yt_id:UCrDkAvwZum-UTjHmzDI2iIw`
+``id`` - **required** - string, universal identifier; you may use a [prefix](./manifest.md##filtering-properties) unique to your addon, for example `yt_id:UCrDkAvwZum-UTjHmzDI2iIw`
 
 ``type`` - **required** - string, type of the content; e.g. `movie`, `series`, `channel`, `tv` (see [Content Types](./content.types.md))
 
@@ -66,9 +66,9 @@ Used as a response for [`defineMetaHandler`](../requests/defineMetaHandler.md)
 
 ``thumbnail`` - _optional_ - string, URL to png of the video thumbnail, in the video's aspect ratio, max file size 5kb
 
-``streams`` - _optional_ - array of [``Stream Objects``](./stream.md), in case you can return links to streams while forming meta response, **you can pass and array of [``Stream Objects``](./stream.md)** to point the video to a HTTP URL, BitTorrent, YouTube or any other stremio-supported transport protocol; note that this is exclsuive: passing `video.streams` means that **Stremio will not** request any streams from other add-ons for that video; if you return streams that way, it is still recommended to implement the `streams` resource
+``streams`` - _optional_ - array of [``Stream Objects``](./stream.md), in case you can return links to streams while forming meta response, **you can pass and array of [``Stream Objects``](./stream.md)** to point the video to a HTTP URL, BitTorrent, YouTube or any other stremio-supported transport protocol; note that this is exclsuive: passing `video.streams` means that **Stremio will not** request any streams from other addons for that video; if you return streams that way, it is still recommended to implement the `streams` resource
 
-``available`` - _optional_ - boolean, set to ``true`` to explicitly state that this video is available for streaming, from your add-on; no need to use this if you've passed ``stream``
+``available`` - _optional_ - boolean, set to ``true`` to explicitly state that this video is available for streaming, from your addon; no need to use this if you've passed ``stream``
 
 ``episode`` - _optional_ - number, episode number, if applicable
 
@@ -92,7 +92,7 @@ Used as a response for [`defineMetaHandler`](../requests/defineMetaHandler.md)
 }
 ```
 
-You can see a comprehensive example of how detailed Meta objects with videos are returned [here, on the Cinemeta add-on](https://v3-cinemeta.strem.io/meta/series/tt0386676/lastVideos=1.json)
+You can see a comprehensive example of how detailed Meta objects with videos are returned [here, on the Cinemeta addon](https://v3-cinemeta.strem.io/meta/series/tt0386676/lastVideos=1.json)
 
 ##### Video object - YouTube video example (channels)
 
@@ -112,7 +112,7 @@ This is a shorter variant of the previously described [Meta Object](#meta-object
 
 Used as a response for [`defineCatalogHandler`](../requests/defineCatalogHandler.md)
 
-``id`` - **required** - string, universal identifier; you may use a [prefix](./manifest.md##filtering-properties) unique to your add-on, for example `yt_id:UCrDkAvwZum-UTjHmzDI2iIw`
+``id`` - **required** - string, universal identifier; you may use a [prefix](./manifest.md##filtering-properties) unique to your addon, for example `yt_id:UCrDkAvwZum-UTjHmzDI2iIw`
 
 ``type`` - **required** - string, type of the content; e.g. `movie`, `series`, `channel`, `tv` (see [Content Types](./content.types.md))
 

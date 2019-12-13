@@ -58,7 +58,7 @@ Open a terminal window, go to your project's directory and simply write `now`, t
 
 ## 2. Use Now.sh CDN Caching
 
-It is important to set the `cacheMaxAge` parameter in the responses with the number of seconds you want the responses cached by Now.sh's CDN. Caching is important to reduce the number of requests and ensuring the longevity of your add-on.
+It is important to set the `cacheMaxAge` parameter in the responses with the number of seconds you want the responses cached by Now.sh's CDN. Caching is important to reduce the number of requests and ensuring the longevity of your addon.
 
 The `cacheMaxAge` parameter is documented for all [request handlers](../api/requests).
 
