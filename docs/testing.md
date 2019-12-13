@@ -1,6 +1,6 @@
-## Testing your Add-on
+## Testing your Addon
 
-To test your add-on, you will need to add the add-on manifest URL to a client.
+To test your addon, you will need to add the addon manifest URL to a client.
 
 There are currently two such clients that you can test with:
 
@@ -8,16 +8,16 @@ There are currently two such clients that you can test with:
 
 - Stremio Web Version
 
-**Note:** if you want to load an add-on by URL in Stremio, the URL must either be accessed on `127.0.0.1` or support HTTPS.
+**Note:** if you want to load an addon by URL in Stremio, the URL must either be accessed on `127.0.0.1` or support HTTPS.
 
 
 ### Starting/launching shortcuts
 
 If you're using the [`serveHTTP`](/docs/README.md#servehttpaddoninterface-options) method, there are two shortcuts that you can use:
 
-If you launch your add-on with `npm start -- --launch`, it will open a web version of Stremio with the add-on pre-installed.
+If you launch your addon with `npm start -- --launch`, it will open a web version of Stremio with the addon pre-installed.
 
-Another shortcut is to use `npm start -- --install`, which will open the desktop version of Stremio and a prompt to install the add-on.
+Another shortcut is to use `npm start -- --install`, which will open the desktop version of Stremio and a prompt to install the addon.
 
 
 ### Testing in Stremio App
@@ -29,12 +29,12 @@ Testing in Stremio is easy, simply [download Stremio](https://www.stremio.com/do
 
 Open the web version of Stremio at: https://app.strem.io/shell-v4.4/
 
-If you use `npm start -- --launch`, the add-on will launch at https://staging.strem.io, which is a staging (development) version of Stremio.
+If you use `npm start -- --launch`, the addon will launch at https://staging.strem.io, which is a staging (development) version of Stremio.
 
 **Note: Torrents will not work in Stremio's Web Version.**
 
 
-### How to Install Add-on in Stremio
+### How to Install Addon in Stremio
 
 Follow the 2 steps showcased in this image:
 

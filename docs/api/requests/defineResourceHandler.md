@@ -1,6 +1,6 @@
 ## defineResourceHandler
 
-This method currently handles add-on catalog requests. As opposed to `defineCatalogHandler()` which handles meta catalogs, this method handles catalogs of add-on manifests. This means that an add-on can be used to just pass a list of other add-ons that can be installed in Stremio.
+This method currently handles addon catalog requests. As opposed to `defineCatalogHandler()` which handles meta catalogs, this method handles catalogs of addon manifests. This means that an addon can be used to just pass a list of other addons that can be installed in Stremio.
 
 
 ### Arguments:
@@ -9,7 +9,7 @@ This method currently handles add-on catalog requests. As opposed to `defineCata
 
 ### Returns:
 
-A promise that resolves to an object containing `{ addons: [] }` with an array of [Catalog Add-on Object](../responses/addon_catalog.md)
+A promise that resolves to an object containing `{ addons: [] }` with an array of [Catalog Addon Object](../responses/addon_catalog.md)
 
 The resolving object can also include the following cache related properties:
 
@@ -52,4 +52,4 @@ builder.defineResourceHandler('addon_catalog', function(args) {
 })
 ```
 
-[Catalog Add-on Object Definition](../responses/addon_catalog.md)
+[Catalog Addon Object Definition](../responses/addon_catalog.md)
