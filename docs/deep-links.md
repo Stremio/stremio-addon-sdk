@@ -1,6 +1,6 @@
-# Stremio - Internal links
+# Stremio - Deep links
 
-Stremio supports two types of internal links through the `stremio://` protocol
+Stremio supports two types of deep links through the `stremio://` protocol
 
 **NOTE:** GitHub does not allow links with a custom protocol, so just copy-paste the examples links in your browser's address bar and press Enter.
 
