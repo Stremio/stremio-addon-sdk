@@ -140,7 +140,7 @@ Options:
 
 - `--help`: Show help
 - `--version`: Show version number
-- `--supernode`: Address of the supernode (defaults to a random remote supernode), if you are running the supernode locally, then use: "ws://127.0.0.1:14011"
+- `--supernode`: Address of the supernode (defaults to a random remote supernode), if you are running a supernode locally, then use: "ws://127.0.0.1:14011"
 - `--peer-id`: Peer ID of the supernode (typically found at `~/.ipfs/config`), setting this bypasses the requirement to port forward inbound port 4001
 - `--restoreFromMnemonic`: Restore publishing identity from BIP39 mnemonic
 
