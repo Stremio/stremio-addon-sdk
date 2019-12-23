@@ -29,8 +29,8 @@ const supernodes = {
 }
 
 function randomSupernode() {
-    const keys = Object.keys(supernodes)
-    return keys[Math.floor(Math.random()*keys.length)]
+	const keys = Object.keys(supernodes)
+	return keys[Math.floor(Math.random()*keys.length)]
 }
 
 const ipfs = ipfsClient(process.env.IPFS_MULTIADDR || '/ip4/127.0.0.1/tcp/5001')
@@ -137,8 +137,8 @@ async function connectSwarm(url, peerId) {
 	if ((parsedUrl || {}).hostname)
 		host = parsedUrl.hostname
 
-	if (!peerId && peerIds[host])
-		peerId = peerIds[host]
+	if (!peerId && supernodes[host])
+		peerId = supernodes[host]
 
 	if (host && peerId)
 		return ipfs.swarm.connect('/dns4/' + host + '/tcp/4001/ipfs/' + peerId)
