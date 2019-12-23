@@ -6,6 +6,7 @@ const chalk = require('chalk')
 const assert = require('assert')
 const crypto = require('crypto')
 const mkdirp = require('mkdirp')
+const urlParser = require('url')
 
 const deps = require('stremio-addon-ipfs')
 
@@ -23,12 +24,22 @@ const SCRAPE_CONCURRENCY = 10
 const { IPFS_WRITE_OPTS } = require('../src/p2p/consts')
 const getIdentifier = require('../src/p2p/getIdentifier')
 
+const supernodes = {
+	'baby-supernode.xyz': 'QmeJJbKadQhpNbit8MK9EwbPEzh4ogbBYAMxUhegV34o7c'
+}
+
+function randomSupernode() {
+    const keys = Object.keys(supernodes)
+    return keys[Math.floor(Math.random()*keys.length)]
+}
+
 const ipfs = ipfsClient(process.env.IPFS_MULTIADDR || '/ip4/127.0.0.1/tcp/5001')
 
 const { argv } = yargs
 	.usage('Usage $0 [options]')
 	.describe('supernode', 'Address of the supernode')
-	.default('supernode', 'ws://127.0.0.1:14011')
+	.default('supernode', 'wss://' + randomSupernode() + ':443')
+	.describe('peer-id', 'Peer ID of the supernode, optional, bypasses requirement to port forward inbound port 4001')
 	.describe('restoreFromMnemonic', 'Restore publishing identity from BIP39 mnemonic')
 	.command('$0 <addonUrl>', 'publish the addon at the provided transport URL')
 
@@ -117,6 +128,26 @@ async function publish(identifier, ws) {
 	return hash
 }
 
+async function connectSwarm(url, peerId) {
+
+	const parsedUrl = urlParser.parse(url)
+
+	let host
+
+	if ((parsedUrl || {}).hostname)
+		host = parsedUrl.hostname
+
+	if (!peerId && peerIds[host])
+		peerId = peerIds[host]
+
+	if (host && peerId)
+		return ipfs.swarm.connect('/dns4/' + host + '/tcp/4001/ipfs/' + peerId)
+	else if (host && ['127.0.0.1', 'localhost'].includes(host)) // ignore case of local supernode
+		return Promise.resolve()
+	else
+		return Promise.reject('Peer ID not set, required to connect to remote Supernode, otherwise port forwarding for inbound port 4001 is needed.')
+}
+
 async function scrapeItem(addon, req, queue, publish) {
 	const get = getWithCache.bind(null, addon)
 	const identifier = addon.manifest.id
@@ -189,9 +220,11 @@ async function init() {
 	const ws = await connectToSupernode(argv.supernode)
 	await ipfs.files.write(`/${identifier}/manifest.json`, Buffer.from(JSON.stringify(manifest)), IPFS_WRITE_OPTS)
 	await publish(identifier, ws)
+	await connectSwarm(argv.supernode, argv['peer-id'])
 
 	// Addon is now usable
-	const publishedUrl = `${argv.supernode.replace('ws://', 'http://')}/${getIdentifier(identifier, xpub)}/manifest.json`
+	const supernodeUrl = argv.supernode.replace('ws://', 'http://').replace('wss://', 'https://')
+	const publishedUrl = `${supernodeUrl}/${getIdentifier(identifier, xpub)}/manifest.json`
 	console.log(chalk.green('Published addon at:'), publishedUrl)
 	console.log(chalk.green.bold('\nPlease keep this running, as it will update the content dynamically based on new requests!\n'))
 
