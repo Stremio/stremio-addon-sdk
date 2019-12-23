@@ -130,6 +130,21 @@ In order to use the IPFS features of `stremio-addon-sdk`, you will need to also:
 - IPFS installed locally, see [this page](https://docs.ipfs.io/guides/guides/install/) for details
 
 
+#### IPFS Publish
+
+Publishing to IPFS requires a Supernode, if one is not given, then a random remote supernode will be selected automatically.
+
+`./cli/publish.js <addonUrl>` - publish the addon at the provided transport URL
+
+Options:
+
+- `--help`: Show help
+- `--version`: Show version number
+- `--supernode`: Address of the supernode (default: "ws://127.0.0.1:14011")
+- `--peer-id`: Peer ID of the supernode (typically found at `~/.ipfs/config`), setting this bypasses the requirement to port forward inbound port 4001
+- `--restoreFromMnemonic`: Restore publishing identity from BIP39 mnemonic
+
+
 #### IPFS Supernode
 
 Supernodes will act as the seeds to your addon, handling it's requests, caching the data and serving it to others too. You can run a Supernode locally, deploy it to a remote server or use one that is already deployed somewhere.
@@ -141,20 +156,6 @@ Environment variables:
 - `PORT`: port to listen on (only applies to supernode)
 
 - `IPFS_MULTIADDR`: Multiaddr of the IPFS daemon; default value is `/ip4/127.0.0.1/tcp/5001`
-
-
-#### IPFS Publish
-
-Publishing to IPFS requires a Supernode, if one is not given, then it will presume that a Supernode is running locally and attempt to connect to it.
-
-`./cli/publish.js <addonUrl>` - publish the addon at the provided transport URL
-
-Options:
-
-- `--help`: Show help
-- `--version`: Show version number
-- `--supernode`: Address of the supernode (default: "ws://127.0.0.1:14011")
-- `--restoreFromMnemonic`: Restore publishing identity from BIP39 mnemonic
 
 
 ## Examples & tutorials
