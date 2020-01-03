@@ -7,6 +7,7 @@ our streaming platform.
 
 Stremio currently supports Windows, macOS, Linux, Android and iOS.
 
+**Important: During the Addon Competition period (23 Dec 2019 - 27 Mar 2020), we will be available for chat support regarding addon development on a temporary Discord Server: [Chat Invite](https://discord.gg/cGwZ8TD)**
 
 ## Quick Example
 
