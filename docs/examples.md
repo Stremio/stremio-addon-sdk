@@ -13,6 +13,7 @@
 - [Python Addon Example & Tutorial](https://github.com/Stremio/addon-helloworld-python)
 - [Ruby Addon Example & Tutorial](https://github.com/Stremio/addon-helloworld-ruby)
 - [C# Addon Example](https://github.com/Stremio/addon-helloworld-csharp)
+- [Rust Addon Example Using Unofficial SDK](https://github.com/sleeyax/stremio-addon-sdk/tree/master/example-addon)
 - [Node.js Express Addon Example & Tutorial](https://github.com/Stremio/addon-helloworld-express)
 - [Node.js Express Addon Example Using User Data](./advanced.md)
 - [IMDB Lists - Node.js Express Addon Using User Data and Ajax Calls](https://github.com/jaruba/stremio-imdb-list)
