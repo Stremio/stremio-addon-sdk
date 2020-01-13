@@ -5,10 +5,10 @@
 - [Adding Stream Results to Cinemeta Items](#adding-stream-results-to-cinemeta-items)
 - [Getting Metadata from Cinemeta](#getting-metadata-from-cinemeta)
 - [Resolving Movie / Series names to IMDB ID](#resolving-movie--series-names-to-imdb-id)
-- [Using User Data in Addons](#using-user-data-in-add-ons)
-- [Using Deep Links in Addons](#using-deep-links-in-add-ons)
-- [Proxying Other Addons](#proxying-other-add-ons)
-- [Crawler (Scraping) Addons](#crawler--scraping-add-ons)
+- [Using User Data in Addons](#using-user-data-in-addons)
+- [Using Deep Links in Addons](#using-deep-links-in-addons)
+- [Proxying Other Addons](#proxying-other-addons)
+- [Crawler (Scraping) Addons](#crawler--scraping-addons)
 
 
 ## Understanding Catalogs
