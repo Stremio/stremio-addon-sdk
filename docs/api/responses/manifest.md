@@ -73,7 +73,7 @@ The format of `extra` is an array of `{ name, isRequired, options, optionsLimit 
 
 * `isRequired` - _optional_ - boolean, set to true if this property must always be passed
 
-* `options` - _optional_ - array of strings, possible values for this property; this is useful for things like genres, where you need the user to select from a pre-set list of options (e.g. `{ name: "genres", options: ["Action", "Comedy", "Drama"] }`); it's also useful if we want to specify a limited number of pages (for the `skip` parameter), e.g. `{ name: "skip", options: ["0", "100", "200"] }`
+* `options` - _optional_ - array of strings, possible values for this property; this is useful for things like genres, where you need the user to select from a pre-set list of options (e.g. `{ name: "genre", options: ["Action", "Comedy", "Drama"] }`); it's also useful if we want to specify a limited number of pages (for the `skip` parameter), e.g. `{ name: "skip", options: ["0", "100", "200"] }`
 
 * `optionsLimit` - _optional_ - number, the limit of values a user may select from the pre-set `options` list; by default, this is set to 1
 
