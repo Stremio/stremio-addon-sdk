@@ -69,7 +69,7 @@ Imports everything the SDK provides:
 
 #### `const builder = new addonBuilder(manifest)`
 
-Creates an  addon builder obbject with a given manifest. This will throw if the manifest is not valid.
+Creates an addon builder object with a given manifest. This will throw if the manifest is not valid.
 
 The manifest will determine the basic information of your addon (name, description, images), but most importantly, it will determine **when and how** your addon will be invoked by Stremio.
 
