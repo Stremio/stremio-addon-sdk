@@ -18,7 +18,7 @@ Used as a response for [`defineMetaHandler`](../requests/defineMetaHandler.md)
 
 ``logo`` - _optional_ - string, the logo shown on the stremio detail page ; encouraged if you want your content to look good; URL to PNG
 
-``description`` - _optional_ - string, a few sentances describing your content
+``description`` - _optional_ - string, a few sentences describing your content
 
 ``releaseInfo`` - _optional_ - string, year the content came out ; if it's ``series`` or ``channel``, use a start and end years split by a tide - e.g. ``"2000-2014"``. If it's still running, use a format like ``"2000-"``
 
@@ -66,7 +66,7 @@ Used as a response for [`defineMetaHandler`](../requests/defineMetaHandler.md)
 
 ``thumbnail`` - _optional_ - string, URL to png of the video thumbnail, in the video's aspect ratio, max file size 5kb
 
-``streams`` - _optional_ - array of [``Stream Objects``](./stream.md), in case you can return links to streams while forming meta response, **you can pass and array of [``Stream Objects``](./stream.md)** to point the video to a HTTP URL, BitTorrent, YouTube or any other stremio-supported transport protocol; note that this is exclsuive: passing `video.streams` means that **Stremio will not** request any streams from other addons for that video; if you return streams that way, it is still recommended to implement the `streams` resource
+``streams`` - _optional_ - array of [``Stream Objects``](./stream.md), in case you can return links to streams while forming meta response, **you can pass and array of [``Stream Objects``](./stream.md)** to point the video to a HTTP URL, BitTorrent, YouTube or any other stremio-supported transport protocol; note that this is exclusive: passing `video.streams` means that **Stremio will not** request any streams from other addons for that video; if you return streams that way, it is still recommended to implement the `streams` resource
 
 ``available`` - _optional_ - boolean, set to ``true`` to explicitly state that this video is available for streaming, from your addon; no need to use this if you've passed ``stream``
 
