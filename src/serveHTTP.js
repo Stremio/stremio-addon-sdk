@@ -1,7 +1,6 @@
 const express = require('express')
 const fs = require('fs')
 const path = require('path')
-const landingTemplate = require('./landingTemplate')
 const getRouter = require('./getRouter')
 const opn = require('opn')
 

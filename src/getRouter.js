@@ -1,7 +1,7 @@
 const Router = require('router')
 const qs = require('querystring')
 const cors = require('cors')
-const landingTemplate = require('./landingTemplate');
+const landingTemplate = require('./landingTemplate')
 
 function getRouter({ manifest , get }) {
 	const router = new Router()
