@@ -1,12 +1,20 @@
 const Router = require('router')
 const qs = require('querystring')
 const cors = require('cors')
+const landingTemplate = require('./landingTemplate');
 
 function getRouter({ manifest , get }) {
 	const router = new Router()
 
 	// CORS is mandatory for the addon protocol
 	router.use(cors())
+
+	// Show landing page at '/'
+	const landingHTML = landingTemplate(manifest)
+	router.get('/', function(req, res) {
+		res.setHeader('content-type', 'text/html')
+		res.end(landingHTML)
+	})
 
 	// Serve the manifest
 	const manifestBuf = JSON.stringify(manifest)

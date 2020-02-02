@@ -30,13 +30,6 @@ function serveHTTP(addonInterface, opts = {}) {
 		app.use(opts.static, express.static(location))
 	}
 
-	// landing page
-	const landingHTML = landingTemplate(addonInterface.manifest)
-	app.get('/', (_, res) => {
-		res.setHeader('content-type', 'text/html')
-		res.end(landingHTML)
-	})
-
 	const server = app.listen(opts.port)
 	return new Promise(function(resolve, reject) {
 		server.on('listening', function() {
