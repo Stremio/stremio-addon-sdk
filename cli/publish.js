@@ -220,6 +220,9 @@ async function init() {
 	const ws = await connectToSupernode(argv.supernode)
 	await ipfs.files.write(`/${identifier}/manifest.json`, Buffer.from(JSON.stringify(manifest)), IPFS_WRITE_OPTS)
 	await publish(identifier, ws)
+	// After `await connectToSupernode`, we are already connected to a Websocket, but in
+	// case of a reconnection, we have to publish again so that the supernode knows about us
+	ws.on('connect', () => publish(identifier, ws))
 	await connectSwarm(argv.supernode, argv['peer-id'])
 
 	// Addon is now usable
