@@ -192,7 +192,10 @@ async function startScrape(addon, publish) {
 
 async function connectToSupernode(url) {
 	return new Promise((resolve, reject) => {
-		const ws = new WsClient(url)
+		const ws = new WsClient(url, {
+			retryCount: -1, // infinite
+			reconnectInterval: 5 // seconds
+		})
 		const wsStatus = {}
 		ws.onError = err => wsStatus.lastErr = err
 		ws.on('connect', () => resolve(ws))
