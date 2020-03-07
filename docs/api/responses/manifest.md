@@ -104,7 +104,9 @@ If you're looking for the legacy way of setting extra properties (also called "s
 
 ``behaviorHints`` - _all are optional_ - object, supports the properties:
 
-- ``adult`` - boolean, if the addon includes adult content, default is `false`
+- ``adult`` - boolean, if the addon includes adult content, default is `false`; used to provide an adequate warning to the user
+
+- ``p2p`` - boolean, if the addon includes P2P content, such as BitTorrent, which may reveal the user's IP to other streaming parties; used to provide an adequate warning to the user
 
 
 ***TIP* - to implement sources where streams are geo-restricted, see [``Stream objects``](./stream.md) `geos`**
