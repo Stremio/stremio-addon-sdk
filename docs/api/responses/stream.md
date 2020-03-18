@@ -4,7 +4,7 @@ Used as a response for [`defineStreamHandler`](../requests/defineStreamHandler.m
 
 **One of the following must be passed** to point to the stream itself
 
-* ``url`` - string, direct URL to a video stream - http, https, rtmp protocols supported
+* ``url`` - string, direct URL to a video stream - must be an MP4 through https; others supported (other video formats over http/rtmp supported if you set `notWebReady`)
 * ``ytId`` - string, youtube video ID, plays using the built-in YouTube player
 * ``infoHash`` - string, info hash of a torrent file, and `fileIdx` is the index of the video file within the torrent; **if fileIdx is not specified, the largest file in the torrent will be selected**
 * ``fileIdx`` - number, the index of the video file within the torrent (from `infoHash`); **if fileIdx is not specified, the largest file in the torrent will be selected**
