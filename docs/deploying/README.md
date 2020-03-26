@@ -6,7 +6,7 @@ Stremio addons require hosting in order to be published. You will need a NodeJS 
 
 We recommend:
 
-- [Now.sh](https://zeit.co/) - [free with some restrictions](https://zeit.co/pricing)
+- [Now.sh](https://zeit.co/) - [free with some restrictions](https://zeit.co/pricing) - [ToS](https://zeit.co/terms)
 - [Glitch](https://glitch.com/) - [free with some restrictions](https://glitch.com/help/restrictions/)
 - [Heroku](https://www.heroku.com) - [free with some restrictions](https://www.heroku.com/pricing)
 - [cloudno.de](https://cloudno.de) - [free for up to 150k requests/month](https://cloudno.de/pricing)
