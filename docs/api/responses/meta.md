@@ -44,7 +44,7 @@ Used as a response for [`defineMetaHandler`](../requests/defineMetaHandler.md)
 
 ``behaviorHints`` - _all are optional_ - object, supports the properties:
 
-- ``defaultVideo`` - boolean, set to a [``Video Object``](#video-object) id in order to open the Detail page directly to that video's streams
+- ``defaultVideoId`` - string, set to a [``Video Object``](#video-object) id in order to open the Detail page directly to that video's streams
 
 
 #### Meta Link object
