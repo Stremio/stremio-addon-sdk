@@ -6,19 +6,19 @@ Stremio addons require hosting in order to be published. You will need a NodeJS 
 
 We recommend:
 
-- [Now.sh](https://zeit.co/) - [free with some restrictions](https://zeit.co/pricing) - [ToS](https://zeit.co/terms)
+- [Netlify](https://www.netlify.com/) - [free with some restrictions](https://www.netlify.com/pricing/)
 - [Glitch](https://glitch.com/) - [free with some restrictions](https://glitch.com/help/restrictions/)
 - [Heroku](https://www.heroku.com) - [free with some restrictions](https://www.heroku.com/pricing)
 - [cloudno.de](https://cloudno.de) - [free for up to 150k requests/month](https://cloudno.de/pricing)
 - [Evennode](https://www.evennode.com) - [free for 7 days trial](https://www.evennode.com/pricing)
-
-We hugely recomment using `Now.sh`, as it is extremely easy to use.
 
 You can also check this very comprehensive [guide by nodejs](https://github.com/nodejs/node-v0.x-archive/wiki/node-hosting).
 
 Stremio addons are deployed just like regular nodejs apps, so follow the nodejs instructions provided by your particular service provider.
 
 If you've built a great addon, and need help with hosting your addon, you are welcome to contact us at [addons@stremio.com](addons@stremio.com)
+
+**NOTE:** we used to recommend now.sh, but after getting reports from multiple developers of now.sh suspending accounts without good reason, we no longer recommend it
 
 ### Publishing to Stremio
 
@@ -28,5 +28,5 @@ If you are not using the Addon SDK to create your addon, you can publish your ad
 
 ### Guides
 
-- [Deploying to Now.sh with CloudFlare](./now.md)
 - [Deploying to Glitch.com with CloudFlare](./glitch.md)
+- [Deploying to Now.sh with CloudFlare](./now.md) - note that deploying to now.sh is no longer recommended, but this guide includes useful information applicable for other serverless platforms
