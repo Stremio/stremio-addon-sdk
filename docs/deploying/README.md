@@ -6,9 +6,9 @@ Stremio addons require hosting in order to be published. You will need a NodeJS 
 
 We recommend:
 
-- [Netlify](https://www.netlify.com/) - [free with some restrictions](https://www.netlify.com/pricing/)
-- [Glitch](https://glitch.com/) - [free with some restrictions](https://glitch.com/help/restrictions/)
 - [Heroku](https://www.heroku.com) - [free with some restrictions](https://www.heroku.com/pricing)
+- [Fleek](https://fleek.co/) - [free with some restricitions](https://fleek.co/pricing/)
+- [Glitch](https://glitch.com/) - [free with some restrictions](https://glitch.com/help/restrictions/)
 - [cloudno.de](https://cloudno.de) - [free for up to 150k requests/month](https://cloudno.de/pricing)
 - [Evennode](https://www.evennode.com) - [free for 7 days trial](https://www.evennode.com/pricing)
 
