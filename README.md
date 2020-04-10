@@ -120,6 +120,8 @@ After you've deployed publically, in order to get your addon to show in Stremio 
 
 ### IPFS deployment
 
+#### WARNING: IPFS deployment is experimental and we do not recommend it unless you like to live dangerously 🤓 
+
 You can optionally deploy your addon to IPFS, which is very similar to a P2P Torrent network. It is recommended to publish to IPFS to ensure addon longevity and your privacy.
 
 In order to use the IPFS features of `stremio-addon-sdk`, you will need to also:
