@@ -7,7 +7,6 @@ our streaming platform.
 
 Stremio currently supports Windows, macOS, Linux, Android and iOS.
 
-**Important: During the Addon Competition period (23 Dec 2019 - 27 Mar 2020), we will be available for chat support regarding addon development on a temporary Discord Server: [Chat Invite](https://discord.gg/cGwZ8TD)**
 
 ## Quick Example
 
@@ -42,7 +41,7 @@ builder.defineStreamHandler(function(args) {
     }
 })
 
-serveHTTP(builder.getInterface(), { port: 7000 })
+serveHTTP(builder.getInterface(), { port: process.env.PORT || 7000 })
 //publishToCentral("https://your-domain/manifest.json") // <- invoke this if you want to publish your addon and it's accessible publically on "your-domain"
 ```
 

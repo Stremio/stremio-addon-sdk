@@ -26,4 +26,4 @@ builder.defineStreamHandler(function(args) {
 	}
 })
 
-serveHTTP(builder.getInterface(), { port: 43001 })
+serveHTTP(builder.getInterface(), { port: process.env.PORT || 43001 })
