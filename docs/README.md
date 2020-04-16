@@ -136,6 +136,7 @@ Starts the addon server. `options` is an object that contains:
 
 * `port`
 * `cacheMaxAge` (in seconds); `cacheMaxAge` means the `Cache-Control` header being set to `max-age=$cacheMaxAge`
+* `static`: path to a directory of static files to be served; e.g. `/public` 
 
 This method is also special in that it will react to certain process arguments, such as:
 
