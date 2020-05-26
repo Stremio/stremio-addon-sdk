@@ -124,7 +124,7 @@ Used as a response for [`defineCatalogHandler`](../requests/defineCatalogHandler
 
 ``posterShape`` - _optional_ - string, can be `square` (1:1 aspect) or `regular` (1:0.675) or `landscape` (1:1.77). If you don't pass this, `regular` is assumed
 
-##### Additional Parameters that are used for the Discover Page Sidebar
+#### Additional Parameters that are used for the Discover Page Sidebar:
 
 ``background`` - _optional_ - string, the background shown on the stremio discover page in the sidebar; URL to PNG, max file size 500kb
 
