@@ -85,4 +85,4 @@ builder.defineCatalogHandler(function(args) {
 })
 ```
 
-[Meta Object Definition](../responses/meta.md)
+[Meta Preview Object Definition](../responses/meta.md#meta-preview-object)

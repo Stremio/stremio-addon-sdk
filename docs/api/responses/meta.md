@@ -28,6 +28,8 @@ Used as a response for [`defineMetaHandler`](../requests/defineMetaHandler.md)
 
 ``released`` - _optional_ - string, ISO 8601, initial release date; for movies, this is the cinema debut, e.g. "2010-12-06T05:00:00.000Z"
 
+``trailers`` - _optional_ - array, containing objects in the form of `{ "source": "P6AaSMfXHbA", "type": "Trailer" }`, where `source` is a YouTube ID and `type` can be either `Trailer` or `Clip`
+
 ``links`` - _optional_ - array of [``Meta Link objects``](#meta-link-object), can be used to link to internal pages of Stremio, example usage: array of actor / genre / director links
 
 ``videos`` - _optional_ - array of [``Video objects``](#video-object), used for ``channel`` and ``series``; if you do not provide this (e.g. for ``movie``), Stremio assumes this meta item has one video, and it's ID is equal to the meta item `id`
@@ -122,9 +124,20 @@ Used as a response for [`defineCatalogHandler`](../requests/defineCatalogHandler
 
 ``posterShape`` - _optional_ - string, can be `square` (1:1 aspect) or `regular` (1:0.675) or `landscape` (1:1.77). If you don't pass this, `regular` is assumed
 
-``background`` - _optional_ - string, the background shown on the stremio detail page ; heavily encouraged if you want your content to look good; URL to PNG, max file size 500kb
+##### Additional Parameters that are used for the Discover Page Sidebar
 
-``logo`` - _optional_ - string, the logo shown on the stremio detail page ; encouraged if you want your content to look good; URL to PNG
+``background`` - _optional_ - string, the background shown on the stremio discover page in the sidebar; URL to PNG, max file size 500kb
+
+``genres`` - _optional_  - array of strings, genre/categories of the content; e.g. ``["Thriller", "Horror"]`` (warning: this will soon be deprecated in favor of ``links``)
+
+``imdbRating`` -  _optional_ - string, IMDb rating, a number from 0.0 to 10.0 ; use if applicable
+
+``releaseInfo`` - _optional_ - string, year the content came out ; if it's ``series`` or ``channel``, use a start and end years split by a tide - e.g. ``"2000-2014"``. If it's still running, use a format like ``"2000-"``
+
+``director``, ``cast`` - _optional_  - directors and cast, both arrays of names (string) (warning: this will soon be deprecated in favor of ``links``)
+
+``links`` - _optional_ - array of [``Meta Link objects``](#meta-link-object), can be used to link to internal pages of Stremio, example usage: array of actor / genre / director links
 
 ``description`` - _optional_ - string, a few sentances describing your content
 
+``trailers`` - _optional_ - array, containing objects in the form of `{ "source": "P6AaSMfXHbA", "type": "Trailer" }`, where `source` is a YouTube ID and `type` can be either `Trailer` or `Clip`
