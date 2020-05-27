@@ -76,7 +76,7 @@ Used as a response for [`defineMetaHandler`](../requests/defineMetaHandler.md)
 
 ``season`` - _optional_ - number, season number, if applicable
 
-``trailers`` - _optional_ - array, containing [``Stream Objects``](./stream.md))
+``trailers`` - _optional_ - array, containing [``Stream Objects``](./stream.md)
 
 ``overview`` - _optional_ - string, video overview/summary
 
