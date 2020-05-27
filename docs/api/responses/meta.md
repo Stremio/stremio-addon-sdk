@@ -120,13 +120,11 @@ Used as a response for [`defineCatalogHandler`](../requests/defineCatalogHandler
 
 ``name`` - **required** - string, name of the content
 
-``poster`` - **required** - string, URL to png of poster; accepted aspect ratios: 1:0.675 (IMDb poster type) or 1:1 (square) ; you can use any resolution, as long as the file size is below 100kb; below 50kb is recommended
+``poster`` - **required** - string, URL to png of poster; accepted aspect ratios: 1:0.675 (IMDb poster type) or 1:1 (square); you can use any resolution, as long as the file size is below 100kb; below 50kb is recommended; also used as the background shown on the stremio discover page in the sidebar
 
 ``posterShape`` - _optional_ - string, can be `square` (1:1 aspect) or `regular` (1:0.675) or `landscape` (1:1.77). If you don't pass this, `regular` is assumed
 
 #### Additional Parameters that are used for the Discover Page Sidebar:
-
-``background`` - _optional_ - string, the background shown on the stremio discover page in the sidebar; URL to PNG, max file size 500kb
 
 ``genres`` - _optional_  - array of strings, genre/categories of the content; e.g. ``["Thriller", "Horror"]`` (warning: this will soon be deprecated in favor of ``links``)
 
