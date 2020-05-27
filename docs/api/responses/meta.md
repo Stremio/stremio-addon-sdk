@@ -28,7 +28,7 @@ Used as a response for [`defineMetaHandler`](../requests/defineMetaHandler.md)
 
 ``released`` - _optional_ - string, ISO 8601, initial release date; for movies, this is the cinema debut, e.g. "2010-12-06T05:00:00.000Z"
 
-``trailers`` - _optional_ - array, containing objects in the form of `{ "source": "P6AaSMfXHbA", "type": "Trailer" }`, where `source` is a YouTube Video ID and `type` can be either `Trailer` or `Clip`
+``trailers`` - _optional_ - array, containing objects in the form of `{ "source": "P6AaSMfXHbA", "type": "Trailer" }`, where `source` is a YouTube Video ID and `type` can be either `Trailer` or `Clip` (warning: this will soon be deprecated in favor of `meta.trailers` being an array of [``Stream Objects``](./stream.md))
 
 ``links`` - _optional_ - array of [``Meta Link objects``](#meta-link-object), can be used to link to internal pages of Stremio, example usage: array of actor / genre / director links
 
@@ -76,7 +76,7 @@ Used as a response for [`defineMetaHandler`](../requests/defineMetaHandler.md)
 
 ``season`` - _optional_ - number, season number, if applicable
 
-``trailer`` - _optional_ - string, YouTube ID of the trailer video; use if this is an episode for a series
+``trailers`` - _optional_ - array, containing [``Stream Objects``](./stream.md))
 
 ``overview`` - _optional_ - string, video overview/summary
 
@@ -140,4 +140,4 @@ Used as a response for [`defineCatalogHandler`](../requests/defineCatalogHandler
 
 ``description`` - _optional_ - string, a few sentances describing your content
 
-``trailers`` - _optional_ - array, containing objects in the form of `{ "source": "P6AaSMfXHbA", "type": "Trailer" }`, where `source` is a YouTube Video ID and `type` can be either `Trailer` or `Clip`
+``trailers`` - _optional_ - array, containing objects in the form of `{ "source": "P6AaSMfXHbA", "type": "Trailer" }`, where `source` is a YouTube Video ID and `type` can be either `Trailer` or `Clip` (warning: this will soon be deprecated in favor of `meta.trailers` being an array of [``Stream Objects``](./stream.md))
