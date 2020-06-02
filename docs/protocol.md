@@ -160,7 +160,7 @@ to the addon manifest's `resources` and then handle meta requests too with:
 
 [Meta Object Definition](./api/responses/meta.md)
 
-Meta requests are done when Stremio opens a Details page for a movie (series, channel, etc.) The response is used to create the Details page, it can also handle "background", "logo", "year" and other extended information about the movie / series / etc. As previously mentioned, the meta request does not need to be handled at all when using the IMDB
+Meta requests are done when Stremio opens a Details page for a movie (series, channel, etc.) The response is used to create the Details page, it can also handle "background", "logo", "releaseInfo" and other extended information about the movie / series / etc. As previously mentioned, the meta request does not need to be handled at all when using the IMDB
 ID prefix, as that is handled internally by Stremio.
 
 

@@ -1,6 +1,6 @@
 ## defineMetaHandler
 
-This method handles metadata requests. (title, year, poster, background, etc.)
+This method handles metadata requests. (title, releaseInfo, poster, background, etc.)
 
 ### Arguments:
 
@@ -35,7 +35,7 @@ builder.defineMetaHandler(function(args) {
         const metaObj = {
             id: 'tt1254207',
             name: 'Big Buck Bunny',
-            year: 2008,
+            releaseInfo: '2008',
             poster: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/uVEFQvFMMsg4e6yb03xOfVsDz4o.jpg',
             posterShape: 'regular',
             type: 'movie'

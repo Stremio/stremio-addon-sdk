@@ -53,7 +53,7 @@ builder.defineCatalogHandler(function(args) {
         const meta = {
             id: 'tt1254207',
             name: 'Big Buck Bunny',
-            year: 2008,
+            releaseInfo: '2008',
             poster: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/uVEFQvFMMsg4e6yb03xOfVsDz4o.jpg',
             posterShape: 'regular',
             banner: 'https://image.tmdb.org/t/p/original/aHLST0g8sOE1ixCxRDgM35SKwwp.jpg',
@@ -85,4 +85,4 @@ builder.defineCatalogHandler(function(args) {
 })
 ```
 
-[Meta Object Definition](../responses/meta.md)
+[Meta Preview Object Definition](../responses/meta.md#meta-preview-object)

@@ -6,7 +6,7 @@ In order for Stremio to display addon data, the addon must first supply the reso
 | **Resource**  | **Handler** | **Response** | **Description** |
 | ------------- | ------------- | ------------- | ------------- |
 | **manifest** | - | [manifest](./responses/manifest.md) | The addon description and capabilities. |
-| **catalog** | [defineCatalogHandler](./requests/defineCatalogHandler.md) | [meta](./responses/meta.md) | Summarized collection of meta items. Catalogs are displayed on the Stremio's Board, Discover and Search. |
+| **catalog** | [defineCatalogHandler](./requests/defineCatalogHandler.md) | [meta_preview](./responses/meta.md#meta-preview-object) | Summarized collection of meta preview items. Catalogs are displayed on the Stremio's Board, Discover and Search. |
 | **metadata** | [defineMetaHandler](./requests/defineMetaHandler.md) | [meta](./responses/meta.md) | Detailed description of meta item. This description is displayed when the user selects an item form the catalog. |
 | **streams** | [defineStreamHandler](./requests/defineStreamHandler.md) | [stream](./responses/stream.md) | Tells Stremio how to obtain the media content. It may be torrent info hash, HTTP URL, etc |
 | **subtitles** | [defineSubtitlesHandler](./requests/defineSubtitlesHandler.md) | [subtitles](./responses/subtitles.md) | Subtitles resource for the chosen media. |

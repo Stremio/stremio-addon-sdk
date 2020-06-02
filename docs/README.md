@@ -85,7 +85,7 @@ Handles catalog requests, including search.
 
 #### `builder.defineMetaHandler(function handler(args) { })`
 
-Handles metadata requests. (title, year, poster, background, etc.)
+Handles metadata requests. (title, releaseInfo, poster, background, etc.)
 
 [Meta Request Parameters and Example](./api/requests/defineMetaHandler.md)
 
