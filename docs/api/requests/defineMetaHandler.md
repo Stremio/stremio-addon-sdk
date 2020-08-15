@@ -1,6 +1,6 @@
 ## defineMetaHandler
 
-This method handles metadata requests. (title, year, poster, background, etc.)
+This method handles metadata requests. (title, releaseInfo, poster, background, etc.)
 
 ### Arguments:
 
@@ -10,7 +10,13 @@ This method handles metadata requests. (title, year, poster, background, etc.)
 
 A promise resolving to an object containing `{ meta: {} }` with a [Meta Object](../responses/meta.md)
 
-The resolving object can also include `{ cacheMaxAge: int }` (in seconds) which sets the `Cache-Control` header to `max-age=$cacheMaxAge` and overwrites the global cache time set in `serveHTTP` [options](../../README.md#servehttpaddoninterface-options).
+The resolving object can also include the following cache related properties:
+
+- `{ cacheMaxAge: int }` (in seconds) which sets the `Cache-Control` header to `max-age=$cacheMaxAge` and overwrites the global cache time set in `serveHTTP` [options](../../README.md#servehttpaddoninterface-options)
+
+- `{ staleRevalidate: int }` (in seconds) which sets the `Cache-Control` header to `stale-while-revalidate=$staleRevalidate`
+
+- `{ staleError: int }` (in seconds) which sets the `Cache-Control` header to `stale-if-error=$staleError`
 
 
 ## Request Parameters
@@ -29,7 +35,7 @@ builder.defineMetaHandler(function(args) {
         const metaObj = {
             id: 'tt1254207',
             name: 'Big Buck Bunny',
-            year: 2008,
+            releaseInfo: '2008',
             poster: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/uVEFQvFMMsg4e6yb03xOfVsDz4o.jpg',
             posterShape: 'regular',
             type: 'movie'

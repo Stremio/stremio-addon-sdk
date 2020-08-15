@@ -1,10 +1,10 @@
 # Getting Started
 
-A NodeJS SDK for making and publishing Stremio add-ons
+A NodeJS SDK for making and publishing Stremio addons
 
 ## Example
 
-**This arbitrary example creates an add-on that provides a stream for Big Buck Bunny and outputs a HTTP address where you can access it**
+**This arbitrary example creates an addon that provides a stream for Big Buck Bunny and outputs a HTTP address where you can access it**
 
 ```javascript
 #!/usr/bin/env node
@@ -17,8 +17,8 @@ const builder = new addonBuilder({
 
     name: 'simple example',
 
-    // Properties that determine when Stremio picks this add-on
-    // this means your add-on will be used for streams of the type movie
+    // Properties that determine when Stremio picks this addon
+    // this means your addon will be used for streams of the type movie
     resources: ['stream'],
     types: ['movie'],
     idPrefixes: ['tt']
@@ -39,7 +39,7 @@ builder.defineStreamHandler(function(args) {
 
 serveHTTP(builder.getInterface(), { port: 7000 })
 
-// If you want this add-on to appear in the addon catalogs, call .publishToCentral() with the publically available URL to your manifest
+// If you want this addon to appear in the addon catalogs, call .publishToCentral() with the publically available URL to your manifest
 //publishToCentral('https://my-addon.com/manifest.json')
 
 ```
@@ -51,7 +51,7 @@ npm install stremio-addon-sdk
 node ./addon.js
 ```
 
-It will output a URL that you can use to [install the add-on in Stremio](./docs/testing.md#how-to-install-add-on-in-stremio)
+It will output a URL that you can use to [install the addon in Stremio](./docs/testing.md#how-to-install-add-on-in-stremio)
 
 ## Documentation
 
@@ -64,14 +64,14 @@ Imports everything the SDK provides:
 * `addonBuilder`, which you'll need to define the addon
 * `serveHTTP`, which you will need to serve a HTTP server for this addon
 * `getRouter`, converts an `addonInterface` to an express router
-* `publishToCentral`: publishes an add-on URL to the public add-on catalog
+* `publishToCentral`: publishes an addon URL to the public addon catalog
 
 
 #### `const builder = new addonBuilder(manifest)`
 
-Creates an  add-on builder obbject with a given manifest. This will throw if the manifest is not valid.
+Creates an addon builder object with a given manifest. This will throw if the manifest is not valid.
 
-The manifest will determine the basic information of your add-on (name, description, images), but most importantly, it will determine **when and how** your add-on will be invoked by Stremio.
+The manifest will determine the basic information of your addon (name, description, images), but most importantly, it will determine **when and how** your addon will be invoked by Stremio.
 
 [Manifest Object Definition](./api/responses/manifest.md)
 
@@ -85,7 +85,7 @@ Handles catalog requests, including search.
 
 #### `builder.defineMetaHandler(function handler(args) { })`
 
-Handles metadata requests. (title, year, poster, background, etc.)
+Handles metadata requests. (title, releaseInfo, poster, background, etc.)
 
 [Meta Request Parameters and Example](./api/requests/defineMetaHandler.md)
 
@@ -102,6 +102,13 @@ Handles stream requests.
 Handles subtitle requests.
 
 [Subtitle Request Parameters and Example](./api/requests/defineSubtitlesHandler.md)
+
+
+#### `builder.defineResourceHandler('addon_catalog', function handler(args) { })`
+
+Handles addon catalog requests, this can be used by an addon to just send a list of other addon manifests.
+
+[Addon Catalog Request Parameters and Example](./api/requests/defineResourceHandler.md)
 
 **The JSON format of the response to these resources is described [here](./api/responses).**
 
@@ -120,7 +127,7 @@ Turns the `addonInterface` into an express router, that serves the addon accordi
 
 This method expects a string with the url to your `manifest.json` file.
 
-Publish your add-on to the central server. After using this method your add-on will be available in the Community Add-ons list in Stremio for users to install and use. Your add-on needs to be publicly available with a URL in order for this to happen, as local add-ons that are not publicly available cannot be used by other Stremio users.
+Publish your addon to the central server. After using this method your addon will be available in the Community Addons list in Stremio for users to install and use. Your addon needs to be publicly available with a URL in order for this to happen, as local addons that are not publicly available cannot be used by other Stremio users.
 
 
 #### `serveHTTP(addonInterface, options)`
@@ -129,11 +136,12 @@ Starts the addon server. `options` is an object that contains:
 
 * `port`
 * `cacheMaxAge` (in seconds); `cacheMaxAge` means the `Cache-Control` header being set to `max-age=$cacheMaxAge`
+* `static`: path to a directory of static files to be served; e.g. `/public` 
 
 This method is also special in that it will react to certain process arguments, such as:
 
-* `--launch`: launches Stremio in the web browser, and automatically installs/upgrades the add-on
-* `--install`: installs the add-on in the desktop version of Stremio
+* `--launch`: launches Stremio in the web browser, and automatically installs/upgrades the addon
+* `--install`: installs the addon in the desktop version of Stremio
 
 
 #### `addonInterface`

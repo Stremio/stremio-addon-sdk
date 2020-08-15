@@ -5,15 +5,15 @@
 - [Adding Stream Results to Cinemeta Items](#adding-stream-results-to-cinemeta-items)
 - [Getting Metadata from Cinemeta](#getting-metadata-from-cinemeta)
 - [Resolving Movie / Series names to IMDB ID](#resolving-movie--series-names-to-imdb-id)
-- [Using User Data in Add-ons](#using-user-data-in-add-ons)
-- [Using Internal Links in Add-ons](#using-internal-links-in-add-ons)
-- [Proxying Other Add-ons](#proxying-other-add-ons)
-- [Crawler (Scraping) Add-ons](#crawler--scraping-add-ons)
+- [Using User Data in Addons](#using-user-data-in-addons)
+- [Using Deep Links in Addons](#using-deep-links-in-addons)
+- [Proxying Other Addons](#proxying-other-addons)
+- [Crawler (Scraping) Addons](#crawler--scraping-addons)
 
 
 ## Understanding Catalogs
 
-The `catalog` resource in Stremio add-ons can be used to:
+The `catalog` resource in Stremio addons can be used to:
 - show one or more catalogs in the Board and Discover pages, these responses can also be filtered and paginated
 - show search results from catalogs
 
@@ -77,7 +77,7 @@ Once you've set `search` in `extra`, your catalog handler will receive `args.ext
 const meta = {
   id: 'tt1254207',
   name: 'Big Buck Bunny',
-  year: 2008,
+  releaseInfo: '2008',
   poster: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/uVEFQvFMMsg4e6yb03xOfVsDz4o.jpg',
   posterShape: 'regular',
   banner: 'https://image.tmdb.org/t/p/original/aHLST0g8sOE1ixCxRDgM35SKwwp.jpg',
@@ -135,7 +135,7 @@ Now we'll receive `genre` in our catalog handler:
 const meta = {
   id: 'tt1254207',
   name: 'Big Buck Bunny',
-  year: 2008,
+  releaseInfo: '2008',
   poster: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/uVEFQvFMMsg4e6yb03xOfVsDz4o.jpg',
   posterShape: 'regular',
   banner: 'https://image.tmdb.org/t/p/original/aHLST0g8sOE1ixCxRDgM35SKwwp.jpg',
@@ -214,7 +214,7 @@ Here's an example of using `skip`:
 const meta = {
   id: 'tt1254207',
   name: 'Big Buck Bunny',
-  year: 2008,
+  releaseInfo: '2008',
   poster: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/uVEFQvFMMsg4e6yb03xOfVsDz4o.jpg',
   posterShape: 'regular',
   banner: 'https://image.tmdb.org/t/p/original/aHLST0g8sOE1ixCxRDgM35SKwwp.jpg',
@@ -245,7 +245,7 @@ builder.defineCatalogHandler(function(args) {
 
 ## Understanding Cinemeta
 
-Cinemeta is the primary add-on that Stremio uses to show Movie, Series and Anime items. Other add-ons can choose to create their own catalogs of items or respond with streams to the Cinemeta items.
+Cinemeta is the primary addon that Stremio uses to show Movie, Series and Anime items. Other addons can choose to create their own catalogs of items or respond with streams to the Cinemeta items.
 
 Cinemeta uses IMDB IDs for their metadata, to understand it's pattern:
 - `tt0111161` is the meta ID (and video ID) of a movie
@@ -254,7 +254,7 @@ Cinemeta uses IMDB IDs for their metadata, to understand it's pattern:
 
 ## Adding Stream Results to Cinemeta Items
 
-To add only stream results to Cinemeta items, you will first need to state that your add-ons id prefix is `tt` (as for IMDB IDs).
+To add only stream results to Cinemeta items, you will first need to state that your addons id prefix is `tt` (as for IMDB IDs).
 
 Add these to your [manifest](./api/responses/manifest.md):
 - `resources: ["stream"]`
@@ -286,7 +286,7 @@ builder.defineStreamHandler(function(args) {
 
 There might be cases where you would need metadata based on IMDB ID. To do this, you will need both IMDB ID and the type of the item (either `movie` or `series`).
 
-Because Cinemeta is also an add-on, you can request the metadata from it.
+Because Cinemeta is also an addon, you can request the metadata from it.
 
 Here is an example using `needle` to do a HTTP request to Cinemeta for metadata:
 
@@ -329,11 +329,11 @@ nameToImdb({ name: "south park" }, function(err, res, inf) {
 Also setting the `type` and `year` in the request helps on ensuring that the IMDB ID that is returned is correct.
 
 
-## Using User Data in Add-ons
+## Using User Data in Addons
 
-This example does not use the Stremio Add-on SDK, it uses Node.js and Express to serve replies.
+This example does not use the Stremio Addon SDK, it uses Node.js and Express to serve replies.
 
-User data is passed in the Add-on Repository URL, so instead of users installing add-ons from the normal manifest url (for example: `https://www.mydomain.com/manifest.json`), users will also need to add the data they want to pass to the add-on in the URL (for example: `https://www.mydomain.com/c9y2kz0c26c3w4csaqne71eu4jqko7e1/manifest.json`, where `c9y2kz0c26c3w4csaqne71eu4jqko7e1` could be their API Authentication Token)
+User data is passed in the Addon Repository URL, so instead of users installing addons from the normal manifest url (for example: `https://www.mydomain.com/manifest.json`), users will also need to add the data they want to pass to the addon in the URL (for example: `https://www.mydomain.com/c9y2kz0c26c3w4csaqne71eu4jqko7e1/manifest.json`, where `c9y2kz0c26c3w4csaqne71eu4jqko7e1` could be their API Authentication Token)
 
 Simplistic Example:
 
@@ -344,7 +344,7 @@ const addon = express()
 addon.get('/:someParameter/manifest.json', function (req, res) {
   res.send({
     id: 'org.parameterized.'+req.params.someParameter,
-    name: 'add-on for '+req.params.someParameter,
+    name: 'addon for '+req.params.someParameter,
     resources: ['stream'],
     types: ['series'],
   })
@@ -360,19 +360,19 @@ addon.listen(7000, function() {
 })
 ```
 
-This is not a working example, it simply shows how data can be inserted by users in the Add-on Repository URL so add-ons can then make use of it.
+This is not a working example, it simply shows how data can be inserted by users in the Addon Repository URL so addons can then make use of it.
 
-For working examples, you can check these add-ons:
+For working examples, you can check these addons:
 - [IMDB Lists](https://github.com/jaruba/stremio-imdb-list)
 - [IMDB Watchlist](https://github.com/jaruba/stremio-imdb-watchlist)
-- [Jackett Add-on for Stremio](https://github.com/BoredLama/stremio-jackett-addon) (community built)
+- [Jackett Addon for Stremio](https://github.com/BoredLama/stremio-jackett-addon) (community built)
 
-Another use case for passing user data through the Add-on Repository URL is creating proxy add-ons. This case presumes that the id of a different add-on is sent in the Add-on Repository URL, then the proxy add-on connects to the add-on of which the id it got, requests streams, passes the stream url to some API (for example Real Debrid, Premiumize, etc) to get a different streaming url that it then responds with for Stremio.
+Another use case for passing user data through the Addon Repository URL is creating proxy addons. This case presumes that the id of a different addon is sent in the Addon Repository URL, then the proxy addon connects to the addon of which the id it got, requests streams, passes the stream url to some API (for example Real Debrid, Premiumize, etc) to get a different streaming url that it then responds with for Stremio.
 
 
-## Using Internal Links in Add-ons
+## Using Deep Links in Addons
 
-Stremio supports [internal links](./internal-links.md), such links can also be used in add-ons to link internally to Stremio.
+Stremio supports [deep links](./deep-links.md), such links can also be used in addons to link internally to Stremio.
 
 First, set the `stream` resource in your [manifest](./api/responses/manifest.md):
 - `resources: ["stream"]`
@@ -397,20 +397,20 @@ builder.defineStreamHandler(function(args) {
 ```
 
 
-## Proxying Other Add-ons
+## Proxying Other Addons
 
-Stremio add-ons use a HTTP server to handle requests and responses, this means that other add-ons can also request their responses.
+Stremio addons use a HTTP server to handle requests and responses, this means that other addons can also request their responses.
 
-This can be useful for many reasons, a guide on how this can be done is included in the readme of the [IMDB Watchlist](https://github.com/jaruba/stremio-imdb-watchlist) Add-on which proxies the [IMDB Lists](https://github.com/jaruba/stremio-imdb-list) add-on to get the IMDB List for a particular IMDB user.
+This can be useful for many reasons, a guide on how this can be done is included in the readme of the [IMDB Watchlist](https://github.com/jaruba/stremio-imdb-watchlist) Addon which proxies the [IMDB Lists](https://github.com/jaruba/stremio-imdb-list) addon to get the IMDB List for a particular IMDB user.
 
 IMDB Watchlist only proxies the catalog from IMDB Lists, to proxy other resources you can use the same pattern as IMDB Watchlist does, and check the endpoints and patterns for other resources on the [Protocol Documentation](./protocol.md) page.
 
 
 
-## Crawler / Scraping Add-ons
+## Crawler / Scraping Addons
 
 Scraping HTML pages presumes downloading the HTML source of a web page in order to get specific data from it.
 
-A guide showing a simplistic version of doing this is in the readme of the [IMDB Watchlist Add-on](https://github.com/jaruba/stremio-imdb-watchlist). The add-on uses [needle](https://www.npmjs.com/package/needle) to request the HTML source and [cheerio](https://www.npmjs.com/package/cheerio) to start a jQuery instance in order to simplify getting the desired information.
+A guide showing a simplistic version of doing this is in the readme of the [IMDB Watchlist Addon](https://github.com/jaruba/stremio-imdb-watchlist). The addon uses [needle](https://www.npmjs.com/package/needle) to request the HTML source and [cheerio](https://www.npmjs.com/package/cheerio) to start a jQuery instance in order to simplify getting the desired information.
 
 Cheerio is not the only module that can help with crawling / scraping though, other modules that can aid in this: [jsdom](https://www.npmjs.com/package/jsdom), [xpath](https://www.npmjs.com/package/xpath), etc

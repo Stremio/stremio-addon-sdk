@@ -1,12 +1,12 @@
-# Stremio - Internal links
+# Stremio - Deep links
 
-Stremio supports two types of internal links through the `stremio://` protocol
+Stremio supports two types of deep links through the `stremio://` protocol
 
 **NOTE:** GitHub does not allow links with a custom protocol, so just copy-paste the examples links in your browser's address bar and press Enter.
 
 ## To addons
 
-Simply take a normal URL to a Stremio add-on manifest, e.g. `https://watchhub-us.strem.io/manifest.json`, and replace the leading `https://` with `stremio://`
+Simply take a normal URL to a Stremio addon manifest, e.g. `https://watchhub-us.strem.io/manifest.json`, and replace the leading `https://` with `stremio://`
 
 E.g. [stremio://watchhub-us.strem.io/manifest.json](stremio://watchhub-us.strem.io/manifest.json)
 
@@ -34,9 +34,9 @@ Discover does not support deeper linking for now.
 
 * `videoID` is the [video object ID](./api/responses/meta.md#video-object); leave this empty if you only wish to show the list of episodes/videos (not applicable for one-video types, such as `movie` and `tv`)
 
-In the Cinemeta add-on, the `videoID` is the same as the `id` for movies, and for series it's formed as `{id}:{season}:episode`
+In the Cinemeta addon, the `videoID` is the same as the `id` for movies, and for series it's formed as `{id}:{season}:episode`
 
-In the Channels add-on, the `videoID` is formed as `{id}:{youtube video ID}`
+In the Channels addon, the `videoID` is formed as `{id}:{youtube video ID}`
 
 Examples:
 

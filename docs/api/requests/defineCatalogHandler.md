@@ -11,7 +11,13 @@ This method handles catalog requests, including search.
 
 A promise that resolves to an object containing `{ metas: [] }` with an array of [Meta Preview Object](../responses/meta.md#meta-preview-object)
 
-The resolving object can also include `{ cacheMaxAge: int }` (in seconds) which sets the `Cache-Control` header to `max-age=$cacheMaxAge` and overwrites the global cache time set in `serveHTTP` [options](../../README.md#servehttpaddoninterface-options).
+The resolving object can also include the following cache related properties:
+
+- `{ cacheMaxAge: int }` (in seconds) which sets the `Cache-Control` header to `max-age=$cacheMaxAge` and overwrites the global cache time set in `serveHTTP` [options](../../README.md#servehttpaddoninterface-options)
+
+- `{ staleRevalidate: int }` (in seconds) which sets the `Cache-Control` header to `stale-while-revalidate=$staleRevalidate`
+
+- `{ staleError: int }` (in seconds) which sets the `Cache-Control` header to `stale-if-error=$staleError`
 
 
 ## Request Parameters
@@ -25,7 +31,7 @@ The resolving object can also include `{ cacheMaxAge: int }` (in seconds) which 
 
 ## Extra Parameters
 
-If you wish to use these parameters, you'll need to specify them in `extra` for the catalog in the [add-on manifest](../responses/manifest.md#extra-properties)
+If you wish to use these parameters, you'll need to specify them in `extra` for the catalog in the [addon manifest](../responses/manifest.md#extra-properties)
 
 ``search`` - set in the `extra` object; string to search for in the catalog
 
@@ -47,7 +53,7 @@ builder.defineCatalogHandler(function(args) {
         const meta = {
             id: 'tt1254207',
             name: 'Big Buck Bunny',
-            year: 2008,
+            releaseInfo: '2008',
             poster: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/uVEFQvFMMsg4e6yb03xOfVsDz4o.jpg',
             posterShape: 'regular',
             banner: 'https://image.tmdb.org/t/p/original/aHLST0g8sOE1ixCxRDgM35SKwwp.jpg',
@@ -79,4 +85,4 @@ builder.defineCatalogHandler(function(args) {
 })
 ```
 
-[Meta Object Definition](../responses/meta.md)
+[Meta Preview Object Definition](../responses/meta.md#meta-preview-object)
