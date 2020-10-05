@@ -6,6 +6,7 @@ Stremio addons require hosting in order to be published. You will need a NodeJS 
 
 We recommend:
 
+- [Beam Up](./beamup.md) - free
 - [Heroku](https://www.heroku.com) - [free with some restrictions](https://www.heroku.com/pricing)
 - [Fleek](https://fleek.co/) - [free with some restricitions](https://fleek.co/pricing/)
 - [Glitch](https://glitch.com/) - [free with some restrictions](https://glitch.com/help/restrictions/)
@@ -28,5 +29,6 @@ If you are not using the Addon SDK to create your addon, you can publish your ad
 
 ### Guides
 
+- [Deploying to Beam Up](./beamup.md)
 - [Deploying to Glitch.com with CloudFlare](./glitch.md)
 - [Deploying to Now.sh with CloudFlare](./now.md) - note that deploying to now.sh is no longer recommended, but this guide includes useful information applicable for other serverless platforms
