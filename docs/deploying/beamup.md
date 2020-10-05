@@ -21,7 +21,7 @@ The `beamup` command is a universal command, it will handle both initial setup a
 ## One Time Setup
 
 When you run `beamup` for the first time, it will:
-- ask you for a host, use `46.166.173.133`
+- ask you for a host, use `a.baby-beamup.club`
 - ask you for your GitHub username
 
 Once you've added this information, it will save it and not ask you again. If you ever want to change these settings, use `beamup config`.
