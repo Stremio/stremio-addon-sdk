@@ -16,6 +16,8 @@ In order to deploy you will need:
 - go to the project directory that you want to deploy
 - use the `beamup` command
 
+The `beamup` command is a universal command, it will handle both initial setup and deploying projects.
+
 ## One Time Setup
 
 When you run `beamup` for the first time, it will:
