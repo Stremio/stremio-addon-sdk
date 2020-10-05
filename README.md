@@ -96,7 +96,6 @@ on the protocol specification.
 SDK Features Include:
 
 - Publishing an addon through HTTP(s)
-- Publishing an addon through IPFS
 - Publishing your addon link to the [public Addon collection](https://api.strem.io/addonscollection.json) with [publishToCentral](./docs/README.md#publishtocentralurl)
 - Creating a homepage for your addon that includes an "Install Addon" button
 
@@ -115,50 +114,6 @@ In order for your addon to be used by others, it needs to be deployed online.
 You can check our [list of recommended hosting providers for Node.js](./docs/deploying/README.md) or alternatively host it locally with [localtunnel](https://github.com/localtunnel/localtunnel).
 
 After you've deployed publically, in order to get your addon to show in Stremio (through the [public Addon collection](https://api.strem.io/addonscollection.json)), you need to use [publishToCentral](./docs/README.md#publishtocentralurl) or publish [manually through the UI](https://stremio.github.io/stremio-publish-addon/index.html).
-
-
-### IPFS deployment
-
-#### WARNING: IPFS deployment is experimental and we do not recommend it unless you like to live dangerously 🤓 
-
-You can optionally deploy your addon to IPFS, which is very similar to a P2P Torrent network. It is recommended to publish to IPFS to ensure addon longevity and your privacy.
-
-In order to use the IPFS features of `stremio-addon-sdk`, you will need to also:
-
-- use a node.js version of at least v11.10.0
-
-- `npm install stremio-addon-ipfs` this module is required because it includes all IPFS specific dependencies
-
-- IPFS installed locally, see [this page](https://docs.ipfs.io/guides/guides/install/) for details
-
-
-#### IPFS Publish
-
-Publishing to IPFS requires a Supernode, if one is not given, then a random remote supernode will be selected automatically.
-
-`./cli/publish.js <addonUrl>` - publish the addon at the provided transport URL
-
-Options:
-
-- `--help`: Show help
-- `--version`: Show version number
-- `--supernode`: Address of the supernode (defaults to a random remote supernode), if you are running a supernode locally, then use: "ws://127.0.0.1:14011"
-- `--peer-id`: Peer ID of the supernode (typically found at `~/.ipfs/config`), setting this bypasses the requirement to port forward inbound port 4001
-- `--restoreFromMnemonic`: Restore publishing identity from BIP39 mnemonic
-
-
-#### IPFS Supernode
-
-Supernodes will act as the seeds to your addon, handling it's requests, caching the data and serving it to others too. You can run a Supernode locally, deploy it to a remote server or use one that is already deployed somewhere.
-
-`./cli/supernode.js` - runs a server that facilitates serving addons from IPFS
-
-Environment variables:
-
-- `PORT`: port to listen on (only applies to supernode)
-
-- `IPFS_MULTIADDR`: Multiaddr of the IPFS daemon; default value is `/ip4/127.0.0.1/tcp/5001`
-
 
 ## Examples & tutorials
 
