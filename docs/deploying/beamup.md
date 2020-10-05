@@ -1,4 +1,4 @@
-# Deploying to Beam Up
+# Deploying to Beamup
 
 ## Prerequisites
 
@@ -29,7 +29,7 @@ Once you've added this information, it will save it and not ask you again. If yo
 - you can use `git push beamup master` to update your projects as well
 - your project must support using the `PORT` process environment variable (if available) as the http server port
 - your project repo must suppport one of the Heroku buildpacks or must have a `Dockerfile`; with Nodejs, simply having a `package.json` in the repo should be sufficient
-- it's based on [Dokku](http://dokku.viewdocs.io/dokku/), so whatever you can deploy there you can also deploy on Beam Up (it's using the same build system); however, some features are not supported such as custom NGINX config
+- it's based on [Dokku](http://dokku.viewdocs.io/dokku/), so whatever you can deploy there you can also deploy on Beamup (it's using the same build system); however, some features are not supported such as custom NGINX config
 - currently only projects using Dokku 'Herokuish' buildpack are supported; an ugly workaround to deploy a project built with Dokku 'Dockerfile' buildpack is to include 'docker' in the project name
 - the Node.js dependency can be avoided by downloading a prebuilt version of `beamup-cli` from the [releases page](https://github.com/Stremio/stremio-beamup-cli/releases/)
-- Beam Up supports any programming language, the use of Node.js is not a requirement to build the addon
+- Beamup supports any programming language, the use of Node.js is not a requirement to build the addon
