@@ -13,7 +13,7 @@ In order to deploy you will need:
 
 ## Usage
 
-- go to your project directory that you want to deploy
+- go to the project directory that you want to deploy
 - use the `beamup` command
 
 ## One Time Setup
