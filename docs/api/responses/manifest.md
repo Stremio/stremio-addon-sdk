@@ -108,6 +108,10 @@ If you're looking for the legacy way of setting extra properties (also called "s
 
 - ``p2p`` - boolean, if the addon includes P2P content, such as BitTorrent, which may reveal the user's IP to other streaming parties; used to provide an adequate warning to the user
 
+- ``configurable`` - boolean, default is `false`, if the addon supports settings, will add a button next to "Install" in Stremio that will point to the `/configure` path on the addon's domain, for more information read [Using User Data](../../advanced.md#using-user-data-in-addons)
+
+- ``configurationRequired`` - boolean, default is `false`, if set to `true` the "Install" button will not show for your addon in Stremio, instead a "Configure" button will show pointing to the `/configure` path on the addon's domain, for more information read [Using User Data](../../advanced.md#using-user-data-in-addons)
+
 
 ***TIP* - to implement sources where streams are geo-restricted, see [``Stream objects``](./stream.md) `geos`**
 
