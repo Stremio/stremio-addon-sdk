@@ -34,6 +34,9 @@ The resolving object can also include the following cache related properties:
 
 ``videoSize`` - size of the video file in bytes
 
+``filename`` - filename of the video file
+
+
 ## Basic Example
 
 ```javascript
