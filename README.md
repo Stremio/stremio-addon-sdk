@@ -126,6 +126,10 @@ Check out our ever growing list of [examples and demo addons](./docs/examples.md
 ### Rust version
 There is a third-party Rust version of this SDK built on stremio-core developed by Sleeyax [here](https://github.com/sleeyax/stremio-addon-sdk).
 
+### Go version
+There is a third-party Go version of this SDK developed by doingodswork [here](https://github.com/Deflix-tv/go-stremio).
+
+
 ## Advanced Usage
 
 Read our [guide for advanced usage](./docs/advanced.md) to understand the many ways that addons can be used.
