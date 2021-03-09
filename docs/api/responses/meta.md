@@ -70,7 +70,7 @@ Used as a response for [`defineMetaHandler`](../requests/defineMetaHandler.md)
 
 ``streams`` - _optional_ - array of [``Stream Objects``](./stream.md), in case you can return links to streams while forming meta response, **you can pass and array of [``Stream Objects``](./stream.md)** to point the video to a HTTP URL, BitTorrent, YouTube or any other stremio-supported transport protocol; note that this is exclusive: passing `video.streams` means that **Stremio will not** request any streams from other addons for that video; if you return streams that way, it is still recommended to implement the `streams` resource
 
-``available`` - _optional_ - boolean, set to ``true`` to explicitly state that this video is available for streaming, from your addon; no need to use this if you've passed ``stream``
+``available`` - _optional_ - boolean, set to ``true`` to explicitly state that this video is available for streaming, from your addon; no need to use this if you've passed ``streams``
 
 ``episode`` - _optional_ - number, episode number, if applicable
 
