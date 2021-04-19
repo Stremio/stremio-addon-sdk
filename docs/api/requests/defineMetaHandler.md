@@ -37,7 +37,7 @@ builder.defineMetaHandler(function(args) {
             name: 'Big Buck Bunny',
             releaseInfo: '2008',
             poster: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/uVEFQvFMMsg4e6yb03xOfVsDz4o.jpg',
-            posterShape: 'regular',
+            posterShape: 'poster',
             type: 'movie'
         }
         return Promise.resolve({ meta: metaObj })
