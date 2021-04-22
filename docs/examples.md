@@ -9,6 +9,7 @@
 ### Examples not using this SDK
 
 - [PHP Addon Example & Tutorial](https://github.com/Stremio/stremio-php-addon-example)
+- [Laravel (PHP) Addon Template](https://github.com/rleroi/Stremio-Laravel)
 - [Go Addon Example](https://github.com/Stremio/addon-helloworld-go)
 - [Python Addon Example & Tutorial](https://github.com/Stremio/addon-helloworld-python)
 - [Ruby Addon Example & Tutorial](https://github.com/Stremio/addon-helloworld-ruby)
