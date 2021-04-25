@@ -11,6 +11,7 @@
 - [PHP Addon Example & Tutorial](https://github.com/Stremio/stremio-php-addon-example)
 - [Laravel (PHP) Addon Template](https://github.com/rleroi/Stremio-Laravel)
 - [Go Addon Example](https://github.com/Stremio/addon-helloworld-go)
+- [Go Addon Examples Using Unofficial SDK](https://github.com/Deflix-tv/go-stremio/tree/master/examples)
 - [Python Addon Example & Tutorial](https://github.com/Stremio/addon-helloworld-python)
 - [Ruby Addon Example & Tutorial](https://github.com/Stremio/addon-helloworld-ruby)
 - [C# Addon Example](https://github.com/Stremio/addon-helloworld-csharp)
