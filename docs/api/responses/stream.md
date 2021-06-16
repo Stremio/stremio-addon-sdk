@@ -12,9 +12,9 @@ Used as a response for [`defineStreamHandler`](../requests/defineStreamHandler.m
 
 ### Additional properties to provide information / behaviour flags
 
-``title`` - _optional_ - string, title of the stream; usually used for stream quality
+- ``title`` - _optional_ - string, title of the stream; usually used for stream quality
 
-``subtitles`` - _optional_ - array of [``Subtitle objects``](./subtitles.md) representing subtitles for this stream
+- ``subtitles`` - _optional_ - array of [``Subtitle objects``](./subtitles.md) representing subtitles for this stream
 
 - `behaviorHints` (all are optional)
     - `countryWhitelist`: which hints it's restricted to particular countries  - array of ISO 3166-1 alpha-3 country codes **in lowercase** in which the stream is accessible
