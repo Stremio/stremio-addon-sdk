@@ -370,6 +370,33 @@ For working examples, you can check these addons:
 Another use case for passing user data through the Addon Repository URL is creating proxy addons. This case presumes that the id of a different addon is sent in the Addon Repository URL, then the proxy addon connects to the addon of which the id it got, requests streams, passes the stream url to some API (for example Real Debrid, Premiumize, etc) to get a different streaming url that it then responds with for Stremio.
 
 
+## Creating Addon Configuration Pages
+
+This guide extends [Using User Data in Addons](#using-user-data-in-addons) by explaining how to create an Addon Configuration Page.
+
+In order to allow Addons to request user data, you will first need to create a web page on the `/configure` path of your addon and set `manifest.behaviorHints.configurable` to `true`. (you can also set `manifest.behaviorHints.configurationRequired` to `true` if your addon cannot be installed without user data)
+
+The `/configure` web page should include a form with all required data, the form data should be set within the Addon Repository URL (as explained in the [Using User Data in Addons](#using-user-data-in-addons)) section.
+
+An "Install Addon" button should be available on the page that will use the `stremio://` protocol, for example, if your Addon Repository URL is `https://my.addon.com/some-user-data/manifest.json`, the "Install Addon" button should point to `stremio://my.addon.com/some-user-data/manifest.json`. (the `stremio://` protocol links will open or focus the Stremio app with a prompt to install the addon)
+
+At this point your addon should support settings for Desktop and Mobile devices, if you wish to also support TV devices you must follow the guide from the [Configuring Addons on TV Devices](#configuring-addons-on-tv-devices) section.
+
+
+## Configuring Addons on TV Devices
+
+This guide extends [Using User Data in Addons](#using-user-data-in-addons) and [Creating Addon Configuration Pages](#creating-addon-configuration-pages) with support for Addon Settings on TV devices.
+
+If your addon supports addon settings (`manifest.behaviorHints.configurable` is `true`) you might also want to support addon settings for TV devices. In order to do this, you will need to also set `manifest.behaviorHints.configurableTV` to `true` and the `/configure` web page of your addon must support passing data through the "Account Link" API.
+
+This is important because most TV devices do no support a browser of their own.
+
+Using the Account Link API:
+- the `/configure` path will be called with the `code` GET variable (example: `/configure?code=XXXX`)
+- the "Install Addon" button of your `/configure` page must handle passing the configured Addon Repository URL if the `code` GET variable is received; in order to do this you will need to make a POST request to `https://link.stremio.com/api/write?code=XXXX` with the Addon Repository URL (example post data: `{"manifestUrl":"https://my.addon.com/some-user-data/manifest.json"}`)
+- show a success message to the user
+
+
 ## Using Deep Links in Addons
 
 Stremio supports [deep links](./deep-links.md), such links can also be used in addons to link internally to Stremio.
