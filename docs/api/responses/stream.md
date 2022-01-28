@@ -12,7 +12,11 @@ Used as a response for [`defineStreamHandler`](../requests/defineStreamHandler.m
 
 ### Additional properties to provide information / behaviour flags
 
-- ``title`` - _optional_ - string, title of the stream; usually used for stream quality
+- ``name`` - _optional_ - string, name of the stream; usually used for stream quality
+
+- ``title`` - _optional_ - string, description of the stream (warning: this will soon be deprecated in favor of `stream.description`)
+
+- ``description`` - _optional_ - string, description of the stream (previously `stream.title`)
 
 - ``subtitles`` - _optional_ - array of [``Subtitle objects``](./subtitles.md) representing subtitles for this stream
 
