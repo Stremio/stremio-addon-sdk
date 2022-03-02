@@ -394,8 +394,8 @@ This is important because most TV devices do no support a browser of their own.
 Using the Account Link API:
 - the `/configure` path will be called with the `code` GET variable (example: `/configure?code=XXXX`)
 - the "Install Addon" button of your `/configure` page must handle passing the configured Addon Repository URL if the `code` GET variable is received; in order to do this you will need to make a POST request to `https://link.stremio.com/api/write?code=XXXX` with the Addon Repository URL (example post data: `{"manifestUrl":"https://my.addon.com/some-user-data/manifest.json"}`)
-- show a failed message to the user if you receive `{"success":false}` as a reply from the API; this means that the code received is either invalid or has expired
-- show a success message to the user if you receive `{"success":true}` as a reply from the API
+- show a failed message to the user if you receive `{ "result": null, "error": { "code": XX, "message": "..." }` as a reply from the API; this means that the code received is either invalid or has expired
+- show a success message to the user if you receive `{ "result": { "success": true }, error: null }` as a reply from the API
 
 
 ## Using Deep Links in Addons
