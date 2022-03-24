@@ -27,6 +27,11 @@ function getRouter({ manifest , get }) {
 		get(resource, type, id, extra)
 			.then(resp => {
 
+				if (resp.redirect) {
+					res.redirect(307, resp.redirect)
+					return
+				}
+
 				let cacheHeaders = {
 					cacheMaxAge: 'max-age',
 					staleRevalidate: 'stale-while-revalidate',
