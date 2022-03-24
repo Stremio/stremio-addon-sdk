@@ -44,6 +44,11 @@ function getRouter({ manifest , get }) {
 				if (cacheControl)
 					res.setHeader('Cache-Control', `${cacheControl}, public`)
 
+				if (resp.redirect) {
+					res.redirect(307, resp.redirect)
+					return
+				}
+
 				res.setHeader('Content-Type', 'application/json; charset=utf-8')
 
 				res.end(JSON.stringify(resp))
