@@ -8,19 +8,23 @@ html {
    margin: 0;
    padding: 0;
    width: 100%;
-   height: 100%
+   min-height: 100%;
+}
+
+body {
+   padding: 2vh;
 }
 
 html {
    background-size: auto 100%;
    background-size: cover;
    background-position: center center;
-   background-repeat: no-repeat
+   background-repeat: no-repeat;
+   box-shadow: inset 0 0 0 2000px rgb(0 0 0 / 60%);
 }
 
 body {
    display: flex;
-   background: rgba(0, 0, 0, 0.60);
    font-family: 'Open Sans', Arial, sans-serif;
    color: white;
 }
