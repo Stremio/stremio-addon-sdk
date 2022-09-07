@@ -141,6 +141,15 @@ button:active {
 .separator {
    margin-bottom: 4vh;
 }
+
+.form-element {
+   margin-bottom: 2vh;
+}
+
+.label-to-left {
+   float: left;
+   margin-right: 2vh !important;
+}
 `
 
 function landingTemplate(manifest) {
@@ -155,6 +164,85 @@ function landingTemplate(manifest) {
 	const stylizedTypes = manifest.types
 		.map(t => t[0].toUpperCase() + t.slice(1) + (t !== 'series' ? 's' : ''))
 
+   let formHTML = ''
+   let script = ''
+
+   if ((manifest.config || []).length) {
+      let options = ''
+      script = `
+         const config = {}
+      `
+      manifest.config.forEach(elem => {
+         const key = elem.key
+         if (['string', 'number'].includes(elem.type)) {
+            const isNumber = elem.type == 'number' ? ' pattern="-?[0-9]*(\\.[0-9]+)?"' : ''
+            const isRequired = elem.required ? ' required' : ''
+            const defaultValue = elem.default ? `"${elem.default}"` : 'false'
+            const defaultHTML = elem.default ? ` value="${elem.default}"` : ''
+            options += `
+               <div class="form-element">
+                  <input type="text" id="${key}" name="${key}" placeholder="${elem.title}"${defaultHTML}${isNumber}${isRequired}/>
+               </div>
+               `
+            script += `
+               config["${key}"] = ${defaultValue}
+               const ${key}Handler = (event) => {
+                 config["${key}"] = event.target.value
+                 installLink.href = 'stremio://' + window.location.host + '/' + encodeURIComponent(JSON.stringify(config)) + '/manifest.json'
+               }
+               document.getElementById("${key}").addEventListener('input', ${key}Handler);
+               document.getElementById("${key}").addEventListener('propertychange', ${key}Handler);
+            `
+         } else if (elem.type === 'boolean') {
+            const isChecked = elem.default === 'checked' ? ' checked' : ''
+            options += `
+               <div class="form-element">
+                  <label for="${key}">
+                     <input type="checkbox" id="${key}" name="${key}"${isChecked}> <span class="label-to-left">${elem.title}</span>
+                  </label>
+               </div>
+               `
+            script += `
+               config["${key}"] = false
+               document.getElementById("${key}").addEventListener('change', (event) => {
+                  config["${key}"] = !!event.currentTarget.checked
+                  installLink.href = 'stremio://' + window.location.host + '/' + encodeURIComponent(JSON.stringify(config)) + '/manifest.json'
+               })
+            `
+         } else if (elem.type === 'select') {
+            const defaultValue = '"' + (elem.default || (elem.options || [])[0]) + '"'
+            options += `<div class="form-element">
+               <select id="${key}" name="${key}">
+               `
+            const selections = elem.options || []
+            selections.forEach(el => {
+               const isSelected = el === defaultValue ? ' selected': ''
+               options += `<option value="${el}"${isSelected}>${el}</option>`
+            })
+            options += `</select>
+               <label for="${key}" class="label-to-left">${elem.title}</label>
+               </div>
+               `
+            script += `
+               config["${key}"] = ${defaultValue}
+               document.getElementById("${key}").addEventListener("change", () => {
+                  config["${key}"] = this.value
+                  installLink.href = 'stremio://' + window.location.host + '/' + encodeURIComponent(JSON.stringify(config)) + '/manifest.json'
+               })
+            `
+         }
+      })
+      if (options.length) {
+         formHTML = `
+            <form class="pure-form">
+               ${options}
+            </form>
+
+            <div class="separator"></div>
+            `
+      }
+   }
+
 	return `
    <!DOCTYPE html>
    <html style="background-image: url(${background});">
@@ -165,6 +253,7 @@ function landingTemplate(manifest) {
       <style>${STYLESHEET}</style>
       <link rel="shortcut icon" href="${logo}" type="image/x-icon">
       <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@2.1.0/build/pure-min.css" integrity="sha384-yHIFVG6ClnONEA5yB5DJXfW2/KC173DIQrYoZMEtBvGzmf0PKiGyNEqe9N6BNDBH" crossorigin="anonymous">
    </head>
 
 	<body>
@@ -185,13 +274,20 @@ function landingTemplate(manifest) {
 
          <div class="separator"></div>
 
+         ${formHTML}
+
          <a id="installLink" class="install-link" href="#">
             <button name="Install">INSTALL</button>
          </a>
          ${contactHTML}
       </div>
       <script>
-         installLink.href = 'stremio://' + window.location.host + '/manifest.json'
+         ${script}
+
+         if (config && Object.keys(config).length)
+            installLink.href = 'stremio://' + window.location.host + '/' + encodeURIComponent(JSON.stringify(config)) + '/manifest.json'
+         else
+            installLink.href = 'stremio://' + window.location.host + '/manifest.json'
       </script>
 	</body>
 
