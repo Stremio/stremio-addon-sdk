@@ -331,6 +331,8 @@ Also setting the `type` and `year` in the request helps on ensuring that the IMD
 
 ## Using User Data in Addons
 
+**The Addon SDK now [supports user data](./api/responses/manifest.md#user-data), this part of the docs will remain here as it is valid for use with the Express module.**
+
 This example does not use the Stremio Addon SDK, it uses Node.js and Express to serve replies.
 
 User data is passed in the Addon Repository URL, so instead of users installing addons from the normal manifest url (for example: `https://www.mydomain.com/manifest.json`), users will also need to add the data they want to pass to the addon in the URL (for example: `https://www.mydomain.com/c9y2kz0c26c3w4csaqne71eu4jqko7e1/manifest.json`, where `c9y2kz0c26c3w4csaqne71eu4jqko7e1` could be their API Authentication Token)

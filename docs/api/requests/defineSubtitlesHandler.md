@@ -27,6 +27,8 @@ The resolving object can also include the following cache related properties:
 
 ``extra`` - object that holds additional properties; parameters defined below
 
+``config`` - object with user settings, see [Manifest - User Data](../responses/manifest.md#user-data)
+
 
 ## Extra Parameters
 
