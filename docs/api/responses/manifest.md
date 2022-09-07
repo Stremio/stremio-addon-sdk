@@ -116,7 +116,7 @@ When setting the `manifest.config` property, the landing page will redirect to `
 
 ``options`` - _optional_ - array, the list of (string) choices for `type: "select"`
 
-``required`` - _optional_ - boolean, if the value is required or not, only applies to the following types: "string", "number"
+``required`` - _optional_ - boolean, if the value is required or not, only applies to the following types: "string", "number" (default is `false`)
 
 ***TIP* - if you require a more advanced configuration page, you can also [create this page yourself](../../advanced.md#using-user-data-in-addons) instead of using the Addon SDK.**
 
