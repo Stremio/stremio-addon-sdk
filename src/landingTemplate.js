@@ -150,6 +150,10 @@ button:active {
    margin-bottom: 2vh;
 }
 
+.label-to-top {
+   margin-bottom: 2vh;
+}
+
 .label-to-left {
    float: left;
    margin-right: 2vh !important;
@@ -179,8 +183,7 @@ function landingTemplate(manifest) {
       const requiredOptions = []
       manifest.config.forEach(elem => {
          const key = elem.key
-         if (['string', 'number'].includes(elem.type)) {
-            const isNumber = elem.type == 'number' ? ' pattern="-?[0-9]*(\\.[0-9]+)?"' : ''
+         if (elem.type === 'string') {
             const isRequired = elem.required ? ' required' : ''
             if (isRequired)
                requiredOptions.push(key)
@@ -188,7 +191,28 @@ function landingTemplate(manifest) {
             const defaultHTML = elem.default ? ` value="${elem.default}"` : ''
             options += `
                <div class="form-element">
-                  <input type="text" id="${key}" name="${key}" placeholder="${elem.title}"${defaultHTML}${isNumber}${isRequired}/>
+                  <input type="text" id="${key}" name="${key}" placeholder="${elem.title}"${defaultHTML}${isRequired}/>
+               </div>
+               `
+            script += `
+               config["${key}"] = ${defaultValue}
+               const ${key}Handler = (event) => {
+                 config["${key}"] = event.target.value
+                 installLink.href = 'stremio://' + window.location.host + '/' + encodeURIComponent(JSON.stringify(config)) + '/manifest.json'
+               }
+               document.getElementById("${key}").addEventListener('input', ${key}Handler);
+               document.getElementById("${key}").addEventListener('propertychange', ${key}Handler);
+            `
+         } else if (elem.type === 'number') {
+            const isRequired = elem.required ? ' required' : ''
+            if (isRequired)
+               requiredOptions.push(key)
+            const defaultValue = elem.default ? `"${elem.default}"` : 'false'
+            const defaultHTML = elem.default ? ` value="${elem.default}"` : ''
+            options += `
+               <div class="form-element">
+                  <div class="label-to-top">${elem.title}</div>
+                  <input type="number" id="${key}" name="${key}" placeholder="${elem.title}"${defaultHTML}${isRequired}/>
                </div>
                `
             script += `
@@ -251,7 +275,7 @@ function landingTemplate(manifest) {
             script += `
                const requiredOptions = ${JSON.stringify(requiredOptions)}
                document.getElementById('installLink').onclick = () => {
-                  const notSet = requiredOptions.find(el => !config[el])
+                  const notSet = (requiredOptions || []).find(el => !config[el])
                   if (notSet) {
                      alert(notSet + ' is required but not set')
                      return false
