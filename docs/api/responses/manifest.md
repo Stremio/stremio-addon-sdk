@@ -136,8 +136,6 @@ When setting the `manifest.config` property, the landing page will redirect to `
 
 - ``configurable`` - boolean, default is `false`, if the addon supports settings, will add a button next to "Install" in Stremio that will point to the `/configure` path on the addon's domain, for more information read [User Data](#user-data) (or if you are not using the Addon SDK, read: [Advanced User Data](../../advanced.md#using-user-data-in-addons) and [Creating Addon Configuration Pages](../..//advanced.md#creating-addon-configuration-pages))
 
-- ``configurableTV`` - boolean, default is `false`, if set to `true` the Stremio application on TV devices expects [Configuring Addons on TV Devices](../../advanced.md#configuring-addons-on-tv-devices) to be supported by your addon
-
 - ``configurationRequired`` - boolean, default is `false`, if set to `true` the "Install" button will not show for your addon in Stremio, instead a "Configure" button will show pointing to the `/configure` path on the addon's domain, for more information read [User Data](#user-data) (or if you are not using the Addon SDK, read: [Advanced User Data](../../advanced.md#using-user-data-in-addons) and [Creating Addon Configuration Pages](../..//advanced.md#creating-addon-configuration-pages))
 
 
