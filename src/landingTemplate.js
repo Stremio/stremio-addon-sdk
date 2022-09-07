@@ -176,11 +176,14 @@ function landingTemplate(manifest) {
       script = `
          const config = {}
       `
+      const requiredOptions = []
       manifest.config.forEach(elem => {
          const key = elem.key
          if (['string', 'number'].includes(elem.type)) {
             const isNumber = elem.type == 'number' ? ' pattern="-?[0-9]*(\\.[0-9]+)?"' : ''
             const isRequired = elem.required ? ' required' : ''
+            if (isRequired)
+               requiredOptions.push(key)
             const defaultValue = elem.default ? `"${elem.default}"` : 'false'
             const defaultHTML = elem.default ? ` value="${elem.default}"` : ''
             options += `
@@ -244,6 +247,19 @@ function landingTemplate(manifest) {
 
             <div class="separator"></div>
             `
+         if (requiredOptions.length) {
+            script += `
+               const requiredOptions = ${JSON.stringify(requiredOptions)}
+               document.getElementById('installLink').onclick = () => {
+                  const notSet = requiredOptions.find(el => !config[el])
+                  if (notSet) {
+                     alert(notSet + ' is required but not set')
+                     return false
+                  }
+                  return true
+               }
+            `
+         }
       }
    }
 
