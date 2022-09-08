@@ -177,32 +177,18 @@ function landingTemplate(manifest) {
 
    if ((manifest.config || []).length) {
       let options = ''
-      script = `
-         const config = {}
-      `
       manifest.config.forEach(elem => {
          const key = elem.key
          if (elem.type === 'string') {
             const isRequired = elem.required ? ' required' : ''
-            const defaultValue = elem.default ? `"${elem.default}"` : 'false'
             const defaultHTML = elem.default ? ` value="${elem.default}"` : ''
             options += `
                <div class="form-element">
                   <input type="text" id="${key}" name="${key}" placeholder="${elem.title}"${defaultHTML}${isRequired}/>
                </div>
                `
-            script += `
-               config["${key}"] = ${defaultValue}
-               const ${key}Handler = (event) => {
-                 config["${key}"] = event.target.value
-                 installLink.href = 'stremio://' + window.location.host + '/' + encodeURIComponent(JSON.stringify(config)) + '/manifest.json'
-               }
-               document.getElementById("${key}").addEventListener('input', ${key}Handler);
-               document.getElementById("${key}").addEventListener('propertychange', ${key}Handler);
-            `
          } else if (elem.type === 'number') {
             const isRequired = elem.required ? ' required' : ''
-            const defaultValue = elem.default ? `"${elem.default}"` : 'false'
             const defaultHTML = elem.default ? ` value="${elem.default}"` : ''
             options += `
                <div class="form-element">
@@ -210,18 +196,8 @@ function landingTemplate(manifest) {
                   <input type="number" id="${key}" name="${key}" placeholder="${elem.title}"${defaultHTML}${isRequired}/>
                </div>
                `
-            script += `
-               config["${key}"] = ${defaultValue}
-               const ${key}Handler = (event) => {
-                 config["${key}"] = event.target.value
-                 installLink.href = 'stremio://' + window.location.host + '/' + encodeURIComponent(JSON.stringify(config)) + '/manifest.json'
-               }
-               document.getElementById("${key}").addEventListener('input', ${key}Handler);
-               document.getElementById("${key}").addEventListener('propertychange', ${key}Handler);
-            `
          } else if (elem.type === 'boolean') {
             const isChecked = elem.default === 'checked' ? ' checked' : ''
-            const defaultValue = elem.default === 'checked' ? 'true' : 'false'
             options += `
                <div class="form-element">
                   <label for="${key}">
@@ -229,15 +205,8 @@ function landingTemplate(manifest) {
                   </label>
                </div>
                `
-            script += `
-               config["${key}"] = ${defaultValue}
-               document.getElementById("${key}").addEventListener('change', (event) => {
-                  config["${key}"] = !!event.currentTarget.checked
-                  installLink.href = 'stremio://' + window.location.host + '/' + encodeURIComponent(JSON.stringify(config)) + '/manifest.json'
-               })
-            `
          } else if (elem.type === 'select') {
-            const defaultValue = '"' + (elem.default || (elem.options || [])[0]) + '"'
+            const defaultValue = elem.default || (elem.options || [])[0]
             options += `<div class="form-element">
                <select id="${key}" name="${key}">
                `
@@ -250,27 +219,26 @@ function landingTemplate(manifest) {
                <label for="${key}" class="label-to-left">${elem.title}</label>
                </div>
                `
-            script += `
-               config["${key}"] = ${defaultValue}
-               document.getElementById("${key}").addEventListener("change", () => {
-                  config["${key}"] = this.value
-                  installLink.href = 'stremio://' + window.location.host + '/' + encodeURIComponent(JSON.stringify(config)) + '/manifest.json'
-               })
-            `
          }
       })
       if (options.length) {
          formHTML = `
-            <form class="pure-form" id="main-form">
+            <form class="pure-form" id="mainForm">
                ${options}
             </form>
 
             <div class="separator"></div>
             `
          script += `
-            document.getElementById('installLink').onclick = () => {
-               return document.getElementById("main-form").reportValidity()
+            installLink.onclick = () => {
+               return mainForm.reportValidity()
             }
+            const updateLink = () => {
+               const config = JSON.stringify(Object.fromEntries(new FormData(mainForm).entries()))
+               installLink.href = 'stremio://' + window.location.host + '/' + encodeURIComponent(JSON.stringify(config)) + '/manifest.json'
+            }
+            mainForm.onchange = updateLink
+            updateLink()
          `
       }
    }
