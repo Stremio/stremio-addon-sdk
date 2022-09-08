@@ -121,13 +121,14 @@ button:active {
 
 .name {
    line-height: 5vh;
+   margin: 0;
 }
 
 .version {
-   position: absolute;
+   position: relative;
    line-height: 5vh;
-   margin-left: 1vh;
    opacity: 0.8;
+   margin-bottom: 2vh;
 }
 
 .contact {
@@ -258,7 +259,7 @@ function landingTemplate(manifest) {
             <img src="${logo}">
          </div>
          <h1 class="name">${manifest.name}</h1>
-         <h2 class="version">${manifest.version || '0.0.0'}</h2>
+         <h2 class="version">v${manifest.version || '0.0.0'}</h2>
          <h2 class="description">${manifest.description || ''}</h2>
 
          <div class="separator"></div>
