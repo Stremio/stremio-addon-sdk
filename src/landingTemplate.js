@@ -221,6 +221,7 @@ function landingTemplate(manifest) {
             `
          } else if (elem.type === 'boolean') {
             const isChecked = elem.default === 'checked' ? ' checked' : ''
+            const defaultValue = elem.default === 'checked' ? 'true' : 'false'
             options += `
                <div class="form-element">
                   <label for="${key}">
@@ -229,7 +230,7 @@ function landingTemplate(manifest) {
                </div>
                `
             script += `
-               config["${key}"] = false
+               config["${key}"] = ${defaultValue}
                document.getElementById("${key}").addEventListener('change', (event) => {
                   config["${key}"] = !!event.currentTarget.checked
                   installLink.href = 'stremio://' + window.location.host + '/' + encodeURIComponent(JSON.stringify(config)) + '/manifest.json'
