@@ -7,8 +7,8 @@ const builder = new addonBuilder({
 
 	name: 'simple example',
 
-	// Properties that determine when Stremio picks this add-on
-	// this means your add-on will be used for streams of the type movie
+	// Properties that determine when Stremio picks this addon
+	// this means your addon will be used for streams of the type movie
 	catalogs: [],
 	resources: ['stream'],
 	types: ['movie'],
@@ -26,4 +26,4 @@ builder.defineStreamHandler(function(args) {
 	}
 })
 
-serveHTTP(builder.getInterface(), { port: 43001 })
+serveHTTP(builder.getInterface(), { port: process.env.PORT || 43001 })

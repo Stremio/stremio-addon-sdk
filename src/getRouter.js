@@ -11,19 +11,71 @@ function getRouter({ manifest , get }) {
 	// Serve the manifest
 	const manifestBuf = JSON.stringify(manifest)
 	function manifestHandler(req, res) {
+		const { config } = req.params
+		let manifestRespBuf = manifestBuf
+		if (config && (manifest.behaviorHints || {}).configurationRequired) {
+			// we remove configurationRequired so the addon is installable after configuration
+			const manifestClone = JSON.parse(manifestBuf)
+			delete manifestClone.behaviorHints.configurationRequired
+			manifestRespBuf = JSON.stringify(manifestClone)
+		}
 		res.setHeader('Content-Type', 'application/json; charset=utf-8')
-		res.end(manifestBuf)
+		res.end(manifestRespBuf)
 	}
-	router.get('/manifest.json', manifestHandler)
+
+	const hasConfig = (manifest.config || []).length
+
+	if (hasConfig && !(manifest.behaviorHints || {}).configurable) {
+		console.warn(`manifest.config is set but manifest.behaviorHints.configurable is disabled, the "Configure" button will not show in the Stremio apps`)
+	}
+
+	const configPrefix = hasConfig ? '/:config?' : ''
+
+	router.get(`${configPrefix}/manifest.json`, manifestHandler)
 
 	// Handle all resources
-	router.get('/:resource/:type/:id/:extra?.json', function(req, res, next) {
+	router.get(`${configPrefix}/:resource/:type/:id/:extra?.json`, function(req, res, next) {
 		const { resource, type, id } = req.params
-		const extra = req.params.extra ? qs.parse(req.params.extra) : {}
-		get(resource, type, id, extra)
+		let { config } = req.params
+		// we get `extra` from `req.url` because `req.params.extra` decodes the characters
+		// and breaks dividing querystring parameters with `&`, in case `&` is one of the
+		// encoded characters of a parameter value
+		const extra = req.params.extra ? qs.parse(req.url.split('/').pop().slice(0, -5)) : {}
+		if ((config || '').length) {
+			try {
+				config = JSON.parse(config)
+			} catch(e) {
+				config = false
+			}
+		}
+		res.setHeader('Content-Type', 'application/json; charset=utf-8')
+		get(resource, type, id, extra, config)
 			.then(resp => {
-				if (resp.cacheMaxAge) res.setHeader('Cache-Control', 'max-age='+resp.cacheMaxAge)
+
+				let cacheHeaders = {
+					cacheMaxAge: 'max-age',
+					staleRevalidate: 'stale-while-revalidate',
+					staleError: 'stale-if-error'
+				}
+
+				const cacheControl = Object.keys(cacheHeaders).map(prop => {
+					const value = resp[prop]
+					if (!value) return false
+					if (value > 365 * 24 * 60 * 60)
+						console.warn(`${prop} set to more then 1 year, be advised that cache times are in seconds, not milliseconds.`)
+					return cacheHeaders[prop] + '=' + value
+				}).filter(val => !!val).join(', ')
+
+				if (cacheControl)
+					res.setHeader('Cache-Control', `${cacheControl}, public`)
+
+				if (resp.redirect) {
+					res.redirect(307, resp.redirect)
+					return
+				}
+
 				res.setHeader('Content-Type', 'application/json; charset=utf-8')
+
 				res.end(JSON.stringify(resp))
 			})
 			.catch(err => {
@@ -31,7 +83,7 @@ function getRouter({ manifest , get }) {
 					if (next) next()
 					else {
 						res.writeHead(404)
-						res.end('Cannot GET ' + req.url)
+						res.end(JSON.stringify({ err: 'not found' }))
 					}
 				} else {
 					console.error(err)

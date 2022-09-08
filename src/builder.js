@@ -79,7 +79,7 @@ function AddonBuilder(manifest) {
 
 function AddonInterface(manifest, handlers) {
 	this.manifest = Object.freeze(Object.assign({}, manifest))
-	this.get = (resource, type, id, extra = {}) => {
+	this.get = (resource, type, id, extra = {}, config = {}) => {
 		const handler = handlers[resource]
 		if (!handler) {
 			return Promise.reject({
@@ -87,7 +87,7 @@ function AddonInterface(manifest, handlers) {
 				noHandler: true
 			})
 		}
-		return handler({ type, id, extra })
+		return handler({ type, id, extra, config })
 	}
 	return this
 }
