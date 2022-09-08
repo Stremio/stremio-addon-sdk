@@ -13,6 +13,7 @@ html {
 
 body {
    padding: 2vh;
+   font-size: 2.2vh;
 }
 
 html {
@@ -154,9 +155,12 @@ button:active {
    margin-bottom: 2vh;
 }
 
-.label-to-left {
-   float: left;
-   margin-right: 2vh !important;
+.label-to-right {
+   margin-left: 1vh !important;
+}
+
+.full-width {
+   width: 100%;
 }
 `
 
@@ -186,7 +190,7 @@ function landingTemplate(manifest) {
             options += `
                <div class="form-element">
                   <div class="label-to-top">${elem.title}</div>
-                  <input type="${inputType}" id="${key}" name="${key}"${defaultHTML}${isRequired}/>
+                  <input type="${inputType}" id="${key}" name="${key}" class="full-width"${defaultHTML}${isRequired}/>
                </div>
                `
          } else if (elem.type === 'checkbox') {
@@ -194,14 +198,15 @@ function landingTemplate(manifest) {
             options += `
                <div class="form-element">
                   <label for="${key}">
-                     <input type="checkbox" id="${key}" name="${key}"${isChecked}> <span class="label-to-left">${elem.title}</span>
+                     <input type="checkbox" id="${key}" name="${key}"${isChecked}> <span class="label-to-right">${elem.title}</span>
                   </label>
                </div>
                `
          } else if (elem.type === 'select') {
             const defaultValue = elem.default || (elem.options || [])[0]
             options += `<div class="form-element">
-               <select id="${key}" name="${key}">
+               <div class="label-to-top">${elem.title}</div>
+               <select id="${key}" name="${key}" class="full-width">
                `
             const selections = elem.options || []
             selections.forEach(el => {
@@ -209,7 +214,6 @@ function landingTemplate(manifest) {
                options += `<option value="${el}"${isSelected}>${el}</option>`
             })
             options += `</select>
-               <label for="${key}" class="label-to-left">${elem.title}</label>
                </div>
                `
          }
