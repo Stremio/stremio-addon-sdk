@@ -234,7 +234,7 @@ function landingTemplate(manifest) {
                return mainForm.reportValidity()
             }
             const updateLink = () => {
-               const config = Object.fromEntries(new FormData(mainForm).entries())
+               const config = Object.fromEntries(new FormData(mainForm))
                installLink.href = 'stremio://' + window.location.host + '/' + encodeURIComponent(JSON.stringify(config)) + '/manifest.json'
             }
             mainForm.onchange = updateLink
