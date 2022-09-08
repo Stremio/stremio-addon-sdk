@@ -179,24 +179,17 @@ function landingTemplate(manifest) {
       let options = ''
       manifest.config.forEach(elem => {
          const key = elem.key
-         if (elem.type === 'string') {
+         if (['text', 'number', 'password'].includes(elem.type)) {
             const isRequired = elem.required ? ' required' : ''
             const defaultHTML = elem.default ? ` value="${elem.default}"` : ''
-            options += `
-               <div class="form-element">
-                  <input type="text" id="${key}" name="${key}" placeholder="${elem.title}"${defaultHTML}${isRequired}/>
-               </div>
-               `
-         } else if (elem.type === 'number') {
-            const isRequired = elem.required ? ' required' : ''
-            const defaultHTML = elem.default ? ` value="${elem.default}"` : ''
+            const inputType = elem.type
             options += `
                <div class="form-element">
                   <div class="label-to-top">${elem.title}</div>
-                  <input type="number" id="${key}" name="${key}" placeholder="${elem.title}"${defaultHTML}${isRequired}/>
+                  <input type="${inputType}" id="${key}" name="${key}"${defaultHTML}${isRequired}/>
                </div>
                `
-         } else if (elem.type === 'boolean') {
+         } else if (elem.type === 'checkbox') {
             const isChecked = elem.default === 'checked' ? ' checked' : ''
             options += `
                <div class="form-element">
