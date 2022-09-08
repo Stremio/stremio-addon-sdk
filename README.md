@@ -154,7 +154,7 @@ creating a HTTP server to make Stremio Addons. Refer to our [protocol specificat
 
 One useful scenario of not using the SDK is when you need user specific data for you addon (for example, an API
 Autherntication Token), you can see an example of passing user specific data in the Addon URL [here](./docs/advanced.md#using-user-data-in-add-ons).
-This example uses Node.js and Express to get user specific data.
+This example uses Node.js and Express to get user specific data. (Update: the Addon SDK now supports [user settings](./docs/api/responses/manifest.md#user-data))
 
 
 _built with love and serious coding skills by the Stremio Team_

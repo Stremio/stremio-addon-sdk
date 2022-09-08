@@ -26,6 +26,8 @@ The resolving object can also include the following cache related properties:
 
 ``id`` - string id of the catalog that is requested; these are set in the [Manifest Object](../responses/manifest.md)
 
+``config`` - object with user settings, see [Manifest - User Data](../responses/manifest.md#user-data)
+
 
 ## Basic Example
 

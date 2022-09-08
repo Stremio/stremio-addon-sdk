@@ -30,12 +30,24 @@ function serveHTTP(addonInterface, opts = {}) {
 		app.use(opts.static, express.static(location))
 	}
 
+	const hasConfig = !!(addonInterface.manifest.config || []).length
+
 	// landing page
 	const landingHTML = landingTemplate(addonInterface.manifest)
 	app.get('/', (_, res) => {
-		res.setHeader('content-type', 'text/html')
-		res.end(landingHTML)
+		if (hasConfig) {
+			res.redirect('/configure')
+		} else {
+			res.setHeader('content-type', 'text/html')
+			res.end(landingHTML)
+		}
 	})
+
+	if (hasConfig)
+		app.get('/configure', (_, res) => {
+			res.setHeader('content-type', 'text/html')
+			res.end(landingHTML)
+		})
 
 	const server = app.listen(opts.port)
 	return new Promise(function(resolve, reject) {

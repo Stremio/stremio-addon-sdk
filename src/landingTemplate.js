@@ -8,19 +8,24 @@ html {
    margin: 0;
    padding: 0;
    width: 100%;
-   height: 100%
+   min-height: 100%;
+}
+
+body {
+   padding: 2vh;
+   font-size: 2.2vh;
 }
 
 html {
    background-size: auto 100%;
    background-size: cover;
    background-position: center center;
-   background-repeat: no-repeat
+   background-repeat: no-repeat;
+   box-shadow: inset 0 0 0 2000px rgb(0 0 0 / 60%);
 }
 
 body {
    display: flex;
-   background: rgba(0, 0, 0, 0.60);
    font-family: 'Open Sans', Arial, sans-serif;
    color: white;
 }
@@ -116,13 +121,14 @@ button:active {
 
 .name {
    line-height: 5vh;
+   margin: 0;
 }
 
 .version {
-   position: absolute;
+   position: relative;
    line-height: 5vh;
-   margin-left: 1vh;
    opacity: 0.8;
+   margin-bottom: 2vh;
 }
 
 .contact {
@@ -141,6 +147,22 @@ button:active {
 .separator {
    margin-bottom: 4vh;
 }
+
+.form-element {
+   margin-bottom: 2vh;
+}
+
+.label-to-top {
+   margin-bottom: 2vh;
+}
+
+.label-to-right {
+   margin-left: 1vh !important;
+}
+
+.full-width {
+   width: 100%;
+}
 `
 
 function landingTemplate(manifest) {
@@ -155,6 +177,69 @@ function landingTemplate(manifest) {
 	const stylizedTypes = manifest.types
 		.map(t => t[0].toUpperCase() + t.slice(1) + (t !== 'series' ? 's' : ''))
 
+   let formHTML = ''
+   let script = ''
+
+   if ((manifest.config || []).length) {
+      let options = ''
+      manifest.config.forEach(elem => {
+         const key = elem.key
+         if (['text', 'number', 'password'].includes(elem.type)) {
+            const isRequired = elem.required ? ' required' : ''
+            const defaultHTML = elem.default ? ` value="${elem.default}"` : ''
+            const inputType = elem.type
+            options += `
+               <div class="form-element">
+                  <div class="label-to-top">${elem.title}</div>
+                  <input type="${inputType}" id="${key}" name="${key}" class="full-width"${defaultHTML}${isRequired}/>
+               </div>
+               `
+         } else if (elem.type === 'checkbox') {
+            const isChecked = elem.default === 'checked' ? ' checked' : ''
+            options += `
+               <div class="form-element">
+                  <label for="${key}">
+                     <input type="checkbox" id="${key}" name="${key}"${isChecked}> <span class="label-to-right">${elem.title}</span>
+                  </label>
+               </div>
+               `
+         } else if (elem.type === 'select') {
+            const defaultValue = elem.default || (elem.options || [])[0]
+            options += `<div class="form-element">
+               <div class="label-to-top">${elem.title}</div>
+               <select id="${key}" name="${key}" class="full-width">
+               `
+            const selections = elem.options || []
+            selections.forEach(el => {
+               const isSelected = el === defaultValue ? ' selected': ''
+               options += `<option value="${el}"${isSelected}>${el}</option>`
+            })
+            options += `</select>
+               </div>
+               `
+         }
+      })
+      if (options.length) {
+         formHTML = `
+            <form class="pure-form" id="mainForm">
+               ${options}
+            </form>
+
+            <div class="separator"></div>
+            `
+         script += `
+            installLink.onclick = () => {
+               return mainForm.reportValidity()
+            }
+            const updateLink = () => {
+               const config = Object.fromEntries(new FormData(mainForm))
+               installLink.href = 'stremio://' + window.location.host + '/' + encodeURIComponent(JSON.stringify(config)) + '/manifest.json'
+            }
+            mainForm.onchange = updateLink
+         `
+      }
+   }
+
 	return `
    <!DOCTYPE html>
    <html style="background-image: url(${background});">
@@ -165,6 +250,7 @@ function landingTemplate(manifest) {
       <style>${STYLESHEET}</style>
       <link rel="shortcut icon" href="${logo}" type="image/x-icon">
       <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@2.1.0/build/pure-min.css" integrity="sha384-yHIFVG6ClnONEA5yB5DJXfW2/KC173DIQrYoZMEtBvGzmf0PKiGyNEqe9N6BNDBH" crossorigin="anonymous">
    </head>
 
 	<body>
@@ -173,7 +259,7 @@ function landingTemplate(manifest) {
             <img src="${logo}">
          </div>
          <h1 class="name">${manifest.name}</h1>
-         <h2 class="version">${manifest.version || '0.0.0'}</h2>
+         <h2 class="version">v${manifest.version || '0.0.0'}</h2>
          <h2 class="description">${manifest.description || ''}</h2>
 
          <div class="separator"></div>
@@ -185,13 +271,20 @@ function landingTemplate(manifest) {
 
          <div class="separator"></div>
 
+         ${formHTML}
+
          <a id="installLink" class="install-link" href="#">
             <button name="Install">INSTALL</button>
          </a>
          ${contactHTML}
       </div>
       <script>
-         installLink.href = 'stremio://' + window.location.host + '/manifest.json'
+         ${script}
+
+         if (typeof updateLink === 'function')
+            updateLink()
+         else
+            installLink.href = 'stremio://' + window.location.host + '/manifest.json'
       </script>
 	</body>
 

@@ -11,20 +11,45 @@ function getRouter({ manifest , get }) {
 	// Serve the manifest
 	const manifestBuf = JSON.stringify(manifest)
 	function manifestHandler(req, res) {
+		const { config } = req.params
+		let manifestRespBuf = manifestBuf
+		if (config && (manifest.behaviorHints || {}).configurationRequired) {
+			// we remove configurationRequired so the addon is installable after configuration
+			const manifestClone = JSON.parse(manifestBuf)
+			delete manifestClone.behaviorHints.configurationRequired
+			manifestRespBuf = JSON.stringify(manifestClone)
+		}
 		res.setHeader('Content-Type', 'application/json; charset=utf-8')
-		res.end(manifestBuf)
+		res.end(manifestRespBuf)
 	}
-	router.get('/manifest.json', manifestHandler)
+
+	const hasConfig = (manifest.config || []).length
+
+	if (hasConfig && !(manifest.behaviorHints || {}).configurable) {
+		console.warn(`manifest.config is set but manifest.behaviorHints.configurable is disabled, the "Configure" button will not show in the Stremio apps`)
+	}
+
+	const configPrefix = hasConfig ? '/:config?' : ''
+
+	router.get(`${configPrefix}/manifest.json`, manifestHandler)
 
 	// Handle all resources
-	router.get('/:resource/:type/:id/:extra?.json', function(req, res, next) {
+	router.get(`${configPrefix}/:resource/:type/:id/:extra?.json`, function(req, res, next) {
 		const { resource, type, id } = req.params
+		let { config } = req.params
 		// we get `extra` from `req.url` because `req.params.extra` decodes the characters
 		// and breaks dividing querystring parameters with `&`, in case `&` is one of the
 		// encoded characters of a parameter value
 		const extra = req.params.extra ? qs.parse(req.url.split('/').pop().slice(0, -5)) : {}
+		if ((config || '').length) {
+			try {
+				config = JSON.parse(config)
+			} catch(e) {
+				config = false
+			}
+		}
 		res.setHeader('Content-Type', 'application/json; charset=utf-8')
-		get(resource, type, id, extra)
+		get(resource, type, id, extra, config)
 			.then(resp => {
 
 				let cacheHeaders = {
