@@ -234,11 +234,10 @@ function landingTemplate(manifest) {
                return mainForm.reportValidity()
             }
             const updateLink = () => {
-               const config = JSON.stringify(Object.fromEntries(new FormData(mainForm).entries()))
+               const config = Object.fromEntries(new FormData(mainForm).entries())
                installLink.href = 'stremio://' + window.location.host + '/' + encodeURIComponent(JSON.stringify(config)) + '/manifest.json'
             }
             mainForm.onchange = updateLink
-            updateLink()
          `
       }
    }
@@ -284,8 +283,8 @@ function landingTemplate(manifest) {
       <script>
          ${script}
 
-         if (config && Object.keys(config).length)
-            installLink.href = 'stremio://' + window.location.host + '/' + encodeURIComponent(JSON.stringify(config)) + '/manifest.json'
+         if (typeof updateLink === 'function')
+            updateLink()
          else
             installLink.href = 'stremio://' + window.location.host + '/manifest.json'
       </script>
