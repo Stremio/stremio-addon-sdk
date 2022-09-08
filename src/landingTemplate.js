@@ -180,13 +180,10 @@ function landingTemplate(manifest) {
       script = `
          const config = {}
       `
-      const requiredOptions = []
       manifest.config.forEach(elem => {
          const key = elem.key
          if (elem.type === 'string') {
             const isRequired = elem.required ? ' required' : ''
-            if (isRequired)
-               requiredOptions.push(key)
             const defaultValue = elem.default ? `"${elem.default}"` : 'false'
             const defaultHTML = elem.default ? ` value="${elem.default}"` : ''
             options += `
@@ -205,8 +202,6 @@ function landingTemplate(manifest) {
             `
          } else if (elem.type === 'number') {
             const isRequired = elem.required ? ' required' : ''
-            if (isRequired)
-               requiredOptions.push(key)
             const defaultValue = elem.default ? `"${elem.default}"` : 'false'
             const defaultHTML = elem.default ? ` value="${elem.default}"` : ''
             options += `
@@ -265,25 +260,17 @@ function landingTemplate(manifest) {
       })
       if (options.length) {
          formHTML = `
-            <form class="pure-form">
+            <form class="pure-form" id="main-form">
                ${options}
             </form>
 
             <div class="separator"></div>
             `
-         if (requiredOptions.length) {
-            script += `
-               const requiredOptions = ${JSON.stringify(requiredOptions)}
-               document.getElementById('installLink').onclick = () => {
-                  const notSet = (requiredOptions || []).find(el => !config[el])
-                  if (notSet) {
-                     alert(notSet + ' is required but not set')
-                     return false
-                  }
-                  return true
-               }
-            `
-         }
+         script += `
+            document.getElementById('installLink').onclick = () => {
+               return document.getElementById("main-form").reportValidity()
+            }
+         `
       }
    }
 
