@@ -153,12 +153,12 @@ tape('initialize an addon client for the addon', function(t) {
 			return addonClient.get('stream', 'channel', '11')
 				.then(function(resp) {
 					t.ok(resp.streams, 'has streams')
-					t.deepEqual(resp.args, { type: 'channel', id: '11', extra: {} }, 'args parsed right')
+					t.deepEqual(resp.args, { type: 'channel', id: '11', extra: {}, config: {} }, 'args parsed right')
 					return addonClient.get('stream', 'channel', '11', { search: 'foobar' })
 				})
 				.then(function(resp) {
 					t.ok(resp.streams, 'has streams')
-					t.deepEqual(resp.args, { type: 'channel', id: '11', extra: { search: 'foobar' } }, 'args parsed right')
+					t.deepEqual(resp.args, { type: 'channel', id: '11', extra: { search: 'foobar' }, config: {} }, 'args parsed right')
 				})
 		})
 		.then(() => t.end())
