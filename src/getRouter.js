@@ -26,7 +26,7 @@ function getRouter({ manifest , get }) {
 	const hasConfig = (manifest.config || []).length
 
 	if (hasConfig && !(manifest.behaviorHints || {}).configurable) {
-		console.warn(`manifest.config is set but manifest.behaviorHints.configurable is disabled, the "Configure" button will not show in the Stremio apps`)
+		console.warn('manifest.config is set but manifest.behaviorHints.configurable is disabled, the "Configure" button will not show in the Stremio apps')
 	}
 
 	const configPrefix = hasConfig ? '/:config?' : ''
