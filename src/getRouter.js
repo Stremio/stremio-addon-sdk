@@ -59,11 +59,13 @@ function getRouter({ manifest , get }) {
 				}
 
 				const cacheControl = Object.keys(cacheHeaders).map(prop => {
-					const value = resp[prop]
-					if (!value) return false
-					if (value > 365 * 24 * 60 * 60)
+					const cacheProp = cacheHeaders[prop]
+					const cacheValue = resp[prop]
+					// allow max-age=0
+					if (!cacheValue && cacheProp !== 'max-age') return false
+					if (cacheValue > 365 * 24 * 60 * 60)
 						console.warn(`${prop} set to more then 1 year, be advised that cache times are in seconds, not milliseconds.`)
-					return cacheHeaders[prop] + '=' + value
+					return cacheProp + '=' + cacheValue
 				}).filter(val => !!val).join(', ')
 
 				if (cacheControl)
