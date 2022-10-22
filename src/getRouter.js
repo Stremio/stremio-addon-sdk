@@ -13,10 +13,12 @@ function getRouter({ manifest , get }) {
 	function manifestHandler(req, res) {
 		const { config } = req.params
 		let manifestRespBuf = manifestBuf
-		if (config && (manifest.behaviorHints || {}).configurationRequired) {
-			// we remove configurationRequired so the addon is installable after configuration
+		if (config && manifest.behaviorHints && (manifest.behaviorHints.configurationRequired || manifest.behaviorHints.configurable)) {
 			const manifestClone = JSON.parse(manifestBuf)
+			// we remove configurationRequired so the addon is installable after configuration
 			delete manifestClone.behaviorHints.configurationRequired
+			// we remove configuration page for installed addon too (could be added later to the router)
+			delete manifestClone.behaviorHints.configurable			
 			manifestRespBuf = JSON.stringify(manifestClone)
 		}
 		res.setHeader('Content-Type', 'application/json; charset=utf-8')
@@ -61,8 +63,10 @@ function getRouter({ manifest , get }) {
 				const cacheControl = Object.keys(cacheHeaders).map(prop => {
 					const cacheProp = cacheHeaders[prop]
 					const cacheValue = resp[prop]
-					// allow max-age=0
-					if (!cacheValue && cacheProp !== 'max-age') return false
+					if (!Number.isInteger(cacheValue)) {
+						console.warn(`${prop} must be set to a number.`)
+						return false
+					}
 					if (cacheValue > 365 * 24 * 60 * 60)
 						console.warn(`${prop} set to more then 1 year, be advised that cache times are in seconds, not milliseconds.`)
 					return cacheProp + '=' + cacheValue
