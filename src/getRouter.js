@@ -63,10 +63,7 @@ function getRouter({ manifest , get }) {
 				const cacheControl = Object.keys(cacheHeaders).map(prop => {
 					const cacheProp = cacheHeaders[prop]
 					const cacheValue = resp[prop]
-					if (!Number.isInteger(cacheValue)) {
-						console.warn(`${prop} must be set to a number.`)
-						return false
-					}
+					if (!Number.isInteger(cacheValue)) return false
 					if (cacheValue > 365 * 24 * 60 * 60)
 						console.warn(`${prop} set to more then 1 year, be advised that cache times are in seconds, not milliseconds.`)
 					return cacheProp + '=' + cacheValue
