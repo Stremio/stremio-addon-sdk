@@ -34,7 +34,7 @@ function getRouter({ manifest , get }) {
 	router.get(`${configPrefix}/manifest.json`, manifestHandler)
 
 	// Handle all resources
-	router.get(`${configPrefix}/:resource/:type/:id/:extra?.json`, function(req, res, next) {
+	router.get(`${configPrefix}/:resource(stream|meta|catalog|subtitles)/:type/:id/:extra?.json`, function(req, res, next) {
 		const { resource, type, id } = req.params
 		let { config } = req.params
 		// we get `extra` from `req.url` because `req.params.extra` decodes the characters
