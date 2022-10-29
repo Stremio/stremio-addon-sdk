@@ -43,10 +43,10 @@ function getRouter({ manifest , get }) {
 	manifest.resources.forEach((r) => handlersInManifest.push(r.name || r))
 	
 	// converting the resources array to a regular expression
-	const ResourcesRegex = handlersInManifest.toString().replaceAll(',','|')
+	const ResourcesRegex = handlersInManifest && handlersInManifest.length ? "(" + handlersInManifest.join('|') + ")" : "" ;
 
 	// Handle all resources
-	router.get(`${configPrefix}/:resource(${ResourcesRegex})/:type/:id/:extra?.json`, function(req, res, next) {
+	router.get(`${configPrefix}/:resource${ResourcesRegex}/:type/:id/:extra?.json`, function(req, res, next) {
 		const { resource, type, id } = req.params
 		let { config } = req.params
 		// we get `extra` from `req.url` because `req.params.extra` decodes the characters
