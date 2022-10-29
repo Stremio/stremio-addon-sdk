@@ -43,7 +43,7 @@ function getRouter({ manifest , get }) {
 	manifest.resources.forEach((r) => handlersInManifest.push(r.name || r))
 	
 	// converting the resources array to a regular expression
-	const ResourcesRegex = handlersInManifest && handlersInManifest.length ? "(" + handlersInManifest.join('|') + ")" : "" ;
+	const ResourcesRegex = handlersInManifest && handlersInManifest.length ? '(' + handlersInManifest.join('|') + ')' : '' 
 
 	// Handle all resources
 	router.get(`${configPrefix}/:resource${ResourcesRegex}/:type/:id/:extra?.json`, function(req, res, next) {
