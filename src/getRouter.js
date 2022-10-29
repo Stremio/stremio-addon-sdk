@@ -32,8 +32,8 @@ function getRouter({ manifest , get }) {
 	}
 
 	const configPrefix = hasConfig ? '/:config?' : ''
-	// having config prifix always set to '/:config?' won't resault in a problem for non configurable addons 
-	// since now the order is restricted by resources 
+	// having config prifix always set to '/:config?' won't resault in a problem for non configurable addons,
+	// since now the order is restricted by resources.
 
 	router.get(`${configPrefix}/manifest.json`, manifestHandler)
 
