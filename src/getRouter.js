@@ -32,11 +32,21 @@ function getRouter({ manifest , get }) {
 	}
 
 	const configPrefix = hasConfig ? '/:config?' : ''
+	// having config prifix always set to '/:config?' won't resault in a problem for non configurable addons,
+	// since now the order is restricted by resources.
 
 	router.get(`${configPrefix}/manifest.json`, manifestHandler)
 
+	// using the same methode used in builder.js to extract resources from manifest
+	const handlersInManifest = []
+	if (manifest.catalogs.length > 0) handlersInManifest.push('catalog')
+	manifest.resources.forEach((r) => handlersInManifest.push(r.name || r))
+	
+	// converting the resources array to a regular expression
+	const ResourcesRegex = handlersInManifest && handlersInManifest.length ? '(' + handlersInManifest.join('|') + ')' : '' 
+
 	// Handle all resources
-	router.get(`${configPrefix}/:resource/:type/:id/:extra?.json`, function(req, res, next) {
+	router.get(`${configPrefix}/:resource${ResourcesRegex}/:type/:id/:extra?.json`, function(req, res, next) {
 		const { resource, type, id } = req.params
 		let { config } = req.params
 		// we get `extra` from `req.url` because `req.params.extra` decodes the characters
