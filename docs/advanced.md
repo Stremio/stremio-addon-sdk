@@ -298,7 +298,7 @@ var needle = require('needle')
 var itemType = 'movie'
 var itemImdbId = 'tt1254207'
 
-needle.get('https://v3-cinemeta.strem.io/meta/' + itemType + '/' + itemImdbId + '.json', function(err, resp, body) {
+needle.get('https://cinemeta-live.strem.io/meta/' + itemType + '/' + itemImdbId + '.json', function(err, resp, body) {
 
   if (body && body.meta) {
 
