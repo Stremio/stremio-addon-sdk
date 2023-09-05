@@ -21,6 +21,14 @@ Currently used resources are: `catalog`, `meta`, `stream`, `subtitles`.
 
 `/subtitles/{type}/{id}.json` - list of all subtitles for a particular item; `type` again denotes the type, the `id` in this case is the Open Subtitles file hash, while `extraArgs` (read below) is used for `videoID` (the ID of the particular item, as found in the catalog or a video ID) and `videoSize` (video file size in bytes)
 
+`/watchStatus/{type}/{id}/{extraArgs}.json` - TODO
+
+Where `extraArgs` can be one of:
+- Play: `action=play&currentTime={milliseconds}&duration={milliseconds}`
+- Start: `action=start&currentTime={milliseconds}&duration={milliseconds}`
+- End: `action=end&currentTime={milliseconds}&duration={milliseconds}`
+- Pause: `action=pause&currentTime={milliseconds}&duration={milliseconds}`
+
 The JSON format of the response to these resources is described [here](./api/responses/).
 
 To pass extra args, such as the ones needed for `catalog` resources (e.g. `search`, `skip`), you should define a route of the format `/{resource}/{type}/{id}/{extraArgs}.json` where `extraArgs` is the query string stringified object of extra arguments (for example `"search=game%20of%20thrones&skip=100"`)
