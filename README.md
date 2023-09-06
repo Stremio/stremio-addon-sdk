@@ -1,6 +1,6 @@
 # Stremio Addon SDK 🧙
 
-![Stremio](https://www.stremio.com/website/stremio-purple-small.png)
+<img src="https://blog.stremio.com/wp-content/uploads/2023/08/stremio-logo-2023.png" alt="Stremio" width="250" />
 
 The **🧙  Stremio Addon SDK 🧙** was developed by the Stremio Team as a way of vastly simplifying Node.js addon creation for
 our streaming platform.
@@ -159,4 +159,4 @@ This example uses Node.js and Express to get user specific data. (Update: the Ad
 
 _built with love and serious coding skills by the Stremio Team_
 
-<img src="https://blog.stremio.com/wp-content/uploads/2018/03/new-logo-cat-blog.jpg" width="300" />
+<img src="https://blog.stremio.com/wp-content/uploads/2023/08/stremio-code-footer.jpg" width="300" />
