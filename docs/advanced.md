@@ -400,7 +400,7 @@ builder.defineStreamHandler(function(args) {
   return new Promise(function(resolve, reject) {
     if (args.type === 'movie' && args.id === 'tt1254207') {
       // serve one stream for big buck bunny
-      const stream = { externalUrl: 'stremio://board' }
+      const stream = { externalUrl: 'stremio:///board' }
       resolve({ streams: [stream] })
     } else {
       reject(new Error('No streams found for: ' + args.id))

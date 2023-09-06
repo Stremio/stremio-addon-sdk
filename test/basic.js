@@ -207,7 +207,7 @@ tape('defining the same handler throws', function(t) {
 
 // publishToCentral publishes to the API
 tape('publishToCentral', function(t) {
-	publishToCentral('https://cinemeta.strem.io/manifest.json')
+	publishToCentral('https://v3-cinemeta.strem.io/manifest.json')
 		.then(function(resp) {
 			t.equal(resp.success, true, 'can announce')
 			t.end()
