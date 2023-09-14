@@ -20,7 +20,7 @@ Valid properties are:
 
 **NOTE:** In order to understand the next properties better, please check out the [protocol documentation](../../protocol.md) and keep in mind requests to addons are formed in the format of `/{resource}/{type}/{id}`
 
-``resources`` - **required** - array of objects or strings, supported resources - for example ``["catalog", "meta", "stream", "subtitles", "addon_catalog"]``, resources can also be added as objects instead of strings, for additional details on how they should be requested, example: `{ "name": "stream", "types": [ "movie" ], "idPrefixes": [ "tt" ] }` (see the **ADVANCED** note)
+``resources`` - **required** - array of objects or strings, supported resources - for example ``["catalog", "meta", "stream", "subtitles", "addon_catalog", "watchStatus"]``, resources can also be added as objects instead of strings, for additional details on how they should be requested, example: `{ "name": "stream", "types": [ "movie" ], "idPrefixes": [ "tt" ] }` (see the **ADVANCED** note)
 
 ``types`` - **required** - array of strings, supported types, from all the [``Content Types``](./content.types.md). If you wish to provide different sets of types for different resources, see the **ADVANCED** note.
 

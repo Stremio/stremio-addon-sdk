@@ -11,7 +11,7 @@ In order for Stremio to display addon data, the addon must first supply the reso
 | **streams** | [defineStreamHandler](./requests/defineStreamHandler.md) | [stream](./responses/stream.md) | Tells Stremio how to obtain the media content. It may be torrent info hash, HTTP URL, etc |
 | **subtitles** | [defineSubtitlesHandler](./requests/defineSubtitlesHandler.md) | [subtitles](./responses/subtitles.md) | Subtitles resource for the chosen media. |
 | **addon_catalog** | [defineResourceHandler](./requests/defineResourceHandler.md) | [addon_catalog](./responses/addon_catalog.md) | A catalog (list) of other addon manifests. |
-
+| **watchStatus** | [defineWatchStatusHandler](./requests/defineWatchStatusHandler.md) | 'success' or 'error' |  |
 
 The structure of those resources in Stremio is as follows:
 
@@ -21,6 +21,7 @@ The structure of those resources in Stremio is as follows:
         +-- Videos (part of Meta Item)
         +---+-- Streams
         +---+---+-- Subtitles
+        +---+---+-- watchStatus
 ```
 
 When the user opens the Discover/Board section, catalogs from all installed addons are loaded. Catalog responses include [meta preview objects](./responses/meta.md#meta-preview-object), which are just stripped down versions of the full meta object.
@@ -36,6 +37,6 @@ We determine whether an addon is relevant by comparing the request against it's 
 
 For catalogs, we usually request all catalogs from all addons, that are compatible with the `extra` properties that we're looking for. For example, to load the Board, we'd load all catalogs that have no `extra` properties that are required. But, if we're loading Search, we'd load all catalogs that have `search` as a supported property in their `extra` definition.
 
-For other requests (meta, stream, subtitles), we apply the `types` and the optional `idPrefixes` filters (which can also be defined per-resource). For example, for `/meta/movie/tt1254207`, we'd try to load meta from all addons that have `"movie"` in `manifest.types` (or have `{ name: "meta", types: ["movie'] }` in `manifest.resources`). If `manifest.idPrefixes` is defined, `["tt"]` will match this request, but something different (e.g. `["yt_id:"]`) won't. This helps you ensure your addon does not get irrelevant requests.
+For other requests (meta, stream, subtitles, watchStatus), we apply the `types` and the optional `idPrefixes` filters (which can also be defined per-resource). For example, for `/meta/movie/tt1254207`, we'd try to load meta from all addons that have `"movie"` in `manifest.types` (or have `{ name: "meta", types: ["movie'] }` in `manifest.resources`). If `manifest.idPrefixes` is defined, `["tt"]` will match this request, but something different (e.g. `["yt_id:"]`) won't. This helps you ensure your addon does not get irrelevant requests.
 
 For the full spec, see [manifest - filtering properties](./responses/manifest.md#filtering-properties).

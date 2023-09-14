@@ -49,6 +49,7 @@ async function createAddon() {
 				{name: 'stream'},
 				{name: 'meta'},
 				{name: 'subtitles'},
+				{name: 'watchStatus'},
 			]
 		},
 		{
@@ -65,7 +66,7 @@ async function createAddon() {
 	])
 
 	if (
-		!userInput.resources.includes('meta') && !userInput.resources.includes('subtitles')
+		!userInput.resources.includes('meta') && !userInput.resources.includes('subtitles') 
 		&& !userInput.types.includes('channel') && !userInput.types.includes('tv')
 	) {
 		const isFromIMDb = await inquirer.prompt([
@@ -199,6 +200,14 @@ builder.defineSubtitlesHandler(({type, id, extra}) => {
 })
 `
 
+const watchStatusTmpl = () => `
+builder.defineWatchStatusHandler(({type, id, extra}) => {
+	console.log("request for watchStatus: "+type+" "+id+" "+extra)
+	// Docs: https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/api/requests/defineWatchStatusHandler.md
+	return Promise.resolve({ watchStatus: 'success' })
+})
+`
+
 // @TODO port
 const footerTmpl = () => `
 module.exports = builder.getInterface()`
@@ -209,6 +218,7 @@ function genAddonJS(manifest, resources, types) {
 		.concat(resources.includes('meta') ? [metaTmpl()] : [])
 		.concat(resources.includes('stream') ? [types.includes('movie') ? streamsMovieTmpl() : streamsTmpl()] : [])
 		.concat(resources.includes('subtitles') ? [subtitlesTmpl()] : [])
+		.concat(resources.includes('watchStatus') ? [watchStatusTmpl()] : [])
 		.concat(footerTmpl())
 		.join('')
 }
