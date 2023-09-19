@@ -1,6 +1,6 @@
-## defineStreamHandler
+## definePlayerHandler
 
-This method handles watch status requests.
+This method handles player requests.
 
 ### Arguments:
 
@@ -13,7 +13,7 @@ This method handles watch status requests.
 
 ``type`` - type of the item that we're requesting streams for; e.g. `movie`, `series`, `channel`, `tv` (see [Content Types](../responses/content.types.md))
 
-``id`` - a Video ID as described in the [Video Object](../responses/meta.md#video-object)
+``id`` - a **Video ID** as described in the [Video Object](../responses/meta.md#video-object)
 
 **The Video ID is the same as the Meta ID for movies**.
 
@@ -26,23 +26,23 @@ For IMDb series (provided by Cinemeta), the video ID is formed by joining the Me
 
 ## Extra Parameters
 
-``action`` - set in the `extra` object; a string difining the user action, ca be either: start, end, pause or resume.
+``action`` - set in the `extra` object; a string defining the user action, can be either: `start`, `end`, `pause` or `resume`.
 
-``duration`` - set in the `extra` object; int specifying the full duration of the video in millseconds.
+``duration`` - set in the `extra` object; int specifying the full duration of the video in **milliseconds**.
 
-``currentTime`` - set in the `extra` object; int in milliseconds specifying the progress from the start of the video when the user took the action. 
+``currentTime`` - set in the `extra` object; int in *milliseconds* specifying the progress from the start of the video when the user took the action. 
 
 
 ## Basic Example
 
 ```javascript
-builder.defineWatchStatusHandler(function(args) {
+builder.definePlayerHandler(function(args) {
     if (args.type === 'movie' && args.id === 'tt1254207') {
-        // handle the watchSatus event
-        return Promise.resolve({ watchStatus: 'success' })
+        // Player event has been successfully
+        return Promise.resolve({ handled: true })
     } else {
-        // otherwise return no streams
-        return Promise.resolve({ watchStatus: 'error' })
+        // otherwise return false
+        return Promise.resolve({ handled: false })
     }
 })
 ```

@@ -21,7 +21,7 @@ Currently used resources are: `catalog`, `meta`, `stream`, `subtitles`, `watchSt
 
 `/subtitles/{type}/{id}.json` - list of all subtitles for a particular item; `type` again denotes the type, the `id` in this case is the Open Subtitles file hash, while `extraArgs` (read below) is used for `videoID` (the ID of the particular item, as found in the catalog or a video ID) and `videoSize` (video file size in bytes)
 
-`/watchStatus/{type}/{id}/{extraArgs}.json` - TODO
+`/player/{type}/{id}/{extraArgs}.json` - TODO
 
 Where `extraArgs` can be one of:
 - Play: `action=play&currentTime={milliseconds}&duration={milliseconds}`
