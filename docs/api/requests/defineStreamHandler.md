@@ -27,7 +27,7 @@ The resolving object can also include the following cache related properties:
 
 **The Video ID is the same as the Meta ID for movies**.
 
-For IMDb series (provided by Cinemeta), the video ID is formed by joining the Meta ID, season and episode with a colon (e.g. `"tt0898266:9:17"`).
+For IMDB series (provided by Cinemeta), the video ID is formed by joining the Meta ID, season and episode with a colon (e.g. `"tt0898266:9:17"`).
 
 ``config`` - object with user settings, see [Manifest - User Data](../responses/manifest.md#user-data)
 

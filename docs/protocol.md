@@ -11,7 +11,7 @@ This allows Stremio or other similar applications to aggregate content seamlessl
 
 To define a minimal addon, you only need an HTTP server/endpoint serving a `/manifest.json` file and responding to resource requests at `/{resource}/{type}/{id}.json`.
 
-Currently used resources are: `catalog`, `meta`, `stream`, `subtitles`, `watchStatus`.
+Currently used resources are: `catalog`, `meta`, `stream`, `subtitles`, `player`, `library`.
 
 `/catalog/{type}/{id}.json` - catalogs of media items; `type` denotes the type, such as `movie`, `series`, `channel`, `tv`, and `id` denotes the catalog ID, which is custom and specified in your manifest, `id` is required as an addon can hold multiple catalogs
 
