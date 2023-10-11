@@ -28,9 +28,9 @@ For IMDB series (provided by Cinemeta), the video ID is formed by joining the Me
 
 ``action`` - set in the `extra` object; a string defining the user action, can be either: `start`, `end`, `pause` or `resume`.
 
-``duration`` - set in the `extra` object; int specifying the full duration of the video in **milliseconds**.
+``duration`` - set in the `extra` object; string specifying the full duration of the video in **milliseconds**.
 
-``currentTime`` - set in the `extra` object; int in *milliseconds* specifying the progress from the start of the video when the user took the action. 
+``currentTime`` - set in the `extra` object; string in *milliseconds* specifying the progress from the start of the video when the user took the action. 
 
 
 ## Basic Example
