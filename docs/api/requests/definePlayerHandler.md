@@ -1,6 +1,6 @@
 ## definePlayerHandler
 
-This method handles player requests.
+This method handles player events.
 
 ### Arguments:
 
@@ -11,13 +11,13 @@ This method handles player requests.
 
 ## Request Parameters
 
-``type`` - type of the item that we're requesting streams for; e.g. `movie`, `series`, `channel`, `tv` (see [Content Types](../responses/content.types.md))
+``type`` - type of the item that we're emitting player events for; e.g. `movie`, `series`, `channel`, `tv` (see [Content Types](../responses/content.types.md))
 
-``id`` - a **Video ID** as described in the [Video Object](../responses/meta.md#video-object)
+``id`` - a Video ID as described in the [Video Object](../responses/meta.md#video-object)
 
 **The Video ID is the same as the Meta ID for movies**.
 
-For IMDb series (provided by Cinemeta), the video ID is formed by joining the Meta ID, season and episode with a colon (e.g. `"tt0898266:9:17"`).
+For IMDB series (provided by Cinemeta), the video ID is formed by joining the Meta ID, season and episode with a colon (e.g. `"tt0898266:9:17"`).
 
 ``extra`` - object that holds additional properties; defined below
 
@@ -28,9 +28,9 @@ For IMDb series (provided by Cinemeta), the video ID is formed by joining the Me
 
 ``action`` - set in the `extra` object; a string defining the user action, can be either: `start`, `end`, `pause` or `resume`.
 
-``duration`` - set in the `extra` object; int specifying the full duration of the video in **milliseconds**.
+``duration`` - set in the `extra` object; string specifying the full duration of the video in **milliseconds**.
 
-``currentTime`` - set in the `extra` object; int in *milliseconds* specifying the progress from the start of the video when the user took the action. 
+``currentTime`` - set in the `extra` object; string in *milliseconds* specifying the progress from the start of the video when the user took the action. 
 
 
 ## Basic Example
@@ -38,11 +38,11 @@ For IMDb series (provided by Cinemeta), the video ID is formed by joining the Me
 ```javascript
 builder.definePlayerHandler(function(args) {
     if (args.type === 'movie' && args.id === 'tt1254207') {
-        // Player event has been successfully
-        return Promise.resolve({ handled: true })
+        // handle the player event
+        return Promise.resolve({ success: true })
     } else {
         // otherwise return false
-        return Promise.resolve({ handled: false })
+        return Promise.resolve({ success: false })
     }
 })
 ```

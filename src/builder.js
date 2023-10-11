@@ -67,7 +67,8 @@ function AddonBuilder(manifest) {
 	this.defineMetaHandler = this.defineResourceHandler.bind(this, 'meta')
 	this.defineCatalogHandler = this.defineResourceHandler.bind(this, 'catalog')
 	this.defineSubtitlesHandler = this.defineResourceHandler.bind(this, 'subtitles')
-	this.defineWatchStatusHandler = this.defineResourceHandler.bind(this, 'watchStatus')
+	this.definePlayerHandler = this.defineResourceHandler.bind(this, 'player')
+	this.defineLibraryHandler = this.defineResourceHandler.bind(this, 'library')
 
 	// build into an interface
 	this.getInterface = function() {

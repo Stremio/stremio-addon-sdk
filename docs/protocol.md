@@ -11,7 +11,7 @@ This allows Stremio or other similar applications to aggregate content seamlessl
 
 To define a minimal addon, you only need an HTTP server/endpoint serving a `/manifest.json` file and responding to resource requests at `/{resource}/{type}/{id}.json`.
 
-Currently used resources are: `catalog`, `meta`, `stream`, `subtitles`, `watchStatus`.
+Currently used resources are: `catalog`, `meta`, `stream`, `subtitles`, `player`, `library`.
 
 `/catalog/{type}/{id}.json` - catalogs of media items; `type` denotes the type, such as `movie`, `series`, `channel`, `tv`, and `id` denotes the catalog ID, which is custom and specified in your manifest, `id` is required as an addon can hold multiple catalogs
 
@@ -21,13 +21,23 @@ Currently used resources are: `catalog`, `meta`, `stream`, `subtitles`, `watchSt
 
 `/subtitles/{type}/{id}.json` - list of all subtitles for a particular item; `type` again denotes the type, the `id` in this case is the Open Subtitles file hash, while `extraArgs` (read below) is used for `videoID` (the ID of the particular item, as found in the catalog or a video ID) and `videoSize` (video file size in bytes)
 
-`/player/{type}/{id}/{extraArgs}.json` - TODO
+the `player` and `library` resources are events. in other resources the addon is supposed to provide data. but in event resources the addon recieves data and is expected to process that given data then respond with the success or failure of that processing.
+
+`/player/{type}/{videoID}/{extraArgs}.json` - a player event; `type` again denotes the type, and `videoID` is the video ID
 
 Where `extraArgs` can be one of:
 - Play: `action=play&currentTime={milliseconds}&duration={milliseconds}`
 - Start: `action=start&currentTime={milliseconds}&duration={milliseconds}`
 - End: `action=end&currentTime={milliseconds}&duration={milliseconds}`
 - Pause: `action=pause&currentTime={milliseconds}&duration={milliseconds}`
+
+`/library/{type}/{id}/{extraArgs}.json` - a library event; `type` again denotes the type, and `id` is the ID of the particular item
+
+Where `extraArgs` can be one of:
+- Add to library: `action=libraryAdd`
+- Remove from library: `action=libraryRemove`
+- Mark as watched: `action=watched&videoId={videoID}`
+- Mark as unwatched: `action=unwatched&videoId={videoID}`
 
 The JSON format of the response to these resources is described [here](./api/responses/).
 
