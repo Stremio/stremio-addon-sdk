@@ -2,6 +2,8 @@ const Router = require('router')
 const qs = require('querystring')
 const cors = require('cors')
 
+const warned = {}
+
 function getRouter({ manifest , get }) {
 	const router = new Router()
 
@@ -89,9 +91,11 @@ function getRouter({ manifest , get }) {
 
 				res.setHeader('Content-Type', 'application/json; charset=utf-8')
 
-				if (resource === 'stream' && ((resp || {}).streams || []).length)
-					if (resp.streams.find(stream => stream && stream.url && !(stream.behaviorHints || {}).filename))
+				if (!warned.filename && resource === 'stream' && ((resp || {}).streams || []).length)
+					if (resp.streams.find(stream => stream && stream.url && !(stream.behaviorHints || {}).filename)) {
+						warned.filename = true
 						console.warn('streams include stream.url but do not include stream.behaviorHints.filename, this is not recommended, subtitles may not be retrieved for these streams')
+					}
 
 				res.end(JSON.stringify(resp))
 			})
