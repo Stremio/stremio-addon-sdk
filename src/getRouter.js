@@ -89,6 +89,10 @@ function getRouter({ manifest , get }) {
 
 				res.setHeader('Content-Type', 'application/json; charset=utf-8')
 
+				if (resource === 'stream' && ((resp || {}).streams || []).length)
+					if (resp.streams.find(stream => stream && stream.url && !(stream.behaviorHints || {}).filename))
+						console.warn('streams include stream.url but do not include stream.behaviorHints.filename, this is not recommended, subtitles may not be retrieved for these streams')
+
 				res.end(JSON.stringify(resp))
 			})
 			.catch(err => {
