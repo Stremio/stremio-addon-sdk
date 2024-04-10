@@ -29,6 +29,12 @@ function AddonBuilder(manifest) {
 		const handlersInManifest = []
 		if (manifest.catalogs.length > 0) handlersInManifest.push('catalog')
 		manifest.resources.forEach((r) => handlersInManifest.push(r.name || r))
+		// add manifestHandler using behaviorHints or manifest.resources
+		/*
+		if(manifest.behaviorHints && (manifest.behaviorHints.configurationRequired || manifest.behaviorHints.configurable)){
+			handlersInManifest.push('manifest');
+		}
+		*/	
 		const handlersDefined = Object.keys(handlers)
 		handlersDefined.forEach(defined => {
 			if (!handlersInManifest.includes(defined)) {
@@ -63,6 +69,7 @@ function AddonBuilder(manifest) {
 		handlers[resource] = handler
 		return this
 	}
+	this.defineManifestHandler = this.defineResourceHandler.bind(this, 'manifest')
 	this.defineStreamHandler = this.defineResourceHandler.bind(this, 'stream')
 	this.defineMetaHandler = this.defineResourceHandler.bind(this, 'meta')
 	this.defineCatalogHandler = this.defineResourceHandler.bind(this, 'catalog')
