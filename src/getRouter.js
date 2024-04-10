@@ -35,7 +35,7 @@ function getRouter({ manifest , get }) {
 				config = false
 			}
 		}
-		return config;
+		return config
 	}
 
 	function getCacheControl(resp){
@@ -69,12 +69,13 @@ function getRouter({ manifest , get }) {
 		let config = parseConfig(req.params)
 		let manifestRespBuf = manifestHandler(config)
 		res.setHeader('Content-Type', 'application/json; charset=utf-8')
-		if(!config) res.end(manifestRespBuf);
+		if(!config) res.end(manifestRespBuf)
 		
+		const extra = { manifest: JSON.parse(manifestRespBuf) }
 		// setting type and id to null since this route doesn't support them
-		get('manifest',null,null, extra={manifest:JSON.parse(manifestRespBuf)}, config)
+		get('manifest',null,null, extra, config)
 			.then(resp => {
-				const cacheControl = getCacheControl(resp);
+				const cacheControl = getCacheControl(resp)
 				if (cacheControl)
 					res.setHeader('Cache-Control', `${cacheControl}, public`)
 
@@ -120,7 +121,7 @@ function getRouter({ manifest , get }) {
 		get(resource, type, id, extra, config)
 			.then(resp => {
 
-				const cacheControl = getCacheControl(resp);
+				const cacheControl = getCacheControl(resp)
 				if (cacheControl)
 					res.setHeader('Cache-Control', `${cacheControl}, public`)
 
@@ -128,8 +129,6 @@ function getRouter({ manifest , get }) {
 					res.redirect(307, resp.redirect)
 					return
 				}
-
-				res.setHeader('Content-Type', 'application/json; charset=utf-8')
 
 				if (!warned.filename && resource === 'stream' && ((resp || {}).streams || []).length)
 					if (resp.streams.find(stream => stream && stream.url && !(stream.behaviorHints || {}).filename)) {
