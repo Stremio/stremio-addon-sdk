@@ -20,6 +20,10 @@ Used as a response for [`defineStreamHandler`](../requests/defineStreamHandler.m
 
 - ``subtitles`` - _optional_ - array of [``Subtitle objects``](./subtitles.md) representing subtitles for this stream
 
+- ``sources`` - _optional_ - array of strings, represents a list of torrent announce URLs and DHT network nodes. Each element can be a tracker URL (`tracker:<protocol>://<host>:<port>`) or a DHT node (`dht:<node_id/info_hash>`).
+  > [!WARNING]
+  > Private trackers may prohibit the use of DHT as it can expose torrent activity to a broader network.
+
 - `behaviorHints` (all are optional)
     - `countryWhitelist`: which hints it's restricted to particular countries  - array of ISO 3166-1 alpha-3 country codes **in lowercase** in which the stream is accessible
     - `notWebReady`: applies if the protocol of the url is http(s); needs to be set to `true` if the URL does not support https or is not an MP4 file
