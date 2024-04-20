@@ -20,7 +20,7 @@ Used as a response for [`defineStreamHandler`](../requests/defineStreamHandler.m
 
 - ``subtitles`` - _optional_ - array of [``Subtitle objects``](./subtitles.md) representing subtitles for this stream
 
-- ``sources`` - _optional_ - array of strings, represents a list of torrent tracker URLs and DHT network nodes. This attribute can be used to provide additional peer discovery options when `infoHash` is also specified, but it is not required. If used, each element can be a tracker URL (`tracker:<protocol>://<host>:<port>`) where `<protocol>` can be either `http` or `udp`. UDP trackers typically offer faster response times compared to HTTP trackers. A DHT node (`dht:<node_id/info_hash>`) can also be included.
+- ``sources`` - _optional_ - array of strings, represents a list of torrent tracker URLs and DHT network nodes. This attribute can be used to provide additional peer discovery options when `infoHash` is also specified, but it is not required. If used, each element can be a tracker URL (`tracker:<protocol>://<host>:<port>`) where `<protocol>` can be either `http` or `udp`. A DHT node (`dht:<node_id/info_hash>`) can also be included.
   > **WARNING**: Use of DHT may be prohibited by some private trackers as it exposes torrent activity to a broader network, potentially finding more peers.
 
 - `behaviorHints` (all are optional)
