@@ -122,7 +122,7 @@ After you've deployed publically, in order to get your addon to show in Stremio 
 Check out our ever growing list of [examples and demo addons](./docs/examples.md). This list also includes examples & tutorials on how to develop Stremio addons in PHP, Python, Ruby, C#, Rust, Java and Go. It also includes a list of video tutorials.
 
 ### Rust version
-There is a third-party Rust version of this SDK built on stremio-core developed by Sleeyax [here](https://github.com/sleeyax/stremio-addon-sdk).
+There is a third-party Rust version of this SDK built on stremio-core developed by Sleeyax [here](https://github.com/sleeyax/stremio-addon-sdk-rs).
 
 ### Go version
 There is a third-party Go version of this SDK developed by doingodswork [here](https://github.com/Deflix-tv/go-stremio).
