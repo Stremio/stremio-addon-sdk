@@ -10,6 +10,7 @@ In order to deploy you will need:
 ## Install the Client
 
 - `npm install beamup-cli -g`
+- `beamup config` required after install and whenever the github keys are modified.
 
 ## Usage
 
