@@ -4,8 +4,20 @@ const path = require('path');
 const AddonBuilder = require('./builder');
 const { parseM3U8 } = require('./m3u8Parser');
 
+
 const PLAYLIST_PATH = path.join(__dirname, '../playlist');
-const streams = parseM3U8(PLAYLIST_PATH);
+let streamsCache = [];
+let lastRefresh = 0;
+const REFRESH_INTERVAL = 5 * 60 * 1000; // 5 minutes
+
+function getStreams() {
+    const now = Date.now();
+    if (!streamsCache.length || now - lastRefresh > REFRESH_INTERVAL) {
+        streamsCache = parseM3U8(PLAYLIST_PATH);
+        lastRefresh = now;
+    }
+    return streamsCache;
+}
 
 const manifest = {
     id: 'community.m3u8.streams',
@@ -29,6 +41,7 @@ const builder = new AddonBuilder(manifest);
 // Catalog handler: returns all streams as items
 builder.defineCatalogHandler(({ type, id, extra }) => {
     if (type !== 'tv' || id !== 'm3u8-live') return { metas: [] };
+    const streams = getStreams();
     const metas = streams.map(stream => ({
         id: 'm3u8_' + stream.id,
         type: 'tv',
@@ -43,6 +56,7 @@ builder.defineCatalogHandler(({ type, id, extra }) => {
 // Stream handler: returns stream URL for playback
 builder.defineStreamHandler(({ type, id }) => {
     if (type !== 'tv') return { streams: [] };
+    const streams = getStreams();
     const streamId = id.replace('m3u8_', '');
     const stream = streams.find(s => s.id === streamId);
     if (!stream) return { streams: [] };
@@ -59,6 +73,7 @@ builder.defineStreamHandler(({ type, id }) => {
 // Meta handler: returns metadata for each stream
 builder.defineMetaHandler(({ type, id }) => {
     if (type !== 'tv') return { meta: null };
+    const streams = getStreams();
     const streamId = id.replace('m3u8_', '');
     const stream = streams.find(s => s.id === streamId);
     if (!stream) return { meta: null };
