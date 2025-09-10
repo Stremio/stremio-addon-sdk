@@ -1,0 +1,393 @@
+#EXTM3U x-tvg-url="https://bit.ly/a1xepg" tvg-shift=0
+#EXTINF:-1 tvg-id="PPV.EVENTS.Dummy.us" tvg-name="Live Event" tvg-logo="https://i.imgur.com/LoQdSia.png" group-title="Live Event | PPV",Live Event 1
+https://a1xs.vip/ppv1
+#EXTINF:-1 tvg-id="PPV.EVENTS.Dummy.us" tvg-name="Live Event" tvg-logo="https://i.imgur.com/LoQdSia.png" group-title="Live Event | PPV",Live Event 2
+https://a1xs.vip/ppv2
+#EXTINF:-1 tvg-id="PPV.EVENTS.Dummy.us" tvg-name="Live Event" tvg-logo="https://i.imgur.com/LoQdSia.png" group-title="Live Event | PPV",Live Event 3
+https://a1xs.vip/ppv3
+#EXTINF:-1 tvg-id="PPV.EVENTS.Dummy.us" tvg-name="Live Event" tvg-logo="https://i.imgur.com/LoQdSia.png" group-title="Live Event | PPV",Live Event 4
+https://a1xs.vip/ppv4
+#EXTINF:-1 tvg-id="PPV.EVENTS.Dummy.us" tvg-name="Live Event" tvg-logo="https://i.imgur.com/LoQdSia.png" group-title="Live Event | PPV",Live Event 5
+https://a1xs.vip/ppv5
+#EXTINF:-1 tvg-id="SkySpMainEvHD.uk" tvg-name="UK: Sky Sports Main Event UHD" tvg-logo="https://i.ibb.co/gwCk7Bc/sky-m-event-uhd.png" group-title="UHD | 4K",UK: Sky Sports Main Event UHD
+https://a1xs.vip/2000015
+#EXTINF:-1 tvg-id="SkySp.F1.uk" tvg-name="UK: Sky Sports F1 UHD" tvg-logo="https://i.imgur.com/aetKPNi.png" group-title="UHD | 4K",UK: Sky Sports F1 UHD
+https://a1xs.vip/2000016
+#EXTINF:-1 tvg-id="TNT.Sports.Ultimate.uk" tvg-name="UK: TNT Sports Ultimate UHD" tvg-logo="https://i.ibb.co/QqGdJnM/TNTSprts-U.png" group-title="UHD | 4K",UK: TNT Sports Ultimate UHD
+https://a1xs.vip/2000031
+#EXTINF:-1 tvg-id="Astro.Sports.UHD.my" tvg-name="MY: Astro Sports UHD" tvg-logo="https://i.ibb.co/3hW45Pb/Astro-Sports-UHD.png group-title="UHD | 4K",MY: Astro Sports UHD
+https://a1xs.vip/9000001
+#EXTINF:-1 tvg-id="Now.Sports.4K.1.hk" tvg-name="HK: Now Sports 1 4k" tvg-logo="https://i.imgur.com/mj9zJUc.png" group-title="UHD | 4K",HK: Now Sports 1 4k
+https://a1xs.vip/9000011
+#EXTINF:-1 tvg-id="Hub.Premier.2.sg" tvg-name="SG: Hub Premier 2 UHD" tvg-logo="https://pixvid.org/images/2025/01/21/Hub-Premier-2-UHD.png" group-title="UHD | 4K",SG: Hub Premier 2 UHD
+https://a1xs.vip/9000012
+#EXTINF:-1 tvg-id="V.sport.ULTRA.HD.fi" tvg-name="SE: V Sport Ultra HD" tvg-logo="https://i.imgur.com/Q2qDLpV.png" group-title="UHD | 4K",SE: V Sport Ultra HD
+https://a1xs.vip/9000013
+#EXTINF:-1 tvg-id="New.England.Sports.Network.HDTV.(NESNHD).us" tvg-name="US: NESN UHD" tvg-logo="https://i.postimg.cc/CxVDbJrS/nesn.png" group-title="UHD | 4K",US: NESN UHD
+https://a1xs.vip/4000080
+#EXTINF:-1 tvg-id="Eleven.Sports.1.4K.pl" tvg-name="Eleven Sports 1 4K" tvg-logo="https://i.imgur.com/k6MErsv.png" group-title="UHD | 4K",Eleven Sports 1 4K
+https://a1xs.vip/14001
+#EXTINF:-1 tvg-id="DE:.Fashion.TV.de" tvg-name="Fashion TV UHD" tvg-logo="https://i.ibb.co/LNvfKrJ/FTVUHD.png" group-title="UHD | 4K",Fashion TV UHD
+https://a1xs.vip/ftv4kuhd
+#EXTINF:-1 tvg-id="Bloomberg.TV.USA.us" tvg-name="Bloomberg TV UHD" tvg-logo="https://i.ibb.co/L61zPzP/Bloomberg-tv.png" group-title="UHD | 4K",Bloomberg TV UHD
+https://a1xs.vip/blombuhd
+#EXTINF:-1 tvg-id="Love.Nature.ca" tvg-name="Love Nature 4K" tvg-logo="https://i.ibb.co/SdSKhsj/love-nature-4k.png" group-title="UHD | 4K",Love Nature 4K
+https://a1xs.vip/lovent4k
+#EXTINF:-1 tvg-id="travelxp.4K.de" tvg-name="Travelxp 4K" tvg-logo="https://i.ibb.co/GCKtvqn/Travelxp-4-K.png" group-title="UHD | 4K",Travelxp 4K
+https://a1xs.vip/travelxpuhd
+#EXTINF:-1 tvg-id="HOME.4K.pl" tvg-name="HOME 4K" tvg-logo="https://i.ibb.co/kg6GPds2/Home4k.webp" group-title="UHD | 4K",HOME 4K
+https://a1xs.vip/home4k
+#EXTINF:-1 tvg-id="Museum.4k.ro" tvg-name="MUSEUM TV 4K" tvg-logo="https://i.imgur.com/a55LkwU.png" group-title="UHD | 4K",MUSEUM TV 4K
+https://a1xs.vip/msem4k
+#EXTINF:-1 tvg-id="Loupe4k" tvg-name="Loupe 4K" tvg-logo="https://i.ibb.co/RP5Kv3k/loupe.png" group-title="UHD | 4K",Loupe 4K
+https://a1xs.vip/loupe4k
+#EXTINF:-1 tvg-id="MyZen.4K.ro" tvg-name="MyZen 4K" tvg-logo="https://i.imgur.com/GDZobhF.png" group-title="UHD | 4K",MyZen 4K (Multi Audio)
+https://a1xs.vip/myzen4k
+#EXTINF:-1 tvg-id="IRIBUHD" tvg-name="IRIB UHD" tvg-logo="https://i.postimg.cc/3w9YtJKn/IRIB-UHD.png" group-title="UHD | 4K",IRIB UHD
+https://a1xs.vip/iribuhd
+#EXTINF:-1 tvg-id="Now.Sports.Premier.League.1.hk" tvg-name="Now Sports PL 1 FHD" tvg-logo="https://pixvid.org/images/2025/01/21/NowS1.png" group-title="EPL",Now Sports PL 1 FHD
+https://a1xs.vip/1100001
+#EXTINF:-1 tvg-id="Now.Sports.Premier.League.2.hk" tvg-name="Now Sports PL 2 FHD" tvg-logo="https://pixvid.org/images/2025/01/28/NowPL2.png" group-title="EPL",Now Sports PL 2 FHD
+https://a1xs.vip/1100002
+#EXTINF:-1 tvg-id="Astro.Premier.League.my" tvg-name="Astro Premier League" tvg-logo="https://pixvid.org/images/2025/01/23/Astro_PL.webp" group-title="EPL",Astro Premier League
+https://a1xs.vip/1100030
+#EXTINF:-1 tvg-id="Astro.Premier.League.2.my" tvg-name="Astro Premier League 2" tvg-logo="https://pixvid.org/images/2025/02/18/Astro_Premier_League_2.webp" group-title="EPL",Astro Premier League 2
+https://a1xs.vip/1100031
+#EXTINF:-1 tvg-id="SKY.Sport.8.nz" tvg-name="Sky Sport PL NZ" tvg-logo="https://pixvid.org/images/2025/01/23/Sky_Sport_PL_NZ.webp" group-title="EPL",Sky Sport PL NZ
+https://a1xs.vip/700008
+#EXTINF:-1 tvg-id="SKY.Sport.8.nz" tvg-name="Peacock Premier League TV" tvg-logo="https://pixvid.org/images/2025/01/23/Premier_League.png" group-title="EPL",Peacock Premier League TV
+https://a1xs.vip/1100021
+#EXTINF:-1 tvg-id="USA.Network.-.East.Feed.us" tvg-name="USA Network FHD" tvg-logo="https://pixvid.org/images/2025/01/21/usa-network.png" group-title="EPL",USA Network FHD
+https://a1xs.vip/1100020
+#EXTINF:-1 tvg-id="Hub.Premier.1.sg" tvg-name="Hub Premier 1 FHD" tvg-logo="https://pixvid.org/images/2025/01/28/HubP1.png" group-title="EPL",Hub Premier 1 FHD
+https://a1xs.vip/1100041
+#EXTINF:-1 tvg-id="Hub.Premier.2.sg" tvg-name="Hub Premier 2 FHD" tvg-logo="https://pixvid.org/images/2025/01/28/Hubp2.png" group-title="EPL",Hub Premier 2 FHD
+https://a1xs.vip/1100042
+#EXTINF:-1 tvg-id="Hub.Premier.3.sg" tvg-name="Hub Premier 3 FHD" tvg-logo="https://pixvid.org/images/2025/01/28/Hub3.png" group-title="EPL",Hub Premier 3 FHD
+https://a1xs.vip/1100043
+#EXTINF:-1 tvg-id="Hub.Premier.4.sg" tvg-name="Hub Premier 4 FHD" tvg-logo="https://pixvid.org/images/2025/01/28/Hub4.png" group-title="EPL",Hub Premier 4 FHD
+https://a1xs.vip/1100044
+#EXTINF:-1 tvg-id="SkySpMainEvHD.uk" tvg-name="Sky Sports Main Event UHD" tvg-logo="https://i.ibb.co/gwCk7Bc/sky-m-event-uhd.png" group-title="UK Sports",Sky Sports Main Event UHD
+https://a1xs.vip/2000015
+#EXTINF:-1 tvg-id="SkySp.F1.uk" tvg-name="Sky Sports F1 UHD" tvg-logo="https://i.imgur.com/aetKPNi.png" group-title="UK Sports",Sky Sports F1 UHD
+https://a1xs.vip/2000016
+#EXTINF:-1 tvg-id="TNT.Sports.Ultimate.uk" tvg-name="TNT Sports Ultimate UHD" tvg-logo="https://i.ibb.co/QqGdJnM/TNTSprts-U.png" group-title="UK Sports",TNT Sports Ultimate UHD
+https://a1xs.vip/2000031
+#EXTINF:-1 tvg-id="SkySpMainEvHD.uk" tvg-name="Sky Sports Main Event FHD" tvg-logo="https://i.ibb.co/CwMZcpP/sky-main-event.png" group-title="UK Sports",Sky Sports Main Event FHD
+https://a1xs.vip/2000001
+#EXTINF:-1 tvg-id="SkySp.PL.HD.uk" tvg-name="Sky Sports Premier League FHD" tvg-logo="https://i.ibb.co/rcSRMh9/sky-sports-pl.png" group-title="UK Sports",Sky Sports Premier League FHD
+https://a1xs.vip/2000002
+#EXTINF:-1 tvg-id="SkySp.Fball.HD.uk" tvg-name="Sky Sports Football FHD" tvg-logo="https://i.ibb.co/WcCrBqx/sky-football.png" group-title="UK Sports",Sky Sports Football FHD
+https://a1xs.vip/2000003
+#EXTINF:-1 tvg-id="SkySp.News.HD.uk" tvg-name="Sky Sports F1 FHD" tvg-logo="https://i.ibb.co/7WMDvDP/sky-news.png" group-title="UK Sports",Sky Sports News FHD
+https://a1xs.vip/2000004
+#EXTINF:-1 tvg-id="SkySp.F1.HD.uk" tvg-name="Sky Sports F1 FHD" tvg-logo="https://i.ibb.co/h26bK2Q/sky-f1.png" group-title="UK Sports",Sky Sports F1 FHD
+https://a1xs.vip/2000005
+#EXTINF:-1 tvg-id="SkySpCricket.HD.uk" tvg-name="Sky Sports Cricket FHD" tvg-logo="https://i.ibb.co/JyPnwvB/sky-cricket.png" group-title="UK Sports",Sky Sports Cricket FHD
+https://a1xs.vip/2000006
+#EXTINF:-1 tvg-id="SkySp.Mix.HD.uk" tvg-name="Sky Sports Mix FHD" tvg-logo="https://i.ibb.co/7kYj5gc/sky-mix.png" group-title="UK Sports",Sky Sports Mix FHD
+https://a1xs.vip/2000008
+#EXTINF:-1 tvg-id="SkySp.Golf.HD.uk" tvg-name="Sky Sports Golf FHD" tvg-logo="https://i.ibb.co/QvhY4tX/sky-golf.png" group-title="UK Sports",Sky Sports Golf FHD
+https://a1xs.vip/2000009
+#EXTINF:-1 tvg-id="SkySp.Racing.HD.uk" tvg-name="Sky Sports Racing FHD" tvg-logo="https://i.ibb.co/Hnp1hBz/sky-racing.png" group-title="UK Sports",Sky Sports Racing FHD
+https://a1xs.vip/2000010
+#EXTINF:-1 tvg-id="SkySp.ActionHD.uk" tvg-name="Sky Sports Action FHD" tvg-logo="https://i.ibb.co/VqtQrDq/sky-action.png" group-title="UK Sports",Sky Sports Action FHD
+https://a1xs.vip/2000011
+#EXTINF:-1 tvg-id="SkySp+HD.uk" tvg-name="Sky Sports+ FHD" tvg-logo="https://i.ibb.co/ccNV9ppd/Sky-Sportsplus.png" group-title="UK Sports",Sky Sports+ FHD
+https://a1xs.vip/2000012
+#EXTINF:-1 tvg-id="SkySp.Tennis.HD.uk" tvg-name="Sky Sports Tennis FHD" tvg-logo="https://i.imgur.com/ZNUDU1r.png" group-title="UK Sports",Sky Sports Tennis FHD
+https://a1xs.vip/2000013
+#EXTINF:-1 tvg-id="TNT.Sports.1.HD.uk" tvg-name="TNT Sports 1 FHD" tvg-logo="https://i.imgur.com/1EYnddH.png" group-title="UK Sports",TNT Sports 1 FHD
+https://a1xs.vip/2000021
+#EXTINF:-1 tvg-id="TNT.Sports.2.HD.uk" tvg-name="TNT Sports 2 FHD" tvg-logo="https://i.imgur.com/YtGYRIB.png" group-title="UK Sports",TNT Sports 2 FHD
+https://a1xs.vip/2000022
+#EXTINF:-1 tvg-id="TNT.Sports.3.HD.uk" tvg-name="TNT Sports 3 FHD" tvg-logo="https://i.imgur.com/z1d9M65.png" group-title="UK Sports",TNT Sports 3 FHD
+https://a1xs.vip/2000023
+#EXTINF:-1 tvg-id="TNT.Sports.4.HD.uk" tvg-name="TNT Sports 4 FHD" tvg-logo="https://i.imgur.com/K92UuvG.png" group-title="UK Sports",TNT Sports 4 FHD
+https://a1xs.vip/2000024
+#EXTINF:-1 tvg-id="BBC.NEWS.HD.uk" tvg-name="BBC News FHD" tvg-logo="https://i.imgur.com/wZcplCT.png" group-title="UK Channels",BBC News FHD
+https://a1xs.vip/1000015
+#EXTINF:-1 tvg-id="CNN.uk" tvg-name="CNN News FHD" tvg-logo="https://i.imgur.com/iXbtNPJ.png" group-title="UK Channels",CNN UK FHD
+https://a1xs.vip/1000016
+#EXTINF:-1 tvg-id="BBC.One.Lon.HD.uk" tvg-name="BBC One FHD" tvg-logo="https://i.ibb.co/Xk2nLVq/BBC-One.png" group-title="UK Channels",BBC One FHD
+https://a1xs.vip/1000001
+#EXTINF:-1 tvg-id="BBC.Two.HD.uk" tvg-name="BBC Two FHD" tvg-logo="https://i.ibb.co/7vG6Nvz/BBC-Two.png" group-title="UK Channels",BBC Two FHD
+https://a1xs.vip/1000002
+#EXTINF:-1 tvg-id="BBC.Three.HD.uk" tvg-name="BBC Three / CBBC FHD" tvg-logo="https://i.ibb.co/n8t4rCh/BBC-Three.png" group-title="UK Channels",BBC Three / CBBC FHD
+https://a1xs.vip/1000003
+#EXTINF:-1 tvg-id="ITV1.HD.uk" tvg-name="iTV1 FHD" tvg-logo="https://i.ibb.co/g6TqxVm/ITV1.png" group-title="UK Channels",iTV1 FHD
+https://a1xs.vip/1000011
+#EXTINF:-1 tvg-id="ITV2.HD.uk" tvg-name="iTV2 FHD" tvg-logo="https://i.ibb.co/Yc66t7f/ITV2.png" group-title="UK Channels",iTV2 FHD
+https://a1xs.vip/1000012
+#EXTINF:-1 tvg-id="ITV3.HD.uk" tvg-name="iTV3 FHD" tvg-logo="https://i.ibb.co/fHbyKrt/ITV3.png" group-title="UK Channels",iTV3 FHD
+https://a1xs.vip/1000013
+#EXTINF:-1 tvg-id="ITV4.HD.uk" tvg-name="iTV4 FHD" tvg-logo="https://i.ibb.co/rQhNxbN/ITV4.png" group-title="UK Channels",iTV4 FHD
+https://a1xs.vip/1000014
+#EXTINF:-1 tvg-id="Channel.4.HD.uk" tvg-name="Channel 4 FHD" tvg-logo="https://i.ibb.co/v3WBCFV/Channel-4.png" group-title="UK Channels",Channel 4 FHD
+https://a1xs.vip/1000031
+#EXTINF:-1 tvg-id="Channel.5.HD.uk" tvg-name="Channel 5 FHD" tvg-logo="https://i.ibb.co/16SnsKq/skychb1800.png" group-title="UK Channels",Channel 5 FHD
+https://a1xs.vip/1000030
+#EXTINF:-1 tvg-id="E4.HD.uk" tvg-name="E4 FHD" tvg-logo="https://i.imgur.com/ium8n7E.png" group-title="UK Channels",E4 FHD
+https://a1xs.vip/1000032
+#EXTINF:-1 tvg-id="More4.HD.uk" tvg-name="MORE4 FHD" tvg-logo="https://i.imgur.com/cUMgPAZ.png" group-title="UK Channels",More4 FHD
+https://a1xs.vip/1000034
+#EXTINF:-1 tvg-id="4seven.ukk" tvg-name="4Seven FHD" tvg-logo="https://i.imgur.com/DtUIn7I.png" group-title="UK Channels",4Seven FHD
+https://a1xs.vip/1000036
+#EXTINF:-1 tvg-id="Film4.HD.uk" tvg-name="FILM4 FHD" tvg-logo="https://i.imgur.com/OjiHaqa.png" group-title="UK Channels",Film4 FHD
+https://a1xs.vip/1000035
+#EXTINF:-1 tvg-id="MTV.HD.uk" tvg-name="MTV FHD" tvg-logo="https://i.imgur.com/CeKvKIu.png" group-title="UK Channels",MTV FHD
+https://a1xs.vip/1000037
+#EXTINF:-1 tvg-id="Discovery.HD.uk" tvg-name="Discovery Channel FHD" tvg-logo="https://i.imgur.com/1eM0KX8.png" group-title="UK Channels",Discovery Channel FHD
+https://a1xs.vip/1000033
+#EXTINF:-1 tvg-id="Sky.Atlantic.HD.uk" tvg-name="Sky Atlantic FHD" tvg-logo="https://pixvid.org/images/2025/02/10/sky-atlantic.png" group-title="UK Channels",Sky Atlantic FHD
+https://a1xs.vip/210001
+#EXTINF:-1 tvg-id="Sky.Cinema.Hits.HD.uk" tvg-name="Sky Cinema Hits FHD" tvg-logo="https://pixvid.org/images/2025/02/10/sky-cinema-hits.png" group-title="UK Channels",Sky Cinema Hits FHD
+https://a1xs.vip/210002
+#EXTINF:-1 tvg-id="Sky.Premiere.uk" tvg-name="Sky Cinema Premiere FHD" tvg-logo="https://pixvid.org/images/2025/02/10/sky-cinema-premiere.png" group-title="UK Channels",Sky Cinema Premiere FHD
+https://a1xs.vip/210003
+#EXTINF:-1 tvg-id="Sky.Cinema.Select.uk" tvg-name="Sky Cinema Select FHD" tvg-logo="https://pixvid.org/images/2025/02/10/sky-cinema-select.png" group-title="UK Channels",Sky Cinema Select FHD
+https://a1xs.vip/210004
+#EXTINF:-1 tvg-id="Sky.Action.uk" tvg-name="Sky Cinema Action FHD" tvg-logo="https://pixvid.org/images/2025/02/10/sky-cinema-action.png" group-title="UK Channels",Sky Cinema Action FHD
+https://a1xs.vip/210006
+#EXTINF:-1 tvg-id="Sky.Family.HD.uk" tvg-name="Sky Cinema Family FHD" tvg-logo="https://pixvid.org/images/2025/02/11/sky-family.png" group-title="UK Channels",Sky Cinema Family FHD
+https://a1xs.vip/210007
+#EXTINF:-1 tvg-id="Sky.Comedy.Cinema.uk" tvg-name="Sky Cinema Comedy FHD" tvg-logo="https://pixvid.org/images/2025/02/10/sky-cinema-comedy.png" group-title="UK Channels",Sky Cinema Comedy FHD
+https://a1xs.vip/210005
+#EXTINF:-1 tvg-id="Cartoon.Netwrk.uk" tvg-name="Cartoon Network UK FHD" tvg-logo="https://pixvid.org/images/2025/02/27/cartoon-network.png" group-title="UK Channels",Cartoon Network UK FHD
+https://a1xs.vip/1000050
+#EXTINF:-1 tvg-id="NickelodeonHD.uk" tvg-name="Nickelodeon UK FHD" tvg-logo="https://pixvid.org/images/2025/02/27/Nickelodeon.png"" group-title="UK Channels",Nickelodeon UK FHD
+https://a1xs.vip/1000051
+#EXTINF:-1 tvg-id="Nick.Jr..HD.uk" tvg-name="Nick Jr. UK FHD" tvg-logo="https://pixvid.org/images/2025/02/27/Nick_Jr.png" group-title="UK Channels",Nick Jr. UK FHD
+https://a1xs.vip/1000052
+#EXTINF:-1 tvg-id="Nicktoons.uk" tvg-name="Nicktoon UK" tvg-logo="https://i.imgur.com/X3eFHe6.png" group-title="UK Channels",Nicktoon UK
+https://a1xs.vip/100054
+#EXTINF:-1 tvg-id="New.England.Sports.Network.HDTV.(NESNHD).us" tvg-name="NESN UHD" tvg-logo="https://i.postimg.cc/CxVDbJrS/nesn.png" group-title="US Sports",NESN UHD
+https://a1xs.vip/4000080
+#EXTINF:-1 tvg-id="MSG.(Madison.Square.Gardens).us" tvg-name="MSG" tvg-logo="https://i.postimg.cc/W1jFdzt4/MSG-Network-logo.png" group-title="US Sports",MSG FHD
+https://a1xs.vip/4000001
+#EXTINF:-1 tvg-id="MSG.Plus.us" tvg-name="MSG_PLUS" tvg-logo="https://i.postimg.cc/W1jFdzt4/MSG-Network-logo.png" group-title="US Sports",MSG_PLUS FHD
+https://a1xs.vip/4000002
+#EXTINF:-1 tvg-id="New.England.Sports.Network.HDTV.(NESNHD).us" tvg-name="NESN FHD" tvg-logo="https://i.postimg.cc/CxVDbJrS/nesn.png" group-title="US Sports",NESN FHD
+https://a1xs.vip/4000004
+#EXTINF:-1 tvg-id="SNY:.SportsNet.New.York.(Comcast).us" tvg-name="SportsNet NY FHD" tvg-logo="https://pixvid.org/images/2025/02/05/Sportsnet_NY.png" group-title="US Sports",SportsNet NY FHD
+https://a1xs.vip/40000045
+#EXTINF:-1 tvg-id="Spectrum.SportsNet.us" tvg-name="Spectrum Sportsnet" tvg-logo="https://i.postimg.cc/ZRChbGNc/spectrum-sportsnet.png" group-title="US Sports",Spectrum Sportsnet FHD
+https://a1xs.vip/4000006
+#EXTINF:-1 tvg-id="Spectrum.Sportsnet.Dodgers.us" tvg-name="Spectrum Sportsnet" tvg-logo="https://i.postimg.cc/ZRChbGNc/spectrum-sportsnet.png" group-title="US Sports",Spectrum Sportsnet LA Dodgers
+https://a1xs.vip/400052
+#EXTINF:-1 tvg-id="Spectrum.Sportsnet.Lakers.us" tvg-name="Spectrum Sportsnet" tvg-logo="https://i.postimg.cc/ZRChbGNc/spectrum-sportsnet.png" group-title="US Sports",Spectrum Sportsnet Lakers
+https://a1xs.vip/400053
+#EXTINF:-1 tvg-id="CBS.Sports.Network.USA.us" tvg-name="CBS Sports Network" tvg-logo="https://pixvid.org/images/2025/01/15/cbs-sports.png" group-title="US Sports",CBS Sports Network
+https://a1xs.vip/4000008
+#EXTINF:-1 tvg-id="plex.tv.CBS.Sports.Golazo.Network.plex" tvg-name="CBS Sports Golazo Network" tvg-logo="https://pixvid.org/images/2025/02/06/golazo.png" group-title="US Sports",CBS Sports Golazo Network
+https://a1xs.vip/4000009
+#EXTINF:-1 tvg-id="plex.tv.CBS.Sports.HQ.plex" tvg-name="CBS Sports HQ" tvg-logo="https://pixvid.org/images/2025/01/31/CBS_Sports_HQ.png" group-title="US Sports",CBS Sports HQ FHD
+https://a1xs.vip/4000007
+#EXTINF:-1 tvg-id="ESPN.us" tvg-name="ESPN HD" tvg-logo="https://pixvid.org/images/2025/01/25/espn-logo-1024.png" group-title="US Sports",ESPN HD
+https://a1xs.vip/40000011
+#EXTINF:-1 tvg-id="ESPN2.us" tvg-name="ESPN2 HD" tvg-logo="https://pixvid.org/images/2025/01/25/espn-2.png" group-title="US Sports",ESPN2 HD
+https://a1xs.vip/40000012
+#EXTINF:-1 tvg-id="ESPN.U.us" tvg-name="ESPNU HD" tvg-logo="https://pixvid.org/images/2025/01/25/espn-u.png" group-title="US Sports",ESPNU HD
+https://a1xs.vip/40000013
+#EXTINF:-1 tvg-id="ESPN.News.us" tvg-name="ESPN News HD" tvg-logo="https://pixvid.org/images/2025/01/25/espnews.png" group-title="US Sports",ESPN News HD
+https://a1xs.vip/40000014
+#EXTINF:-1 tvg-id="SEC.Network.us" tvg-name="SEC ESPN Network HD" tvg-logo="https://pixvid.org/images/2025/01/25/sec-nw.png" group-title="US Sports",SEC Network HD
+https://a1xs.vip/40000015
+#EXTINF:-1 tvg-id="ACC.Network.us" tvg-name="ACC Network HD" tvg-logo="https://pixvid.org/images/2025/01/25/acc-nw.png" group-title="US Sports",ACC Network HD
+https://a1xs.vip/40000016
+#EXTINF:-1 tvg-id="Fox.Sports.1.us" tvg-name="FS1 HD" tvg-logo="https://pixvid.org/images/2025/01/25/fs1.png" group-title="US Sports",FS1 HD
+https://a1xs.vip/40000021
+#EXTINF:-1 tvg-id="Fox.Sports.2.us" tvg-name="FS2 HD" tvg-logo="https://pixvid.org/images/2025/01/25/fs2.png" group-title="US Sports",FS2 HD
+https://a1xs.vip/40000022
+#EXTINF:-1 tvg-id="MLB.Network.us" tvg-name="MLB Network" tvg-logo="https://pixvid.org/images/2025/01/25/mlb-nw.png" group-title="US Sports",MLB Network
+https://a1xs.vip/40000030
+#EXTINF:-1 tvg-id="NBA.TV.USA.us" tvg-name="NBA TV" tvg-logo="https://pixvid.org/images/2025/01/25/nba-tv.png" group-title="US Sports",NBA TV
+https://a1xs.vip/40000031
+#EXTINF:-1 tvg-id="NFL.Network.us" tvg-name="NFL Network" tvg-logo="https://pixvid.org/images/2025/01/25/nfl-nw.png" group-title="US Sports",NFL Network
+https://a1xs.vip/40000032
+#EXTINF:-1 tvg-id="NFL.RedZone.us" tvg-name="NFL RedZone" tvg-logo="https://pixvid.org/images/2025/01/25/nfl-rz.png" group-title="US Sports",NFL RedZone
+https://a1xs.vip/40000033
+#EXTINF:-1 tvg-id="NHL.Network.USA.us" tvg-name="NHL Network" tvg-logo="https://pixvid.org/images/2025/01/25/nhl-nw.png" group-title="US Sports",NHL Network
+https://a1xs.vip/40000034
+#EXTINF:-1 tvg-id="Marquee.Sports.Network.us" tvg-name="Marquee Sports Network" tvg-logo="https://pixvid.org/images/2025/02/06/marquee-sn.png" group-title="US Sports",Marquee Sports Network 
+https://a1xs.vip/4000010
+#EXTINF:-1 tvg-id="Big.Ten.Network.us" tvg-name="Big Ten Network" tvg-logo="https://pixvid.org/images/2025/02/12/big-ten.png" group-title="US Sports",Big Ten Network 
+https://a1xs.vip/40000047
+#EXTINF:-1 tvg-id="Altitude.Sports.-.Denver.us" tvg-name="Altitude Sports" tvg-logo="https://pixvid.org/images/2025/02/20/altitude-sports.png" group-title="US Sports",Altitude Sports
+https://a1xs.vip/40000048
+#EXTINF:-1 tvg-id="FanDuel.TV.us" tvg-name="FanDuel TV" tvg-logo="https://pixvid.org/images/2025/02/07/fanduel_tv.png" group-title="US Sports",FanDuel TV
+https://a1xs.vip/40000046
+#EXTINF:-1 tvg-id="FanDuel.Sports.Network.North.us" tvg-name="FanDuel Sports North" tvg-logo="https://pixvid.org/images/2025/02/13/FanDuel_North.png" group-title="US Sports",FanDuel Sports North
+https://a1xs.vip/4000057
+#EXTINF:-1 tvg-id="FanDuel.Sports.Network.Florida.us" tvg-name="FanDuel Sports Florida" tvg-logo="https://pixvid.org/images/2025/02/08/FanDuel_Florida.png" group-title="US Sports",FanDuel Sports Florida
+https://a1xs.vip/4000050
+#EXTINF:-1 tvg-id="Fanduel.Sports.Sun.us" tvg-name="FanDuel Sports Sun" tvg-logo="https://pixvid.org/images/2025/02/11/FanDuel_Sun.png" group-title="US Sports",FanDuel Sports Sun
+https://a1xs.vip/4000051
+#EXTINF:-1 tvg-id="FanDuel.Sports.Network.West.us" tvg-name="FanDuel Sports West" tvg-logo="https://pixvid.org/images/2025/02/11/FanDuel_West.png" group-title="US Sports",FanDuel Sports West
+https://a1xs.vip/4000052
+#EXTINF:-1 tvg-id="FanDuel.Sports.Network.South.us" tvg-name="FanDuel Sports South" tvg-logo="https://pixvid.org/images/2025/02/11/FanDuel_South.png" group-title="US Sports",FanDuel Sports South
+https://a1xs.vip/4000053
+#EXTINF:-1 tvg-id="FanDuel.Sports.Network.Midwest.St..Louis.us" tvg-name="FanDuel Sports Midwest" tvg-logo="https://pixvid.org/images/2025/02/11/FanDuel_Midwest.png" group-title="US Sports",FanDuel Sports Midwest
+https://a1xs.vip/4000054
+#EXTINF:-1 tvg-id="FanDuel.Sports.Network.Great.Lakes.us" tvg-name="FanDuel Sports Great Lakes" tvg-logo="https://pixvid.org/images/2025/02/11/FanDuel_GLakes.png" group-title="US Sports",FanDuel Sports Great Lakes
+https://a1xs.vip/4000055
+#EXTINF:-1 tvg-id="FanDuel.Sports.Network.Wisconsin.us" tvg-name="FanDuel Sports Wisconsin" tvg-logo="https://pixvid.org/images/2025/02/11/FanDuel-Wisconsin.png" group-title="US Sports",FanDuel Sports Wisconsin
+https://a1xs.vip/4000056
+#EXTINF:-1 tvg-id="Willow.Cricket.HDTV.(WILLOWHD).us" tvg-name="Willow Cricket FHD" tvg-logo="https://pixvid.org/images/2025/02/04/willow.png" group-title="US Sports",Willow Cricket FHD
+https://a1xs.vip/40000042
+#EXTINF:-1 tvg-id="Willow.Xtra.us" tvg-name="Willow Cricket Xtra FHD" tvg-logo="https://pixvid.org/images/2025/02/04/willow-xtra.png" group-title="US Sports",Willow Cricket Xtra
+https://a1xs.vip/40000043
+#EXTINF:-1 tvg-id="The.Tennis.Channel.us" tvg-name="Tennis Channel FHD" tvg-logo="https://pixvid.org/images/2025/01/30/tennis-channel.png" group-title="US Sports",Tennis Channel FHD
+https://a1xs.vip/40000040
+#EXTINF:-1 tvg-id="The.Tennis.Channel.us" tvg-name="Tennis Channel Plus FHD" tvg-logo="https://pixvid.org/images/2025/01/30/tennis-channel.png" group-title="US Sports",Tennis Channel Plus FHD
+https://a1xs.vip/40000041
+#EXTINF:-1 tvg-id="Golf.Channel.USA.us" tvg-name="Golf Channel USA FHD" tvg-logo="https://pixvid.org/images/2025/02/18/golf-channel.png" group-title="US Sports",Golf Channel USA FHD
+https://a1xs.vip/40000060
+#EXTINF:-1 tvg-id="Chicago.Sports.Network.us" tvg-name="Chicago Sports Network" tvg-logo="https://i.imgur.com/wJvwsKH.png" group-title="US Sports",Chicago Sports Network
+https://a1xs.vip/4000049
+#EXTINF:-1 tvg-id="NBC.Sports.Bay.Area.us" tvg-name="NBC Sports Bay Area" tvg-logo="https://i.imgur.com/lxdcjBQ.png" group-title="US Sports",NBC Sports Bay Area
+https://a1xs.vip/400050
+#EXTINF:-1 tvg-id="NBC.Sports.Philadelphia.HDTV.(NBCSPAHD).us" tvg-name="NBC Sports Philadelphia" tvg-logo="https://i.imgur.com/ClsPpm6.png" group-title="US Sports",NBC Sports Philadelphia
+https://a1xs.vip/400051
+#EXTINF:-1 tvg-id="ABC.(WCPO).Cincinnati,.OH.us" tvg-name="ABC" tvg-logo="https://i.imgur.com/faIKUyq.png" group-title="US Channels",ABC
+https://a1xs.vip/300003
+#EXTINF:-1 tvg-id="ABC.NEWS.us" tvg-name="NBC News NOW" tvg-logo="https://i.imgur.com/L2BWgSl.png" group-title="US Channels",ABC News Live
+https://a1xs.vip/300016
+#EXTINF:-1 tvg-id="CNN.us" tvg-name="ABC" tvg-logo="https://i.imgur.com/iXbtNPJ.png" group-title="US Channels",CNN
+https://a1xs.vip/300007
+#EXTINF:-1 tvg-id="MSNBC.USA.us" tvg-name="MSNBC FHD" tvg-logo="https://i.imgur.com/hYkqMdI.png" group-title="US Channels",MSNBC
+https://a1xs.vip/300008
+#EXTINF:-1 tvg-id="CNBC.USA.us" tvg-name="CNBC FHD" tvg-logo="https://i.imgur.com/iOcdEdH.png" group-title="US Channels",CNBC
+https://a1xs.vip/300009
+#EXTINF:-1 tvg-id="CBS.(WCBS).New.York,.NY.us" tvg-name="CNBC FHD" tvg-logo="https://i.imgur.com/1gRfE1V.png" group-title="US Channels",CBS
+https://a1xs.vip/300010
+#EXTINF:-1 tvg-id="Fox.News.us" tvg-name="Fox News" tvg-logo="https://i.imgur.com/m22eA9B.png" group-title="US Channels",Fox News
+https://a1xs.vip/300011
+#EXTINF:-1 tvg-id="NewsMax.TV.us" tvg-name="NewsMax" tvg-logo="https://i.imgur.com/iOjk0wy.png" group-title="US Channels",NewsMax
+https://a1xs.vip/300012
+#EXTINF:-1 tvg-id="FOX.(KSWB).San.Diego,.CA.us" tvg-name="FOX" tvg-logo="https://i.imgur.com/atBCo5C.png" group-title="US Channels",FOX
+https://a1xs.vip/300014
+#EXTINF:-1 tvg-id="NBC.(WLWT).Cincinnati,.OH.us" tvg-name="NBC" tvg-logo="https://i.imgur.com/3BUnPYf.png" group-title="US Channels",NBC
+https://a1xs.vip/300015
+#EXTINF:-1 tvg-id="plex.tv.NBC.News.NOW.plex" tvg-name="NBC News NOW" tvg-logo="https://i.imgur.com/zRGFEyD.png" group-title="US Channels",NBC News NOW
+https://a1xs.vip/300013
+#EXTINF:-1 tvg-id="FXX.USA.-.Eastern.us" tvg-name="FXX" tvg-logo="https://i.imgur.com/twrNvSu.png" group-title="US Channels",FXX
+https://a1xs.vip/300006
+#EXTINF:-1 tvg-id="TNT.-.Eastern.Feed.us" tvg-name="TNT FHD" tvg-logo="https://i.imgur.com/Oa7yt2Z.png" group-title="US Channels",TNT FHD
+https://a1xs.vip/300001
+#EXTINF:-1 tvg-id="truTV.USA.-.Eastern.us" tvg-name="truTV FH" tvg-logo="https://i.imgur.com/D9Ofkf5.png" group-title="US Channels",truTV FHD
+https://a1xs.vip/300002
+#EXTINF:-1 tvg-id="TBS.-.East.us" tvg-name="TBS" tvg-logo="https://i.imgur.com/Ks8htcP.png" group-title="US Channels",TBS
+https://a1xs.vip/300038
+#EXTINF:-1 tvg-id="Comedy.Central.(US).-.Eastern.Feed.us" tvg-name="Comedy Central FHD" tvg-logo="https://i.imgur.com/nJT6QX9.png" group-title="US Channels",Comedy Central FHD
+https://a1xs.vip/300004
+#EXTINF:-1 tvg-id="HBO.Comedy.HD.-.East.us" tvg-name="HBO Comedy FHD" tvg-logo="https://i.imgur.com/CvxmOqV.png" group-title="US Channels",HBO Comedy FHD
+https://a1xs.vip/300005
+#EXTINF:-1 tvg-id="USA.Network.-.East.Feed.us" tvg-name="USA Network FHD" tvg-logo="https://i.imgur.com/ikf1r8R.png" group-title="US Channels",USA Network FHD
+https://a1xs.vip/1100020
+#EXTINF:-1 tvg-id="Nickelodeon.USA.-.East.Feed.us" tvg-name="Nickelodeon FHD" tvg-logo="https://i.imgur.com/jE2YHz0.png" group-title="US Channels",Nickelodeon FHD
+https://a1xs.vip/300030
+#EXTINF:-1 tvg-id="TeenNick.-.Eastern.us" tvg-name="TeenNick FHD" tvg-logo="https://i.imgur.com/U3cZhfT.png" group-title="US Channels",TeenNick FHD
+https://a1xs.vip/300031
+#EXTINF:-1 tvg-id="Nick.Jr..-.East.us" tvg-name="Nick Jr. FHD" tvg-logo="https://i.imgur.com/cHN8fE8.png" group-title="US Channels",Nick Jr. FHD
+https://a1xs.vip/300033
+#EXTINF:-1 tvg-id="Cartoon.Network.USA.-.Eastern.Feed.us" tvg-name="Cartoon Network FHD" tvg-logo="https://i.imgur.com/draQT6x.png" group-title="US Channels",Cartoon Network FHD
+https://a1xs.vip/300032
+#EXTINF:-1 tvg-id="Discovery.Channel.(US).-.Eastern.Feed.us" tvg-name="Discovery Channel (US) FHD" tvg-logo="https://i.imgur.com/1eM0KX8.png" group-title="US Channels",Discovery Channel FHD
+https://a1xs.vip/300034
+#EXTINF:-1 tvg-id="Animal.Planet.US.-.East.us" tvg-name="Animal Planet FHD" tvg-logo="https://i.imgur.com/3TW3Qkf.png" group-title="US Channels",Animal Planet FHD
+https://a1xs.vip/300035
+#EXTINF:-1 tvg-id="Disney.-.Eastern.Feed.us" tvg-name="Disney Channel" tvg-logo="https://i.imgur.com/21lvh66.png" group-title="US Channels",Disney Channel
+https://a1xs.vip/300037
+#EXTINF:-1 tvg-id="Disney.Junior.USA.-.East.us" tvg-name="Disney Jr." tvg-logo="https://i.imgur.com/9cTFAUP.png" group-title="US Channels",Disney Junior
+https://a1xs.vip/300036
+#EXTINF:-1 tvg-id="TSN1.ca" tvg-name="TSN1" tvg-logo="https://i.imgur.com/xF3cHNd.png" group-title="CA Sports",TSN1
+https://a1xs.vip/6000001
+#EXTINF:-1 tvg-id="TSN2.ca" tvg-name="TSN2" tvg-logo="https://i.imgur.com/iTSoxQW.png" group-title="CA Sports",TSN2
+https://a1xs.vip/6000002
+#EXTINF:-1 tvg-id="TSN3.ca" tvg-name="TSN3" tvg-logo="https://i.imgur.com/dPMY5Kc.png" group-title="CA Sports",TSN3
+https://a1xs.vip/6000003
+#EXTINF:-1 tvg-id="TSN4.ca" tvg-name="TSN4" tvg-logo="https://i.imgur.com/9EInDNq.png" group-title="CA Sports",TSN4
+https://a1xs.vip/6000004
+#EXTINF:-1 tvg-id="TSN5.ca" tvg-name="TSN5" tvg-logo="https://i.imgur.com/houBcHX.png" group-title="CA Sports",TSN5
+https://a1xs.vip/6000005
+#EXTINF:-1 tvg-id="Sportsnet.(Ontario).ca" tvg-name="https://i.imgur.com/o6Ct6Ce.png" group-title="CA Sports",Sportsnet Ontario FHD
+https://a1xs.vip/6000011
+#EXTINF:-1 tvg-id="Sportsnet.One.ca" tvg-name="Sportsnet One FHD" tvg-logo="https://i.imgur.com/SxBnZN0.png" group-title="CA Sports",Sportsnet One FHD
+https://a1xs.vip/6000012
+#EXTINF:-1 tvg-id="Sportsnet.World.ca" tvg-name="Sportsnet World FHD" tvg-logo="https://i.imgur.com/EJy8K7F.png" group-title="CA Sports",Sportsnet World FHD
+https://a1xs.vip/6000013
+#EXTINF:-1 tvg-id="Sportsnet.360.ca" tvg-name="Sportsnet 360 FHD" tvg-logo="https://i.imgur.com/8YNVKqC.png" group-title="CA Sports",Sportsnet 360 FHD
+https://a1xs.vip/6000014
+#EXTINF:-1 tvg-id="Sportsnet.(West).-.Satellite/Digital.ca" tvg-name="Sportsnet West" tvg-logo="https://i.imgur.com/GAlu4gn.png" group-title="CA Sports",Sportsnet West
+https://a1xs.vip/6000015
+#EXTINF:-1 tvg-id="CP24.(CablePulse.24).ca" tvg-name="CP24" tvg-logo="https://broadcasting-history.ca/wp-content/uploads/2021/03/CP24-Logo.jpg" group-title="CA Channels",CP24
+https://a1xs.vip/610001
+#EXTINF:-1 tvg-id="CTV.News.Channel.ca" tvg-name="CTV News tvg-logo="https://i.imgur.com/tAHqKVn.png" group-title="CA Channels",CTV News
+https://a1xs.vip/610002
+#EXTINF:-1 tvg-id="CTV2.Toronto,.ON.ca" tvg-name="CTV 2" tvg-logo="https://i.imgur.com/T2uS3V6.png" group-title="CA Channels",CTV 2
+https://a1xs.vip/610003
+#EXTINF:-1 tvg-id="CBC.News.Network.ca" tvg-name="CTV 2" tvg-logo="https://i.imgur.com/kXIXzxH.png" group-title="CA Channels",CBC News Network
+https://a1xs.vip/610004
+#EXTINF:-1 tvg-id="Global.BC.ca" tvg-name="Global News" tvg-logo="https://i.imgur.com/8QAJH8a.png" group-title="CA Channels",Global News
+https://a1xs.vip/610005
+#EXTINF:-1 tvg-id="FoxCricket.au" tvg-name="Fox Sports 501 FHD" tvg-logo="https://i.imgur.com/59gCbVd.png" group-title="AU Sports",Fox Sports 501 FHD
+https://a1xs.vip/700001
+#EXTINF:-1 tvg-id="FoxLeague.au" tvg-name="Fox Sports 502 FHD" tvg-logo="https://i.imgur.com/idKGREY.png" group-title="AU Sports",Fox Sports 502 FHD
+https://a1xs.vip/700002
+#EXTINF:-1 tvg-id="FoxSports503.au" tvg-name="Fox Sports 503 FHD" tvg-logo="https://i.imgur.com/5PUsSnn.png" group-title="AU Sports",Fox Sports 503 FHD
+https://a1xs.vip/700003
+#EXTINF:-1 tvg-id="FoxFooty.au" tvg-name="Fox Sports 504 FHD" tvg-logo="https://i.imgur.com/aEoU7gf.png" group-title="AU Sports",Fox Sports 504 FHD
+https://a1xs.vip/700004
+#EXTINF:-1 tvg-id="FoxSports505.au" tvg-name="Fox Sports 505 FHD" tvg-logo="https://i.imgur.com/angJkah.png" group-title="AU Sports",Fox Sports 505 FHD
+https://a1xs.vip/700005
+#EXTINF:-1 tvg-id="FoxSports506.au" tvg-name="Fox Sports 506 FHD" tvg-logo="https://i.imgur.com/eA1hiR0.png" group-title="AU Sports",Fox Sports 506 FHD
+https://a1xs.vip/700006
+#EXTINF:-1 tvg-id="FoxSportsMore.au" tvg-name="Fox Sports 507 FHD" tvg-logo="https://i.imgur.com/kGm7Ts1.png" group-title="AU Sports",Fox Sports 507 FHD
+https://a1xs.vip/700007
+#EXTINF:-1 tvg-id="SKY.Sport.1.nz" tvg-name="SKY Sport 1 NZ" tvg-logo="https://i.imgur.com/NRK8Uc6.png" group-title="NZ Sports",SKY Sport 1 NZ
+https://a1xs.vip/700031
+#EXTINF:-1 tvg-id="SKY.Sport.2.nz" tvg-name="SKY Sport 2 NZ" tvg-logo="https://i.imgur.com/IEDwF39.png" group-title="NZ Sports",SKY Sport 2 NZ
+https://a1xs.vip/700032
+#EXTINF:-1 tvg-id="SKY.Sport.3.nz" tvg-name="SKY Sport 3 NZ" tvg-logo="https://i.imgur.com/gTeEX4f.png" group-title="NZ Sports",SKY Sport 3 NZ
+https://a1xs.vip/700033
+#EXTINF:-1 tvg-id="SKY.Sport.4.nz" tvg-name="SKY Sport 4 NZ" tvg-logo="https://i.imgur.com/ogjOWQV.png" group-title="NZ Sports",SKY Sport 4 NZ
+https://a1xs.vip/700034
+#EXTINF:-1 tvg-id="SKY.Sport.5.nz" tvg-name="SKY Sport 5 NZ" tvg-logo="https://i.imgur.com/zIRnRJM.png" group-title="NZ Sports",SKY Sport 5 NZ
+https://a1xs.vip/700035
+#EXTINF:-1 tvg-id="SKY.Sport.6.nz" tvg-name="SKY Sport 6 NZ" tvg-logo="https://i.imgur.com/o0Icbjt.png" group-title="NZ Sports",SKY Sport 6 NZ
+https://a1xs.vip/700036
+#EXTINF:-1 tvg-id="SKY.Sport.7.nz" tvg-name="SKY Sport 7 NZ" tvg-logo="https://i.imgur.com/AznJTOJ.png" group-title="NZ Sports",SKY Sport 7 NZ
+https://a1xs.vip/700037
+#EXTINF:-1 tvg-id="SKY.Sport.8.nz" tvg-name="Sky Sport PL NZ" tvg-logo="https://i.imgur.com/ZlADOPM.png" group-title="NZ Sports",Sky Sport 8 - Premier League NZ
+https://a1xs.vip/700008
+#EXTINF:-1 tvg-id="Premier.Sports.1.HD.ie" tvg-name="Premier Sports 1 FHD" tvg-logo="https://i.imgur.com/2PGUHlW.png" group-title="EU Sports",IRE: Premier Sports 1 FHD
+https://a1xs.vip/8000021
+#EXTINF:-1 tvg-id="Premier.Sports.2.HD.ie" tvg-name="Premier Sports 2 FHD" tvg-logo="https://i.imgur.com/mLYkn9p.png" group-title="EU Sports",IRE: Premier Sports 2 FHD
+https://a1xs.vip/8000022
+#EXTINF:-1 tvg-id="sportdigital.de" tvg-name="Sportdigital Fussball" tvg-logo="https://i.imgur.com/8KiZkJF.png" group-title="EU Sports",DE: Sportdigital Fussball FHD
+https://a1xs.vip/120001
+#EXTINF:-1 tvg-id="Sky.Sport.Bundesliga.de" tvg-name="Sky Sport Bundesliga FHD" tvg-logo="https://i.imgur.com/EhInbSW.png" group-title="EU Sports",DE: Sky Sport Bundesliga FHD
+https://a1xs.vip/120002
+#EXTINF:-1 tvg-id="Sky.Sport.Top.Event.de" tvg-name="Sky Sport Top Event FHD" tvg-logo="https://i.imgur.com/0iFbfLa.png" group-title="EU Sports",DE: Sky Sport Top Event FHD
+https://a1xs.vip/120003
+#EXTINF:-1 tvg-id="Sky.Sport.Premier.League.de" tvg-name="Sky Sport PL DE" tvg-logo="https://i.imgur.com/9QfVskT.png" group-title="EU Sports",DE: Sky Sport Premier League FHD
+https://a1xs.vip/120004
+#EXTINF:-1 tvg-id="SuperSport.1.al" tvg-name="AL: Super Sport 1 FHD" tvg-logo="https://i.imgur.com/zI22zLw.png" group-title="EU Sports",AL: Super Sport 1 FHD
+https://a1xs.vip/130001
+#EXTINF:-1 tvg-id="SuperSport.2.al" tvg-name="AL: Super Sport 2 FHD" tvg-logo="https://i.imgur.com/zI22zLw.png" group-title="EU Sports",AL: Super Sport 2 FHD
+https://a1xs.vip/130002
+#EXTINF:-1 tvg-id="SuperSport.3.al" tvg-name="AL: Super Sport 3 FHD" tvg-logo="https://i.imgur.com/zI22zLw.png" group-title="EU Sports",AL: Super Sport 3 FHD
+https://a1xs.vip/130003
+#EXTINF:-1 tvg-id="Ziggo.Sport.nl" tvg-name="NL: Ziggo Sport FHD" tvg-logo="https://i.imgur.com/8mnQvB5.png" group-title="EU Sports",NL: Ziggo Sport FHD
+https://a1xs.vip/140001
+#EXTINF:-1 tvg-id="Ziggo.Sport.2.nl" tvg-name="NL: Ziggo Sport 2 FHD" tvg-logo="https://i.imgur.com/8mnQvB5.png" group-title="EU Sports",NL: Ziggo Sport 2 FHD
+https://a1xs.vip/140002
+#EXTINF:-1 tvg-id="Ziggo.Sport.3.nl" tvg-name="NL: Ziggo Sport 3 FHD" tvg-logo="https://i.imgur.com/8mnQvB5.png" group-title="EU Sports",NL: Ziggo Sport 3 FHD
+https://a1xs.vip/140003
+#EXTINF:-1 tvg-id="Ziggo.Sport.4.nl" tvg-name="NL: Ziggo Sport 4 FHD" tvg-logo="https://i.imgur.com/8mnQvB5.png" group-title="EU Sports",NL: Ziggo Sport 4 FHD
+https://a1xs.vip/140004
+#EXTINF:-1 tvg-id="STAR.SPORTS.SELECT.1.HD.in" tvg-name="Star Sports Select 1 FHD" tvg-logo="https://i.imgur.com/VFyADIN.png" group-title="World Sports", Star Sports Select 1 FHD
+https://a1xs.vip/8000011
+#EXTINF:-1 tvg-id="STAR.SPORTS.SELECT.2.HD.in" tvg-name="Star Sports Select 2 FHD" tvg-logo="https://i.imgur.com/6u2iOjA.png" group-title="World Sports", Star Sports Select 2 FHD
+https://a1xs.vip/8000012
