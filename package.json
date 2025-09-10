@@ -3,9 +3,11 @@
   "version": "1.6.10",
   "description": "An SDK for making and publishing Stremio add-ons",
   "main": "./src/index.js",
+  "types": "./dist/index.js",
   "scripts": {
     "pretest": "eslint --ignore-path .gitignore .",
-    "test": "tape test/*"
+    "test": "tape test/*",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
@@ -41,6 +43,7 @@
     "eslint": "^5.13.0",
     "stremio-addon-client": "https://github.com/Stremio/stremio-addon-client.git#v1.16.1",
     "supertest": "^3.3.0",
-    "tape": "^4.9.0"
+    "tape": "^4.9.0",
+    "typescript": "^5.9.2"
   }
 }
