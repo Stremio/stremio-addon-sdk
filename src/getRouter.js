@@ -4,17 +4,6 @@ const cors = require('cors')
 
 const warned = {}
 
-/**
- * @typedef {Object} AddonInterface
- * @property {Object} manifest
- * @property {function} get
- */
-
-/**
- * Turns the addonInterface into an express router that serves the addon according to the protocol and a landing page on the root (/).
- * @param {AddonInterface} addonInterface The addon interface object ({ manifest, get })
- * @returns {any} Express router
- */
 function getRouter({ manifest , get }) {
 	const router = new Router()
 

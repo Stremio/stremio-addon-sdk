@@ -5,22 +5,6 @@ const landingTemplate = require('./landingTemplate')
 const getRouter = require('./getRouter')
 const opn = require('opn')
 
-/**
- * @typedef {Object} AddonInterface
- * @property {Object} manifest
- * @property {function} get
- */
-
-/**
- * Starts the addon server.
- *
- * This method is also special in that it will react to certain process arguments, such as:
- * * --launch: launches Stremio in the web browser, and automatically installs/upgrades the addon
- * * --install: installs the addon in the desktop version of Stremio
- * @param {AddonInterface} addonInterface The addon interface to serve
- * @param {{port?: number, cacheMaxAge?: number, static?: string}} [opts] Server options
- * @returns {void}
- */
 function serveHTTP(addonInterface, opts = {}) {
 	if (addonInterface.constructor.name !== 'AddonInterface') {
 		throw new Error('first argument must be an instance of AddonInterface')
