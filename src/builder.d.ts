@@ -1,4 +1,19 @@
-import { Manifest, AddonInterface, Args, Cache, MetaPreview, MetaDetail, Stream, Subtitle, AddonCatalog, ContentType } from './types';
+import { 
+    Manifest, 
+    AddonInterface, 
+    Cache, 
+    MetaPreview, 
+    MetaDetail, 
+    Stream, 
+    Subtitle, 
+    AddonCatalog, 
+    DefaultConfig,
+    CatalogHandlerArgs,
+    MetaHandlerArgs,
+    StreamHandlerArgs,
+    SubtitlesHandlerArgs,
+    AddonCatalogHandlerArgs
+} from './types';
 
 /**
  * Creates an addon builder object with a given manifest.
@@ -18,15 +33,15 @@ declare class addonBuilder {
      *
      * Docs: https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/api/requests/defineCatalogHandler.md
      */
-    defineCatalogHandler(handler: (args: Args) => Promise<{ metas: MetaPreview[] } & Cache>): this;
+    defineCatalogHandler<Config = DefaultConfig>(handler: (args: CatalogHandlerArgs<Config>) => Promise<{ metas: MetaPreview[] } & Cache>): this;
 
     /**
      * Handles metadata requests (title, year, poster, background, etc.).
      *
      * Docs: https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/api/requests/defineMetaHandler.md
      */
-    defineMetaHandler(
-        handler: (args: { type: ContentType; id: string }) => Promise<{ meta: MetaDetail } & Cache>,
+    defineMetaHandler<Config = DefaultConfig>(
+        handler: (args: MetaHandlerArgs<Config>) => Promise<{ meta: MetaDetail } & Cache>,
     ): this;
 
     /**
@@ -36,8 +51,8 @@ declare class addonBuilder {
      *
      * Docs: https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/api/requests/defineStreamHandler.md
      */
-    defineStreamHandler(
-        handler: (args: { type: ContentType; id: string }) => Promise<{ streams: Stream[] } & Cache>,
+    defineStreamHandler<Config = DefaultConfig>(
+        handler: (args: StreamHandlerArgs<Config>) => Promise<{ streams: Stream[] } & Cache>,
     ): this;
 
     /**
@@ -45,21 +60,8 @@ declare class addonBuilder {
      *
      * Docs: https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/api/requests/defineSubtitlesHandler.md
      */
-    defineSubtitlesHandler(
-        handler: (args: {
-            type: ContentType;
-            id: string;
-            extra: {
-                /**
-                 * OpenSubtitles file hash for the video.
-                 */
-                videoHash: string;
-                /**
-                 * Size of the video file in bytes.
-                 */
-                videoSize: string;
-            };
-        }) => Promise<{ subtitles: Subtitle[] } & Cache>,
+    defineSubtitlesHandler<Config = DefaultConfig>(
+        handler: (args: SubtitlesHandlerArgs<Config>) => Promise<{ subtitles: Subtitle[] } & Cache>,
     ): this;
 
     /**
@@ -70,7 +72,7 @@ declare class addonBuilder {
      *
      * Docs: https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/api/requests/defineResourceHandler.md
      */
-    defineResourceHandler(resource: string, handler: (args: { type: ContentType; id: string }) => Promise<{ addons: AddonCatalog[] } & Cache>): this;
+    defineResourceHandler<Config = DefaultConfig>(resource: string, handler: (args: AddonCatalogHandlerArgs<Config>) => Promise<{ addons: AddonCatalog[] } & Cache>): this;
 
     /**
      * Turns the addon into an addonInterface, which is an immutable (frozen) object that has {manifest, get} where:

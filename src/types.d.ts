@@ -2,11 +2,89 @@ export type ShortManifestResource = "catalog" | "meta" | "stream" | "subtitles" 
 export type Extra = "search" | "genre" | "skip";
 export type ContentType = "movie" | "series" | "channel" | "tv";
 
-export interface Args {
+export type DefaultConfig = Record<string, any> | undefined;
+export type DefaultHandlerExtra = Record<string, any>;
+
+/**
+ * Extra properties for catalog handlers
+ */
+export type CatalogHandlerExtra = {
+    /**
+     * String to search for in the catalog
+     */
+    search?: string;
+
+    /**
+     * A string to filter the feed or search results by genres
+     */
+    genre?: string;
+    
+    /**
+     * Used for catalog pagination, refers to the number of items skipped from the beginning of the catalog.
+     * The standard page size in Stremio is 100, so the `skip` value will be a multiple of 100. 
+     * If you return less than 100 items, Stremio will consider this to be the end of the catalog.
+     */
+    skip?: number;
+};
+
+/**
+ * Extra properties for subtitles handlers
+ */
+export type SubtitlesHandlerExtra = {
+    /**
+     * [OpenSubtitles file hash](http://trac.opensubtitles.org/projects/opensubtitles/wiki/HashSourceCodes) for the video
+     */
+    videoHash?: string;
+
+    /**
+     * Size of the video file in bytes
+     */
+    videoSize?: number;
+
+    /**
+     * Filename of the video file
+     */
+    filename?: string;
+};
+
+/**
+ * Maps handler types to their specific Extra types
+ */
+export type HandlerExtraMap = {
+    catalog: CatalogHandlerExtra;
+    subtitles: SubtitlesHandlerExtra;
+    meta: DefaultHandlerExtra;
+    stream: DefaultHandlerExtra;
+    addon_catalog: DefaultHandlerExtra;
+};
+
+/**
+ * Conditional type that returns the appropriate Extra type based on the handler type
+ */
+export type GetHandlerExtra<T extends ShortManifestResource> = T extends keyof HandlerExtraMap 
+    ? HandlerExtraMap[T] 
+    : DefaultHandlerExtra;
+
+/**
+ * Generic handler arguments with conditional `Extra` typing
+ */
+export interface HandlerArgs<
+    TResource extends ShortManifestResource = ShortManifestResource,
+    TConfig = DefaultConfig,
+    TExtra = GetHandlerExtra<TResource>
+> {
     type: ContentType;
     id: string;
-    extra: { search: string; genre: string; skip: number };
+    extra: TExtra;
+    config: TConfig;
 }
+
+// Specific type aliases for each handler type
+export type CatalogHandlerArgs<Config = DefaultConfig> = HandlerArgs<"catalog", Config, CatalogHandlerExtra>;
+export type MetaHandlerArgs<Config = DefaultConfig> = HandlerArgs<"meta", Config, DefaultHandlerExtra>;
+export type StreamHandlerArgs<Config = DefaultConfig> = HandlerArgs<"stream", Config, DefaultHandlerExtra>;
+export type SubtitlesHandlerArgs<Config = DefaultConfig> = HandlerArgs<"subtitles", Config, SubtitlesHandlerExtra>;
+export type AddonCatalogHandlerArgs<Config = DefaultConfig> = HandlerArgs<"addon_catalog", Config, DefaultHandlerExtra>;
 
 /**
  * A resolving object can also include the following cache related properties
@@ -16,15 +94,15 @@ export interface Cache {
      * (in seconds) sets the Cache-Control header to max-age=$cacheMaxAge
      * and overwrites the global cache time set in serveHTTP options.
      */
-    cacheMaxAge?: number | undefined;
+    cacheMaxAge?: number;
     /**
      * (in seconds) sets the Cache-Control header to stale-while-revalidate=$staleRevalidate.
      */
-    staleRevalidate?: number | undefined;
+    staleRevalidate?: number;
     /**
      * (in seconds) sets the Cache-Control header to stale-if-error=$staleError.
      */
-    staleError?: number | undefined;
+    staleError?: number;
 }
 
 /**
@@ -54,15 +132,18 @@ export interface MetaPreview {
      * Accepted aspect ratios: 1:0.675 (IMDb poster type) or 1:1 (square).
      *
      * You can use any resolution, as long as the file size is below 100kb.
-     * Below 50kb is recommended
+     * Below 50kb is recommended.
+     * 
+     * Note: According to the Meta Preview Object documentation, this should be required for catalog responses,
+     * but kept optional here for compatibility with Meta Object documentation.
      */
-    poster?: string | undefined;
+    poster?: string;
     /**
-     * Poster can be square (1:1 aspect) or regular (1:0.675) or landscape (1:1.77).
+     * Poster can be square (1:1 aspect) or poster (1:0.675) or landscape (1:1.77).
      *
-     * Defaults to 'regular'.
+     * Defaults to 'poster'.
      */
-    posterShape?: "square" | "regular" | "landscape" | undefined;
+    posterShape?: "square" | "poster" | "landscape";
     /**
      * The background shown on the stremio detail page.
      *
@@ -70,7 +151,7 @@ export interface MetaPreview {
      *
      * URL to PNG, max file size 500kb.
      */
-    background?: string | undefined;
+    background?: string;
     /**
      * The logo shown on the stremio detail page.
      *
@@ -78,11 +159,20 @@ export interface MetaPreview {
      *
      * URL to PNG.
      */
-    logo?: string | undefined;
+    logo?: string;
     /**
      * A few sentences describing your content.
      */
-    description?: string | undefined;
+    description?: string;
+    /**
+     * Array containing objects in the form of { "source": "P6AaSMfXHbA", "type": "Trailer" }.
+     * 
+     * Where source is a YouTube Video ID and type can be either "Trailer" or "Clip".
+     * Used for the Discover Page Sidebar.
+     * 
+     * @deprecated This will soon be deprecated in favor of `meta.trailers` being an array of Stream Objects.
+     */
+    trailers?: Array<{ source: string; type: "Trailer" | "Clip" }>;
 }
 
 /**
@@ -98,8 +188,8 @@ export interface MetaDetail extends MetaPreview {
      *
      * **WARNING: this will soon be deprecated, use 'links' instead**
      */
-    genres?: string[] | undefined;
-    releaseInfo?: string | undefined;
+    genres?: string[];
+    releaseInfo?: string;
     /**
      * Array of directors.
      *
@@ -107,7 +197,7 @@ export interface MetaDetail extends MetaPreview {
      *
      * @deprecated
      */
-    director?: string[] | undefined;
+    director?: string[];
     /**
      * Array of members of the cast.
      *
@@ -115,11 +205,11 @@ export interface MetaDetail extends MetaPreview {
      *
      * @deprecated
      */
-    cast?: string[] | undefined;
+    cast?: string[];
     /**
      * IMDb rating, which should be a number from 0.0 to 10.0.
      */
-    imdbRating?: string | undefined;
+    imdbRating?: string;
     /**
      * ISO 8601, initial release date.
      *
@@ -127,46 +217,54 @@ export interface MetaDetail extends MetaPreview {
      *
      * e.g. "2010-12-06T05:00:00.000Z"
      */
-    released?: string | undefined;
+    released?: string;
+    /**
+     * Array containing objects in the form of { "source": "P6AaSMfXHbA", "type": "Trailer" }.
+     * 
+     * Where source is a YouTube Video ID and type can be either "Trailer" or "Clip".
+     * 
+     * @deprecated This will soon be deprecated in favor of meta.trailers being an array of Stream Objects.
+     */
+    trailers?: Array<{ source: string; type: "Trailer" | "Clip" }>;
     /**
      * Can be used to link to internal pages of Stremio.
      *
      * example: array of actor / genre / director links.
      */
-    links?: MetaLink[] | undefined;
+    links?: MetaLink[];
     /**
      * Used for channel and series.
      *
      * If you do not provide this (e.g. for movie), Stremio assumes this meta item has one video, and it's ID is equal to the meta item id.
      */
-    videos?: MetaVideo[] | undefined;
+    videos?: MetaVideo[];
     /**
      * Human-readable expected runtime.
      *
      * e.g. "120m"
      */
-    runtime?: string | undefined;
+    runtime?: string;
     /**
      * Spoken language.
      */
-    language?: string | undefined;
+    language?: string;
     /**
      * Official country of origin.
      */
-    country?: string | undefined;
+    country?: string;
     /**
      * Human-readable that describes all the significant awards.
      */
-    awards?: string | undefined;
+    awards?: string;
     /**
      * URL to official website.
      */
-    website?: string | undefined;
-    behaviourHints?: {
+    website?: string;
+    behaviorHints?: {
         /**
          * Set to a Video Object id in order to open the Detail page directly to that video's streams.
          */
-        defaultVideo?: boolean | string | undefined;
+        defaultVideoId?: string;
     } | undefined;
 }
 
@@ -210,7 +308,7 @@ export interface MetaVideo {
      *
      * max file size 5kb.
      */
-    thumbnail?: string | undefined;
+    thumbnail?: string;
     /**
      * In case you can return links to streams while forming meta response,
      * you can pass and array of Stream Objects to point the video to a HTTP URL, BitTorrent,
@@ -220,29 +318,33 @@ export interface MetaVideo {
      * from other addons for that video.
      * If you return streams that way, it is still recommended to implement the streams resource.
      */
-    streams?: Stream[] | undefined;
+    streams?: Stream[];
     /**
      * Set to true to explicitly state that this video is available for streaming, from your addon.
      *
      * No need to use this if you've passed stream.
      */
-    available?: boolean | undefined;
+    available?: boolean;
     /**
      * Episode number, if applicable.
      */
-    episode?: number | undefined;
+    episode?: number;
     /**
      * Season number, if applicable.
      */
-    season?: number | undefined;
+    season?: number;
     /**
      * YouTube ID of the trailer video; use if this is an episode for a series.
      */
-    trailer?: string | undefined;
+    trailer?: string;
+    /**
+     * Array containing Stream Objects for trailers.
+     */
+    trailers?: Stream[];
     /**
      * Video overview/summary
      */
-    overview?: string | undefined;
+    overview?: string;
 }
 
 /**
@@ -254,75 +356,116 @@ export interface Stream {
     /**
      * Direct URL to a video stream - http, https, rtmp protocols are supported.
      */
-    url?: string | undefined;
+    url?: string;
     /**
      * Youtube video ID, plays using the built-in YouTube player.
      */
-    ytId?: string | undefined;
+    ytId?: string;
     /**
      * Info hash of a torrent file, and fileIdx is the index of the video file within the torrent.
      *
      * If fileIdx is not specified, the largest file in the torrent will be selected.
      */
-    infoHash?: string | undefined;
+    infoHash?: string;
     /**
      * The index of the video file within the torrent (from infoHash).
      *
      * If fileIdx is not specified, the largest file in the torrent will be selected.
      */
-    fileIdx?: number | undefined;
+    fileIdx?: number;
     /**
      * Meta Link or an external URL to the video, which should be opened in a browser (webpage).
      *
      * e.g. a link to Netflix.
      */
-    externalUrl?: string | undefined;
+    externalUrl?: string;
     /**
      * Title of the stream
      *
      * Usually used for stream quality.
+     * 
+     * @deprecated use `description` instead.
      */
-    title?: string | undefined;
+    title?: string;
+    /**
+     * Description of the stream (previously `title`)
+     */
+    description?: string;
     /**
      * Name of the stream
      *
-     * Usually a short name to identify the addon that provided the stream
+     * Usually used for stream quality.
      */
-    name?: string | undefined;
+    name?: string;
     /**
      * Array of Subtitle objects representing subtitles for this stream.
      */
-    subtitles?: Subtitle[] | undefined;
+    subtitles?: Subtitle[];
+    /**
+     * Array of strings representing torrent tracker URLs and DHT network nodes.
+     * 
+     * This attribute can be used to provide additional peer discovery options when `infoHash` is also specified.
+     * Each element can be a tracker URL (tracker:<protocol>://<host>:<port>) where <protocol> can be either http or udp.
+     * A DHT node (dht:<node_id/info_hash>) can also be included.
+     * 
+     * WARNING: Use of DHT may be prohibited by some private trackers as it exposes torrent activity to a broader network.
+     */
+    sources?: string[];
     behaviorHints?: {
         /**
          * Hints it's restricted to particular countries.
          *
          * Array of ISO 3166-1 alpha-3 country codes in lowercase in which the stream is accessible.
          */
-        countryWhitelist?: string[] | undefined;
+        countryWhitelist?: string[];
         /**
          * Applies if the protocol of the url is http(s).
          *
          * Needs to be set to true if the URL does not support https or is not an MP4 file.
          */
-        notWebReady?: boolean | undefined;
+        notWebReady?: boolean;
         /**
-         * If defined, addons with the same behaviorHints.group will be chosen automatically for binge watching.
+         * If defined, addons with the same behaviorHints.bingeGroup will be chosen automatically for binge watching.
          *
          * This should be something that identifies the stream's nature within your addon.
-         * For example, if your addon is called "gobsAddon", and the stream is 720p, the group should be "gobsAddon-720p".
-         * If the next episode has a stream with the same group, stremio should select that stream implicitly.
+         * For example, if your addon is called "gobsAddon", and the stream is 720p, the bingeGroup should be "gobsAddon-720p".
+         * If the next episode has a stream with the same bingeGroup, stremio should select that stream implicitly.
          */
-        group?: string | undefined;
+        bingeGroup?: string;
         /**
-         * **Not implemented yet!**
-         *
-         * HTTP headers to use when trying to playback url.
-         * Only applies to urls.
-         *
-         * @ignore
+         * @deprecated use `bingeGroup` instead.
          */
-        headers?: any;
+        group?: string;
+        /**
+         * Only applies to urls. When using this property, you must also set stream.behaviorHints.notWebReady: true.
+         * 
+         * This is an object containing request and response headers that should be used for the stream.
+         * Example: { "request": { "User-Agent": "Stremio" } }
+         */
+        proxyHeaders?: {
+            request?: Record<string, string>;
+            response?: Record<string, string>;
+        } | undefined;
+        /**
+         * The calculated OpenSubtitles hash of the video.
+         * 
+         * This will be used when the streaming server is not connected (so the hash cannot be calculated locally).
+         * This value is passed to subtitle addons to identify correct subtitles.
+         */
+        videoHash?: string;
+        /**
+         * Size of the video file in bytes.
+         * 
+         * This value is passed to the subtitle addons to identify correct subtitles.
+         */
+        videoSize?: number;
+        /**
+         * Filename of the video file.
+         * 
+         * Although optional, it is highly recommended to set it when using stream.url (when possible) 
+         * in order to identify correct subtitles. This value is passed to the subtitle addons to identify correct subtitles.
+         */
+        filename?: string;
     } | undefined;
 }
 
@@ -383,7 +526,7 @@ export interface Manifest {
      *
      * For example, if you set this to ["yt_id:", "tt"], your addon will only be called for id values that start with 'yt_id:' or 'tt'.
      */
-    idPrefixes?: string[] | undefined;
+    idPrefixes?: string[];
     /**
      * A list of the content catalogs your addon provides.
      *
@@ -395,7 +538,7 @@ export interface Manifest {
      *
      * This can be used for an addon to act just as a catalog of other addons.
      */
-    addonCatalogs?: ManifestCatalog[] | undefined;
+    addonCatalogs?: ManifestCatalog[];
 
     /**
      * A list of settings that users can set for your addon.
@@ -407,7 +550,7 @@ export interface Manifest {
      *
      * URL to png/jpg, at least 1024x786 resolution.
      */
-    background?: string | undefined;
+    background?: string;
 
     /**
      * @deprecated use `logo` instead.
@@ -417,26 +560,26 @@ export interface Manifest {
     /**
      * Logo icon, URL to png, monochrome, 256x256.
      */
-    logo?: string | undefined;
+    logo?: string;
     /**
      * Contact email for addon issues.
      * Used for the Report button in the app.
      * Also, the Stremio team may reach you on this email for anything relating your addon.
      */
-    contactEmail?: string | undefined;
+    contactEmail?: string;
     behaviorHints?: {
         /**
          * If the addon includes adult content.
          *
          * Defaults to false.
          */
-        adult?: boolean | undefined;
+        adult?: boolean;
         /**
          * If the addon includes P2P content, such as BitTorrent, which may reveal the user's IP to other streaming parties.
          *
          * Used to provide an adequate warning to the user.
          */
-        p2p?: boolean | undefined;
+        p2p?: boolean;
 
         /**
          * Default is `false`. If the addon supports settings, it will add a button next to "Install" in Stremio that will point to the `/configure` path on the addon's domain. For more information, read [User Data](https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/api/responses/manifest.md#user-data) (or if you are not using the Addon SDK, read: [Advanced User Data](https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/advanced.md#using-user-data-in-addons) and [Creating Addon Configuration Pages](https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/advanced.md#creating-addon-configuration-pages))
@@ -484,7 +627,7 @@ export interface ManifestConfig {
     /**
      * If the value is required or not. Only applies to the following types: "string", "number". (default is `false`)
      */
-    required?: string;
+    required?: boolean;
 }
 
 /**
@@ -519,7 +662,7 @@ export interface FullManifestResource {
      *
      * For example, if you set this to ["yt_id:", "tt"], your addon will only be called for id values that start with 'yt_id:' or 'tt'.
      */
-    idPrefixes?: string[] | undefined;
+    idPrefixes?: string[];
 }
 
 export interface ManifestCatalog {
@@ -541,11 +684,11 @@ export interface ManifestCatalog {
      * Use the 'options' property of 'extra' instead.
      * @deprecated
      */
-    genres?: string[] | undefined;
+    genres?: string[];
     /**
      * All extra properties related to this catalog.
      */
-    extra?: ManifestExtra[] | undefined;
+    extra?: ManifestExtra[];
 }
 
 export interface ManifestExtra {
@@ -558,7 +701,7 @@ export interface ManifestExtra {
     /**
      * Set to true if this property must always be passed.
      */
-    isRequired?: boolean | undefined;
+    isRequired?: boolean;
     /**
      * Possible values for this property.
      * This is useful for things like genres, where you need the user to select from a pre-set list of options.
@@ -569,13 +712,13 @@ export interface ManifestExtra {
      *
      * e.g. { name: "skip", options: ["0", "100", "200"] }
      */
-    options?: string[] | undefined;
+    options?: string[];
     /**
      * The limit of values a user may select from the pre-set options list
      *
      * By default this is set to 1.
      */
-    optionsLimit?: number | undefined;
+    optionsLimit?: number;
 }
 
 /**
@@ -583,5 +726,5 @@ export interface ManifestExtra {
  */
 export interface AddonInterface {
     manifest: Manifest;
-    get: (args: { resource: ShortManifestResource } & Args) => Promise<any>;
+    get: (resource: ShortManifestResource, type: ContentType, id: string, extra?: Record<string, any>, config?: Record<string, any>) => Promise<any>;
 }

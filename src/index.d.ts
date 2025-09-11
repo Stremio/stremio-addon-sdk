@@ -1,6 +1,6 @@
-export { ShortManifestResource, Extra, ContentType, Args, Cache, MetaPreview, MetaDetail, MetaLink, MetaVideo, Stream, Subtitle, Manifest, ManifestConfigType, ManifestConfig, AddonCatalog, FullManifestResource, ManifestCatalog, ManifestExtra, AddonInterface } from './types';
-
-export let addonBuilder: typeof import("./builder");
-export let serveHTTP: typeof import("./serveHTTP");
-export let getRouter: typeof import("./getRouter");
-export let publishToCentral: typeof import("./publishToCentral");
+export { default as addonBuilder } from './builder';
+export { default as serveHTTP } from './serveHTTP';
+export { default as getRouter } from './getRouter';
+export { default as publishToCentral } from './publishToCentral';
+export { default as landingTemplate } from './landingTemplate';
+export * from './types';
