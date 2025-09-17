@@ -20,6 +20,6 @@ declare function serveHTTP(
          */
         static?: string | undefined;
     },
-): void;
+): Promise<{url: string; server: any}>;
 
 export = serveHTTP;
