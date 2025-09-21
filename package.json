@@ -6,7 +6,8 @@
   "types": "./src/index.d.ts",
   "scripts": {
     "pretest": "eslint --ignore-path .gitignore .",
-    "test": "tape test/*"
+    "test": "tape test/*",
+    "typecheck": "npx tsc --noEmit --esModuleInterop src/*.d.ts"
   },
   "repository": {
     "type": "git",
@@ -42,6 +43,7 @@
     "eslint": "^5.13.0",
     "stremio-addon-client": "https://github.com/Stremio/stremio-addon-client.git#v1.16.1",
     "supertest": "^3.3.0",
-    "tape": "^4.9.0"
+    "tape": "^4.9.0",
+    "typescript": "^5.9.2"
   }
 }
