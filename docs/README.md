@@ -51,7 +51,7 @@ npm install stremio-addon-sdk
 node ./addon.js
 ```
 
-It will output a URL that you can use to [install the addon in Stremio](./docs/testing.md#how-to-install-add-on-in-stremio)
+It will output a URL that you can use to [install the addon in Stremio](./testing.md#how-to-install-add-on-in-stremio)
 
 ## Documentation
 
