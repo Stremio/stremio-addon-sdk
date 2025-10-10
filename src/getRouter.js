@@ -1,6 +1,7 @@
 const Router = require('router')
 const qs = require('querystring')
 const cors = require('cors')
+const landingTemplate = require('./landingTemplate')
 
 const warned = {}
 
@@ -33,8 +34,28 @@ function getRouter({ manifest , get }) {
 		console.warn('manifest.config is set but manifest.behaviorHints.configurable is disabled, the "Configure" button will not show in the Stremio apps')
 	}
 
+	// landing page
+	const landingHTML = landingTemplate(manifest)
+	
+	router.get('/', (_, res) => {
+		if (hasConfig) {
+			res.redirect('/configure')
+		} else {
+			res.setHeader('content-type', 'text/html')
+			res.end(landingHTML)
+		}
+	})
+
+	if (hasConfig) {
+		router.get('/configure', (_, res) => {
+			res.setHeader('content-type', 'text/html')
+			res.end(landingHTML)
+		})  
+	}
+
+
 	const configPrefix = hasConfig ? '/:config?' : ''
-	// having config prifix always set to '/:config?' won't resault in a problem for non configurable addons,
+	// having config prefix always set to '/:config?' won't result in a problem for non-configurable addons,
 	// since now the order is restricted by resources.
 
 	router.get(`${configPrefix}/manifest.json`, manifestHandler)
