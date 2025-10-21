@@ -54,7 +54,7 @@ npm install stremio-addon-sdk
 node ./addon.js
 ```
 
-It will output a URL that you can use to [install the addon in Stremio](./docs/testing.md#how-to-install-add-on-in-stremio)
+It will output a URL that you can use to [install the addon in Stremio](./docs/testing.md#how-to-install-addon-in-stremio)
 
 **Please note:** addon URLs in Stremio must be loaded with HTTPS (except `127.0.0.1`) and must support CORS! CORS support is handled automatically by the SDK, but if you're trying to load your addon remotely (not from `127.0.0.1`), you need to support HTTPS.
 
