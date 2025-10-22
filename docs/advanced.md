@@ -9,6 +9,7 @@
 - [Using Deep Links in Addons](#using-deep-links-in-addons)
 - [Proxying Other Addons](#proxying-other-addons)
 - [Crawler (Scraping) Addons](#crawler--scraping-addons)
+- [Custom TypeScript Types](#custom-typescript-types)
 
 
 ## Understanding Catalogs
@@ -427,3 +428,26 @@ Scraping HTML pages presumes downloading the HTML source of a web page in order 
 A guide showing a simplistic version of doing this is in the readme of the [IMDB Watchlist Addon](https://github.com/jaruba/stremio-imdb-watchlist). The addon uses [needle](https://www.npmjs.com/package/needle) to request the HTML source and [cheerio](https://www.npmjs.com/package/cheerio) to start a jQuery instance in order to simplify getting the desired information.
 
 Cheerio is not the only module that can help with crawling / scraping though, other modules that can aid in this: [jsdom](https://www.npmjs.com/package/jsdom), [xpath](https://www.npmjs.com/package/xpath), etc
+
+
+## Custom TypeScript Types
+### Config
+
+If you accept user data for your addon, you can assign your own custom configuration types to handler functions. For example:
+
+```ts
+type Config = {
+  username: string;
+  password: string;
+};
+
+// ...
+builder.defineStreamHandler<Config>(
+  async ({ id, type, config: { username, password } }) => {
+    // ^ all arguments above are properly typed
+    // ...
+  }
+);
+```
+
+See [Manifest - User Data](./api/responses/manifest.md#user-data) for more information on how to pass user data to your addon.
