@@ -12,8 +12,8 @@ function getRouter({ manifest , get }) {
 
 	// Serve the manifest
 	const manifestBuf = JSON.stringify(manifest)
-	function manifestHandler(req, res) {
-		const { config } = req.params
+
+	function manifestHandler(config) {
 		let manifestRespBuf = manifestBuf
 		if (config && manifest.behaviorHints && (manifest.behaviorHints.configurationRequired || manifest.behaviorHints.configurable)) {
 			const manifestClone = JSON.parse(manifestBuf)
@@ -23,10 +23,37 @@ function getRouter({ manifest , get }) {
 			delete manifestClone.behaviorHints.configurable			
 			manifestRespBuf = JSON.stringify(manifestClone)
 		}
-		res.setHeader('Content-Type', 'application/json; charset=utf-8')
-		res.end(manifestRespBuf)
+		return manifestRespBuf
 	}
 
+	function parseConfig(params) {
+		let { config } = params
+		if ((config || '').length) {
+			try {
+				config = JSON.parse(config)
+			} catch(e) {
+				config = false
+			}
+		}
+		return config
+	}
+
+	function getCacheControl(resp){
+		let cacheHeaders = {
+			cacheMaxAge: 'max-age',
+			staleRevalidate: 'stale-while-revalidate',
+			staleError: 'stale-if-error'
+		}
+		return Object.keys(cacheHeaders).map(prop => {
+			const cacheProp = cacheHeaders[prop]
+			const cacheValue = resp[prop]
+			if (!Number.isInteger(cacheValue)) return false
+			if (cacheValue > 365 * 24 * 60 * 60)
+				console.warn(`${prop} set to more then 1 year, be advised that cache times are in seconds, not milliseconds.`)
+			return cacheProp + '=' + cacheValue
+		}).filter(val => !!val).join(', ')
+	}
+	
 	const hasConfig = (manifest.config || []).length
 
 	if (hasConfig && !(manifest.behaviorHints || {}).configurable) {
@@ -37,7 +64,41 @@ function getRouter({ manifest , get }) {
 	// having config prifix always set to '/:config?' won't resault in a problem for non configurable addons,
 	// since now the order is restricted by resources.
 
-	router.get(`${configPrefix}/manifest.json`, manifestHandler)
+	// Handles manifest
+	router.get(`${configPrefix}/manifest.json`, function(req, res, next) {
+		let config = parseConfig(req.params)
+		let manifestRespBuf = manifestHandler(config)
+		res.setHeader('Content-Type', 'application/json; charset=utf-8')
+		if(!config) res.end(manifestRespBuf)
+		
+		const extra = { manifest: JSON.parse(manifestRespBuf) }
+		// setting type and id to null since this route doesn't support them
+		get('manifest',null,null, extra, config)
+			.then(resp => {
+				const cacheControl = getCacheControl(resp)
+				if (cacheControl)
+					res.setHeader('Cache-Control', `${cacheControl}, public`)
+
+				if (resp.redirect) {
+					res.redirect(307, resp.redirect)
+					return
+				}
+				res.end(JSON.stringify(resp.manifest))
+			})
+			.catch(err => {
+				if (err.noHandler) {
+					if (next) next()
+					else {
+						res.status(404)
+						res.end(JSON.stringify({ err: 'not found' }))
+					}
+				} else {
+					console.error(err)
+					res.status(500)
+					res.end(JSON.stringify({ err: 'handler error' }))
+				}
+			})
+	})
 
 	// using the same methode used in builder.js to extract resources from manifest
 	const handlersInManifest = []
@@ -50,37 +111,17 @@ function getRouter({ manifest , get }) {
 	// Handle all resources
 	router.get(`${configPrefix}/:resource${ResourcesRegex}/:type/:id/:extra?.json`, function(req, res, next) {
 		const { resource, type, id } = req.params
-		let { config } = req.params
+		let config = parseConfig(req.params)
 		// we get `extra` from `req.url` because `req.params.extra` decodes the characters
 		// and breaks dividing querystring parameters with `&`, in case `&` is one of the
 		// encoded characters of a parameter value
 		const extra = req.params.extra ? qs.parse(req.url.split('/').pop().slice(0, -5)) : {}
-		if ((config || '').length) {
-			try {
-				config = JSON.parse(config)
-			} catch(e) {
-				config = false
-			}
-		}
+
 		res.setHeader('Content-Type', 'application/json; charset=utf-8')
 		get(resource, type, id, extra, config)
 			.then(resp => {
 
-				let cacheHeaders = {
-					cacheMaxAge: 'max-age',
-					staleRevalidate: 'stale-while-revalidate',
-					staleError: 'stale-if-error'
-				}
-
-				const cacheControl = Object.keys(cacheHeaders).map(prop => {
-					const cacheProp = cacheHeaders[prop]
-					const cacheValue = resp[prop]
-					if (!Number.isInteger(cacheValue)) return false
-					if (cacheValue > 365 * 24 * 60 * 60)
-						console.warn(`${prop} set to more then 1 year, be advised that cache times are in seconds, not milliseconds.`)
-					return cacheProp + '=' + cacheValue
-				}).filter(val => !!val).join(', ')
-
+				const cacheControl = getCacheControl(resp)
 				if (cacheControl)
 					res.setHeader('Cache-Control', `${cacheControl}, public`)
 
@@ -88,8 +129,6 @@ function getRouter({ manifest , get }) {
 					res.redirect(307, resp.redirect)
 					return
 				}
-
-				res.setHeader('Content-Type', 'application/json; charset=utf-8')
 
 				if (!warned.filename && resource === 'stream' && ((resp || {}).streams || []).length)
 					if (resp.streams.find(stream => stream && stream.url && !(stream.behaviorHints || {}).filename)) {
