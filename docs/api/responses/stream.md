@@ -42,9 +42,9 @@ Used as a response for [`defineStreamHandler`](../requests/defineStreamHandler.m
 
 ### Source Objects
 
-A stream object can b
+An object representing a streaming source, supports the following properties:
 
-* ``url`` - string, direct URL to a file (depending on context: zip, rar, 7z, tar or tgz) - supports http(s)/ftp(s)
+* ``url`` - **required** - string, direct URL to a file (depending on context: zip, rar, 7z, tar or tgz) - supports http(s)/ftp(s)
 * ``bytes`` - _optional_ - integer, size of the file in bytes - while optional adding this can speed up the initial buffering
 
 ### Source Limitations
