@@ -3,7 +3,7 @@
 const tape = require('tape')
 const request = require('supertest')
 const AddonClient = require('stremio-addon-client')
-const { addonBuilder, serveHTTP, getRouter, publishToCentral } = require('../')
+const { addonBuilder, serveHTTP, getRouter } = require('../')
 
 const PORT = 5000
 
