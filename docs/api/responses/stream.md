@@ -4,7 +4,7 @@ Used as a response for [`defineStreamHandler`](../requests/defineStreamHandler.m
 
 **One of the following must be passed** to point to the stream itself
 
-* ``url`` - string, direct HTTP(S)/FTP(S)/RTMP link to a video stream (protocol support can vary depending on client app capabilities)
+* ``url`` - string, direct http(s)/ftp(s)/rtmp link to a video stream (protocol support can vary depending on client app capabilities)
 * ``ytId`` - string, youtube video ID, plays using the built-in YouTube player
 * ``infoHash`` - string, info hash of a torrent file, and `fileIdx` is the index of the video file within the torrent; **if fileIdx is not specified, the largest file in the torrent will be selected**
 * ``fileIdx`` - number, the index of the video file within the torrent (from `infoHash`), nzb (from `nzbUrl`), rar (from `rarUrls`, zip (from `zipUrls`), 7zip (from `7zipUrls`), tgz (from `tgzUrls`), tar (from `tarUrls`)); (for torrents if fileIdx is not specified, the largest file will be selected)
@@ -44,7 +44,7 @@ Used as a response for [`defineStreamHandler`](../requests/defineStreamHandler.m
 
 An object representing a streaming source, supports the following properties:
 
-* ``url`` - **required** - string, direct HTTP(S)/FTP(S) link to a file (depending on context: zip, rar, 7z, tar, tgz)
+* ``url`` - **required** - string, direct http(s)/ftp(s) link to a file (depending on context: zip, rar, 7z, tar, tgz)
 * ``bytes`` - _optional_ - integer, size of the file in bytes - while optional adding this can speed up the initial buffering
 
 ### Source Limitations
