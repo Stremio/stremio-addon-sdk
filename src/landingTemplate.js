@@ -163,6 +163,78 @@ button:active {
 .full-width {
 	width: 100%;
 }
+
+.custom-dropdown {
+	position: relative;
+	display: inline-block;
+	width: 100%;
+}
+
+.custom-dropdown .dropdown-content {
+	top: 100%;
+	left: 0;
+}
+
+.dropdown-button {
+	background-color: #8A5AAB;
+	color: white;
+	padding: 1.2vh 3.5vh;
+	text-align: center;
+	cursor: pointer;
+	width: 100%;
+	border: none;
+	font-size: 2.2vh;
+	font-weight: 600;
+	box-shadow: 0 0.5vh 1vh rgba(0, 0, 0, 0.2);
+}
+
+.dropdown-button:hover {
+	box-shadow: none;
+}
+
+.dropdown-content {
+	display: none;
+	position: absolute;
+	background-color: #f9f9f9;
+	min-width: 100%;
+	box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.2);
+	z-index: 1;
+	max-height: 30vh;
+	overflow-y: auto;
+}
+
+.dropdown-content label {
+	display: block;
+	padding: 1vh;
+	cursor: pointer;
+	color: black;
+}
+
+.dropdown-content input {
+	margin-right: 1vh;
+}
+
+.show {
+	display: block !important;
+}
+
+.selected-items {
+	margin-top: 1vh;
+	padding: 1vh;
+	background-color: #333;
+	color: white;
+	border-radius: 0.5vh;
+}
+
+.selected-item {
+	display: inline-block;
+	background-color: #8A5AAB;
+	color: white;
+	padding: 0.5vh 1vh;
+	margin-right: 1vh;
+	margin-bottom: 1vh;
+	border-radius: 0.5vh;
+}
 `
 
 function landingTemplate(manifest) {
@@ -203,6 +275,30 @@ function landingTemplate(manifest) {
 					</label>
 				</div>
 				`
+			} else if (elem.type === 'multiselect') {
+				options += `
+				<div class="form-element">
+					<div class="label-to-top">${elem.title}</div>
+					<div class="custom-dropdown">
+						<div id="${key}-dropdown" class="dropdown-button">Select Options</div>
+						<div id="${key}-options" class="dropdown-content">
+				`
+				const selections = elem.options || []
+				const defaultValues = elem.default || []
+				selections.forEach(el => {
+					const isChecked = defaultValues.includes(el) ? ' checked' : ''
+					options += `
+					<label>
+						<input type="checkbox" value="${el}"${isChecked}> ${el}
+					</label>
+					`
+				})
+				options += `
+						</div>
+					</div>
+					<div id="${key}-selected-items" class="selected-items"></div>
+				</div>
+				`
 			} else if (elem.type === 'select') {
 				const defaultValue = elem.default || (elem.options || [])[0]
 				options += `<div class="form-element">
@@ -215,8 +311,8 @@ function landingTemplate(manifest) {
 					options += `<option value="${el}"${isSelected}>${el}</option>`
 				})
 				options += `</select>
-               </div>
-               `
+				</div>
+				`
 			}
 		})
 		if (options.length) {
@@ -231,10 +327,65 @@ function landingTemplate(manifest) {
 			installLink.onclick = () => {
 				return mainForm.reportValidity()
 			}
+
+			const updateSelectedItems = (selectElement, selectedItemsContainer) => {
+				selectedItemsContainer.innerHTML = ''
+				const selectedOptions = []
+				selectElement.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+					if (checkbox.checked) {
+						selectedOptions.push(checkbox.value)
+						const itemDiv = document.createElement('div')
+						itemDiv.classList.add('selected-item')
+						itemDiv.textContent = checkbox.value
+						selectedItemsContainer.appendChild(itemDiv)
+					}
+				})
+				return selectedOptions
+			}
+
 			const updateLink = () => {
-				const config = Object.fromEntries(new FormData(mainForm))
+				const config = Object.fromEntries(new FormData(mainForm).entries())
+				const multiSelects = Array.from(mainForm.querySelectorAll('.custom-dropdown'))
+				multiSelects.forEach(select => {
+					const selectId = select.querySelector('.dropdown-button').id.replace('-dropdown', '')
+					const selectedValues = updateSelectedItems(select.querySelector('.dropdown-content'), document.getElementById(selectId + '-selected-items'))
+					config[selectId] = selectedValues
+				})
 				installLink.href = 'stremio://' + window.location.host + '/' + encodeURIComponent(JSON.stringify(config)) + '/manifest.json'
 			}
+
+			document.querySelectorAll('.dropdown-button').forEach(button => {
+				const selectElement = document.getElementById(button.id.replace('-dropdown', '-options'))
+				const selectedItemsContainer = document.getElementById(button.id.replace('-dropdown', '-selected-items'))
+				button.onclick = (event) => {
+					event.stopPropagation()
+					selectElement.classList.toggle('show')
+					const dropdownRect = selectElement.getBoundingClientRect()
+					const dropdownHeight = dropdownRect.height
+
+					if (dropdownRect.bottom > window.innerHeight) {
+						selectElement.style.top = "-" + dropdownHeight + "px"
+					} else {
+						selectElement.style.top = '100%'
+					}
+				}
+				selectElement.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+					checkbox.onchange = () => {
+						updateSelectedItems(selectElement, selectedItemsContainer)
+						updateLink()
+					}
+				})
+			})
+
+			document.onclick = (event) => {
+				const isDropdownButton = event.target.classList.contains('dropdown-button')
+				document.querySelectorAll('.dropdown-content').forEach(dropdown => {
+					if (!dropdown.contains(event.target) && !isDropdownButton) {
+						dropdown.classList.remove('show')
+					}
+				})
+			}
+
 			mainForm.onchange = updateLink
 			`
 		}
@@ -292,3 +443,4 @@ function landingTemplate(manifest) {
 }
 
 module.exports = landingTemplate
+
