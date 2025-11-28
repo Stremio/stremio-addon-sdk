@@ -4,6 +4,7 @@ const path = require('path')
 const landingTemplate = require('./landingTemplate')
 const getRouter = require('./getRouter')
 const opn = require('opn')
+const swStats = require('swagger-stats')
 
 function serveHTTP(addonInterface, opts = {}) {
 	if (addonInterface.constructor.name !== 'AddonInterface') {
@@ -16,9 +17,32 @@ function serveHTTP(addonInterface, opts = {}) {
 		console.warn('cacheMaxAge set to more then 1 year, be advised that cache times are in seconds, not milliseconds.')
 
 	const app = express()
+
+	if (opts.sws) {
+		let swsConfig = {}
+		if (opts.swsConfig) swsConfig = opts.swsConfig
+		else {
+			swsConfig = {
+				name: addonInterface.manifest.name,
+				version: addonInterface.manifest.version,
+				authentication: true,
+				onAuthenticate: function (req, username, password) {
+					// simple check for username and password
+					const User = process.env.USER?process.env.USER:'stremio'
+					const Pass = process.env.PASS?process.env.PASS:'stremioIsTheBest'
+					return ((username === User
+						&& (password === Pass)))
+				}
+			}
+		}
+		app.use(swStats.getMiddleware(swsConfig))
+		const url = `http://127.0.0.1:${opts.port}${opts.swsConfig && opts.swsConfig.uriPath?opts.swsConfig.uriPath:'/swagger-stats'}`
+		console.log('Swagger-Stats accessible at:', url)
+	}
+
 	app.use((_, res, next) => {
 		if (cacheMaxAge && !res.getHeader('Cache-Control'))
-			res.setHeader('Cache-Control', 'max-age='+cacheMaxAge+', public')
+			res.setHeader('Cache-Control', 'max-age=' + cacheMaxAge + ', public')
 		next()
 	})
 	app.use(getRouter(addonInterface))
@@ -50,8 +74,8 @@ function serveHTTP(addonInterface, opts = {}) {
 		})
 
 	const server = app.listen(opts.port)
-	return new Promise(function(resolve, reject) {
-		server.on('listening', function() {
+	return new Promise(function (resolve, reject) {
+		server.on('listening', function () {
 			const url = `http://127.0.0.1:${server.address().port}/manifest.json`
 			console.log('HTTP addon accessible at:', url)
 			if (process.argv.includes('--launch')) {

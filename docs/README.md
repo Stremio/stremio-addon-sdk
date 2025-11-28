@@ -137,6 +137,8 @@ Starts the addon server. `options` is an object that contains:
 * `port`
 * `cacheMaxAge` (in seconds); `cacheMaxAge` means the `Cache-Control` header being set to `max-age=$cacheMaxAge`
 * `static`: path to a directory of static files to be served; e.g. `/public` 
+* `sws`: bool to enable or disable the swagger-stats interfaace (default: `false`). 
+* `swsConfig`: Object containing swagger-stats configuration as described in the [swagger-stats docs](https://swaggerstats.io/guide/conf.html#options), if `sws` is `true` and `swsConfig` is `Undefined` the interface will be on `/swagger-stats` and login details will be username: `"stremio"` password: `"stremioIsTheBest"`, to specify a different username or password use `USER` and `PASS`  envirement variables. 
 
 This method is also special in that it will react to certain process arguments, such as:
 
