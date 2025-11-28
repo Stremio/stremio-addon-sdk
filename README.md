@@ -10,6 +10,11 @@ Stremio currently supports Windows, macOS, Linux, Android and iOS.
 **Important: We strongly recommend deploying addons to the [BeamUp](./docs/deploying/beamup.md) servers**
 
 
+## TypeScript Support
+
+The Stremio Addon SDK includes built-in TypeScript types. You no longer need to install the community package `@types/stremio-addon-sdk` for type definitions as of Stremio Addon SDK version `>1.6.10`.
+
+
 ## Quick Example
 
 This arbitrary example creates an addon that provides a stream for Big Buck Bunny and outputs a HTTP address where you can access it.
