@@ -22,6 +22,7 @@ The structure of those resources in Stremio is as follows:
         +---+-- Streams
         +---+---+-- Subtitles
 ```
+Note: each resource uses the id and type defind in it's partent from the tree. Wich allows making catalogs with content of mixed types and also allows using custom types in a catalog while maintaining the correct type in the meta preview response to allow other addons to provide the rest of the resources.
 
 When the user opens the Discover/Board section, catalogs from all installed addons are loaded. Catalog responses include [meta preview objects](./responses/meta.md#meta-preview-object), which are just stripped down versions of the full meta object.
 
