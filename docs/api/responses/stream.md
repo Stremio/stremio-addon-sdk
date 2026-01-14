@@ -72,6 +72,10 @@ A stream object consists of [common properties](#common-properties) and **exactl
 * `tarUrls` - **required** - array of [Source Objects](#source-objects) pointing to TAR files
   > **Limitations**: does not support multi-volume and decompression by design (TAE only merges multiple files into one without compressing), seeking is supported
 
+#### External Stream
+
+* `externalUrl` - **required** - string, a link to a stream outside of Stremio; will open externally instead of being played by Stremio (e.g. a Netflix link)
+
 ### Source Objects
 
 An object representing a streaming source for archive files. Each source object has the following structure:
