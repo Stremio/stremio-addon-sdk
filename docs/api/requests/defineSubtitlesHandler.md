@@ -10,7 +10,13 @@ This method handles subtitle requests.
 
 A promise resolving to an object containing `{ subtitles: [] }` with an array of [Subtitle Objects](../responses/subtitles.md).
 
-The resolving object can also include `{ cacheMaxAge: int }` (in seconds) which sets the `Cache-Control` header to `max-age=$cacheMaxAge` and overwrites the global cache time set in `serveHTTP` [options](../../README.md#servehttpaddoninterface-options).
+The resolving object can also include the following cache related properties:
+
+- `{ cacheMaxAge: int }` (in seconds) which sets the `Cache-Control` header to `max-age=$cacheMaxAge` and overwrites the global cache time set in `serveHTTP` [options](../../README.md#servehttpaddoninterface-options)
+
+- `{ staleRevalidate: int }` (in seconds) which sets the `Cache-Control` header to `stale-while-revalidate=$staleRevalidate`
+
+- `{ staleError: int }` (in seconds) which sets the `Cache-Control` header to `stale-if-error=$staleError`
 
 
 ## Request Parameters
@@ -21,12 +27,17 @@ The resolving object can also include `{ cacheMaxAge: int }` (in seconds) which 
 
 ``extra`` - object that holds additional properties; parameters defined below
 
+``config`` - object with user settings, see [Manifest - User Data](../responses/manifest.md#user-data)
+
 
 ## Extra Parameters
 
 ``videoHash`` - string [OpenSubtitles file hash](http://trac.opensubtitles.org/projects/opensubtitles/wiki/HashSourceCodes) for the video
 
 ``videoSize`` - size of the video file in bytes
+
+``filename`` - filename of the video file
+
 
 ## Basic Example
 

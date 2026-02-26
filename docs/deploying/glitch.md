@@ -1,17 +1,17 @@
 # Deploying to Glitch with CloudFlare
 
 The plan:
-- deploy your node.js add-on to [Glitch.com](https://glitch.com)
+- deploy your node.js addon to [Glitch.com](https://glitch.com)
 - create a free domain (for 12 months) on [my.ga](https://my.ga)
 - use [Fly.io](https://fly.io) to connect the custom domain to the glitch project
-- use [CloudFlare](https://cloudflare.com) to cache the add-on responses
+- use [CloudFlare](https://cloudflare.com) to cache the addon responses
 
 
 ## 1. Deploying to Glitch.com
 
 [Glitch](https://glitch.com) offers 4000 requests per hour and sends your app to sleep after 5 minutes of inactivity.
 
-Deploying to Glitch takes seconds if you have your add-on on GitHub, just go on the site, create a new user (if you don't have one already), and import your project based on your Github's Git link (find it by pressing the "Clone or download" button on your Github's project page)
+Deploying to Glitch takes seconds if you have your addon on GitHub, just go on the site, create a new user (if you don't have one already), and import your project based on your Github's Git link (find it by pressing the "Clone or download" button on your Github's project page)
 
 A few pointers:
 - use `process.env.PORT` as your HTTP server's port
@@ -40,7 +40,7 @@ Go on [Fly.io](https://fly.io) and create an account if you don't have one, afte
 Select "Glitch" and enter your Glitch project Live URL. This will bring you to a page that asks you to set DNS records, keep this page open and continue with the tutorial.
 
 
-## 4. Use CloudFlare to cache the add-on responses
+## 4. Use CloudFlare to cache the addon responses
 
 Go to [CloudFlare](cloudflare.com) and create a new account if you don't have one. Then add a new site with the .ga domain you registered in Step 2, CloudFlare will tell you that it couldn't find any DNS records for it, don't worry, that's fine. Create a new CNAME record with the Name set to `@` and the Target set to what the page from Step 3 shows next to CNAME (it should be a URL that ends with `.shw.io`). Now press "Add Rule" and confirm the changes.
 
