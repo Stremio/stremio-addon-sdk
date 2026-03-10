@@ -3,4 +3,5 @@ module.exports = {
 	serveHTTP: require('./serveHTTP'),
 	getRouter: require('./getRouter'),
 	publishToCentral: require('./publishToCentral'),
+	landingTemplate: require('./landingTemplate'),
 }
