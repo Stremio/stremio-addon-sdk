@@ -8,6 +8,8 @@ Used as a response for [`defineSubtitlesHandler`](../requests/defineSubtitlesHan
 
 ``lang`` - **required** - string, language code for the subtitle, if a valid ISO 639-2 code is not sent, the text of this value will be used instead
 
+``label`` - **optional** - string, label shown in the subtitle picker instead of the language name; useful when providing multiple subtitles for the same language (e.g. `"English [CC]"`, `"eng #1 [opensubtitles] 1080p.BluRay"`); if omitted, the language name derived from `lang` is displayed
+
 
 ### Tips
 
