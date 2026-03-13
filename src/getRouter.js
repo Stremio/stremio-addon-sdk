@@ -27,13 +27,14 @@ function getRouter({ manifest , get }) {
 		res.end(manifestRespBuf)
 	}
 
+	const hasConfigBehaviorHint = (manifest.behaviorHints || {}).configurable
 	const hasConfig = (manifest.config || []).length
 
-	if (hasConfig && !(manifest.behaviorHints || {}).configurable) {
+	if (hasConfig && !hasConfigBehaviorHint) {
 		console.warn('manifest.config is set but manifest.behaviorHints.configurable is disabled, the "Configure" button will not show in the Stremio apps')
 	}
 
-	const configPrefix = hasConfig ? '/:config?' : ''
+	const configPrefix = hasConfig || hasConfigBehaviorHint ? '/:config?' : ''
 	// having config prifix always set to '/:config?' won't resault in a problem for non configurable addons,
 	// since now the order is restricted by resources.
 
