@@ -26,6 +26,8 @@ Used as a response for [`defineStreamHandler`](../requests/defineStreamHandler.m
 
 - ``description`` - _optional_ - string, description of the stream (previously `stream.title`)
 
+- ``tags`` - _optional_ - array of objects, (expample value: `[{ name: "size", value: "500MB" }, { name: "price", value: "2.48 EUR" }]`)  
+
 - ``subtitles`` - _optional_ - array of [``Subtitle objects``](./subtitles.md) representing subtitles for this stream
 
 - ``sources`` - _optional_ - array of strings, represents a list of torrent tracker URLs and DHT network nodes. This attribute can be used to provide additional peer discovery options when `infoHash` is also specified, but it is not required. If used, each element can be a tracker URL (`tracker:<protocol>://<host>:<port>`) where `<protocol>` can be either `http` or `udp`. A DHT node (`dht:<node_id/info_hash>`) can also be included.
