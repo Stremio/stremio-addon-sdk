@@ -108,7 +108,7 @@ When setting the `manifest.config` property, the landing page will redirect to `
 
 ``key`` - _required_ - string, a key that will identify the user chosen value
 
-``type`` - _required_ - string, can be "text", "number", "password", "checkbox" or "select"
+``type`` - _required_ - string, can be "text", "number", "password", "checkbox", "select" or "multiselect"
 
 ``default`` - _optional_ - string, the default value, for `type: "boolean"` this can be set to "checked" to default to enabled
 
