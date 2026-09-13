@@ -48,6 +48,10 @@ Used as a response for [`defineMetaHandler`](../requests/defineMetaHandler.md)
 
 - ``defaultVideoId`` - string, set to a [``Video Object``](#video-object) id in order to open the Detail page directly to that video's streams
 
+- ``isLive`` - boolean, marks the item as a live channel whose playback identity is the channel itself (independent of the currently airing programme). `type: "tv"` is treated as live even when this flag is omitted
+
+- ``hasScheduledVideos`` - boolean, set to `true` when `videos` is a programme schedule (Native EPG) rather than a series episode list or YouTube upload list. See [Native EPG](../../epg.md)
+
 
 #### Meta Link object
 
@@ -80,6 +84,24 @@ Used as a response for [`defineMetaHandler`](../requests/defineMetaHandler.md)
 
 ``overview`` - _optional_ - string, video overview/summary
 
+``startTime`` - _optional_ - string, ISO 8601 start of an EPG programme. Together with ``endTime``, this marks the video as a scheduled broadcast; required for Native EPG programme blocks
+
+``endTime`` - _optional_ - string, ISO 8601 end of an EPG programme; must be strictly later than ``startTime``
+
+``runtime`` - _optional_ - string, human-readable programme duration, e.g. `"45 min"`
+
+``releaseInfo`` - _optional_ - string, original air year, e.g. `"2026"`
+
+``genres`` - _optional_ - array of strings, programme categories, e.g. `["News", "Sport"]`
+
+``cast`` - _optional_ - array of strings, programme cast names
+
+``directors`` - _optional_ - array of strings, programme director names
+
+``links`` - _optional_ - array of [``Meta Link objects``](#meta-link-object)
+
+``ratings`` - _optional_ - array of `{ value, system?, icon? }` content-rating objects
+
 
 ##### Video object - series example
 
@@ -107,6 +129,23 @@ You can see a comprehensive example of how detailed Meta objects with videos are
     thumbnail: "https://i.ytimg.com/vi/9bZkp7q19f0/hqdefault.jpg"
 }
 ```
+
+##### Video object - Native EPG programme example (live TV)
+
+```javascript
+{
+    id: "exampletv:news:epg:2026-09-12T18:00:00.000Z",
+    title: "Evening News",
+    overview: "The day's headlines.",
+    released: "2026-09-12T18:00:00.000Z",
+    startTime: "2026-09-12T18:00:00.000Z",
+    endTime: "2026-09-12T18:45:00.000Z",
+    runtime: "45 min",
+    genres: ["News"]
+}
+```
+
+See [Native EPG](../../epg.md) for the full live TV / guide protocol.
 
 ## Meta Preview Object
 

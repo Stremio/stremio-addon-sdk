@@ -34,7 +34,7 @@ Then, the user will pick a video (e.g. episode) from that meta object, which wil
 
 We determine whether an addon is relevant by comparing the request against it's manifest.
 
-For catalogs, we usually request all catalogs from all addons, that are compatible with the `extra` properties that we're looking for. For example, to load the Board, we'd load all catalogs that have no `extra` properties that are required. But, if we're loading Search, we'd load all catalogs that have `search` as a supported property in their `extra` definition.
+For catalogs, we usually request all catalogs from all addons, that are compatible with the `extra` properties that we're looking for. For example, to load the Board, we'd load all catalogs that have no `extra` properties that are required. But, if we're loading Search, we'd load all catalogs that have `search` as a supported property in their `extra` definition. Native EPG loads catalogs that declare the `date` extra and `manifest.behaviorHints.epgProvider`.
 
 For other requests (meta, stream, subtitles), we apply the `types` and the optional `idPrefixes` filters (which can also be defined per-resource). For example, for `/meta/movie/tt1254207`, we'd try to load meta from all addons that have `"movie"` in `manifest.types` (or have `{ name: "meta", types: ["movie'] }` in `manifest.resources`). If `manifest.idPrefixes` is defined, `["tt"]` will match this request, but something different (e.g. `["yt_id:"]`) won't. This helps you ensure your addon does not get irrelevant requests.
 

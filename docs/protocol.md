@@ -17,13 +17,13 @@ Currently used resources are: `catalog`, `meta`, `stream`, `subtitles`.
 
 `/meta/{type}/{id}.json` - detailed metadata about a particular item; `type` again denotes the type, and `id` is the ID of the particular item, as found in the catalog
 
-`/stream/{type}/{videoID}.json` - list of all streams for a particular item; `type` again denotes the type, and `videoID` is the video ID: a single metadata object may contain multiple videos, for example a YouTube channel or a TV series; for single-video items (such as movies), the video ID is equal to the item ID
+`/stream/{type}/{videoID}.json` - list of all streams for a particular item; `type` again denotes the type, and `videoID` is the video ID: a single metadata object may contain multiple videos, for example a YouTube channel or a TV series; for single-video items (such as movies), the video ID is equal to the item ID. For live TV (`type` `tv`), `videoID` is the **channel** id even when the meta object lists programmes in `videos`
 
 `/subtitles/{type}/{id}.json` - list of all subtitles for a particular item; `type` again denotes the type, the `id` in this case is the Open Subtitles file hash, while `extraArgs` (read below) is used for `videoID` (the ID of the particular item, as found in the catalog or a video ID) and `videoSize` (video file size in bytes)
 
 The JSON format of the response to these resources is described [here](./api/responses/).
 
-To pass extra args, such as the ones needed for `catalog` resources (e.g. `search`, `skip`), you should define a route of the format `/{resource}/{type}/{id}/{extraArgs}.json` where `extraArgs` is the query string stringified object of extra arguments (for example `"search=game%20of%20thrones&skip=100"`)
+To pass extra args, such as the ones needed for `catalog` resources (e.g. `search`, `skip`, `date`), you should define a route of the format `/{resource}/{type}/{id}/{extraArgs}.json` where `extraArgs` is the query string stringified object of extra arguments (for example `"search=game%20of%20thrones&skip=100"`)
 
 For the HTTP transport, each route, including `/manifest.json`, must serve CORS headers that allow all origins.
 
@@ -176,6 +176,15 @@ This addon is so simple that it can actually be hosted statically on GitHub page
 [Stream](./api/responses/stream.md)
 
 [Subtitles](./api/responses/subtitles.md)
+
+
+## Native EPG
+
+Live TV addons can opt into Stremio's Native EPG layout by setting `manifest.behaviorHints.epgProvider` and declaring a `tv` catalog with the `date` extra.
+
+Guide requests look like `/catalog/tv/{catalogId}/date=YYYY-MM-DD.json` and should return `{ metasDetailed }` (full channel meta including that day's `videos`). Each programme video must include `startTime` and `endTime`. Stream requests still use the **channel** id.
+
+Full spec: [Native EPG](./epg.md)
 
 
 ## Next steps

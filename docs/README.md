@@ -57,6 +57,8 @@ It will output a URL that you can use to [install the addon in Stremio](./testin
 
 **To get familiar with the resources and their roles, [read this](./api/README.md).**
 
+Live TV addons that provide a programme guide should follow [Native EPG](./epg.md).
+
 #### `const { addonBuilder, serveHTTP, getRouter, publishToCentral } = require('stremio-addon-sdk')`
 
 Imports everything the SDK provides:

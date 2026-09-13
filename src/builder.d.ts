@@ -2,7 +2,6 @@ import {
     Manifest, 
     AddonInterface, 
     Cache, 
-    MetaPreview, 
     MetaDetail, 
     Stream, 
     Subtitle, 
@@ -12,7 +11,8 @@ import {
     MetaHandlerArgs,
     StreamHandlerArgs,
     SubtitlesHandlerArgs,
-    AddonCatalogHandlerArgs
+    AddonCatalogHandlerArgs,
+    CatalogHandlerResponse
 } from './types';
 
 /**
@@ -29,11 +29,14 @@ declare class addonBuilder {
     constructor(manifest: Manifest);
 
     /**
-     * Handles catalog requests, including search.
+     * Handles catalog requests, including search and Native EPG guide pages.
+     *
+     * Return `{ metas }` for a channel list, or `{ metasDetailed }` when the
+     * `date` extra is present (see docs/epg.md).
      *
      * Docs: https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/api/requests/defineCatalogHandler.md
      */
-    defineCatalogHandler<Config = DefaultConfig>(handler: (args: CatalogHandlerArgs<Config>) => Promise<{ metas: MetaPreview[] } & Cache>): this;
+    defineCatalogHandler<Config = DefaultConfig>(handler: (args: CatalogHandlerArgs<Config>) => Promise<CatalogHandlerResponse>): this;
 
     /**
      * Handles metadata requests (title, year, poster, background, etc.).

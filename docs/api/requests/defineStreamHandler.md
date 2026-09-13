@@ -29,6 +29,8 @@ The resolving object can also include the following cache related properties:
 
 For IMDb series (provided by Cinemeta), the video ID is formed by joining the Meta ID, season and episode with a colon (e.g. `"tt0898266:9:17"`).
 
+For live TV / Native EPG, ``id`` is the **channel** Meta ID (not the programme video id). Programmes in `meta.videos` are schedule only; playback identity stays on the channel. See [Native EPG](../../epg.md).
+
 ``config`` - object with user settings, see [Manifest - User Data](../responses/manifest.md#user-data)
 
 ## Basic Example
