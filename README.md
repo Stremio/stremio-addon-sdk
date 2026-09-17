@@ -1,169 +1,165 @@
-# Stremio Addon SDK 🧙
+<div align="center">
 
-<img src="https://blog.stremio.com/wp-content/uploads/2023/08/stremio-logo-2023.png" alt="Stremio" width="250" />
+<img src="https://raw.githubusercontent.com/Stremio/stremio-web/development/assets/images/stremio_symbol.png" width="90" alt="Stremio logo">
 
-The **🧙  Stremio Addon SDK 🧙** was developed by the Stremio Team as a way of vastly simplifying Node.js addon creation for
-our streaming platform.
+# Stremio Addon SDK
 
-Stremio currently supports Windows, macOS, Linux, Android and iOS.
+**Build a [Stremio](https://www.stremio.com) addon in Node.js in minutes.**
 
-**Important: We strongly recommend deploying addons to the [BeamUp](./docs/deploying/beamup.md) servers**
+[![Build](https://app.travis-ci.com/Stremio/stremio-addon-sdk.svg?branch=master)](https://app.travis-ci.com/github/Stremio/stremio-addon-sdk)
+[![npm version](https://img.shields.io/npm/v/stremio-addon-sdk?color=7b5bf5)](https://www.npmjs.com/package/stremio-addon-sdk)
+[![npm downloads](https://img.shields.io/npm/dm/stremio-addon-sdk?color=7b5bf5)](https://www.npmjs.com/package/stremio-addon-sdk)
+[![License](https://img.shields.io/github/license/Stremio/stremio-addon-sdk?color=7b5bf5)](/LICENSE.md)
 
+**[📚 Documentation](/docs)** · [Addon guide](https://stremio.github.io/stremio-addon-guide) · [Protocol spec](/docs/protocol.md) · [Report a bug](https://github.com/Stremio/stremio-addon-sdk/issues)
 
-## TypeScript Support
+</div>
 
-The Stremio Addon SDK includes built-in TypeScript types. You no longer need to install the community package `@types/stremio-addon-sdk` for type definitions as of Stremio Addon SDK version `>1.6.10`.
+Stremio is a modern media center that discovers, organizes and streams video content through addons. An addon is a small HTTP service that answers a handful of JSON requests: which catalogs it offers, what an item is, and where to stream it from. This SDK gives you the builder, the HTTP server and the publishing tools so you only write the handlers. Stremio runs on Windows, macOS, Linux, Android and iOS, and one addon serves all of them.
 
+## ✨ Features
 
-## Quick Example
+- 🧱 **Builder API** — declare a manifest, define handlers for catalogs, metadata, streams and subtitles, done
+- 🌐 **Serve or embed** — start a server with `serveHTTP`, or mount the addon as an Express router with `getRouter`
+- 🔒 **CORS and caching handled** — the SDK sets the headers Stremio expects; you set the cache lifetimes
+- 🏠 **Landing page** — every addon gets a homepage with an “Install” button out of the box
+- 📣 **Publishing** — `publishToCentral` submits your addon to the [public addon collection](https://api.strem.io/addonscollection.json)
+- 🧬 **TypeScript types** — bundled since `1.6.10`, no `@types/stremio-addon-sdk` needed
+- 📺 **Live TV guides** — catalogs with a programme schedule render as a native EPG, see [Native EPG](/docs/epg.md)
+- ⚙️ **User settings** — addons can ask for configuration through `manifest.config`, see [user data](/docs/api/responses/manifest.md#user-data)
 
-This arbitrary example creates an addon that provides a stream for Big Buck Bunny and outputs a HTTP address where you can access it.
+## 🚀 Getting started
+
+You'll need [Node.js](https://nodejs.org) 12 or newer.
+
+### Scaffold an addon
+
+```bash
+npm install -g stremio-addon-sdk # use sudo on Linux
+addon-bootstrap hello-world
+cd hello-world
+npm install
+npm start -- --launch
+```
+
+`addon-bootstrap` asks which [resources and types](/docs/api/README.md) you want to support and generates a working addon. `--launch` opens Stremio Web with the addon installed; use `--install` to install it into the [desktop app](https://www.stremio.com/downloads) instead.
+
+### Or write one by hand
+
+This addon serves a single stream for Big Buck Bunny:
 
 ```javascript
-const { addonBuilder, serveHTTP, publishToCentral }  = require('stremio-addon-sdk')
+const { addonBuilder, serveHTTP, publishToCentral } = require('stremio-addon-sdk')
 
 const builder = new addonBuilder({
     id: 'org.myexampleaddon',
     version: '1.0.0',
-
     name: 'simple example',
-
-    // Properties that determine when Stremio picks this addon
-    // this means your addon will be used for streams of the type movie
+    // Properties that determine when Stremio picks this addon:
+    // streams for items of type movie whose id starts with "tt"
     catalogs: [],
     resources: ['stream'],
     types: ['movie'],
     idPrefixes: ['tt']
 })
 
-// takes function(args)
 builder.defineStreamHandler(function(args) {
     if (args.type === 'movie' && args.id === 'tt1254207') {
-        // serve one stream to big buck bunny
         const stream = { url: 'http://distribution.bbb3d.renderfarming.net/video/mp4/bbb_sunflower_1080p_30fps_normal.mp4' }
         return Promise.resolve({ streams: [stream] })
-    } else {
-        // otherwise return no streams
-        return Promise.resolve({ streams: [] })
     }
+    return Promise.resolve({ streams: [] })
 })
 
 serveHTTP(builder.getInterface(), { port: process.env.PORT || 7000 })
-//publishToCentral("https://your-domain/manifest.json") // <- invoke this if you want to publish your addon and it's accessible publicly on "your-domain"
+// publishToCentral('https://your-domain/manifest.json') // once the addon is publicly reachable
 ```
-
-Save this as `addon.js` and run:
 
 ```bash
 npm install stremio-addon-sdk
 node ./addon.js
 ```
 
-It will output a URL that you can use to [install the addon in Stremio](./docs/testing.md#how-to-install-addon-in-stremio)
+The process prints a URL you can use to [install the addon in Stremio](/docs/testing.md#how-to-install-addon-in-stremio). Addon URLs must be served over HTTPS with CORS enabled, except for `127.0.0.1`; the SDK handles CORS, HTTPS is up to your host.
 
-**Please note:** addon URLs in Stremio must be loaded with HTTPS (except `127.0.0.1`) and must support CORS! CORS support is handled automatically by the SDK, but if you're trying to load your addon remotely (not from `127.0.0.1`), you need to support HTTPS.
+## 🛠 How it works
 
+Stremio never runs your code. The app reads your manifest, decides which addons are relevant for a request from their `types`, `idPrefixes` and catalog `extra` filters, and calls the matching resources over HTTP. The SDK turns those calls into handler invocations and turns your return values into protocol-conformant JSON.
 
-## Getting started with a new addon
-
-In order to scaffold a new Stremio addon, we've made a tool called `addon-bootstrap`.
-
-You can use it in the following way:
-
-```bash
-npm install -g stremio-addon-sdk # use sudo if on Linux
-addon-bootstrap hello-world
+```mermaid
+flowchart LR
+    App["Stremio app<br>(web, desktop, mobile)"] -- "GET /manifest.json" --> SDK["Your addon<br>(this SDK)"]
+    App -- "GET /catalog/…<br>GET /meta/…<br>GET /stream/…<br>GET /subtitles/…" --> SDK
+    SDK -- "handlers" --> Src["Your data sources"]
+    App -- "publishToCentral" --> Central["Public addon collection"]
 ```
 
-You'll be asked about what [resources and types](./docs/api/README.md) you want to support, after which the addon will be created in the `hello-world` directory, and you'll be able to run it:
+| Resource | Handler | Answers |
+|---|---|---|
+| manifest | the `addonBuilder` constructor | What the addon is and when to call it, see [manifest](/docs/api/responses/manifest.md) |
+| catalog | [`defineCatalogHandler`](/docs/api/requests/defineCatalogHandler.md) | Lists of [meta previews](/docs/api/responses/meta.md#meta-preview-object) for the Board, Discover and Search |
+| meta | [`defineMetaHandler`](/docs/api/requests/defineMetaHandler.md) | The full [meta object](/docs/api/responses/meta.md) for the details page |
+| stream | [`defineStreamHandler`](/docs/api/requests/defineStreamHandler.md) | [Streams](/docs/api/responses/stream.md): HTTP, BitTorrent, YouTube and more |
+| subtitles | [`defineSubtitlesHandler`](/docs/api/requests/defineSubtitlesHandler.md) | [Subtitle files](/docs/api/responses/subtitles.md) for a video |
+| addon_catalog | [`defineResourceHandler`](/docs/api/requests/defineResourceHandler.md) | A [list of other addons](/docs/api/responses/addon_catalog.md) |
 
-```bash
-cd hello-world
-npm install
-npm start -- --launch
-```
+## 📚 Documentation
 
-If you wish to install the addon in the Desktop version of Stremio (which you can [download here](https://www.stremio.com/downloads)), you should use `npm start -- --install`
+| Guide | What you'll find |
+|---|---|
+| [SDK reference](/docs/README.md) | Every export: `addonBuilder`, `serveHTTP`, `getRouter`, `publishToCentral` and the `addonInterface` |
+| [Resources](/docs/api/README.md) | How catalogs, metas, videos, streams and subtitles relate, and how Stremio picks an addon |
+| [Advanced usage](/docs/advanced.md) | Searching and filtering catalogs, pagination, Cinemeta, user data and configuration pages |
+| [Native EPG](/docs/epg.md) | Live TV channels with a programme guide, with a runnable example in [`examples/epg-livetv.js`](/examples/epg-livetv.js) |
+| [Deep links](/docs/deep-links.md) | Linking into Stremio with the `stremio://` protocol |
+| [Testing](/docs/testing.md) | Trying your addon in the Stremio app and in Stremio Web |
+| [Deploying](/docs/deploying/README.md) | Hosting options, with [BeamUp](/docs/deploying/beamup.md) as the recommended one |
+| [Examples](/docs/examples.md) | Demo addons, examples in other languages and video tutorials |
+| [Protocol spec](/docs/protocol.md) | The HTTP protocol itself, for addons written without this SDK |
 
-## Documentation
+The [addon guide](https://stremio.github.io/stremio-addon-guide) walks through building an addon step by step, both with this SDK and in any other language. [addon-helloworld](https://github.com/Stremio/addon-helloworld) is a complete addon to copy from, and the [static addon example](https://github.com/Stremio/stremio-static-addon-example) shows that an addon can be nothing more than JSON files on a web server.
 
-All our documentation is [right here on GitHub](./docs). Take a look at our [examples list](./docs/examples.md) for some high-level
-information, or dive straight into our [SDK documentation](./docs/README.md) for our code reference docs.
+## 🚢 Deploying
 
-We also have an [example addon](https://github.com/Stremio/addon-helloworld) that you can use as a guide to help you build your own addon.
+An addon has to be reachable on the internet before other people can install it. Deploy it to [BeamUp](/docs/deploying/beamup.md), which we run for this purpose, or to any [Node.js host](/docs/deploying/README.md); for a quick demo from your own machine, [localtunnel](https://github.com/localtunnel/localtunnel) works too.
 
-Live TV addons that provide a programme guide should follow the [Native EPG](./docs/epg.md) spec (see also [`examples/epg-livetv.js`](./examples/epg-livetv.js)).
+To get listed in Stremio's community addons, call [`publishToCentral`](/docs/README.md#publishtocentralurl) with your public manifest URL or submit it [through the web form](https://stremio.github.io/stremio-publish-addon/index.html).
 
-We've made two step by step guides: one for this SDK, and one for any programming language, [which you can read here](https://stremio.github.io/stremio-addon-guide).
+## 🧪 Development
 
-If you don't wish to use Node.js (and therefore not use this SDK either), you can create addons in any programming
-language, see the [addon protocol specification](./docs/protocol.md) for more information.
+For contributors to the SDK itself:
 
-It is also possible to create an addon without any programming language, see our [static addon example](https://github.com/Stremio/stremio-static-addon-example) based
-on the protocol specification.
+| Command | Description |
+|---|---|
+| `npm test` | Lint the sources, then run the [tape](https://github.com/tape-testing/tape) suite in [`test/`](/test) |
+| `npm run typecheck` | Check the bundled TypeScript declarations |
+| `node examples/epg-livetv.js` | Run the live TV example addon |
 
-SDK Features Include:
+## 🤝 Contributing
 
-- Publishing an addon through HTTP(s)
-- Publishing your addon link to the [public Addon collection](https://api.strem.io/addonscollection.json) with [publishToCentral](./docs/README.md#publishtocentralurl)
-- Creating a homepage for your addon that includes an "Install Addon" button
+Bug reports and pull requests are welcome — [`good first issue`](https://github.com/Stremio/stremio-addon-sdk/labels/good%20first%20issue) is a good place to start. Documentation lives in [`docs/`](/docs) next to the code, so protocol changes and their docs can land together.
 
-## Testing
+### Migrating from v0.x
 
-For developers looking for a quick way to test their new addons, you can either:
+- `new addonSDK(manifest)` became `new addonBuilder(manifest)`
+- `addon.run(opts)` became `serveHTTP(addon.getInterface(), opts)`
+- Handlers return a `Promise` instead of taking a callback
 
-- [Test with Stremio](./docs/testing.md#testing-in-stremio-app)
-- [Test with our Web Version](./docs/testing.md#testing-in-stremio-web-version)
+## 🧩 Ecosystem
 
+| Repository | What it is |
+|---|---|
+| [stremio-web](https://github.com/Stremio/stremio-web) | The web UI that installs and calls your addon |
+| [stremio-core](https://github.com/Stremio/stremio-core) | The Rust engine that implements the addon protocol client side |
+| [addon-helloworld](https://github.com/Stremio/addon-helloworld) | Reference addon built with this SDK |
+| [stremio-static-addon-example](https://github.com/Stremio/stremio-static-addon-example) | An addon made of static JSON files |
+| [stremio-addon-sdk-rs](https://github.com/sleeyax/stremio-addon-sdk-rs) | Third-party Rust SDK by Sleeyax, built on stremio-core |
+| [go-stremio](https://github.com/Deflix-tv/go-stremio) | Third-party Go SDK by doingodswork |
 
-## Deploying
+## 💬 Community
 
-In order for your addon to be used by others, it needs to be deployed online.
+[Website](https://www.stremio.com) · [Blog](https://blog.stremio.com) · [Reddit](https://www.reddit.com/r/Stremio) · [X](https://x.com/stremio) · [Help center](https://stremio.zendesk.com/hc/en-us)
 
-You can check our [list of recommended hosting providers for Node.js](./docs/deploying/README.md) or alternatively host it locally with [localtunnel](https://github.com/localtunnel/localtunnel).
+## 📄 License
 
-After you've deployed publicly, in order to get your addon to show in Stremio (through the [public Addon collection](https://api.strem.io/addonscollection.json)), you need to use [publishToCentral](./docs/README.md#publishtocentralurl) or publish [manually through the UI](https://stremio.github.io/stremio-publish-addon/index.html).
-
-## Examples & tutorials
-
-Check out our ever growing list of [examples and demo addons](./docs/examples.md). This list also includes examples & tutorials on how to develop Stremio addons in PHP, Python, Ruby, C#, Rust, Java and Go. It also includes a list of video tutorials.
-
-### Rust version
-There is a third-party Rust version of this SDK built on stremio-core developed by Sleeyax [here](https://github.com/sleeyax/stremio-addon-sdk-rs).
-
-### Go version
-There is a third-party Go version of this SDK developed by doingodswork [here](https://github.com/Deflix-tv/go-stremio).
-
-
-## Advanced Usage
-
-Read our [guide for advanced usage](./docs/advanced.md) to understand the many ways that addons can be used.
-
-
-## Reporting Issues
-
-If you have any issues regarding the Stremio Addon SDK, please feel free to [report them here](https://github.com/Stremio/stremio-addon-sdk/issues).
-
-
-## Migration from v0.x
-
-To migrate from v0.x, you need to:
-
-- change `new addonSDK` to `new addonBuilder`, which you can import via `const addonBuilder = require('stremio-addon-sdk').addonBuilder`
-- change `addon.run(opts)` to `serveHTTP(addon.getInterface(), opts)`, which you can import via `const serveHTTP = require('stremio-addon-sdk').serveHTTP`
-- all handlers have to return a `Promise` (rather than take a `cb`)
-
-
-## Use Cases Outside Addon SDK
-
-The use of this SDK is not mandatory for creating Stremio Addons. You can use any programming language that supports
-creating a HTTP server to make Stremio Addons. Refer to our [protocol specification](./docs/protocol.md) for details and examples.
-
-One useful scenario of not using the SDK is when you need user specific data for you addon (for example, an API
-Autherntication Token), you can see an example of passing user specific data in the Addon URL [here](./docs/advanced.md#using-user-data-in-add-ons).
-This example uses Node.js and Express to get user specific data. (Update: the Addon SDK now supports [user settings](./docs/api/responses/manifest.md#user-data))
-
-
-_built with love and serious coding skills by the Stremio Team_
-
-<img src="https://blog.stremio.com/wp-content/uploads/2023/08/stremio-code-footer.jpg" width="300" />
+Copyright © 2019-2026 Smart Code OOD. Released under the MIT license — see [LICENSE](/LICENSE.md).
