@@ -121,7 +121,7 @@ program.startTime < dateT23:59:59.999Z
 
 A local day in the user's timezone may span two UTC dates; Stremio will request each overlapping UTC date and merge the rows. Returning extra programmes is fine — the client drops anything outside the visible day. Returning **no** `startTime` / `endTime` means the video is not a programme and will not appear on the grid.
 
-The standard page size is 100 channels. If you return fewer items, Stremio treats that as the last page.
+Stremio keeps requesting pages while they come back non-empty, advancing `skip` by the number of channels received so far for that date. End pagination by returning an empty `metasDetailed` array; a short page is not treated as the last one. Discover uses pages of 100 channels, but the guide does not enforce a page size.
 
 ## Meta
 
@@ -205,7 +205,7 @@ Programme data goes stale quickly. Suggested `Cache-Control` values:
 - `staleRevalidate`: 1800
 - `staleError`: 604800
 
-Stremio also refreshes channel meta in the background (about every 15 minutes, or after 1 minute once the last programme has ended).
+Stremio also refreshes in the background: the guide grid every 15 minutes while it stays open, and the channel meta every 15 minutes, or every minute once the last programme has ended or after a failed request.
 
 ## Checklist
 
