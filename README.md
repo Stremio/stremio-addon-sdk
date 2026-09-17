@@ -92,6 +92,8 @@ information, or dive straight into our [SDK documentation](./docs/README.md) for
 
 We also have an [example addon](https://github.com/Stremio/addon-helloworld) that you can use as a guide to help you build your own addon.
 
+Live TV addons that provide a programme guide should follow the [Native EPG](./docs/epg.md) spec (see also [`examples/epg-livetv.js`](./examples/epg-livetv.js)).
+
 We've made two step by step guides: one for this SDK, and one for any programming language, [which you can read here](https://stremio.github.io/stremio-addon-guide).
 
 If you don't wish to use Node.js (and therefore not use this SDK either), you can create addons in any programming

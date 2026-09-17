@@ -80,6 +80,8 @@ The format of `extra` is an array of `{ name, isRequired, options, optionsLimit 
 
 For a complete list of extra catalog properties that Stremio pays attention to, check the [Catalog Handler Definition](../requests/defineCatalogHandler.md)
 
+Native EPG guide catalogs must include `{ name: "date" }` (UTC day, `YYYY-MM-DD`). See [Native EPG](../../epg.md).
+
 If you're looking for the legacy way of setting extra properties (also called "short"), [check out the old docs](https://github.com/Stremio/stremio-addon-sdk/blob/b11bd517f8ce3b24a843de320ec8ac193611e9a0/docs/api/responses/manifest.md#catalog-format)
 
 ## Addon catalogs
@@ -137,6 +139,8 @@ When setting the `manifest.config` property, the landing page will redirect to `
 - ``configurable`` - boolean, default is `false`, if the addon supports settings, will add a button next to "Install" in Stremio that will point to the `/configure` path on the addon's domain, for more information read [User Data](#user-data) (or if you are not using the Addon SDK, read: [Advanced User Data](../../advanced.md#using-user-data-in-addons) and [Creating Addon Configuration Pages](../..//advanced.md#creating-addon-configuration-pages))
 
 - ``configurationRequired`` - boolean, default is `false`, if set to `true` the "Install" button will not show for your addon in Stremio, instead a "Configure" button will show pointing to the `/configure` path on the addon's domain, for more information read [User Data](#user-data) (or if you are not using the Addon SDK, read: [Advanced User Data](../../advanced.md#using-user-data-in-addons) and [Creating Addon Configuration Pages](../..//advanced.md#creating-addon-configuration-pages))
+
+- ``epgProvider`` - boolean, default is `false`, if the addon provides a real live TV programme guide. Requires a `tv` catalog that declares the `date` extra, and `meta.videos` entries with `startTime` / `endTime`. Stremio uses this hint to show the Native EPG layout. **Do not set this** for playlist-only live catalogs that have no schedule. See [Native EPG](../../epg.md)
 
 
 ***TIP* - to implement sources where streams are geo-restricted, see [``Stream objects``](./stream.md) `geos`**
