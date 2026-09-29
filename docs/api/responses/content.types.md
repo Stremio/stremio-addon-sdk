@@ -5,6 +5,6 @@
 * ``movie`` - movie type - has metadata like name, genre, description, director, actors, images, etc. 
 * ``series`` - series type - has all the metadata a movie has, plus an array of episodes
 * ``channel`` - channel type - created to cover YouTube channels; has name, description and an array of uploaded videos
-* ``tv`` - tv type - has name, description, genre; streams for ``tv`` should be live (without duration)
+* ``tv`` - tv type - has name, description, genre; streams for ``tv`` should be live (without duration). Used by Native EPG: a `tv` catalog that declares the `date` extra, together with `manifest.behaviorHints.epgProvider`, is treated as a programme guide. See [Native EPG](../../epg.md)
 
 **If you think Stremio should add another content type, feel free to open an issue on this repository.**

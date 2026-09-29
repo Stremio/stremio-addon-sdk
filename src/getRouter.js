@@ -2,6 +2,8 @@ const Router = require('router')
 const qs = require('querystring')
 const cors = require('cors')
 
+const warned = {}
+
 function getRouter({ manifest , get }) {
 	const router = new Router()
 
@@ -37,7 +39,7 @@ function getRouter({ manifest , get }) {
 
 	router.get(`${configPrefix}/manifest.json`, manifestHandler)
 
-	// using the same methode used in builder.js to extract resources from manifest
+	// using the same method used in builder.js to extract resources from manifest
 	const handlersInManifest = []
 	if (manifest.catalogs.length > 0) handlersInManifest.push('catalog')
 	manifest.resources.forEach((r) => handlersInManifest.push(r.name || r))
@@ -88,6 +90,12 @@ function getRouter({ manifest , get }) {
 				}
 
 				res.setHeader('Content-Type', 'application/json; charset=utf-8')
+
+				if (!warned.filename && resource === 'stream' && ((resp || {}).streams || []).length)
+					if (resp.streams.find(stream => stream && stream.url && !(stream.behaviorHints || {}).filename)) {
+						warned.filename = true
+						console.warn('streams include stream.url but do not include stream.behaviorHints.filename, this is not recommended, subtitles may not be retrieved for these streams')
+					}
 
 				res.end(JSON.stringify(resp))
 			})

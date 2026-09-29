@@ -11,6 +11,8 @@ This method handles catalog requests, including search.
 
 A promise that resolves to an object containing `{ metas: [] }` with an array of [Meta Preview Object](../responses/meta.md#meta-preview-object)
 
+For Native EPG guide requests (`extra.date`), resolve to `{ metasDetailed: [] }` with an array of full [Meta Objects](../responses/meta.md) that include that day's programmes. See [Native EPG](../../epg.md).
+
 The resolving object can also include the following cache related properties:
 
 - `{ cacheMaxAge: int }` (in seconds) which sets the `Cache-Control` header to `max-age=$cacheMaxAge` and overwrites the global cache time set in `serveHTTP` [options](../../README.md#servehttpaddoninterface-options)
@@ -40,6 +42,8 @@ If you wish to use these parameters, you'll need to specify them in `extra` for 
 ``genre`` - set in the `extra` object; a string to filter the feed or search results by genres
 
 ``skip`` - set in the `extra` object; used for catalog pagination, refers to the number of items skipped from the beginning of the catalog; the standard page size in Stremio is 100, so the `skip` value will be a multiple of 100; if you return less than 100 items, Stremio will consider this to be the end of the catalog
+
+``date`` - set in the `extra` object; UTC calendar day (`YYYY-MM-DD`) requested by Native EPG. Declaring `{ name: "date" }` on a `tv` catalog, together with `manifest.behaviorHints.epgProvider`, marks the catalog as a guide catalog. When this extra is present, return `{ metasDetailed }` instead of `{ metas }`
 
 
 ## Basic Example

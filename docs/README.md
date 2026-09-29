@@ -39,7 +39,7 @@ builder.defineStreamHandler(function(args) {
 
 serveHTTP(builder.getInterface(), { port: 7000 })
 
-// If you want this addon to appear in the addon catalogs, call .publishToCentral() with the publically available URL to your manifest
+// If you want this addon to appear in the addon catalogs, call .publishToCentral() with the publicly available URL to your manifest
 //publishToCentral('https://my-addon.com/manifest.json')
 
 ```
@@ -51,11 +51,13 @@ npm install stremio-addon-sdk
 node ./addon.js
 ```
 
-It will output a URL that you can use to [install the addon in Stremio](./docs/testing.md#how-to-install-add-on-in-stremio)
+It will output a URL that you can use to [install the addon in Stremio](./testing.md#how-to-install-addon-in-stremio)
 
 ## Documentation
 
 **To get familiar with the resources and their roles, [read this](./api/README.md).**
+
+Live TV addons that provide a programme guide should follow [Native EPG](./epg.md).
 
 #### `const { addonBuilder, serveHTTP, getRouter, publishToCentral } = require('stremio-addon-sdk')`
 

@@ -27,6 +27,8 @@ The resolving object can also include the following cache related properties:
 
 ``config`` - object with user settings, see [Manifest - User Data](../responses/manifest.md#user-data)
 
+For live TV / Native EPG, return the channel's current (and nearby) programmes in `meta.videos` with `startTime` and `endTime`. Playback still uses the **channel** id for stream requests. See [Native EPG](../../epg.md).
+
 
 ## Basic Example
 

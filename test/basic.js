@@ -3,7 +3,7 @@
 const tape = require('tape')
 const request = require('supertest')
 const AddonClient = require('stremio-addon-client')
-const { addonBuilder, serveHTTP, getRouter, publishToCentral } = require('../')
+const { addonBuilder, serveHTTP, getRouter } = require('../')
 
 const PORT = 5000
 
@@ -206,17 +206,19 @@ tape('defining the same handler throws', function(t) {
 })
 
 // publishToCentral publishes to the API
-tape('publishToCentral', function(t) {
-	publishToCentral('https://v3-cinemeta.strem.io/manifest.json')
-		.then(function(resp) {
-			t.equal(resp.success, true, 'can announce')
-			t.end()
-		})
-		.catch(function(err) {
-			t.error(err)
-			t.end()
-		})
-})
+// disabled because it hits rate limit
+
+// tape('publishToCentral', function(t) {
+// 	publishToCentral('https://v3-cinemeta.strem.io/manifest.json')
+// 		.then(function(resp) {
+// 			t.equal(resp.success, true, 'can announce')
+// 			t.end()
+// 		})
+// 		.catch(function(err) {
+// 			t.error(err)
+// 			t.end()
+// 		})
+// })
 
 tape.onFinish(function() {
 	// cause the server is still listening

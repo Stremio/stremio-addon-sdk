@@ -5,6 +5,7 @@
 
 - [Hello World Addon](https://github.com/Stremio/addon-helloworld): also includes a step by step tutorial
 - [IGDB Addon](https://github.com/Stremio/stremio-igdb-addon/tree/tutorial)
+- [Native EPG Live TV example](../examples/epg-livetv.js): catalogue, meta and streams for a programme guide
 
 ### Examples not using this SDK
 
@@ -27,6 +28,7 @@
 
 - [Official SDK guide](https://stremio.github.io/stremio-addon-guide/sdk-guide/prelude)
 - [Official generic guide](https://stremio.github.io/stremio-addon-guide/basics)
+- [Native EPG (live TV programme guide)](./epg.md)
 
 
 ### Video tutorials
