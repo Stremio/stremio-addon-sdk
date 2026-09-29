@@ -1,7 +1,6 @@
 const express = require('express')
 const fs = require('fs')
 const path = require('path')
-const landingTemplate = require('./landingTemplate')
 const getRouter = require('./getRouter')
 const opn = require('opn')
 
@@ -29,25 +28,6 @@ function serveHTTP(addonInterface, opts = {}) {
 		if (!fs.existsSync(location)) throw new Error('directory to serve does not exist')
 		app.use(opts.static, express.static(location))
 	}
-
-	const hasConfig = !!(addonInterface.manifest.config || []).length
-
-	// landing page
-	const landingHTML = landingTemplate(addonInterface.manifest)
-	app.get('/', (_, res) => {
-		if (hasConfig) {
-			res.redirect('/configure')
-		} else {
-			res.setHeader('content-type', 'text/html')
-			res.end(landingHTML)
-		}
-	})
-
-	if (hasConfig)
-		app.get('/configure', (_, res) => {
-			res.setHeader('content-type', 'text/html')
-			res.end(landingHTML)
-		})
 
 	const server = app.listen(opts.port)
 	return new Promise(function(resolve, reject) {
