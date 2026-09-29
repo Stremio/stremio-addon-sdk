@@ -8,6 +8,7 @@ This method handles player events.
 
 ### Returns:
 
+A promise resolving to an [event response](../responses/event_response.md). Stremio does not wait for or use the response.
 
 ## Request Parameters
 
@@ -26,11 +27,11 @@ For IMDB series (provided by Cinemeta), the video ID is formed by joining the Me
 
 ## Extra Parameters
 
-``action`` - set in the `extra` object; a string defining the user action, can be either: `start`, `end`, `pause` or `resume`.
+``action`` - set in the `extra` object; a string defining the player state, can be either: `start` (playback started or resumed), `pause` or `stop` (player closed, video changed or ended). A seek re-sends the current state with the new `currentTime`.
 
 ``duration`` - set in the `extra` object; string specifying the full duration of the video in **milliseconds**.
 
-``currentTime`` - set in the `extra` object; string in *milliseconds* specifying the progress from the start of the video when the user took the action. 
+``currentTime`` - set in the `extra` object; string in **milliseconds** specifying the progress from the start of the video when the event happened.
 
 
 ## Basic Example

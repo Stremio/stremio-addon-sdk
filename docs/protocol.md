@@ -21,23 +21,26 @@ Currently used resources are: `catalog`, `meta`, `stream`, `subtitles`, `player`
 
 `/subtitles/{type}/{id}.json` - list of all subtitles for a particular item; `type` again denotes the type, the `id` in this case is the Open Subtitles file hash, while `extraArgs` (read below) is used for `videoID` (the ID of the particular item, as found in the catalog or a video ID) and `videoSize` (video file size in bytes)
 
-the `player` and `library` resources are events. in other resources the addon is supposed to provide data. but in event resources the addon recieves data and is expected to process that given data then respond with the success or failure of that processing.
+The `player` and `library` resources are events: instead of providing data, the addon receives the user's activity, for example to sync it with a tracking service. Stremio sends each event once to every installed addon that declares the resource and matches its `types` and `idPrefixes`, and it does not use the response. Users must trust such addons with their watch activity.
 
 `/player/{type}/{videoID}/{extraArgs}.json` - a player event; `type` again denotes the type, and `videoID` is the video ID
 
 Where `extraArgs` can be one of:
-- Play: `action=play&currentTime={milliseconds}&duration={milliseconds}`
-- Start: `action=start&currentTime={milliseconds}&duration={milliseconds}`
-- End: `action=end&currentTime={milliseconds}&duration={milliseconds}`
+- Start or resume: `action=start&currentTime={milliseconds}&duration={milliseconds}`
 - Pause: `action=pause&currentTime={milliseconds}&duration={milliseconds}`
+- Stop (player closed, video changed or ended): `action=stop&currentTime={milliseconds}&duration={milliseconds}`
 
-`/library/{type}/{id}/{extraArgs}.json` - a library event; `type` again denotes the type, and `id` is the ID of the particular item
+A seek re-sends the current state (`start` or `pause`) with the new `currentTime`. Playing past a threshold does not send a separate watched event, derive it from `currentTime` and `duration` on `stop`.
+
+`/library/{type}/{id}/{extraArgs}.json` - a library event; `type` again denotes the type, and `id` is the Meta ID of the particular item
 
 Where `extraArgs` can be one of:
 - Add to library: `action=libraryAdd`
 - Remove from library: `action=libraryRemove`
-- Mark as watched: `action=watched&videoId={videoID}`
-- Mark as unwatched: `action=unwatched&videoId={videoID}`
+- Mark as watched: `action=watched`, or `action=watched&videoId={videoID}` for a single video
+- Mark as unwatched: `action=unwatched`, or `action=unwatched&videoId={videoID}` for a single video
+
+Marking a season sends one event per video.
 
 The JSON format of the response to these resources is described [here](./api/responses/).
 

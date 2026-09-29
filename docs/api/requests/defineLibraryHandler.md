@@ -8,10 +8,11 @@ This method handles library events.
 
 ### Returns:
 
+A promise resolving to an [event response](../responses/event_response.md). Stremio does not wait for or use the response.
 
 ## Request Parameters
 
-``type`` - type of the item that we're emitting player events for; e.g. `movie`, `series`, `channel`, `tv` (see [Content Types](../responses/content.types.md))
+``type`` - type of the item that we're emitting library events for; e.g. `movie`, `series`, `channel`, `tv` (see [Content Types](../responses/content.types.md))
 
 ``id`` - a Meta ID as described in the [Meta Object](../responses/meta.md#meta-object)
 
@@ -24,7 +25,7 @@ This method handles library events.
 
 ``action`` - set in the `extra` object; a string defining the user action, can be either: `libraryAdd`, `libraryRemove`, `watched`, `unwatched`.
 
-``videoId`` - a Video ID as described in the [Video Object](../responses/meta.md#video-object)
+``videoId`` - optional, set in the `extra` object for `watched` and `unwatched` when a single video was marked; a Video ID as described in the [Video Object](../responses/meta.md#video-object). Without it, the whole item was marked. Marking a season sends one event per video.
 
 **The Video ID is the same as the Meta ID for movies**.
 
