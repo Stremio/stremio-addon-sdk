@@ -86,7 +86,7 @@ export type LibraryHandlerExtra = {
     action: "libraryAdd" | "libraryRemove" | "watched" | "unwatched";
 
     /**
-     * Video ID, set for `watched` and `unwatched` when a single video was marked
+     * Comma-separated Video IDs, set for `watched` and `unwatched` when specific videos were marked
      */
     videoId?: string;
 };

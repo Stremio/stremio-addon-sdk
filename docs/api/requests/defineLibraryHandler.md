@@ -25,7 +25,7 @@ A promise resolving to an [event response](../responses/event_response.md). Stre
 
 ``action`` - set in the `extra` object; a string defining the user action, can be either: `libraryAdd`, `libraryRemove`, `watched`, `unwatched`.
 
-``videoId`` - optional, set in the `extra` object for `watched` and `unwatched` when a single video was marked; a Video ID as described in the [Video Object](../responses/meta.md#video-object). Without it, the whole item was marked. Marking a season sends one event per video.
+``videoId`` - optional, set in the `extra` object for `watched` and `unwatched` when specific videos were marked; a comma-separated list of Video IDs as described in the [Video Object](../responses/meta.md#video-object). Without it, the whole item was marked. Marking a season sends its videos in one event, split into several events of up to 100 videos for longer seasons.
 
 **The Video ID is the same as the Meta ID for movies**.
 

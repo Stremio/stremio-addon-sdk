@@ -37,10 +37,10 @@ A seek re-sends the current state (`start` or `pause`) with the new `currentTime
 Where `extraArgs` can be one of:
 - Add to library: `action=libraryAdd`
 - Remove from library: `action=libraryRemove`
-- Mark as watched: `action=watched`, or `action=watched&videoId={videoID}` for a single video
-- Mark as unwatched: `action=unwatched`, or `action=unwatched&videoId={videoID}` for a single video
+- Mark as watched: `action=watched`, or `action=watched&videoId={videoIDs}` for specific videos
+- Mark as unwatched: `action=unwatched`, or `action=unwatched&videoId={videoIDs}` for specific videos
 
-Marking a season sends one event per video.
+`videoId` is a comma-separated list of the video IDs whose watched state changed. Marking a season sends its videos in one event, split into several events of up to 100 videos for longer seasons.
 
 The JSON format of the response to these resources is described [here](./api/responses/).
 
