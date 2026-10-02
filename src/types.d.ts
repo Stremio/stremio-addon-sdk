@@ -1,4 +1,4 @@
-export type ShortManifestResource = "catalog" | "meta" | "stream" | "subtitles" | "addon_catalog";
+export type ShortManifestResource = "catalog" | "meta" | "stream" | "subtitles" | "addon_catalog" | "player" | "library";
 export type Extra = "search" | "genre" | "skip" | "date";
 export type ContentType = "movie" | "series" | "channel" | "tv";
 
@@ -57,6 +57,41 @@ export type SubtitlesHandlerExtra = {
 };
 
 /**
+ * Extra properties for player handlers
+ */
+export type PlayerHandlerExtra = {
+    /**
+     * Player state: `start` (playback started or resumed), `pause` or `stop` (player closed, video changed or ended)
+     */
+    action: "start" | "pause" | "stop";
+
+    /**
+     * Progress from the start of the video in milliseconds, as a string
+     */
+    currentTime: string;
+
+    /**
+     * Full duration of the video in milliseconds, as a string
+     */
+    duration: string;
+};
+
+/**
+ * Extra properties for library handlers
+ */
+export type LibraryHandlerExtra = {
+    /**
+     * User action
+     */
+    action: "libraryAdd" | "libraryRemove" | "watched" | "unwatched";
+
+    /**
+     * Video ID, set for `watched` and `unwatched` when a single video was marked
+     */
+    videoId?: string;
+};
+
+/**
  * Maps handler types to their specific Extra types
  */
 export type HandlerExtraMap = {
@@ -65,6 +100,8 @@ export type HandlerExtraMap = {
     meta: DefaultHandlerExtra;
     stream: DefaultHandlerExtra;
     addon_catalog: DefaultHandlerExtra;
+    player: PlayerHandlerExtra;
+    library: LibraryHandlerExtra;
 };
 
 /**
@@ -94,6 +131,8 @@ export type MetaHandlerArgs<Config = DefaultConfig> = HandlerArgs<"meta", Config
 export type StreamHandlerArgs<Config = DefaultConfig> = HandlerArgs<"stream", Config, DefaultHandlerExtra>;
 export type SubtitlesHandlerArgs<Config = DefaultConfig> = HandlerArgs<"subtitles", Config, SubtitlesHandlerExtra>;
 export type AddonCatalogHandlerArgs<Config = DefaultConfig> = HandlerArgs<"addon_catalog", Config, DefaultHandlerExtra>;
+export type PlayerHandlerArgs<Config = DefaultConfig> = HandlerArgs<"player", Config, PlayerHandlerExtra>;
+export type LibraryHandlerArgs<Config = DefaultConfig> = HandlerArgs<"library", Config, LibraryHandlerExtra>;
 
 /**
  * A resolving object can also include the following cache related properties
@@ -112,6 +151,13 @@ export interface Cache {
      * (in seconds) sets the Cache-Control header to stale-if-error=$staleError.
      */
     staleError?: number;
+}
+
+/**
+ * Player and library handler response. Stremio does not use it.
+ */
+export interface EventResponse {
+    success: boolean;
 }
 
 /**
