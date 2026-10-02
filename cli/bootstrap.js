@@ -49,6 +49,8 @@ async function createAddon() {
 				{name: 'stream'},
 				{name: 'meta'},
 				{name: 'subtitles'},
+				{name: 'player'},
+				{name: 'library'},
 			]
 		},
 		{
@@ -199,6 +201,22 @@ builder.defineSubtitlesHandler(({type, id, extra}) => {
 })
 `
 
+const playerTmpl = () => `
+builder.definePlayerHandler(({type, id, extra}) => {
+	console.log("request for player: "+type+" "+id+" "+extra)
+	// Docs: https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/api/requests/definePlayerHandler.md
+	return Promise.resolve({ success: true })
+})
+`
+
+const libraryTmpl = () => `
+builder.defineLibraryHandler(({type, id, extra}) => {
+	console.log("request for library: "+type+" "+id+" "+extra)
+	// Docs: https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/api/requests/defineLibraryHandler.md
+	return Promise.resolve({ success: true })
+})
+`
+
 // @TODO port
 const footerTmpl = () => `
 module.exports = builder.getInterface()`
@@ -209,6 +227,8 @@ function genAddonJS(manifest, resources, types) {
 		.concat(resources.includes('meta') ? [metaTmpl()] : [])
 		.concat(resources.includes('stream') ? [types.includes('movie') ? streamsMovieTmpl() : streamsTmpl()] : [])
 		.concat(resources.includes('subtitles') ? [subtitlesTmpl()] : [])
+		.concat(resources.includes('player') ? [playerTmpl()] : [])
+		.concat(resources.includes('library') ? [libraryTmpl()] : [])
 		.concat(footerTmpl())
 		.join('')
 }

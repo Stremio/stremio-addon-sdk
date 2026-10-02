@@ -81,7 +81,9 @@ function getRouter({ manifest , get }) {
 					return cacheProp + '=' + cacheValue
 				}).filter(val => !!val).join(', ')
 
-				if (cacheControl)
+				if (resource === 'player' || resource === 'library')
+					res.setHeader('Cache-Control', 'no-store')
+				else if (cacheControl)
 					res.setHeader('Cache-Control', `${cacheControl}, public`)
 
 				if (resp.redirect) {
