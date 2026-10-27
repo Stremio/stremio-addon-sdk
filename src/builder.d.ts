@@ -12,7 +12,10 @@ import {
     StreamHandlerArgs,
     SubtitlesHandlerArgs,
     AddonCatalogHandlerArgs,
-    CatalogHandlerResponse
+    PlayerHandlerArgs,
+    LibraryHandlerArgs,
+    CatalogHandlerResponse,
+    EventResponse
 } from './types';
 
 /**
@@ -65,6 +68,24 @@ declare class addonBuilder {
      */
     defineSubtitlesHandler<Config = DefaultConfig>(
         handler: (args: SubtitlesHandlerArgs<Config>) => Promise<{ subtitles: Subtitle[] } & Cache>,
+    ): this;
+
+    /**
+     * Handles player events (playback started, paused or stopped).
+     *
+     * Docs: https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/api/requests/definePlayerHandler.md
+     */
+    definePlayerHandler<Config = DefaultConfig>(
+        handler: (args: PlayerHandlerArgs<Config>) => Promise<EventResponse>,
+    ): this;
+
+    /**
+     * Handles library events (added, removed, marked as watched or unwatched).
+     *
+     * Docs: https://github.com/Stremio/stremio-addon-sdk/blob/master/docs/api/requests/defineLibraryHandler.md
+     */
+    defineLibraryHandler<Config = DefaultConfig>(
+        handler: (args: LibraryHandlerArgs<Config>) => Promise<EventResponse>,
     ): this;
 
     /**
