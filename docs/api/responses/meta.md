@@ -102,6 +102,10 @@ Used as a response for [`defineMetaHandler`](../requests/defineMetaHandler.md)
 
 ``ratings`` - _optional_ - array of `{ value, system?, icon? }` content-rating objects
 
+``background`` - _optional_ - string, URL to a wide backdrop for an EPG programme; ``thumbnail`` stays the small image
+
+``imdbId`` - _optional_ - string, IMDb id of the series an EPG programme belongs to, e.g. `"tt0903747"`; Stremio shows the series banner when one is available
+
 
 ##### Video object - series example
 

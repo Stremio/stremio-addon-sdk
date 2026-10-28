@@ -483,6 +483,18 @@ export interface MetaVideo {
      * Content ratings for the programme.
      */
     ratings?: ContentRating[];
+    /**
+     * URL to a wide backdrop for the programme.
+     *
+     * `thumbnail` stays the small image.
+     */
+    background?: string;
+    /**
+     * IMDb id of the series the programme belongs to, e.g. "tt0903747".
+     *
+     * Stremio shows the series banner when one is available.
+     */
+    imdbId?: string;
 }
 
 /**
