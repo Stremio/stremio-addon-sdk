@@ -19,7 +19,7 @@ function AddonBuilder(manifest) {
 	Object.freeze(manifest)
 
 	// Check the manifest length
-	if (JSON.stringify(manifest).length > 8192) {
+	if (Buffer.byteLength(JSON.stringify(manifest)) > 8192) {
 		throw new Error('manifest size exceeds 8kb, which is incompatible with addonCollection API')
 	}
 
@@ -89,7 +89,8 @@ function AddonInterface(manifest, handlers) {
 				noHandler: true
 			})
 		}
-		return handler({ type, id, extra, config })
+		// wrap the call so handlers that throw or return a plain value still yield a promise
+		return new Promise(resolve => resolve(handler({ type, id, extra, config })))
 	}
 	return this
 }
