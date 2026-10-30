@@ -19,7 +19,7 @@ function AddonBuilder(manifest) {
 	Object.freeze(manifest)
 
 	// Check the manifest length
-	if (JSON.stringify(manifest).length > 8192) {
+	if (Buffer.byteLength(JSON.stringify(manifest)) > 8192) {
 		throw new Error('manifest size exceeds 8kb, which is incompatible with addonCollection API')
 	}
 

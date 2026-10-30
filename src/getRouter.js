@@ -103,6 +103,8 @@ function getRouter({ manifest , get }) {
 				res.end(JSON.stringify(resp))
 			})
 			.catch(err => {
+				// errors must not be cached, even if a cache header was set earlier (e.g. serveHTTP's cacheMaxAge)
+				res.removeHeader('Cache-Control')
 				if (err.noHandler) {
 					if (next) next()
 					else {
