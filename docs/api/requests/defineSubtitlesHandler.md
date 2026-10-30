@@ -38,6 +38,8 @@ The resolving object can also include the following cache related properties:
 
 ``filename`` - filename of the video file
 
+All extra parameters are optional and only sent when Stremio knows them: `videoHash`, `videoSize` and `filename` are taken from the stream's `behaviorHints` (see [Stream Object](../responses/stream.md)), falling back to what the player detects from the video. For `filename` to be set on streams with a `url`, the stream addon must set `behaviorHints.filename`.
+
 
 ## Basic Example
 
