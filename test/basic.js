@@ -192,6 +192,37 @@ tape('getInterface: define a stream handler on the addon and test it', function(
 		})
 })
 
+tape('extra is parsed without the query string', function(t) {
+	request(addonServer)
+		.get('/stream/channel/11/search=foobar.json?ts=123')
+		.expect(200)
+		.end((err, res) => {
+			t.error(err, 'request error')
+			t.deepEqual(res.body.args.extra, { search: 'foobar' }, 'query string is not part of extra')
+			t.end()
+		})
+})
+
+tape('getInterface: handlers returning a plain value or throwing', function(t) {
+	const addonInterface = new addonBuilder(manifest)
+		.defineCatalogHandler(() => ({ metas: [] }))
+		.defineStreamHandler(() => { throw new Error('boom') })
+		.getInterface()
+	addonInterface.get('catalog', 'movie', 'test')
+		.then(r => {
+			t.deepEqual(r, { metas: [] }, 'plain value is wrapped in a promise')
+			return addonInterface.get('stream', 'movie', 'tt1')
+		})
+		.then(() => {
+			t.fail('throwing handler should reject')
+			t.end()
+		})
+		.catch(err => {
+			t.equal(err.message, 'boom', 'synchronous throw becomes a rejection')
+			t.end()
+		})
+})
+
 tape('defining the same handler throws', function(t) {
 	const addon = new addonBuilder(manifest)
 		.defineCatalogHandler(() => Promise.resolve({ metas: [] }))

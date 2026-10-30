@@ -53,8 +53,9 @@ function getRouter({ manifest , get }) {
 		let { config } = req.params
 		// we get `extra` from `req.url` because `req.params.extra` decodes the characters
 		// and breaks dividing querystring parameters with `&`, in case `&` is one of the
-		// encoded characters of a parameter value
-		const extra = req.params.extra ? qs.parse(req.url.split('/').pop().slice(0, -5)) : {}
+		// encoded characters of a parameter value; the query string is dropped so it
+		// doesn't end up in the last extra value
+		const extra = req.params.extra ? qs.parse(req.url.split('?')[0].split('/').pop().slice(0, -5)) : {}
 		if ((config || '').length) {
 			try {
 				config = JSON.parse(config)

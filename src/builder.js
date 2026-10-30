@@ -89,7 +89,8 @@ function AddonInterface(manifest, handlers) {
 				noHandler: true
 			})
 		}
-		return handler({ type, id, extra, config })
+		// wrap the call so handlers that throw or return a plain value still yield a promise
+		return new Promise(resolve => resolve(handler({ type, id, extra, config })))
 	}
 	return this
 }
