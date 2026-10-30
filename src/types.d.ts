@@ -398,8 +398,10 @@ export interface MetaVideo {
      * for episodes, this should be the initial air date.
      *
      * e.g. "2010-12-06T05:00:00.000Z"
+     *
+     * Omit it when the date is not known yet (e.g. TBA episodes).
      */
-    released: string;
+    released?: string;
     /**
      * URL to png of the video thumbnail, in the video's aspect ratio.
      *
