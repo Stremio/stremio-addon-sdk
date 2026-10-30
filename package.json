@@ -31,7 +31,7 @@
   "dependencies": {
     "chalk": "^2.4.2",
     "cors": "^2.8.4",
-    "express": "^4.16.3",
+    "express": "^4.22.3",
     "inquirer": "^6.2.2",
     "mkdirp": "^0.5.1",
     "node-fetch": "^2.3.0",
