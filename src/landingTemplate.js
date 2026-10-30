@@ -165,17 +165,28 @@ button:active {
 }
 `
 
+// manifest values end up in HTML text and attributes, so they must not be able to break the markup
+function escapeHTML(value) {
+	return String(value)
+		.replace(/&/g, '&amp;')
+		.replace(/</g, '&lt;')
+		.replace(/>/g, '&gt;')
+		.replace(/"/g, '&quot;')
+		.replace(/'/g, '&#39;')
+}
+
 function landingTemplate(manifest) {
-	const background = manifest.background || 'https://dl.strem.io/addon-background.jpg'
-	const logo = manifest.logo || 'https://dl.strem.io/addon-logo.png'
+	const background = escapeHTML(manifest.background || 'https://dl.strem.io/addon-background.jpg')
+	const logo = escapeHTML(manifest.logo || 'https://dl.strem.io/addon-logo.png')
+	const name = escapeHTML(manifest.name)
 	const contactHTML = manifest.contactEmail ?
 		`<div class="contact">
-			<p>Contact ${manifest.name} creator:</p>
-			<a href="mailto:${manifest.contactEmail}">${manifest.contactEmail}</a>
+			<p>Contact ${name} creator:</p>
+			<a href="mailto:${escapeHTML(manifest.contactEmail)}">${escapeHTML(manifest.contactEmail)}</a>
 		</div>` : ''
 
 	const stylizedTypes = manifest.types
-		.map(t => t[0].toUpperCase() + t.slice(1) + (t !== 'series' ? 's' : ''))
+		.map(t => escapeHTML(t[0].toUpperCase() + t.slice(1) + (t !== 'series' ? 's' : '')))
 
 	let formHTML = ''
 	let script = ''
@@ -183,14 +194,17 @@ function landingTemplate(manifest) {
 	if ((manifest.config || []).length) {
 		let options = ''
 		manifest.config.forEach(elem => {
-			const key = elem.key
+			const key = escapeHTML(elem.key)
+			// title is optional, fall back to the key so the field is not labeled "undefined"
+			const title = escapeHTML(elem.title || elem.key)
 			if (['text', 'number', 'password'].includes(elem.type)) {
 				const isRequired = elem.required ? ' required' : ''
-				const defaultHTML = elem.default ? ` value="${elem.default}"` : ''
+				const hasDefault = elem.default !== undefined && elem.default !== null && elem.default !== ''
+				const defaultHTML = hasDefault ? ` value="${escapeHTML(elem.default)}"` : ''
 				const inputType = elem.type
 				options += `
 				<div class="form-element">
-					<div class="label-to-top">${elem.title}</div>
+					<div class="label-to-top">${title}</div>
 					<input type="${inputType}" id="${key}" name="${key}" class="full-width"${defaultHTML}${isRequired}/>
 				</div>
 				`
@@ -199,20 +213,20 @@ function landingTemplate(manifest) {
 				options += `
 				<div class="form-element">
 					<label for="${key}">
-						<input type="checkbox" id="${key}" name="${key}"${isChecked}> <span class="label-to-right">${elem.title}</span>
+						<input type="checkbox" id="${key}" name="${key}"${isChecked}> <span class="label-to-right">${title}</span>
 					</label>
 				</div>
 				`
 			} else if (elem.type === 'select') {
 				const defaultValue = elem.default || (elem.options || [])[0]
 				options += `<div class="form-element">
-				<div class="label-to-top">${elem.title}</div>
+				<div class="label-to-top">${title}</div>
 				<select id="${key}" name="${key}" class="full-width">
 				`
 				const selections = elem.options || []
 				selections.forEach(el => {
 					const isSelected = el === defaultValue ? ' selected' : ''
-					options += `<option value="${el}"${isSelected}>${el}</option>`
+					options += `<option value="${escapeHTML(el)}"${isSelected}>${escapeHTML(el)}</option>`
 				})
 				options += `</select>
                </div>
@@ -246,7 +260,7 @@ function landingTemplate(manifest) {
 
 	<head>
 		<meta charset="utf-8">
-		<title>${manifest.name} - Stremio Addon</title>
+		<title>${name} - Stremio Addon</title>
 		<style>${STYLESHEET}</style>
 		<link rel="shortcut icon" href="${logo}" type="image/x-icon">
 		<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=swap" rel="stylesheet">
@@ -258,9 +272,9 @@ function landingTemplate(manifest) {
 			<div class="logo">
 			<img src="${logo}">
 			</div>
-			<h1 class="name">${manifest.name}</h1>
-			<h2 class="version">v${manifest.version || '0.0.0'}</h2>
-			<h2 class="description">${manifest.description || ''}</h2>
+			<h1 class="name">${name}</h1>
+			<h2 class="version">v${escapeHTML(manifest.version || '0.0.0')}</h2>
+			<h2 class="description">${escapeHTML(manifest.description || '')}</h2>
 
 			<div class="separator"></div>
 
