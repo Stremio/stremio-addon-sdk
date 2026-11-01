@@ -143,7 +143,7 @@ When setting the `manifest.config` property, the landing page will redirect to `
 - ``epgProvider`` - boolean, default is `false`, if the addon provides a real live TV programme guide. Requires a `tv` catalog that declares the `date` extra, and `meta.videos` entries with `startTime` / `endTime`. Stremio uses this hint to show the Native EPG layout. **Do not set this** for playlist-only live catalogs that have no schedule. See [Native EPG](../../epg.md)
 
 
-***TIP* - to implement sources where streams are geo-restricted, see [``Stream objects``](./stream.md) `geos`**
+***TIP* - to implement sources where streams are geo-restricted, see [``Stream objects``](./stream.md) `behaviorHints.countryWhitelist`**
 
 
 ## Example

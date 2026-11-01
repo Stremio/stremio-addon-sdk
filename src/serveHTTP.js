@@ -27,7 +27,9 @@ function serveHTTP(addonInterface, opts = {}) {
 	if (opts.static) {
 		const location = path.join(process.cwd(), opts.static)
 		if (!fs.existsSync(location)) throw new Error('directory to serve does not exist')
-		app.use(opts.static, express.static(location))
+		// mount at an absolute path, so 'public' and './public' work like '/public'
+		const mountPath = '/' + path.posix.normalize(opts.static.replace(/\\/g, '/')).replace(/^\/+/, '')
+		app.use(mountPath, express.static(location))
 	}
 
 	const hasConfig = !!(addonInterface.manifest.config || []).length
@@ -48,6 +50,12 @@ function serveHTTP(addonInterface, opts = {}) {
 			res.setHeader('content-type', 'text/html')
 			res.end(landingHTML)
 		})
+
+	// nothing matched: don't let the 404 be cached
+	app.use((_, res, next) => {
+		res.removeHeader('Cache-Control')
+		next()
+	})
 
 	const server = app.listen(opts.port)
 	return new Promise(function(resolve, reject) {

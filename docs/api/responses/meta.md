@@ -68,7 +68,7 @@ Used as a response for [`defineMetaHandler`](../requests/defineMetaHandler.md)
 
 ``title`` - **required** - string, title of the video
 
-``released`` - **required** - string, ISO 8601, publish date of the video; for episodes, this should be the initial air date, e.g. "2010-12-06T05:00:00.000Z"
+``released`` - _optional_ - string, ISO 8601, publish date of the video; for episodes, this should be the initial air date, e.g. "2010-12-06T05:00:00.000Z"; omit it when the date is not known yet (e.g. TBA episodes) instead of sending a placeholder date
 
 ``thumbnail`` - _optional_ - string, URL to png of the video thumbnail, in the video's aspect ratio, max file size 5kb
 

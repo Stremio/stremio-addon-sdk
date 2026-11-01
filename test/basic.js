@@ -192,6 +192,91 @@ tape('getInterface: define a stream handler on the addon and test it', function(
 		})
 })
 
+tape('extra is parsed without the query string', function(t) {
+	request(addonServer)
+		.get('/stream/channel/11/search=foobar.json?ts=123')
+		.expect(200)
+		.end((err, res) => {
+			t.error(err, 'request error')
+			t.deepEqual(res.body.args.extra, { search: 'foobar' }, 'query string is not part of extra')
+			t.end()
+		})
+})
+
+tape('getInterface: handlers returning a plain value or throwing', function(t) {
+	const addonInterface = new addonBuilder(manifest)
+		.defineCatalogHandler(() => ({ metas: [] }))
+		.defineStreamHandler(() => { throw new Error('boom') })
+		.getInterface()
+	addonInterface.get('catalog', 'movie', 'test')
+		.then(r => {
+			t.deepEqual(r, { metas: [] }, 'plain value is wrapped in a promise')
+			return addonInterface.get('stream', 'movie', 'tt1')
+		})
+		.then(() => {
+			t.fail('throwing handler should reject')
+			t.end()
+		})
+		.catch(err => {
+			t.equal(err.message, 'boom', 'synchronous throw becomes a rejection')
+			t.end()
+		})
+})
+
+tape('error responses are not cached', function(t) {
+	const addon = new addonBuilder(manifest)
+		.defineCatalogHandler(() => Promise.resolve({ metas: [] }))
+		.defineStreamHandler(() => Promise.reject(new Error('boom')))
+	const origError = console.error
+	console.error = () => {}
+	serveHTTP(addon.getInterface(), { port: 0, cacheMaxAge: 3600 }).then(function(h) {
+		request(h.server)
+			.get('/stream/movie/tt1.json')
+			.expect(500)
+			.end((err, res) => {
+				console.error = origError
+				t.error(err, 'request error')
+				t.equal(res.headers['cache-control'], undefined, 'handler error has no cache header')
+				request(h.server)
+					.get('/notexist')
+					.expect(404)
+					.end((err, res) => {
+						h.server.close()
+						t.error(err, 'request error')
+						t.equal(res.headers['cache-control'], undefined, 'not found has no cache header')
+						t.end()
+					})
+			})
+	})
+})
+
+tape('serve a directory given without a leading slash', function (t) {
+	var addon = new addonBuilder(manifest)
+		.defineCatalogHandler(() => Promise.resolve())
+		.defineStreamHandler(() => Promise.resolve())
+
+	serveHTTP(addon.getInterface(), { port: 0, static: 'docs' }).then(function (h) {
+		request(h.server)
+			.get('/docs/README.md')
+			.expect(200)
+			.end((err) => {
+				h.server.close()
+				t.error(err, 'request error')
+				t.end()
+			})
+	})
+})
+
+tape('manifest size is checked in bytes', function(t) {
+	try {
+		new addonBuilder(Object.assign({}, manifest, { description: '€'.repeat(3000) }))
+		t.fail('manifest over 8kb should throw')
+	} catch(e) {
+		t.equal(e.message, 'manifest size exceeds 8kb, which is incompatible with addonCollection API')
+	}
+	t.end()
+})
+
 tape('defining the same handler throws', function(t) {
 	const addon = new addonBuilder(manifest)
 		.defineCatalogHandler(() => Promise.resolve({ metas: [] }))
