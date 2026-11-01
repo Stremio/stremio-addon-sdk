@@ -9,20 +9,29 @@ const path = require('path')
 const {promisify} = require('util')
 const mkdirp = promisify(require('mkdirp'))
 const inquirer = require('inquirer')
+const sdkVersion = require('../package.json').version
 
-if (typeof(dir) !== 'string') usage()
-if (fs.existsSync(dir)) usage({exists: true})
+const requireSelection = what => answer => answer.length ? true : `Select at least one ${what}`
 
 // @TODO split this and clean it up
 
-createAddon()
-	.then(() => {
-		console.log(chalk.green('BOOTSTRAPPER: addon created!'))
-		console.log('BOOTSTRAPPER: launch your addon by running:\n\n\n')
-		console.log(chalk.blue(`cd ${dir}`))
-		console.log(chalk.blue('npm install'))
-		console.log(chalk.blue('npm start -- --launch'))
-	})
+if (require.main === module) {
+	if (typeof(dir) !== 'string') usage()
+	if (fs.existsSync(dir)) usage({exists: true})
+
+	createAddon()
+		.then(() => {
+			console.log(chalk.green('BOOTSTRAPPER: addon created!'))
+			console.log('BOOTSTRAPPER: launch your addon by running:\n\n\n')
+			console.log(chalk.blue(`cd ${dir}`))
+			console.log(chalk.blue('npm install'))
+			console.log(chalk.blue('npm start -- --launch'))
+		})
+		.catch(err => {
+			console.error(chalk.red(`BOOTSTRAPPER: failed to create addon: ${err.message}`))
+			process.exit(1)
+		})
+}
 
 async function createAddon() {
 	await mkdirp(dir)
@@ -34,6 +43,7 @@ async function createAddon() {
 			type: 'input',
 			name: 'name',
 			message: 'What is the addon name?',
+			validate: input => /\w/.test(input) ? true : 'The name must contain at least one letter or number',
 		},
 		{
 			type: 'input',
@@ -51,7 +61,8 @@ async function createAddon() {
 				{name: 'subtitles'},
 				{name: 'player'},
 				{name: 'library'},
-			]
+			],
+			validate: requireSelection('resource'),
 		},
 		{
 			type: 'checkbox',
@@ -63,6 +74,7 @@ async function createAddon() {
 				{name: 'channel'},
 				{name: 'tv'},
 			],
+			validate: requireSelection('type'),
 		},
 	])
 
@@ -129,19 +141,18 @@ const manifest = ${JSON.stringify(manifest, null, '\t')}
 const builder = new addonBuilder(manifest)
 `
 
-// @TODO: auto update the stremio-addon-sdk version
-const packageTmpl = ({ name, version, description }) => `{
-	"name": "${name}",
-	"version": "${version}",
-	"description": "${description}",
-	"scripts": {
-		"start": "node server.js"
+// depend on the SDK version that generated the code, so the handlers it uses exist
+const packageTmpl = ({ name, version, description }) => JSON.stringify({
+	name,
+	version,
+	description,
+	scripts: {
+		start: 'node server.js'
 	},
-	"dependencies": {
-		"stremio-addon-sdk": "1.1.x"
+	dependencies: {
+		'stremio-addon-sdk': `^${sdkVersion}`
 	}
-}
-`
+}, null, '\t') + '\n'
 
 const gitignoreTmpl = () => `node_modules
 `
@@ -232,3 +243,5 @@ function genAddonJS(manifest, resources, types) {
 		.concat(footerTmpl())
 		.join('')
 }
+
+module.exports = { packageTmpl, genAddonJS }
