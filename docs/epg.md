@@ -155,6 +155,8 @@ A video is treated as a scheduled programme when both ``startTime`` and ``endTim
 | ``directors`` | no | Names |
 | ``links`` | no | [Meta Link objects](./api/responses/meta.md#meta-link-object) |
 | ``ratings`` | no | `{ value, system?, icon? }` |
+| ``background`` | no | Wide backdrop for the selected programme; ``thumbnail`` stays the small image |
+| ``imdbId`` | no | IMDb id of the series the programme belongs to, e.g. `tt0903747`; Stremio shows the series banner when one is available |
 
 ```javascript
 {
@@ -162,6 +164,8 @@ A video is treated as a scheduled programme when both ``startTime`` and ``endTim
     title: 'Evening News',
     overview: "The day's headlines.",
     thumbnail: 'https://example.com/evening-news.jpg',
+    background: 'https://example.com/evening-news-wide.jpg',
+    imdbId: 'tt1234567',
     released: '2026-09-12T18:00:00.000Z',
     startTime: '2026-09-12T18:00:00.000Z',
     endTime: '2026-09-12T18:45:00.000Z',
